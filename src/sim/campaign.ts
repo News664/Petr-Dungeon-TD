@@ -1,0 +1,160 @@
+import type { GameConfig } from './config';
+import { battleKindForPhase, getAdventurer, getStructure, miracleRestoreCount } from './selectors';
+import { clearAssignment, restoreAdventurer, retrieveAllAt, solidify } from './statues';
+import type { CampaignState, Command } from './types';
+import { fail, log, pay } from './util';
+
+/** The scheduled attack arrives. Time stops until the battle is resolved. */
+export function triggerInvasion(s: CampaignState): void {
+  if (s.phase === 'GAME_OVER' || s.pendingBattle) return;
+  if (s.phase === 'COUNTEROFFENSIVE_PREPARATION') {
+    // The frontier was never retaken, so the monsters come for the sanctuary again.
+    s.phase = 'SANCTUARY_SIEGE';
+    if (s.rebuild) {
+      s.rebuild = null;
+      log(s, 'rebuild_lost', 'The unfinished frontier outpost was overrun.');
+    }
+  }
+  const kind = battleKindForPhase(s.phase);
+  const map = kind === 'sanctuary_siege' ? 'sanctuary' : 'frontier';
+  if (kind === 'sanctuary_siege') s.siegeAttempts += 1;
+  s.pendingBattle = { kind, map, dueHour: s.simHour };
+  log(s, 'invasion', `Monsters attack: ${kind.replace(/_/g, ' ')}.`);
+}
+
+function evacuateMap(s: CampaignState, map: 'frontier' | 'sanctuary'): void {
+  for (const d of s.structures) {
+    if (d.map === map && d.occupantId) clearAssignment(s, getAdventurer(s, d.occupantId));
+  }
+}
+
+function recordStableCycle(s: CampaignState, cfg: GameConfig): void {
+  const max = cfg.campaign.miracle_max_charges;
+  if (s.miracleCharges >= max) return; // one charge at most, never stacked
+  const needed = cfg.campaign.miracle_recharge_stable_victories;
+  s.stableCycles = Math.min(needed, s.stableCycles + 1);
+  if (s.stableCycles >= needed) {
+    s.miracleCharges = Math.min(max, s.miracleCharges + 1);
+    log(s, 'miracle_charged', "The goddess's miracle is charged again.");
+  } else {
+    log(s, 'stable_cycle', `Stable cycle ${s.stableCycles}/${needed} towards the goddess's miracle.`);
+  }
+}
+
+function fallToSiege(s: CampaignState, cfg: GameConfig): void {
+  s.phase = 'SANCTUARY_SIEGE';
+  s.stableCycles = 0;
+  s.nextInvasionHour = s.simHour + cfg.clock.sanctuary_siege_delay_hours;
+  log(s, 'retreat', 'The frontier has fallen. The guild retreats behind the sanctuary walls; outside production stops.');
+}
+
+function restoreFrontier(s: CampaignState, cfg: GameConfig, what: string): void {
+  s.phase = 'STABLE_FRONTIER';
+  s.stableCycles = 0; // the battle that restores operations does not count as a cycle
+  s.nextInvasionHour = s.simHour + cfg.clock.invasion_interval_hours;
+  retrieveAllAt(s, 'frontier', 'frontier secured');
+  log(s, 'frontier_restored', `${what} The frontier holds and access to secured production is restored.`);
+}
+
+export function resolveBattle(s: CampaignState, cfg: GameConfig, cmd: Extract<Command, { type: 'resolve_battle' }>): void {
+  const battle = s.pendingBattle ?? fail('There is no battle to resolve.');
+  const fallen = [...new Set(cmd.solidified ?? [])];
+  const placements = fallen.map((id) => {
+    const adv = getAdventurer(s, id);
+    const structure = adv.assignment.type === 'defense' ? getStructure(s, adv.assignment.structureId) : undefined;
+    if (!structure || structure.map !== battle.map) fail(`${adv.name} is not deployed on the ${battle.map} map.`);
+    return { id, structureId: structure.id };
+  });
+  // Only defenders who actually fell become statues; a lost gate does not solidify everyone.
+  for (const p of placements) solidify(s, cfg, p.id, battle.map, p.structureId);
+  if (battle.map === 'sanctuary') {
+    s.sanctuary.automatedAmmo = Math.max(0, s.sanctuary.automatedAmmo - (cmd.ammoSpent ?? 0));
+  }
+  s.pendingBattle = null;
+  const won = cmd.result === 'win';
+
+  switch (battle.kind) {
+    case 'frontier_defense':
+      if (won) {
+        s.nextInvasionHour = s.simHour + cfg.clock.invasion_interval_hours;
+        retrieveAllAt(s, 'frontier', 'frontier held');
+        log(s, 'defense_won', 'The frontier held against the invasion.');
+        recordStableCycle(s, cfg);
+      } else if (s.miracleCharges > 0) {
+        evacuateMap(s, 'frontier');
+        s.miracleCharges -= 1;
+        s.stableCycles = 0;
+        s.phase = 'DIVINE_EMERGENCY';
+        s.nextInvasionHour = s.simHour + cfg.clock.invasion_interval_hours;
+        log(s, 'miracle', 'The frontier fell. The goddess spends her miracle to banish the invasion; ward-based production is crippled.');
+        const count = miracleRestoreCount(cfg, fallen.length);
+        if (count > 0) {
+          s.pendingMiracle = { eligibleIds: fallen, count };
+          if (cmd.miracleChoices) chooseMiracleTargets(s, cmd.miracleChoices);
+        }
+      } else {
+        evacuateMap(s, 'frontier');
+        fallToSiege(s, cfg);
+      }
+      break;
+    case 'frontier_rematch':
+    case 'frontier_breakthrough':
+      if (won) {
+        restoreFrontier(s, cfg, battle.kind === 'frontier_rematch' ? 'The rematch was won.' : 'The breakthrough succeeded.');
+      } else {
+        evacuateMap(s, 'frontier');
+        fallToSiege(s, cfg);
+      }
+      break;
+    case 'sanctuary_siege':
+      if (won) {
+        s.phase = 'COUNTEROFFENSIVE_PREPARATION';
+        s.nextInvasionHour = s.simHour + cfg.clock.post_sanctuary_interval_hours;
+        // Statues inside the walls are already in protected ground.
+        retrieveAllAt(s, 'sanctuary', 'sanctuary held');
+        log(s, 'siege_won', 'The sanctuary held. The monsters withdraw to regroup, but the outside is still cut off.');
+      } else {
+        s.phase = 'GAME_OVER';
+        s.nextInvasionHour = null;
+        log(s, 'game_over', 'The sanctuary gate was destroyed. The last sanctuary has fallen.');
+      }
+      break;
+  }
+}
+
+/** The one exception to treatment cost and time: chosen defenders are fully restored at once. */
+export function chooseMiracleTargets(s: CampaignState, adventurerIds: string[]): void {
+  const pending = s.pendingMiracle ?? fail('The goddess is not offering a miracle right now.');
+  const chosen = [...new Set(adventurerIds)];
+  if (chosen.length !== pending.count) fail(`Choose exactly ${pending.count} fallen defender(s) for the goddess to restore.`);
+  for (const id of chosen) {
+    if (!pending.eligibleIds.includes(id)) fail(`${getAdventurer(s, id).name} did not fall in this battle.`);
+  }
+  for (const id of chosen) {
+    restoreAdventurer(s, id);
+    log(s, 'miracle_restored', `${getAdventurer(s, id).name} was fully restored by the goddess.`);
+  }
+  s.pendingMiracle = null;
+}
+
+export function startFrontierRebuild(s: CampaignState, cfg: GameConfig): void {
+  if (s.phase !== 'COUNTEROFFENSIVE_PREPARATION') fail('The frontier can only be rebuilt after the sanctuary has held.');
+  if (s.rebuild) fail('The frontier outpost is already being rebuilt.');
+  const finishHour = s.simHour + cfg.resources.emergency_rebuild_hours;
+  if (s.nextInvasionHour !== null && finishHour > s.nextInvasionHour) {
+    fail('There is not enough time to finish the outpost before the next attack.');
+  }
+  pay(s, cfg.resources.emergency_rebuild_cost, 'rebuild the frontier outpost');
+  s.rebuild = { finishHour };
+  log(s, 'rebuild_started', `Rebuilding the frontier outpost (${cfg.resources.emergency_rebuild_hours} hours).`);
+}
+
+export function completeRebuild(s: CampaignState): void {
+  s.rebuild = null;
+  s.phase = 'FRONTIER_BREAKTHROUGH';
+  for (const d of s.structures) if (d.map === 'frontier') d.hp = d.maxHp;
+  log(s, 'rebuild_done', 'The frontier outpost stands again. The next attack will be fought there.');
+  // Retrieval only: anyone already past the deadline stays lost, nobody is revived.
+  const n = retrieveAllAt(s, 'frontier', 'goddess-guided retrieval');
+  if (n === 0) log(s, 'retrieval_none', 'No recoverable statues remained at the frontier.');
+}

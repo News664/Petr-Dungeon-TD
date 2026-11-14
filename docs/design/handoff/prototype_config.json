@@ -1,0 +1,115 @@
+{
+  "_notice": "All numbers except universal 30-day timer and two stable cycles are prototype BALANCE STARTING VALUES, subject to tuning; rules in GAME_DESIGN_SPEC.md take precedence.",
+  "clock": {
+    "unit": "hour",
+    "hours_per_day": 24,
+    "invasion_interval_hours": 168,
+    "post_sanctuary_interval_hours": 336,
+    "solidification_permanence_hours": 720,
+    "dungeon_step_minutes": 5,
+    "battle_action_minutes": 10,
+    "default_day_advance_hour": 24
+  },
+  "campaign": {
+    "stratum_floor_count": 3,
+    "miracle_max_charges": 1,
+    "miracle_recharge_stable_victories": 2,
+    "miracle_restore_fraction": 0.5,
+    "miracle_restore_rounding": "ceil",
+    "miracle_player_selects_targets": true,
+    "initial_miracle_charges_debug": 1,
+    "emergency_production_multiplier": 0.2,
+    "siege_outside_production_multiplier": 0.0,
+    "counteroffensive_outside_production_multiplier": 0.0
+  },
+  "roster": {
+    "starter_free_summons": 5,
+    "bonus_early_summon_credits": 3,
+    "max_roster": 8,
+    "max_dungeon_party": 5,
+    "default_summon_cooldown_hours": 336,
+    "summon_cost": {
+      "ward_energy": 20,
+      "construction_materials": 12
+    },
+    "emergency_summon_cost": {
+      "ward_energy": 45,
+      "construction_materials": 25
+    },
+    "classes": [
+      "Guardian",
+      "Gunner",
+      "Alchemist",
+      "Medic"
+    ]
+  },
+  "resources": {
+    "starting_stockpile": {
+      "ward_energy": 140,
+      "construction_materials": 110,
+      "restoration_reagent": 60
+    },
+    "sanctuary_ward_energy_generation_per_day": 5,
+    "sanctuary_ward_energy_upkeep_per_day": 3,
+    "cleared_stratum_normal_daily_output": {
+      "ward_energy": 12,
+      "construction_materials": 8,
+      "restoration_reagent": 5
+    },
+    "cleared_stratum_ward_energy_upkeep_per_day": 4,
+    "treatment_base_reagents": 10,
+    "treatment_hours": 48,
+    "treatment_slots": 2,
+    "emergency_rebuild_cost": {
+      "ward_energy": 15,
+      "construction_materials": 30
+    },
+    "emergency_rebuild_hours": 48,
+    "restoration_cost_brackets": [
+      {
+        "elapsed_hours_lt": 240,
+        "multiplier": 1
+      },
+      {
+        "elapsed_hours_lt": 480,
+        "multiplier": 2
+      },
+      {
+        "elapsed_hours_lt": 720,
+        "multiplier": 3
+      }
+    ]
+  },
+  "defense": {
+    "frontier_slot_count": 7,
+    "structures": [
+      "watchtower",
+      "bunker",
+      "support_station"
+    ],
+    "enemy_archetypes": [
+      "runner",
+      "armored",
+      "petrifier"
+    ],
+    "frontier_gate_max_hp": 100,
+    "sanctuary_gate_max_hp": 140,
+    "sanctuary_initial_automated_ammo": 100,
+    "sanctuary_automated_ammo_cost_per_shot": 1,
+    "siege_worker_loss_per_failed_wave": 0
+  },
+  "ui": {
+    "allow_debug_state_loader": true,
+    "allow_fast_forward_time": true,
+    "show_exact_statue_deadline": true,
+    "show_next_invasion_clock": true,
+    "allow_manual_automap": true
+  },
+  "gameplay_non_goals": [
+    "full conveyor factory",
+    "gem fusion",
+    "real-world offline idle income",
+    "multiple simultaneous defended old strata",
+    "complex civilian sim"
+  ]
+}

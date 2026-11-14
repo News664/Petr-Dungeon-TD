@@ -1,0 +1,143 @@
+{
+  "_notice": "Deterministic scenario definitions / invariants. Agent should translate to automated tests plus clickable debug fixtures.",
+  "scenarios": [
+    {
+      "id": "T01_unified_deadline",
+      "given": "adventurer A becomes statue at sim_hour=100 in dungeon; adventurer B at same hour in occupied frontier tower",
+      "when": "advance both to hour 819 without safe retrieval, then to hour 820",
+      "expect": [
+        "At 819 both remain eligible for retrieval regardless of original location",
+        "At exactly 820 both become permanently solidified",
+        "No bunker/structure exception to exposure time"
+      ]
+    },
+    {
+      "id": "T02_rescue_freezes_exposure",
+      "given": "adventurer A statues at hour 100 and is safely retrieved at hour 700",
+      "when": "advance to hour 900 while treatment is queued",
+      "expect": [
+        "A remains retrievable/reversible; 30-day threshold only applies while unrecovered",
+        "Treatment cost is based on elapsed abandoned time at hour 700, not hour 900"
+      ]
+    },
+    {
+      "id": "T03_miracle_half_full_restore",
+      "given": "stable frontier, miracle charge=1, eight deployed; six become statues and two escape",
+      "when": "frontier gate falls; choose three statues for goddess intervention",
+      "expect": [
+        "Miracle charge becomes 0",
+        "Chosen three adventurers immediately regain combat-ready state, not statues",
+        "Other three remain unrecovered with original formed_at",
+        "Invasion banished and phase becomes DIVINE_EMERGENCY",
+        "Production impaired"
+      ]
+    },
+    {
+      "id": "T04_second_loss_to_siege",
+      "given": "phase DIVINE_EMERGENCY, no miracle charge",
+      "when": "frontier rematch fails",
+      "expect": [
+        "Phase becomes SANCTUARY_SIEGE",
+        "No extra divine resurrection",
+        "Outside production stops"
+      ]
+    },
+    {
+      "id": "T05_siege_loop",
+      "given": "phase SANCTUARY_SIEGE, stocks nonzero, surviving reserve roster",
+      "when": "sanctuary siege wins, spend rebuild cost/time, auto-retrieve eligible frontier casualties, restore selected adventurers, lose frontier breakthrough",
+      "expect": [
+        "After siege win: COUNTEROFFENSIVE_PREPARATION, extended time interval",
+        "After rebuild: FRONTIER_BREAKTHROUGH and eligible frontier statues safely returned but not revived",
+        "After breakthrough loss: SANCTUARY_SIEGE again, with depleted stocks"
+      ]
+    },
+    {
+      "id": "T06_breakthrough_restores_production",
+      "given": "phase FRONTIER_BREAKTHROUGH, miracle charge 0",
+      "when": "frontier battle wins",
+      "expect": [
+        "Phase becomes STABLE_FRONTIER",
+        "Cleared production access restored",
+        "miracle recharge counter is 0"
+      ]
+    },
+    {
+      "id": "T07_two_stable_cycles",
+      "given": "phase STABLE_FRONTIER after crisis, miracle charge 0, recharge counter 0, production operational",
+      "when": "defend scheduled invasion successfully twice",
+      "expect": [
+        "After first win counter=1 and charge=0",
+        "After second win counter=2 and charge=1",
+        "Additional wins cannot stack charges above 1"
+      ]
+    },
+    {
+      "id": "T08_no_idle_miracle_recharge",
+      "given": "stable frontier charge=0 and no successful invasions during time skip",
+      "when": "advance many days",
+      "expect": [
+        "No miracle charge from waiting",
+        "Scheduled invasions must resolve rather than silently being skipped"
+      ]
+    },
+    {
+      "id": "T09_garrison_exclusivity",
+      "given": "adventurer A assigned to active dungeon party",
+      "when": "try to assign A to tower during same simulated time",
+      "expect": [
+        "Assignment rejected or expedition return required first",
+        "No duplicate of A"
+      ]
+    },
+    {
+      "id": "T10_boss_unblocks_production",
+      "given": "one stratum boss alive, discovery points recorded",
+      "when": "boss defeated and ward supplied",
+      "expect": [
+        "Stratum marked secure",
+        "Auto extraction enabled",
+        "Ambient ward upkeep still required",
+        "No routine wave defense scheduled for that old stratum"
+      ]
+    },
+    {
+      "id": "T11_emergency_softlock",
+      "given": "one combat-ready adventurer, limited stockpile, multiple rescued statues, sanctuary just held",
+      "when": "try to rebuild and restore enough for frontline breakthrough",
+      "expect": [
+        "At least one documented non-free path remains mechanically reachable in configured debug fixture",
+        "If not, balance parameters/fixture need changes, not invisible free healing"
+      ]
+    },
+    {
+      "id": "T12_sanctuary_game_over",
+      "given": "phase SANCTUARY_SIEGE",
+      "when": "sanctuary gate destroyed",
+      "expect": [
+        "Phase becomes GAME_OVER",
+        "No miraculous third-state rescue",
+        "Game can reload prior save"
+      ]
+    },
+    {
+      "id": "T13_ward_shutdown",
+      "given": "secured deposit and insufficient ward energy",
+      "when": "player evacuates/shuts site down",
+      "expect": [
+        "Production halts",
+        "Workers do not automatically become statues from being forced to work unprotected",
+        "No free material output"
+      ]
+    },
+    {
+      "id": "T14_save_load",
+      "given": "unrecovered statues, next invasion in 15 hours, active treatment and one defender assigned to a structure",
+      "when": "save and reload",
+      "expect": [
+        "All IDs, event times, deadlines, stocks and assignments preserved exactly",
+        "No resource duplication or time loss"
+      ]
+    }
+  ]
+}

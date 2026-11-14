@@ -1,0 +1,350 @@
+/* Design tokens. Everything visual should be built from these. */
+:root {
+  --bg: #0d0f12;
+  --bg-raised: #15181d;
+  --bg-inset: #101317;
+  --line: #262b33;
+  --line-strong: #39404b;
+  --text: #dcd8cf;
+  --muted: #8a8f99;
+  --ward: #74c7b6; /* protective ward light */
+  --ward-dim: #1d3a36;
+  --amber: #d8a64a;
+  --danger: #cf5f55;
+  --stone: #a3a8b0; /* solidified */
+  --divine: #c9b7f2;
+  --radius: 6px;
+  --gap: 16px;
+  --font-body: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-display: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif;
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: radial-gradient(1200px 500px at 50% -120px, #1b2228 0%, var(--bg) 70%) fixed, var(--bg);
+  color: var(--text);
+  font: 15px/1.5 var(--font-body);
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  margin: 0;
+}
+h1 {
+  font-size: 30px;
+  line-height: 1.15;
+}
+h2 {
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+h3 {
+  font-size: 15px;
+  margin-bottom: 6px;
+}
+p {
+  margin: 0 0 8px;
+}
+
+.shell {
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 20px var(--gap) 48px;
+}
+
+.masthead {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap) 32px;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding-bottom: 18px;
+  margin-bottom: var(--gap);
+  border-bottom: 1px solid var(--line);
+}
+.eyebrow {
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ward);
+  margin-bottom: 4px;
+}
+.vitals {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(120px, auto));
+  gap: 10px 28px;
+  margin: 0;
+}
+.vitals dt {
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.vitals dd {
+  margin: 0;
+  font-size: 16px;
+  font-variant-numeric: tabular-nums;
+}
+
+.columns {
+  display: grid;
+  grid-template-columns: minmax(260px, 1fr) minmax(0, 2.2fr) minmax(260px, 1fr);
+  gap: var(--gap);
+  align-items: start;
+}
+.column {
+  display: grid;
+  gap: var(--gap);
+  min-width: 0;
+}
+@media (max-width: 1100px) {
+  .columns {
+    grid-template-columns: 1fr;
+  }
+  .column.wide {
+    order: -1;
+  }
+}
+@media (max-width: 560px) {
+  .vitals {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  h1 {
+    font-size: 24px;
+  }
+}
+
+.panel {
+  background: var(--bg-raised);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  display: grid;
+  gap: 10px;
+  min-width: 0;
+}
+.panel.alert {
+  border-color: var(--amber);
+  box-shadow: 0 0 0 1px rgba(216, 166, 74, 0.15), 0 8px 30px rgba(0, 0, 0, 0.4);
+}
+.panel.alert.divine {
+  border-color: var(--divine);
+  box-shadow: 0 0 0 1px rgba(201, 183, 242, 0.15), 0 8px 30px rgba(0, 0, 0, 0.4);
+}
+.panel.debug {
+  border-style: dashed;
+}
+.subpanel {
+  border-top: 1px solid var(--line);
+  padding-top: 10px;
+  display: grid;
+  gap: 8px;
+}
+.stack {
+  display: grid;
+  gap: 6px;
+}
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.muted {
+  color: var(--muted);
+}
+.small {
+  font-size: 13px;
+  margin: 0;
+}
+.good {
+  color: var(--ward);
+}
+.warn {
+  color: var(--amber);
+}
+.danger-text {
+  color: var(--danger);
+}
+.stone {
+  color: var(--stone);
+}
+h2 .muted,
+h3 .muted {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 400;
+}
+
+button,
+select,
+input[type='number'] {
+  font: inherit;
+  color: var(--text);
+  background: var(--bg-inset);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  padding: 6px 12px;
+  min-height: 34px;
+}
+button {
+  cursor: pointer;
+  transition: border-color 120ms, background 120ms;
+}
+button:hover:not(:disabled) {
+  border-color: var(--ward);
+}
+button:focus-visible,
+select:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--ward);
+  outline-offset: 1px;
+}
+button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+button.primary {
+  background: var(--ward-dim);
+  border-color: var(--ward);
+  color: #e9fbf6;
+}
+button.danger {
+  border-color: var(--danger);
+  color: #f3c9c4;
+}
+button.inline {
+  min-height: 0;
+  padding: 1px 8px;
+  font-size: 13px;
+  margin-left: 4px;
+}
+select {
+  max-width: 100%;
+}
+input[type='number'] {
+  width: 100%;
+}
+input[type='checkbox'] {
+  accent-color: var(--ward);
+  width: 16px;
+  height: 16px;
+  vertical-align: -3px;
+  margin-right: 6px;
+}
+.field {
+  display: grid;
+  gap: 4px;
+  font-size: 13px;
+  color: var(--muted);
+}
+.stocks {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.notice {
+  border: 1px solid var(--line-strong);
+  border-left-width: 3px;
+  border-radius: var(--radius);
+  background: var(--bg-raised);
+  padding: 10px 14px;
+  margin-bottom: var(--gap);
+}
+.notice.error {
+  border-left-color: var(--danger);
+}
+.notice.info {
+  border-left-color: var(--ward);
+}
+
+.table-wrap {
+  overflow-x: auto;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+th {
+  text-align: left;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 500;
+  padding: 4px 10px 6px 0;
+  border-bottom: 1px solid var(--line);
+}
+td {
+  padding: 7px 10px 7px 0;
+  border-bottom: 1px solid var(--line);
+  vertical-align: middle;
+}
+tr.solidified td:nth-child(2),
+tr.lost td:nth-child(2) {
+  color: var(--stone);
+}
+tr.lost {
+  opacity: 0.6;
+}
+
+ul.checks,
+ul.plain,
+ol.log {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 4px;
+}
+ol.log {
+  max-height: 340px;
+  overflow-y: auto;
+  font-size: 13px;
+}
+ol.log li {
+  display: grid;
+  grid-template-columns: 108px 1fr;
+  gap: 10px;
+  padding: 3px 0;
+  border-bottom: 1px solid var(--line);
+}
+ol.log time {
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+.log-daily_production span {
+  color: var(--muted);
+}
+.log-solidified span,
+.log-permanent span,
+.log-game_over span,
+.log-retreat span {
+  color: var(--danger);
+}
+.log-miracle span,
+.log-miracle_restored span,
+.log-miracle_charged span {
+  color: var(--divine);
+}
+.log-invasion span {
+  color: var(--amber);
+}
+.log-restored span,
+.log-frontier_restored span,
+.log-stratum_secured span {
+  color: var(--ward);
+}
