@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { RESOURCE_IDS, defaultConfig as cfg, formatCost, formatHour, productionMultiplier, rosterCount } from '../sim';
+import { RESOURCE_IDS, defaultConfig as cfg, formatCost, formatHour, productionMultiplier, repairCost, rosterCount } from '../sim';
 import type { CampaignState, Fixture, ResourceId } from '../sim';
 import type { Dispatch } from './App';
 import { duration, title } from './format';
@@ -77,10 +77,20 @@ export function TerritoryPanel({ state, dispatch }: PanelProps) {
         </div>
       ))}
       <div className="subpanel">
-        <h3>Sanctuary defenses</h3>
+        <h3>Defenses</h3>
         <p className="small">
-          Automated ammunition: {state.sanctuary.automatedAmmo} · sieges faced: {state.siegeAttempts}
+          Automated ammunition: {state.sanctuary.automatedAmmo}/{cfg.defense.sanctuary_max_automated_ammo} · sieges faced: {state.siegeAttempts}
         </p>
+        <button disabled={state.sanctuary.automatedAmmo >= cfg.defense.sanctuary_max_automated_ammo} onClick={() => dispatch({ type: 'restock_ammo' })}>
+          Make {cfg.defense.ammo_restock.ammo} ammunition · {cfg.defense.ammo_restock.construction_materials} materials
+        </button>
+        {state.structures
+          .filter((d) => d.hp < d.maxHp)
+          .map((d) => (
+            <button key={d.id} onClick={() => dispatch({ type: 'repair_structure', structureId: d.id })}>
+              Repair {d.id.replace(/_/g, ' ')} ({d.hp}/{d.maxHp}) · {repairCost(cfg, d)} materials
+            </button>
+          ))}
       </div>
     </div>
   );

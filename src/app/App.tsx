@@ -1,10 +1,13 @@
-import { useCallback, useEffect, useState } from 'react';
+import { Suspense, lazy, useCallback, useEffect, useRef, useState } from 'react';
 import { apply, buildFixture, defaultConfig as cfg, deserialize, fixtures, formatHour, nextEventHour, serialize } from '../sim';
 import type { CampaignState, Command } from '../sim';
 import { PHASE_LABEL, PHASE_NOTE, duration } from './format';
 import { BattlePanel, MiraclePanel } from './BattlePanel';
 import { RosterPanel } from './RosterPanel';
 import { DebugPanel, LogPanel, SealPanel, TerritoryPanel, WardPanel } from './SidePanels';
+
+// The battle renderer is the heavy part of the bundle; load it only when a battle starts.
+const BattleScreen = lazy(() => import('./BattleScreen').then((m) => ({ default: m.BattleScreen })));
 
 const SAVE_KEY = 'last-sanctuary.quicksave';
 
@@ -22,20 +25,25 @@ export function App() {
   const [state, setState] = useState<CampaignState>(() => buildFixture('new_game'));
   const [notice, setNotice] = useState<{ kind: 'error' | 'info'; text: string } | null>(null);
   const [hasSave, setHasSave] = useState(() => readSave() !== null);
+  // The latest state, readable from the battle's frame loop without waiting for a render.
+  const stateRef = useRef(state);
 
-  const dispatch: Dispatch = useCallback(
-    (cmd) => {
-      const result = apply(state, cmd, cfg);
-      if (result.ok) {
-        setState(result.state);
-        setNotice(null);
-      } else {
-        setNotice({ kind: 'error', text: result.error ?? 'That is not possible.' });
-      }
-      return result.ok;
-    },
-    [state],
-  );
+  const replaceState = (next: CampaignState) => {
+    stateRef.current = next;
+    setState(next);
+  };
+
+  const dispatch: Dispatch = useCallback((cmd) => {
+    const result = apply(stateRef.current, cmd, cfg);
+    if (result.ok) {
+      stateRef.current = result.state;
+      setState(result.state);
+      if (cmd.type !== 'battle_tick') setNotice(null);
+    } else {
+      setNotice({ kind: 'error', text: result.error ?? 'That is not possible.' });
+    }
+    return result.ok;
+  }, []);
 
   useEffect(() => {
     if (!notice) return;
@@ -58,7 +66,7 @@ export function App() {
     if (!text) return;
     try {
       const loaded = deserialize(text);
-      setState(loaded);
+      replaceState(loaded);
       setNotice({ kind: 'info', text: `Loaded the save from ${formatHour(loaded.simHour)}.` });
     } catch (e) {
       setNotice({ kind: 'error', text: e instanceof Error ? e.message : 'The save could not be loaded.' });
@@ -66,7 +74,7 @@ export function App() {
   };
 
   const loadFixture = (id: string) => {
-    setState(buildFixture(id));
+    replaceState(buildFixture(id));
     setNotice(null);
   };
 
@@ -120,7 +128,13 @@ export function App() {
         </p>
       )}
 
-      <main className="columns">
+      {state.battle && (
+        <Suspense fallback={<p className="muted">Preparing the field…</p>}>
+          <BattleScreen state={state} stateRef={stateRef} dispatch={dispatch} />
+        </Suspense>
+      )}
+
+      <main className="columns" hidden={state.battle !== null}>
         <section className="column">
           {state.pendingMiracle && <MiraclePanel state={state} dispatch={dispatch} />}
           {state.pendingBattle && !state.pendingMiracle && <BattlePanel state={state} dispatch={dispatch} />}

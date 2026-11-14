@@ -37,3 +37,14 @@ export function title(id: string): string {
   const text = id.replace(/_/g, ' ');
   return text.charAt(0).toUpperCase() + text.slice(1);
 }
+
+const ENEMY_NAMES: Record<string, [string, string]> = {
+  runner: ['runner', 'runners'],
+  armored: ['armored brute', 'armored brutes'],
+  petrifier: ['petrifier', 'petrifiers'],
+};
+
+export function enemyCount(enemy: string, count: number): string {
+  const names = ENEMY_NAMES[enemy] ?? [enemy, `${enemy}s`];
+  return `${count} ${count === 1 ? names[0] : names[1]}`;
+}

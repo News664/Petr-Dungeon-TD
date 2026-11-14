@@ -1,8 +1,20 @@
+import { concedeBattle, finishBattle, startBattle, tickBattle } from './battle';
 import { chooseMiracleTargets, resolveBattle, startFrontierRebuild, triggerInvasion } from './campaign';
 import type { GameConfig } from './config';
 import { defaultConfig } from './config';
 import { defeatBoss, setDepositActive } from './economy';
-import { assignDefender, endExpedition, pickUpStatue, reportCasualty, startExpedition, summon, unassignDefender } from './roster';
+import {
+  assignDefender,
+  endExpedition,
+  pickUpStatue,
+  repairStructure,
+  reportCasualty,
+  restockAmmo,
+  setTargetPriority,
+  startExpedition,
+  summon,
+  unassignDefender,
+} from './roster';
 import { findStatue, getAdventurer } from './selectors';
 import { queueTreatment, retrieve, solidify } from './statues';
 import { advanceHours, advanceMinutes, ensureClockFree, frontierRecoverySortie } from './time';
@@ -26,7 +38,7 @@ function run(s: CampaignState, cfg: GameConfig, cmd: Command): void {
       summon(s, cfg, cmd.classId, cmd.emergency ?? false);
       return;
     case 'assign_defender':
-      assignDefender(s, cmd.adventurerId, cmd.structureId);
+      assignDefender(s, cfg, cmd.adventurerId, cmd.structureId);
       return;
     case 'unassign_defender':
       unassignDefender(s, cmd.adventurerId);
@@ -61,6 +73,27 @@ function run(s: CampaignState, cfg: GameConfig, cmd: Command): void {
       return;
     case 'choose_miracle_targets':
       chooseMiracleTargets(s, cmd.adventurerIds);
+      return;
+    case 'battle_start':
+      startBattle(s, cfg);
+      return;
+    case 'battle_tick':
+      tickBattle(s, cfg, cmd.ticks);
+      return;
+    case 'battle_concede':
+      concedeBattle(s);
+      return;
+    case 'battle_finish':
+      finishBattle(s, cfg);
+      return;
+    case 'set_target_priority':
+      setTargetPriority(s, cmd.adventurerId, cmd.priority);
+      return;
+    case 'repair_structure':
+      repairStructure(s, cfg, cmd.structureId);
+      return;
+    case 'restock_ammo':
+      restockAmmo(s, cfg);
       return;
     case 'start_frontier_rebuild':
       ensureClockFree(s);

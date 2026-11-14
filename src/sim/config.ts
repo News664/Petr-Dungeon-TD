@@ -34,6 +34,8 @@ export interface GameConfig {
     emergency_summon_cost: Partial<Resources>;
     classes: string[];
     class_stats: Record<string, { max_hp: number }>;
+    rest_hp_per_day: number;
+    rest_gauge_per_day: number;
   };
   resources: {
     starting_stockpile: Resources;
@@ -54,11 +56,57 @@ export interface GameConfig {
     sanctuary_layout: string[];
     structure_max_hp: Record<string, number>;
     sanctuary_initial_automated_ammo: number;
+    sanctuary_max_automated_ammo: number;
+    frontier_gate_max_hp: number;
+    sanctuary_gate_max_hp: number;
+    ticks_per_second: number;
+    reposition_seconds: number;
+    repair_materials_per_10_hp: number;
+    ammo_restock: { ammo: number; construction_materials: number };
+    enemy_stats: Record<string, EnemyStats>;
+    structure_stats: Record<string, StructureStats>;
+    class_combat: Record<string, ClassCombat>;
+    turret: WeaponStats;
   };
   ui: {
     allow_debug_state_loader: boolean;
     allow_fast_forward_time: boolean;
   };
+}
+
+export interface WeaponStats {
+  damage: number;
+  range: number;
+  cooldown_seconds: number;
+  /** Share of the target's armor that is ignored (0–1). */
+  armor_pierce: number;
+}
+
+export interface ClassCombat extends WeaponStats {
+  slow?: { factor: number; seconds: number };
+  splash_radius?: number;
+  corrode?: { armor_factor: number; seconds: number };
+  support?: { gauge: number; heal: number };
+  /** Extra multipliers when she holds a particular structure type. */
+  affinity?: Record<string, { range_mult?: number; damage_mult?: number }>;
+}
+
+export interface StructureStats {
+  range_mult: number;
+  damage_mult: number;
+  /** Share of a petrifying attack that reaches the occupant (1 = fully exposed). */
+  exposure: number;
+  support_mult: number;
+}
+
+export interface EnemyStats {
+  hp: number;
+  /** Map units per second. */
+  speed: number;
+  armor: number;
+  gate_damage: number;
+  structure_attack?: { range: number; damage: number; cooldown_seconds: number };
+  petrify_attack?: { range: number; gauge: number; damage: number; cooldown_seconds: number };
 }
 
 export const defaultConfig: GameConfig = raw as unknown as GameConfig;

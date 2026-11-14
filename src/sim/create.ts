@@ -44,6 +44,7 @@ export function createCampaign(cfg: GameConfig = defaultConfig, seed = 1): Campa
     nextInvasionHour: cfg.clock.invasion_interval_hours,
     pendingBattle: null,
     pendingMiracle: null,
+    battle: null,
     miracleCharges: Math.min(cfg.campaign.miracle_max_charges, cfg.campaign.initial_miracle_charges_debug),
     stableCycles: 0,
     resources: { ...cfg.resources.starting_stockpile },

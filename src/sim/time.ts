@@ -20,8 +20,20 @@ function processHour(s: CampaignState, cfg: GameConfig): void {
   processPermanence(s);
   processTreatments(s, cfg);
   if (s.rebuild && s.simHour >= s.rebuild.finishHour) completeRebuild(s);
-  if (s.simHour % cfg.clock.hours_per_day === 0) applyDailyProduction(s, cfg);
+  if (s.simHour % cfg.clock.hours_per_day === 0) {
+    applyDailyProduction(s, cfg);
+    restAdventurers(s, cfg);
+  }
   if (s.nextInvasionHour !== null && s.simHour >= s.nextInvasionHour) triggerInvasion(s);
+}
+
+/** A day at the sanctuary eases wounds and the creeping stone. Expedition members get no rest. */
+function restAdventurers(s: CampaignState, cfg: GameConfig): void {
+  for (const adv of s.adventurers) {
+    if (adv.condition !== 'ready' || adv.assignment.type === 'expedition') continue;
+    adv.hp = Math.min(adv.maxHp, adv.hp + cfg.roster.rest_hp_per_day);
+    adv.gauge = Math.max(0, adv.gauge - cfg.roster.rest_gauge_per_day);
+  }
 }
 
 /** The single place the clock moves. Steps hour by hour so no event is ever skipped. */

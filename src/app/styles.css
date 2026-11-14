@@ -348,3 +348,158 @@ ol.log time {
 .log-stratum_secured span {
   color: var(--ward);
 }
+
+/* Battle screen */
+[hidden] {
+  display: none !important;
+}
+.battle {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  gap: var(--gap);
+  align-items: start;
+}
+.battle-main,
+.battle-side {
+  display: grid;
+  gap: var(--gap);
+  min-width: 0;
+}
+@media (max-width: 1100px) {
+  .battle {
+    grid-template-columns: 1fr;
+  }
+}
+.battle-hud {
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 12px 28px;
+}
+@media (max-width: 900px) {
+  .battle-hud {
+    grid-template-columns: 1fr;
+  }
+}
+.vitals.compact {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 26px;
+}
+.battle-field {
+  position: relative;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--bg);
+  min-height: 120px;
+}
+.battle-result {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 10px;
+  text-align: center;
+  padding: 16px;
+  background: rgba(8, 10, 12, 0.78);
+  z-index: 1;
+}
+.battle-result h2 {
+  font-size: 28px;
+}
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+  align-items: center;
+}
+.legend .dot,
+.legend .sq {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-left: 8px;
+}
+.legend .dot {
+  border-radius: 50%;
+}
+.legend .tri {
+  display: inline-block;
+  margin-left: 8px;
+  border: 6px solid transparent;
+  border-bottom: 10px solid #b48cf2;
+  border-top: 0;
+}
+ul.posts {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+ul.posts li {
+  display: grid;
+  gap: 6px;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--bg-inset);
+  cursor: pointer;
+}
+ul.posts li.selected {
+  border-color: var(--ward);
+}
+.post-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 13px;
+}
+ul.posts select {
+  min-height: 30px;
+  padding: 3px 8px;
+  font-size: 13px;
+  flex: 1 1 120px;
+  min-width: 0;
+}
+.meters {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px 8px;
+  align-items: center;
+}
+.meters .small {
+  grid-column: 1 / -1;
+}
+.meter {
+  display: block;
+  height: 5px;
+  border-radius: 3px;
+  background: #000;
+  overflow: hidden;
+}
+.meter i {
+  display: block;
+  height: 100%;
+  background: var(--ward);
+}
+.stone-meter i {
+  background: var(--stone);
+}
+.stone-meter.critical i {
+  background: var(--danger);
+}
+details summary {
+  cursor: pointer;
+  color: var(--muted);
+  font-size: 13px;
+  margin-bottom: 8px;
+}
+ol.plain {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 4px;
+}

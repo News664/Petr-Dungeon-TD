@@ -1,7 +1,8 @@
 import { useState } from 'react';
+import { waveForecast } from '../sim';
 import type { CampaignState } from '../sim';
 import type { Dispatch } from './App';
-import { BATTLE_LABEL } from './format';
+import { BATTLE_LABEL, enemyCount } from './format';
 
 function useSelection() {
   const [picked, setPicked] = useState<string[]>([]);
@@ -9,7 +10,7 @@ function useSelection() {
   return { picked, toggle };
 }
 
-/** Stand-in for the tower-defense layer: report the outcome by hand. */
+/** The attack has arrived: forecast, the way into the battle, and a debug shortcut. */
 export function BattlePanel({ state, dispatch }: { state: CampaignState; dispatch: Dispatch }) {
   const battle = state.pendingBattle;
   const { picked, toggle } = useSelection();
@@ -25,37 +26,48 @@ export function BattlePanel({ state, dispatch }: { state: CampaignState; dispatc
     <div className="panel alert">
       <h2>{BATTLE_LABEL[battle.kind]}</h2>
       <p className="muted small">
-        The attack has arrived. Until the defense map exists, record the outcome here: tick the defenders who fell, then choose the result.
-        You can still change who holds which structure in the roster.
+        The attack has arrived. {defenders.length === 0 ? 'Nobody' : `${defenders.length}`} deployed on the {battle.map} map; you can still change
+        posts in the roster before the fighting starts.
       </p>
-      {defenders.length === 0 ? (
-        <p className="warn small">Nobody is deployed on the {battle.map} map.</p>
-      ) : (
-        <ul className="checks">
-          {defenders.map(({ structure, adv }) => (
-            <li key={adv.id}>
-              <label>
-                <input type="checkbox" checked={picked.includes(adv.id)} onChange={() => toggle(adv.id)} />
-                {adv.name} <span className="muted">· {structure.id.replace(/_/g, ' ')}</span>
-              </label>
-            </li>
-          ))}
-        </ul>
-      )}
-      {battle.map === 'sanctuary' && (
-        <label className="field">
-          Automated ammunition spent ({state.sanctuary.automatedAmmo} left)
-          <input type="number" min={0} max={state.sanctuary.automatedAmmo} value={ammo} onChange={(e) => setAmmo(Number(e.target.value))} />
-        </label>
-      )}
-      <div className="row">
-        <button className="primary" onClick={() => resolve('win')}>
-          Defense holds
-        </button>
-        <button className="danger" onClick={() => resolve('loss')}>
-          Defense falls
-        </button>
-      </div>
+      <ol className="plain small">
+        {waveForecast(battle.map).map((w) => (
+          <li key={w.wave}>
+            <strong>Wave {w.wave}:</strong> {w.groups.map((g) => enemyCount(g.enemy, g.count)).join(', ')}
+          </li>
+        ))}
+      </ol>
+      <button className="primary" onClick={() => dispatch({ type: 'battle_start' })}>
+        Fight the battle
+      </button>
+      <details>
+        <summary>Debug: decide the outcome without fighting</summary>
+        <div className="stack">
+          {defenders.length > 0 && (
+            <ul className="checks">
+              {defenders.map(({ structure, adv }) => (
+                <li key={adv.id}>
+                  <label>
+                    <input type="checkbox" checked={picked.includes(adv.id)} onChange={() => toggle(adv.id)} />
+                    {adv.name} falls <span className="muted">· {structure.id.replace(/_/g, ' ')}</span>
+                  </label>
+                </li>
+              ))}
+            </ul>
+          )}
+          {battle.map === 'sanctuary' && (
+            <label className="field">
+              Automated ammunition spent ({state.sanctuary.automatedAmmo} left)
+              <input type="number" min={0} max={state.sanctuary.automatedAmmo} value={ammo} onChange={(e) => setAmmo(Number(e.target.value))} />
+            </label>
+          )}
+          <div className="row">
+            <button onClick={() => resolve('win')}>Defense holds</button>
+            <button className="danger" onClick={() => resolve('loss')}>
+              Defense falls
+            </button>
+          </div>
+        </div>
+      </details>
     </div>
   );
 }

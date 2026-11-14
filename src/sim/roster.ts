@@ -49,6 +49,7 @@ export function summon(s: CampaignState, cfg: GameConfig, classId: string, emerg
     gauge: 0,
     condition: 'ready',
     assignment: { type: 'idle' },
+    targetPriority: 'first',
     summonedAtHour: s.simHour,
   };
   s.adventurers.push(adv);
@@ -56,7 +57,7 @@ export function summon(s: CampaignState, cfg: GameConfig, classId: string, emerg
   return adv;
 }
 
-export function assignDefender(s: CampaignState, adventurerId: string, structureId: string): void {
+export function assignDefender(s: CampaignState, cfg: GameConfig, adventurerId: string, structureId: string): void {
   const adv = getAdventurer(s, adventurerId);
   const structure = getStructure(s, structureId);
   if (s.phase === 'GAME_OVER') fail('The sanctuary has fallen.');
@@ -67,9 +68,44 @@ export function assignDefender(s: CampaignState, adventurerId: string, structure
   if (structure.occupantId && structure.occupantId !== adv.id) {
     fail(`${structure.id} is already held by ${getAdventurer(s, structure.occupantId).name}.`);
   }
+  if (structure.hp <= 0) fail(`The ${structure.id.replace(/_/g, ' ')} is destroyed and must be repaired first.`);
+  if (adv.assignment.type === 'defense' && adv.assignment.structureId === structureId) return;
   clearAssignment(s, adv);
   structure.occupantId = adv.id;
   adv.assignment = { type: 'defense', structureId };
+  // Moving under fire is not instant: she cannot act until she is in position.
+  if (s.battle && s.battle.outcome === 'ongoing' && s.battle.map === structure.map) {
+    s.battle.busyUntil[adv.id] = s.battle.tick + Math.round(cfg.defense.reposition_seconds * cfg.defense.ticks_per_second);
+    s.battle.cooldowns[adv.id] = 0;
+  }
+}
+
+export function setTargetPriority(s: CampaignState, adventurerId: string, priority: Adventurer['targetPriority']): void {
+  getAdventurer(s, adventurerId).targetPriority = priority;
+}
+
+export function repairCost(cfg: GameConfig, structure: { hp: number; maxHp: number }): number {
+  return Math.ceil((structure.maxHp - structure.hp) / 10) * cfg.defense.repair_materials_per_10_hp;
+}
+
+export function repairStructure(s: CampaignState, cfg: GameConfig, structureId: string): void {
+  const structure = getStructure(s, structureId);
+  if (s.battle) fail('Repairs have to wait until the battle is over.');
+  if (structure.hp >= structure.maxHp) fail('That structure is not damaged.');
+  if (structure.map === 'frontier' && !frontierHeld(s.phase)) fail('The frontier is overrun; its structures cannot be reached.');
+  pay(s, { construction_materials: repairCost(cfg, structure) }, `repair the ${structureId.replace(/_/g, ' ')}`);
+  structure.hp = structure.maxHp;
+  log(s, 'repaired', `The ${structureId.replace(/_/g, ' ')} was repaired.`);
+}
+
+/** Turn construction materials into ammunition for the sanctuary's automated weapons. */
+export function restockAmmo(s: CampaignState, cfg: GameConfig): void {
+  const max = cfg.defense.sanctuary_max_automated_ammo;
+  if (s.battle) fail('Ammunition cannot be made during a battle.');
+  if (s.sanctuary.automatedAmmo >= max) fail('The magazines are full.');
+  pay(s, { construction_materials: cfg.defense.ammo_restock.construction_materials }, 'make ammunition');
+  s.sanctuary.automatedAmmo = Math.min(max, s.sanctuary.automatedAmmo + cfg.defense.ammo_restock.ammo);
+  log(s, 'ammo', `Ammunition restocked to ${s.sanctuary.automatedAmmo}.`);
 }
 
 export function unassignDefender(s: CampaignState, adventurerId: string): void {

@@ -73,11 +73,30 @@ function sanctuarySiege(cfg: GameConfig): CampaignState {
   );
 }
 
+const PREFERRED_CLASS: Record<string, string[]> = {
+  watchtower: ['Gunner', 'Alchemist'],
+  bunker: ['Guardian'],
+  support_station: ['Medic'],
+};
+
+/** Fill a map's slots with idle adventurers, matching class to structure where possible. */
+function postSensibly(s: CampaignState, map: 'frontier' | 'sanctuary', cfg: GameConfig): CampaignState {
+  const idle = s.adventurers.filter((a) => a.condition === 'ready' && a.assignment.type === 'idle');
+  const cmds: Command[] = [];
+  const open = s.structures.filter((d) => d.map === map && !d.occupantId);
+  for (const pass of ['preferred', 'anyone'] as const) {
+    for (const d of open) {
+      if (cmds.some((c) => c.type === 'assign_defender' && c.structureId === d.id)) continue;
+      const i = idle.findIndex((a) => pass === 'anyone' || (PREFERRED_CLASS[d.type] ?? []).includes(a.classId));
+      const pick = i >= 0 ? idle.splice(i, 1)[0] : undefined;
+      if (pick) cmds.push({ type: 'assign_defender', adventurerId: pick.id, structureId: d.id });
+    }
+  }
+  return applyAll(s, cmds, cfg);
+}
+
 function siegeBattle(cfg: GameConfig): CampaignState {
-  let s = sanctuarySiege(cfg);
-  const ready = s.adventurers.filter((a) => a.condition === 'ready').map((a) => a.id);
-  const slots = sanctuarySlots(s);
-  s = deploy(s, slots, ready.slice(0, slots.length), cfg);
+  const s = postSensibly(sanctuarySiege(cfg), 'sanctuary', cfg);
   return applyAll(s, [{ type: 'advance_time', hours: cfg.clock.sanctuary_siege_delay_hours }], cfg);
 }
 
@@ -121,6 +140,10 @@ function recharging(cfg: GameConfig): CampaignState {
   return applyAll(s, [{ type: 'debug_force_invasion' }, { type: 'resolve_battle', result: 'win' }], cfg);
 }
 
+function frontierBattle(cfg: GameConfig): CampaignState {
+  return applyAll(postSensibly(stableSecured(cfg), 'frontier', cfg), [{ type: 'debug_force_invasion' }], cfg);
+}
+
 function gameOver(cfg: GameConfig): CampaignState {
   return applyAll(siegeBattle(cfg), [{ type: 'resolve_battle', result: 'loss' }], cfg);
 }
@@ -131,6 +154,7 @@ export const fixtures: Fixture[] = [
   { id: 'new_game', label: 'New game', description: 'Empty guild hall, eight goddess-sponsored summons waiting.', build: wrap((cfg) => createCampaign(cfg)) },
   { id: 'full_roster', label: 'Full roster', description: 'Eight adventurers, first stratum still unexplored.', build: wrap(fullRoster) },
   { id: 'stable_secured', label: 'Stable, stratum secured', description: 'First boss defeated; protected extraction running.', build: wrap(stableSecured) },
+  { id: 'frontier_battle', label: 'Frontier attack (battle)', description: 'A scheduled attack has arrived with seven defenders posted.', build: wrap(frontierBattle) },
   { id: 'divine_emergency', label: 'Divine emergency', description: 'Frontier lost with the miracle charged: three of six fallen restored, three still lying at the frontier.', build: wrap(divineEmergency) },
   { id: 'sanctuary_siege', label: 'Sanctuary siege (preparing)', description: 'Frontier lost with no miracle. The siege arrives in a day.', build: wrap(sanctuarySiege) },
   { id: 'siege_battle', label: 'Sanctuary siege (battle)', description: 'The siege has arrived and must be resolved.', build: wrap(siegeBattle) },

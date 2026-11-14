@@ -40,8 +40,12 @@ export interface Adventurer {
   gauge: number;
   condition: Condition;
   assignment: Assignment;
+  /** Who she shoots first when holding a defensive structure. */
+  targetPriority: TargetPriority;
   summonedAtHour: number;
 }
+
+export type TargetPriority = 'first' | 'strongest' | 'petrifier';
 
 export type StatueLocationType = 'dungeon' | 'frontier' | 'sanctuary';
 
@@ -106,6 +110,58 @@ export interface PendingBattle {
   dueHour: number;
 }
 
+export interface BattleEnemy {
+  id: number;
+  type: string;
+  lane: number;
+  /** Distance travelled along the lane, in thousandths of a map unit. */
+  progress: number;
+  hp: number;
+  maxHp: number;
+  slowTicks: number;
+  /** Speed percentage while slowed (e.g. 50). */
+  slowPct: number;
+  corrodeTicks: number;
+  /** Armor percentage while corroded (e.g. 50). */
+  corrodePct: number;
+  cooldown: number;
+}
+
+export type ShotKind = 'attack' | 'splash' | 'support' | 'petrify' | 'turret' | 'structure';
+
+/** Visual record of something that happened in the last tick command. No effect on rules. */
+export interface BattleShot {
+  kind: ShotKind;
+  x1: number;
+  y1: number;
+  x2: number;
+  y2: number;
+}
+
+/** A defense battle in progress. Lives in the campaign state so it saves and replays exactly. */
+export interface DefenseBattle {
+  kind: BattleKind;
+  map: DefenseMapId;
+  tick: number;
+  gateHp: number;
+  gateMaxHp: number;
+  enemies: BattleEnemy[];
+  nextEnemyId: number;
+  /** Enemies already spawned, per wave group (flattened in map order). */
+  spawned: number[];
+  /** Ticks until each defender may act again, by adventurer id. */
+  cooldowns: Record<string, number>;
+  /** Tick at which a repositioning defender becomes active, by adventurer id. */
+  busyUntil: Record<string, number>;
+  turretCooldowns: number[];
+  fallen: string[];
+  killed: number;
+  leaked: number;
+  ammoSpent: number;
+  outcome: 'ongoing' | 'win' | 'loss';
+  shots: BattleShot[];
+}
+
 /** Player must pick which fallen defenders the goddess restores. */
 export interface PendingMiracle {
   eligibleIds: string[];
@@ -143,6 +199,7 @@ export interface CampaignState {
   nextInvasionHour: number | null;
   pendingBattle: PendingBattle | null;
   pendingMiracle: PendingMiracle | null;
+  battle: DefenseBattle | null;
   miracleCharges: number;
   /** Stable cycles since the frontier and production were last restored. */
   stableCycles: number;
@@ -177,6 +234,13 @@ export type Command =
   | { type: 'defeat_boss'; stratumId: string }
   | { type: 'resolve_battle'; result: 'win' | 'loss'; solidified?: string[]; ammoSpent?: number; miracleChoices?: string[] }
   | { type: 'choose_miracle_targets'; adventurerIds: string[] }
+  | { type: 'battle_start' }
+  | { type: 'battle_tick'; ticks: number }
+  | { type: 'battle_concede' }
+  | { type: 'battle_finish' }
+  | { type: 'set_target_priority'; adventurerId: string; priority: TargetPriority }
+  | { type: 'repair_structure'; structureId: string }
+  | { type: 'restock_ammo' }
   | { type: 'start_frontier_rebuild' }
   | { type: 'debug_set_resources'; resources: Partial<Resources> }
   | { type: 'debug_set_miracle'; charges?: number; stableCycles?: number }

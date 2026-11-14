@@ -5,7 +5,20 @@ import type { Dispatch } from './App';
 import { duration } from './format';
 
 function StatusCell({ state, adv, dispatch }: { state: CampaignState; adv: Adventurer; dispatch: Dispatch }) {
-  if (adv.condition === 'ready') return <span className="good">Ready</span>;
+  if (adv.condition === 'ready') {
+    const hurt = adv.hp < adv.maxHp || adv.gauge > 0;
+    return (
+      <span className="good">
+        Ready
+        {hurt && (
+          <span className={adv.gauge >= 70 ? 'danger-text' : 'muted'}>
+            {' '}
+            · HP {adv.hp}/{adv.maxHp} · stone {adv.gauge}%
+          </span>
+        )}
+      </span>
+    );
+  }
   if (adv.condition === 'lost') return <span className="stone">Permanently solidified</span>;
   const statue = findStatue(state, adv.id);
   if (!statue) return null;
@@ -114,7 +127,7 @@ export function RosterPanel({ state, dispatch }: { state: CampaignState; dispatc
                             <option
                               key={d.id}
                               value={d.id}
-                              disabled={(d.occupantId !== null && d.occupantId !== adv.id) || (d.map === 'frontier' && !canDeployFrontier)}
+                              disabled={(d.occupantId !== null && d.occupantId !== adv.id) || (d.map === 'frontier' && !canDeployFrontier) || d.hp <= 0}
                             >
                               {d.id.replace(/_/g, ' ')}
                             </option>

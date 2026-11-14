@@ -1,7 +1,7 @@
 import type { GameConfig } from './config';
 import { battleKindForPhase, getAdventurer, getStructure, miracleRestoreCount } from './selectors';
 import { clearAssignment, restoreAdventurer, retrieveAllAt, solidify } from './statues';
-import type { CampaignState, Command } from './types';
+import type { BattleKind, CampaignState, Command } from './types';
 import { fail, log, pay } from './util';
 
 /** The scheduled attack arrives. Time stops until the battle is resolved. */
@@ -56,10 +56,11 @@ function restoreFrontier(s: CampaignState, cfg: GameConfig, what: string): void 
   log(s, 'frontier_restored', `${what} The frontier holds and access to secured production is restored.`);
 }
 
+/** Debug / headless shortcut: declare the outcome of the pending battle without fighting it. */
 export function resolveBattle(s: CampaignState, cfg: GameConfig, cmd: Extract<Command, { type: 'resolve_battle' }>): void {
   const battle = s.pendingBattle ?? fail('There is no battle to resolve.');
-  const fallen = [...new Set(cmd.solidified ?? [])];
-  const placements = fallen.map((id) => {
+  const named = [...new Set(cmd.solidified ?? [])];
+  const placements = named.map((id) => {
     const adv = getAdventurer(s, id);
     const structure = adv.assignment.type === 'defense' ? getStructure(s, adv.assignment.structureId) : undefined;
     if (!structure || structure.map !== battle.map) fail(`${adv.name} is not deployed on the ${battle.map} map.`);
@@ -70,10 +71,22 @@ export function resolveBattle(s: CampaignState, cfg: GameConfig, cmd: Extract<Co
   if (battle.map === 'sanctuary') {
     s.sanctuary.automatedAmmo = Math.max(0, s.sanctuary.automatedAmmo - (cmd.ammoSpent ?? 0));
   }
+  const fallen = [...(s.battle?.fallen ?? []), ...named];
+  s.battle = null;
   s.pendingBattle = null;
-  const won = cmd.result === 'win';
+  concludeBattle(s, cfg, battle.kind, cmd.result === 'win', fallen, cmd.miracleChoices);
+}
 
-  switch (battle.kind) {
+/** Apply a decided battle to the campaign: this is the crisis state machine. */
+export function concludeBattle(
+  s: CampaignState,
+  cfg: GameConfig,
+  kind: BattleKind,
+  won: boolean,
+  fallen: string[],
+  miracleChoices?: string[],
+): void {
+  switch (kind) {
     case 'frontier_defense':
       if (won) {
         s.nextInvasionHour = s.simHour + cfg.clock.invasion_interval_hours;
@@ -90,7 +103,7 @@ export function resolveBattle(s: CampaignState, cfg: GameConfig, cmd: Extract<Co
         const count = miracleRestoreCount(cfg, fallen.length);
         if (count > 0) {
           s.pendingMiracle = { eligibleIds: fallen, count };
-          if (cmd.miracleChoices) chooseMiracleTargets(s, cmd.miracleChoices);
+          if (miracleChoices) chooseMiracleTargets(s, miracleChoices);
         }
       } else {
         evacuateMap(s, 'frontier');
@@ -100,7 +113,7 @@ export function resolveBattle(s: CampaignState, cfg: GameConfig, cmd: Extract<Co
     case 'frontier_rematch':
     case 'frontier_breakthrough':
       if (won) {
-        restoreFrontier(s, cfg, battle.kind === 'frontier_rematch' ? 'The rematch was won.' : 'The breakthrough succeeded.');
+        restoreFrontier(s, cfg, kind === 'frontier_rematch' ? 'The rematch was won.' : 'The breakthrough succeeded.');
       } else {
         evacuateMap(s, 'frontier');
         fallToSiege(s, cfg);

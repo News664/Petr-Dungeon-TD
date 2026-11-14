@@ -1,0 +1,342 @@
+{
+ "_notice": "Defense map layouts and wave scripts. Coordinates are abstract map units. Slot ids must match the structures generated from defense.frontier_layout / defense.sanctuary_layout in balance.json.",
+ "frontier": {
+  "name": "Frontier outpost",
+  "width": 1000,
+  "height": 560,
+  "gate": [
+   930,
+   300
+  ],
+  "lane_names": [
+   "north lane",
+   "south lane"
+  ],
+  "lanes": [
+   [
+    [
+     0,
+     110
+    ],
+    [
+     240,
+     110
+    ],
+    [
+     330,
+     230
+    ],
+    [
+     560,
+     230
+    ],
+    [
+     650,
+     300
+    ],
+    [
+     930,
+     300
+    ]
+   ],
+   [
+    [
+     0,
+     470
+    ],
+    [
+     200,
+     470
+    ],
+    [
+     300,
+     370
+    ],
+    [
+     560,
+     370
+    ],
+    [
+     650,
+     300
+    ],
+    [
+     930,
+     300
+    ]
+   ]
+  ],
+  "slots": {
+   "frontier_watchtower_1": [
+    290,
+    300
+   ],
+   "frontier_watchtower_2": [
+    560,
+    300
+   ],
+   "frontier_watchtower_3": [
+    780,
+    210
+   ],
+   "frontier_bunker_1": [
+    640,
+    350
+   ],
+   "frontier_bunker_2": [
+    800,
+    345
+   ],
+   "frontier_support_station_1": [
+    440,
+    300
+   ],
+   "frontier_support_station_2": [
+    720,
+    230
+   ]
+  },
+  "turrets": [],
+  "waves": [
+   {
+    "start_seconds": 3,
+    "groups": [
+     {
+      "lane": 0,
+      "enemy": "runner",
+      "count": 6,
+      "interval_seconds": 1
+     }
+    ]
+   },
+   {
+    "start_seconds": 22,
+    "groups": [
+     {
+      "lane": 1,
+      "enemy": "runner",
+      "count": 6,
+      "interval_seconds": 0.9
+     },
+     {
+      "lane": 0,
+      "enemy": "armored",
+      "count": 3,
+      "interval_seconds": 3,
+      "delay_seconds": 2
+     }
+    ]
+   },
+   {
+    "start_seconds": 45,
+    "groups": [
+     {
+      "lane": 0,
+      "enemy": "petrifier",
+      "count": 3,
+      "interval_seconds": 2.5
+     },
+     {
+      "lane": 1,
+      "enemy": "runner",
+      "count": 8,
+      "interval_seconds": 0.8
+     }
+    ]
+   },
+   {
+    "start_seconds": 70,
+    "groups": [
+     {
+      "lane": 1,
+      "enemy": "armored",
+      "count": 4,
+      "interval_seconds": 2.5
+     },
+     {
+      "lane": 0,
+      "enemy": "runner",
+      "count": 8,
+      "interval_seconds": 0.8
+     },
+     {
+      "lane": 1,
+      "enemy": "petrifier",
+      "count": 3,
+      "interval_seconds": 3,
+      "delay_seconds": 6
+     }
+    ]
+   },
+   {
+    "start_seconds": 98,
+    "groups": [
+     {
+      "lane": 0,
+      "enemy": "armored",
+      "count": 5,
+      "interval_seconds": 2.5
+     },
+     {
+      "lane": 1,
+      "enemy": "runner",
+      "count": 12,
+      "interval_seconds": 0.6
+     },
+     {
+      "lane": 0,
+      "enemy": "petrifier",
+      "count": 4,
+      "interval_seconds": 2.5,
+      "delay_seconds": 5
+     }
+    ]
+   }
+  ]
+ },
+ "sanctuary": {
+  "name": "Sanctuary approach",
+  "width": 1000,
+  "height": 520,
+  "gate": [
+   930,
+   410
+  ],
+  "lane_names": [
+   "the switchback"
+  ],
+  "lanes": [
+   [
+    [
+     0,
+     90
+    ],
+    [
+     820,
+     90
+    ],
+    [
+     820,
+     250
+    ],
+    [
+     180,
+     250
+    ],
+    [
+     180,
+     410
+    ],
+    [
+     930,
+     410
+    ]
+   ]
+  ],
+  "slots": {
+   "sanctuary_watchtower_1": [
+    560,
+    170
+   ],
+   "sanctuary_watchtower_2": [
+    360,
+    330
+   ],
+   "sanctuary_bunker_1": [
+    720,
+    455
+   ],
+   "sanctuary_support_station_1": [
+    480,
+    330
+   ]
+  },
+  "turrets": [
+   [
+    300,
+    170
+   ],
+   [
+    620,
+    330
+   ],
+   [
+    880,
+    330
+   ]
+  ],
+  "waves": [
+   {
+    "start_seconds": 3,
+    "groups": [
+     {
+      "lane": 0,
+      "enemy": "runner",
+      "count": 12,
+      "interval_seconds": 0.7
+     }
+    ]
+   },
+   {
+    "start_seconds": 25,
+    "groups": [
+     {
+      "lane": 0,
+      "enemy": "armored",
+      "count": 5,
+      "interval_seconds": 2.2
+     },
+     {
+      "lane": 0,
+      "enemy": "petrifier",
+      "count": 2,
+      "interval_seconds": 3,
+      "delay_seconds": 4
+     }
+    ]
+   },
+   {
+    "start_seconds": 55,
+    "groups": [
+     {
+      "lane": 0,
+      "enemy": "runner",
+      "count": 18,
+      "interval_seconds": 0.5
+     },
+     {
+      "lane": 0,
+      "enemy": "armored",
+      "count": 5,
+      "interval_seconds": 2.5,
+      "delay_seconds": 3
+     }
+    ]
+   },
+   {
+    "start_seconds": 90,
+    "groups": [
+     {
+      "lane": 0,
+      "enemy": "armored",
+      "count": 8,
+      "interval_seconds": 2
+     },
+     {
+      "lane": 0,
+      "enemy": "petrifier",
+      "count": 4,
+      "interval_seconds": 2.5
+     },
+     {
+      "lane": 0,
+      "enemy": "runner",
+      "count": 16,
+      "interval_seconds": 0.5,
+      "delay_seconds": 6
+     }
+    ]
+   }
+  ]
+ }
+}
