@@ -49,13 +49,15 @@ function StatusCell({ state, adv, dispatch }: { state: CampaignState; adv: Adven
   );
 }
 
-export function RosterPanel({ state, dispatch }: { state: CampaignState; dispatch: Dispatch }) {
+export function RosterPanel({ state, dispatch, onOpenDungeon }: { state: CampaignState; dispatch: Dispatch; onOpenDungeon: () => void }) {
   const [party, setParty] = useState<string[]>([]);
+  const [startFloor, setStartFloor] = useState(0);
   const expedition = state.expedition;
   const canDeployFrontier = frontierHeld(state.phase);
   const selectable = party.filter((id) => state.adventurers.some((a) => a.id === id && a.condition === 'ready' && a.assignment.type === 'idle'));
   const dungeonStatues = recoverableStatues(state, 'dungeon').filter((st) => !expedition?.carriedStatueIds.includes(st.adventurerId));
   const frontierStatues = recoverableStatues(state, 'frontier');
+  const deepest = Math.max(0, ...Object.values(state.dungeon.reachedFloor));
   const overlap =
     state.nextInvasionHour !== null && state.nextInvasionHour - state.simHour <= 24
       ? 'The next attack is less than a day away; anyone in the labyrinth cannot defend.'
@@ -102,7 +104,9 @@ export function RosterPanel({ state, dispatch }: { state: CampaignState; dispatc
                       )}
                     </td>
                     <td>{adv.name}</td>
-                    <td className="muted">{adv.classId}</td>
+                    <td className="muted">
+                      {adv.classId} <span className="small">Lv {adv.level}</span>
+                    </td>
                     <td>
                       <StatusCell state={state} adv={adv} dispatch={dispatch} />
                     </td>
@@ -110,12 +114,7 @@ export function RosterPanel({ state, dispatch }: { state: CampaignState; dispatc
                       {adv.condition !== 'ready' ? (
                         <span className="muted">—</span>
                       ) : adv.assignment.type === 'expedition' ? (
-                        <span>
-                          In the labyrinth{' '}
-                          <button className="inline danger" onClick={() => dispatch({ type: 'report_casualty', adventurerId: adv.id })}>
-                            Falls
-                          </button>
-                        </span>
+                        <span>In the labyrinth</span>
                       ) : (
                         <select
                           aria-label={`Post for ${adv.name}`}
@@ -148,23 +147,15 @@ export function RosterPanel({ state, dispatch }: { state: CampaignState; dispatc
         {expedition ? (
           <>
             <p className="small">
-              {expedition.partyIds.length} in the labyrinth since {duration(state.simHour - expedition.startedAtHour)} ago
+              {expedition.partyIds.length} in the labyrinth on floor {expedition.floor + 1}, since {duration(state.simHour - expedition.startedAtHour)} ago
               {expedition.carriedStatueIds.length > 0 && ` · carrying ${expedition.carriedStatueIds.length} statue(s)`}.
             </p>
             <div className="row">
-              {dungeonStatues.map((st) => (
-                <button key={st.adventurerId} onClick={() => dispatch({ type: 'expedition_pickup_statue', adventurerId: st.adventurerId })}>
-                  Secure {state.adventurers.find((a) => a.id === st.adventurerId)?.name}'s statue
-                </button>
-              ))}
-              {state.frontierStratumId === expedition.stratumId && (
-                <button onClick={() => dispatch({ type: 'defeat_boss', stratumId: expedition.stratumId })}>Defeat the stratum boss</button>
-              )}
-              <button className="primary" onClick={() => dispatch({ type: 'end_expedition' })}>
-                Return to the sanctuary
+              <button className="primary" disabled={state.pendingBattle !== null} onClick={onOpenDungeon}>
+                Return to the labyrinth view
               </button>
             </div>
-            <p className="muted small">Stand-in for the dungeon layer: spend time with the clock, mark anyone who falls in the roster above.</p>
+            {state.pendingBattle && <p className="small warn">The attack must be fought before the expedition can go on. Its members cannot defend.</p>}
           </>
         ) : (
           <>
@@ -172,10 +163,25 @@ export function RosterPanel({ state, dispatch }: { state: CampaignState; dispatc
               <button
                 className="primary"
                 disabled={selectable.length === 0}
-                onClick={() => dispatch({ type: 'start_expedition', partyIds: selectable }) && setParty([])}
+                onClick={() => {
+                  if (dispatch({ type: 'start_expedition', partyIds: selectable, floor: Math.min(startFloor, deepest) })) {
+                    setParty([]);
+                    onOpenDungeon();
+                  }
+                }}
               >
                 Send {selectable.length || ''} into the labyrinth
               </button>
+              {deepest > 0 && (
+                <select aria-label="Starting floor" value={Math.min(startFloor, deepest)} onChange={(e) => setStartFloor(Number(e.target.value))}>
+                  {Array.from({ length: deepest + 1 }, (_, i) => (
+                    <option key={i} value={i}>
+                      Start on floor {i + 1}
+                      {i > 0 ? ` (${duration(i * cfg.dungeon.floor_travel_hours)} walk)` : ''}
+                    </option>
+                  ))}
+                </select>
+              )}
               {frontierStatues.length > 0 && canDeployFrontier && (
                 <button onClick={() => dispatch({ type: 'frontier_recovery_sortie' })}>
                   Recover {frontierStatues.length} frontier statue(s) · {duration(cfg.campaign.frontier_recovery_sortie_hours)}
@@ -184,6 +190,7 @@ export function RosterPanel({ state, dispatch }: { state: CampaignState; dispatc
             </div>
             <p className={`small ${overlap ? 'warn' : 'muted'}`}>
               {overlap ?? `Tick up to ${cfg.roster.max_dungeon_party} reserve adventurers in the roster to form a party.`}
+              {dungeonStatues.length > 0 && ` ${dungeonStatues.length} statue(s) lie in the labyrinth.`}
             </p>
           </>
         )}

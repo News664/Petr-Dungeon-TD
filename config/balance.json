@@ -59,7 +59,8 @@
       }
     },
     "rest_hp_per_day": 40,
-    "rest_gauge_per_day": 30
+    "rest_gauge_per_day": 30,
+    "rest_sp_per_day": 20
   },
   "resources": {
     "starting_stockpile": {
@@ -260,5 +261,411 @@
     "real-world offline idle income",
     "multiple simultaneous defended old strata",
     "complex civilian sim"
-  ]
+  ],
+  "dungeon": {
+    "floor_travel_hours": 1,
+    "recall": {
+      "ward_energy": 10,
+      "hours": 2
+    },
+    "gather_minutes": 30,
+    "gather_cooldown_hours": 24,
+    "gather_danger": 20,
+    "encounter": {
+      "gain_min": 4,
+      "gain_max": 9,
+      "secured_multiplier": 0.3
+    },
+    "mist_gauge": 8,
+    "elite_respawn_hours": 168,
+    "escape_chance": {
+      "normal": 0.6,
+      "elite": 0.35
+    },
+    "back_row_melee_dealt": 0.5,
+    "guard_multiplier": 0.5,
+    "shield_wall_multiplier": 0.6,
+    "ward_mist_multiplier": 0.5,
+    "xp_per_level": 100,
+    "level_cap": 10,
+    "level_hp_bonus": 0.1,
+    "level_atk_bonus": 0.12,
+    "class_stats": {
+      "Guardian": {
+        "atk": 14,
+        "def": 8,
+        "speed": 6,
+        "max_sp": 24,
+        "row": "front",
+        "melee": true,
+        "skills": [
+          "heavy_blow",
+          "taunt",
+          "shield_wall"
+        ]
+      },
+      "Gunner": {
+        "atk": 18,
+        "def": 4,
+        "speed": 9,
+        "max_sp": 20,
+        "row": "back",
+        "melee": false,
+        "skills": [
+          "aimed_shot",
+          "suppressing_fire"
+        ]
+      },
+      "Alchemist": {
+        "atk": 16,
+        "def": 3,
+        "speed": 7,
+        "max_sp": 26,
+        "row": "back",
+        "melee": false,
+        "skills": [
+          "flame_flask",
+          "corrosive_mist",
+          "frost_vial"
+        ]
+      },
+      "Medic": {
+        "atk": 8,
+        "def": 4,
+        "speed": 8,
+        "max_sp": 30,
+        "row": "back",
+        "melee": false,
+        "skills": [
+          "mend",
+          "purge_stone",
+          "ward_mist"
+        ]
+      }
+    },
+    "skills": {
+      "heavy_blow": {
+        "name": "Heavy Blow",
+        "sp": 4,
+        "target": "enemy",
+        "text": "A crushing strike for 160% damage.",
+        "effect": {
+          "kind": "damage",
+          "power": 1.6
+        }
+      },
+      "taunt": {
+        "name": "Taunt",
+        "sp": 4,
+        "target": "self",
+        "text": "Single-target attacks go to her for 3 rounds.",
+        "effect": {
+          "kind": "taunt",
+          "rounds": 3
+        }
+      },
+      "shield_wall": {
+        "name": "Shield Wall",
+        "sp": 6,
+        "target": "party",
+        "text": "The whole party takes 40% less damage this round.",
+        "effect": {
+          "kind": "party_buff",
+          "buff": "shield_wall",
+          "rounds": 1
+        }
+      },
+      "aimed_shot": {
+        "name": "Aimed Shot",
+        "sp": 5,
+        "target": "enemy",
+        "text": "200% damage that ignores armor.",
+        "effect": {
+          "kind": "damage",
+          "power": 2,
+          "pierce": true
+        }
+      },
+      "suppressing_fire": {
+        "name": "Suppressing Fire",
+        "sp": 6,
+        "target": "all_enemies",
+        "text": "60% damage to every enemy.",
+        "effect": {
+          "kind": "damage",
+          "power": 0.6
+        }
+      },
+      "flame_flask": {
+        "name": "Flame Flask",
+        "sp": 6,
+        "target": "all_enemies",
+        "text": "90% damage to every enemy, ignoring armor.",
+        "effect": {
+          "kind": "damage",
+          "power": 0.9,
+          "pierce": true
+        }
+      },
+      "corrosive_mist": {
+        "name": "Corrosive Mist",
+        "sp": 4,
+        "target": "enemy",
+        "text": "Halves one enemy's armor for 3 rounds.",
+        "effect": {
+          "kind": "status",
+          "status": "corrode",
+          "rounds": 3
+        }
+      },
+      "frost_vial": {
+        "name": "Frost Vial",
+        "sp": 5,
+        "target": "enemy",
+        "text": "150% damage and slows the target for 2 rounds.",
+        "effect": {
+          "kind": "damage",
+          "power": 1.5,
+          "status": "slow",
+          "rounds": 2
+        }
+      },
+      "mend": {
+        "name": "Mend",
+        "sp": 4,
+        "target": "ally",
+        "text": "Restores 45 health to one ally.",
+        "effect": {
+          "kind": "heal",
+          "amount": 45
+        }
+      },
+      "purge_stone": {
+        "name": "Purge Stone",
+        "sp": 5,
+        "target": "ally",
+        "text": "Lowers one ally's solidification by 40.",
+        "effect": {
+          "kind": "purge",
+          "gauge": 40
+        }
+      },
+      "ward_mist": {
+        "name": "Ward Mist",
+        "sp": 6,
+        "target": "party",
+        "text": "The party gains half as much solidification for 3 rounds.",
+        "effect": {
+          "kind": "party_buff",
+          "buff": "ward_mist",
+          "rounds": 3
+        }
+      }
+    },
+    "attacks": {
+      "bite": {
+        "name": "Bite",
+        "kind": "melee",
+        "target": "single",
+        "power": 1
+      },
+      "lunge": {
+        "name": "Lunge",
+        "kind": "melee",
+        "target": "single",
+        "power": 1.5
+      },
+      "scale_dust": {
+        "name": "Scale Dust",
+        "kind": "ranged",
+        "target": "single",
+        "power": 0.6,
+        "gauge": 8
+      },
+      "flutter": {
+        "name": "Flutter",
+        "kind": "ranged",
+        "target": "single",
+        "power": 0.8
+      },
+      "slam": {
+        "name": "Slam",
+        "kind": "melee",
+        "target": "row",
+        "power": 0.8
+      },
+      "brace": {
+        "name": "Brace",
+        "charge": true,
+        "telegraph": "braces, raising both fists"
+      },
+      "crush": {
+        "name": "Crush",
+        "kind": "melee",
+        "target": "single",
+        "power": 2
+      },
+      "stone_gaze": {
+        "name": "Stone Gaze",
+        "kind": "ranged",
+        "target": "single",
+        "power": 0.5,
+        "gauge": 22
+      },
+      "stare": {
+        "name": "Stare",
+        "kind": "ranged",
+        "target": "single",
+        "power": 0.7,
+        "gauge": 10
+      },
+      "sweep": {
+        "name": "Sweep",
+        "kind": "melee",
+        "target": "row",
+        "power": 0.9
+      },
+      "gather_dust": {
+        "name": "Gather Dust",
+        "charge": true,
+        "telegraph": "draws the dust of the hall into itself"
+      },
+      "collapse": {
+        "name": "Collapse",
+        "kind": "ranged",
+        "target": "all",
+        "power": 1.2,
+        "gauge": 15
+      },
+      "draw_breath": {
+        "name": "Draw Breath",
+        "charge": true,
+        "telegraph": "draws a long, pale breath"
+      },
+      "pale_breath": {
+        "name": "Pale Breath",
+        "kind": "ranged",
+        "target": "all",
+        "power": 0.6,
+        "gauge": 28
+      }
+    },
+    "enemies": {
+      "pale_crawler": {
+        "name": "Pale Crawler",
+        "hp": 44,
+        "atk": 20,
+        "def": 2,
+        "speed": 5,
+        "pattern": [
+          "bite"
+        ],
+        "xp": 12,
+        "loot": {
+          "construction_materials": 1
+        }
+      },
+      "dust_moth": {
+        "name": "Dust Moth",
+        "hp": 24,
+        "atk": 15,
+        "def": 0,
+        "speed": 11,
+        "pattern": [
+          "scale_dust",
+          "flutter"
+        ],
+        "xp": 10,
+        "loot": {
+          "restoration_reagent": 1
+        }
+      },
+      "stone_hound": {
+        "name": "Stone Hound",
+        "hp": 70,
+        "atk": 28,
+        "def": 4,
+        "speed": 8,
+        "pattern": [
+          "bite",
+          "bite",
+          "lunge"
+        ],
+        "xp": 22,
+        "loot": {
+          "construction_materials": 2
+        }
+      },
+      "basalt_sentinel": {
+        "name": "Basalt Sentinel",
+        "hp": 130,
+        "atk": 34,
+        "def": 9,
+        "speed": 3,
+        "pattern": [
+          "slam",
+          "brace",
+          "crush"
+        ],
+        "xp": 35,
+        "loot": {
+          "construction_materials": 4
+        }
+      },
+      "gazer": {
+        "name": "Gazer",
+        "hp": 55,
+        "atk": 18,
+        "def": 2,
+        "speed": 7,
+        "pattern": [
+          "stone_gaze",
+          "stare"
+        ],
+        "xp": 26,
+        "loot": {
+          "restoration_reagent": 2
+        }
+      },
+      "warden_of_dust": {
+        "name": "Warden of Dust",
+        "hp": 700,
+        "atk": 42,
+        "def": 9,
+        "speed": 6,
+        "pattern": [
+          "sweep",
+          "stone_gaze",
+          "gather_dust",
+          "collapse"
+        ],
+        "xp": 150,
+        "loot": {
+          "construction_materials": 12,
+          "restoration_reagent": 6,
+          "ward_energy": 10
+        }
+      },
+      "hollow_colossus": {
+        "name": "Hollow Colossus",
+        "hp": 900,
+        "atk": 44,
+        "def": 9,
+        "speed": 5,
+        "pattern": [
+          "crush",
+          "draw_breath",
+          "pale_breath",
+          "sweep",
+          "stone_gaze"
+        ],
+        "xp": 300,
+        "loot": {
+          "construction_materials": 20,
+          "restoration_reagent": 10,
+          "ward_energy": 20
+        }
+      }
+    }
+  }
 }

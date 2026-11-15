@@ -1,0 +1,30 @@
+import { getAdventurer } from './selectors';
+import { retrieve } from './statues';
+import type { CampaignState } from './types';
+import { RESOURCE_IDS } from './types';
+import { formatCost, log } from './util';
+
+/** The party is home: bank the loot, bring carried statues to the ward, free the members. */
+export function finishExpedition(s: CampaignState, how: string): void {
+  const exp = s.expedition;
+  if (!exp) return;
+  for (const id of exp.partyIds) getAdventurer(s, id).assignment = { type: 'idle' };
+  for (const st of s.statues.filter((x) => exp.carriedStatueIds.includes(x.adventurerId))) {
+    retrieve(s, st, 'carried out by the expedition');
+  }
+  for (const id of RESOURCE_IDS) s.resources[id] += exp.loot[id];
+  const haul = RESOURCE_IDS.some((id) => exp.loot[id] > 0) ? ` They brought back ${formatCost(exp.loot)}.` : '';
+  s.expedition = null;
+  log(s, 'expedition_returned', `${how}${haul}`);
+}
+
+/** Everyone in the party is stone. Whatever they carried stays where they fell. */
+export function wipeExpedition(s: CampaignState, locationId: string): void {
+  const exp = s.expedition;
+  if (!exp) return;
+  for (const st of s.statues) {
+    if (exp.carriedStatueIds.includes(st.adventurerId)) st.locationId = locationId;
+  }
+  s.expedition = null;
+  log(s, 'expedition_wiped', 'The whole expedition was solidified. Everything they carried is lost; a rescue party will be needed.');
+}

@@ -12,3 +12,7 @@ export { defenderWeapon, waveForecast } from './battle';
 export { flatGroups, getDefenseMap, laneLength, lanePoint } from './defenseMap';
 export type { DefenseMapData, Point } from './defenseMap';
 export { repairCost } from './roster';
+export { enemyIntent, partyAttack } from './combat';
+export { elitesHere, partyTile } from './dungeon';
+export { DIRS, findTile, floorKey, getStratumMap, parseTileKey, tileAt, tileKey } from './dungeonMap';
+export type { FloorData, GridPoint, StratumMap } from './dungeonMap';

@@ -3,18 +3,20 @@ import { chooseMiracleTargets, resolveBattle, startFrontierRebuild, triggerInvas
 import type { GameConfig } from './config';
 import { defaultConfig } from './config';
 import { defeatBoss, setDepositActive } from './economy';
+import { debugWinCombat, escapeCombat, resolveRound } from './combat';
 import {
-  assignDefender,
+  debugRevealMap,
+  debugTeleport,
   endExpedition,
+  gather,
+  moveParty,
   pickUpStatue,
-  repairStructure,
+  recallExpedition,
   reportCasualty,
-  restockAmmo,
-  setTargetPriority,
   startExpedition,
-  summon,
-  unassignDefender,
-} from './roster';
+  useStairs,
+} from './dungeon';
+import { assignDefender, repairStructure, restockAmmo, setRow, setTargetPriority, summon, unassignDefender } from './roster';
 import { findStatue, getAdventurer } from './selectors';
 import { queueTreatment, retrieve, solidify } from './statues';
 import { advanceHours, advanceMinutes, ensureClockFree, frontierRecoverySortie } from './time';
@@ -45,10 +47,10 @@ function run(s: CampaignState, cfg: GameConfig, cmd: Command): void {
       return;
     case 'start_expedition':
       ensureClockFree(s);
-      startExpedition(s, cfg, cmd.partyIds);
+      startExpedition(s, cfg, cmd.partyIds, cmd.floor ?? 0, cmd.stratumId);
       return;
     case 'end_expedition':
-      endExpedition(s);
+      endExpedition(s, cfg);
       return;
     case 'report_casualty':
       reportCasualty(s, cfg, cmd.adventurerId, cmd.locationId);
@@ -56,6 +58,50 @@ function run(s: CampaignState, cfg: GameConfig, cmd: Command): void {
     case 'expedition_pickup_statue':
       pickUpStatue(s, cmd.adventurerId);
       return;
+    case 'dungeon_move':
+      moveParty(s, cfg, cmd.move);
+      return;
+    case 'dungeon_stairs':
+      useStairs(s, cfg);
+      return;
+    case 'dungeon_gather':
+      gather(s, cfg);
+      return;
+    case 'dungeon_recall':
+      recallExpedition(s, cfg);
+      return;
+    case 'combat_round':
+      resolveRound(s, cfg, cmd.actions);
+      return;
+    case 'combat_escape':
+      escapeCombat(s, cfg);
+      return;
+    case 'set_row':
+      setRow(s, cmd.adventurerId, cmd.row);
+      return;
+    case 'debug_teleport':
+      debugTeleport(s, cmd.floor, cmd.x, cmd.y);
+      return;
+    case 'debug_reveal_map':
+      debugRevealMap(s);
+      return;
+    case 'debug_win_combat':
+      debugWinCombat(s, cfg);
+      return;
+    case 'debug_set_level': {
+      const level = Math.max(1, Math.min(cfg.dungeon.level_cap, Math.floor(cmd.level)));
+      for (const adv of s.adventurers) {
+        if (adv.condition !== 'ready') continue;
+        adv.level = level;
+        adv.xp = 0;
+        adv.maxHp = Math.round((cfg.roster.class_stats[adv.classId]?.max_hp ?? adv.maxHp) * (1 + cfg.dungeon.level_hp_bonus * (level - 1)));
+        adv.hp = adv.maxHp;
+        adv.sp = adv.maxSp;
+        adv.gauge = 0;
+      }
+      log(s, 'debug', `Debug: everyone trained to level ${level}.`);
+      return;
+    }
     case 'frontier_recovery_sortie':
       frontierRecoverySortie(s, cfg);
       return;

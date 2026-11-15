@@ -35,7 +35,7 @@ function buildStratum(id: string, name: string, cfg: GameConfig): Stratum {
 /** A brand-new campaign: empty guild hall, goddess-sponsored summons waiting at the seal. */
 export function createCampaign(cfg: GameConfig = defaultConfig, seed = 1): CampaignState {
   return {
-    version: 1,
+    version: 2,
     seed,
     rngState: seed | 0,
     phase: 'STABLE_FRONTIER',
@@ -60,6 +60,7 @@ export function createCampaign(cfg: GameConfig = defaultConfig, seed = 1): Campa
     sanctuary: { automatedAmmo: cfg.defense.sanctuary_initial_automated_ammo },
     rebuild: null,
     expedition: null,
+    dungeon: { discovered: {}, openGates: [], reachedFloor: {}, gatheredAtHour: {}, eliteRespawnHour: {} },
     seal: {
       nextAvailableHour: 0,
       freeCredits: cfg.roster.starter_free_summons + cfg.roster.bonus_early_summon_credits,

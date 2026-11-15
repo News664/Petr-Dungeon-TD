@@ -36,6 +36,7 @@ export interface GameConfig {
     class_stats: Record<string, { max_hp: number }>;
     rest_hp_per_day: number;
     rest_gauge_per_day: number;
+    rest_sp_per_day: number;
   };
   resources: {
     starting_stockpile: Resources;
@@ -68,10 +69,81 @@ export interface GameConfig {
     class_combat: Record<string, ClassCombat>;
     turret: WeaponStats;
   };
+  dungeon: {
+    floor_travel_hours: number;
+    recall: { ward_energy: number; hours: number };
+    gather_minutes: number;
+    gather_cooldown_hours: number;
+    gather_danger: number;
+    encounter: { gain_min: number; gain_max: number; secured_multiplier: number };
+    mist_gauge: number;
+    elite_respawn_hours: number;
+    escape_chance: { normal: number; elite: number };
+    back_row_melee_dealt: number;
+    guard_multiplier: number;
+    shield_wall_multiplier: number;
+    ward_mist_multiplier: number;
+    xp_per_level: number;
+    level_cap: number;
+    level_hp_bonus: number;
+    level_atk_bonus: number;
+    class_stats: Record<string, DungeonClassStats>;
+    skills: Record<string, SkillData>;
+    attacks: Record<string, EnemyAttack>;
+    enemies: Record<string, DungeonEnemyData>;
+  };
   ui: {
     allow_debug_state_loader: boolean;
     allow_fast_forward_time: boolean;
   };
+}
+
+export interface DungeonClassStats {
+  atk: number;
+  def: number;
+  speed: number;
+  max_sp: number;
+  row: 'front' | 'back';
+  melee: boolean;
+  skills: string[];
+}
+
+export type SkillEffect =
+  | { kind: 'damage'; power: number; pierce?: boolean; status?: 'corrode' | 'slow'; rounds?: number }
+  | { kind: 'status'; status: 'corrode' | 'slow'; rounds: number }
+  | { kind: 'heal'; amount: number }
+  | { kind: 'purge'; gauge: number }
+  | { kind: 'party_buff'; buff: 'shield_wall' | 'ward_mist'; rounds: number }
+  | { kind: 'taunt'; rounds: number };
+
+export interface SkillData {
+  name: string;
+  sp: number;
+  target: 'enemy' | 'all_enemies' | 'ally' | 'party' | 'self';
+  text: string;
+  effect: SkillEffect;
+}
+
+export interface EnemyAttack {
+  name: string;
+  /** A charge turn does nothing but warn of the next move. */
+  charge?: boolean;
+  telegraph?: string;
+  kind?: 'melee' | 'ranged';
+  target?: 'single' | 'row' | 'all';
+  power?: number;
+  gauge?: number;
+}
+
+export interface DungeonEnemyData {
+  name: string;
+  hp: number;
+  atk: number;
+  def: number;
+  speed: number;
+  pattern: string[];
+  xp: number;
+  loot: Partial<Resources>;
 }
 
 export interface WeaponStats {

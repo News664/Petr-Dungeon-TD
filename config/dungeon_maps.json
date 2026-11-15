@@ -1,0 +1,176 @@
+{
+ "_notice": "Labyrinth layouts. Grid legend: # wall, . floor, E entrance, > stairs down, < stairs up, G gathering node, = one-way gate (see gates), ~ solidifying mist, B boss. Coordinates are [x, y] with y growing downward.",
+ "stratum_1": {
+  "boss": [
+   "hollow_colossus"
+  ],
+  "floors": [
+   {
+    "name": "Outer Galleries",
+    "start_facing": 1,
+    "grid": [
+     "###############",
+     "#E..=.........#",
+     "#.#####.#####.#",
+     "#.#G..#.#...#.#",
+     "#.#.#.#.#.#.#.#",
+     "#.#.#...#.#...#",
+     "#.#.#####.###.#",
+     "#.#...~...#...#",
+     "#.#.#####.#.#.#",
+     "#......#....#>#",
+     "###############"
+    ],
+    "gates": [
+     {
+      "x": 4,
+      "y": 1,
+      "open_from": "E"
+     }
+    ],
+    "elites": [],
+    "gather_yield": {
+     "construction_materials": 6,
+     "restoration_reagent": 2
+    },
+    "encounters": [
+     [
+      "pale_crawler",
+      "pale_crawler"
+     ],
+     [
+      "pale_crawler",
+      "dust_moth"
+     ],
+     [
+      "dust_moth",
+      "dust_moth",
+      "dust_moth"
+     ],
+     [
+      "pale_crawler",
+      "pale_crawler",
+      "dust_moth"
+     ],
+     [
+      "stone_hound"
+     ]
+    ]
+   },
+   {
+    "name": "Gallery of Echoes",
+    "start_facing": 1,
+    "grid": [
+     "#############",
+     "#<..........#",
+     "#.#########.#",
+     "#.#.......#.#",
+     "#.#.#####.#.#",
+     "#...#G......#",
+     "#.#.#####.#.#",
+     "#.#.......#.#",
+     "#.#####.###.#",
+     "#.....~.#..>#",
+     "#############"
+    ],
+    "gates": [],
+    "elites": [
+     {
+      "id": "warden",
+      "group": [
+       "warden_of_dust"
+      ],
+      "loop": [
+       [
+        3,
+        3
+       ],
+       [
+        9,
+        3
+       ],
+       [
+        9,
+        7
+       ],
+       [
+        3,
+        7
+       ]
+      ]
+     }
+    ],
+    "gather_yield": {
+     "construction_materials": 4,
+     "restoration_reagent": 6,
+     "ward_energy": 4
+    },
+    "encounters": [
+     [
+      "stone_hound",
+      "pale_crawler"
+     ],
+     [
+      "gazer",
+      "pale_crawler"
+     ],
+     [
+      "stone_hound",
+      "stone_hound"
+     ],
+     [
+      "basalt_sentinel"
+     ],
+     [
+      "gazer",
+      "dust_moth",
+      "dust_moth"
+     ]
+    ]
+   },
+   {
+    "name": "The Pale Court",
+    "start_facing": 1,
+    "grid": [
+     "#############",
+     "#<....#.....#",
+     "#.###.#.###.#",
+     "#.#...#.#B#.#",
+     "#.#.###.#.#.#",
+     "#.#.....#.#.#",
+     "#.#####.#.#.#",
+     "#.~...#...#.#",
+     "#.###.#####.#",
+     "#.....~.....#",
+     "#############"
+    ],
+    "gates": [],
+    "elites": [],
+    "encounters": [
+     [
+      "basalt_sentinel",
+      "pale_crawler"
+     ],
+     [
+      "gazer",
+      "gazer"
+     ],
+     [
+      "stone_hound",
+      "stone_hound",
+      "dust_moth"
+     ],
+     [
+      "basalt_sentinel",
+      "gazer"
+     ],
+     [
+      "stone_hound",
+      "gazer",
+      "pale_crawler"
+     ]
+    ]
+   }
+  ]
+ }
+}

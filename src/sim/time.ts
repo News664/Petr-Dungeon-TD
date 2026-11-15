@@ -33,6 +33,7 @@ function restAdventurers(s: CampaignState, cfg: GameConfig): void {
     if (adv.condition !== 'ready' || adv.assignment.type === 'expedition') continue;
     adv.hp = Math.min(adv.maxHp, adv.hp + cfg.roster.rest_hp_per_day);
     adv.gauge = Math.max(0, adv.gauge - cfg.roster.rest_gauge_per_day);
+    adv.sp = Math.min(adv.maxSp, adv.sp + cfg.roster.rest_sp_per_day);
   }
 }
 

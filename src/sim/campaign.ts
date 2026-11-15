@@ -1,4 +1,5 @@
 import type { GameConfig } from './config';
+import { finishExpedition } from './expeditionCore';
 import { battleKindForPhase, getAdventurer, getStructure, miracleRestoreCount } from './selectors';
 import { clearAssignment, restoreAdventurer, retrieveAllAt, solidify } from './statues';
 import type { BattleKind, CampaignState, Command } from './types';
@@ -42,6 +43,11 @@ function recordStableCycle(s: CampaignState, cfg: GameConfig): void {
 }
 
 function fallToSiege(s: CampaignState, cfg: GameConfig): void {
+  if (s.expedition) {
+    // Nobody can stay in the labyrinth once the way to it is lost.
+    s.expedition.combat = null;
+    finishExpedition(s, 'The expedition was called back as the frontier fell.');
+  }
   s.phase = 'SANCTUARY_SIEGE';
   s.stableCycles = 0;
   s.nextInvasionHour = s.simHour + cfg.clock.sanctuary_siege_delay_hours;

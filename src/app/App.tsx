@@ -9,6 +9,8 @@ import { DebugPanel, LogPanel, SealPanel, TerritoryPanel, WardPanel } from './Si
 // The battle renderer is the heavy part of the bundle; load it only when a battle starts.
 const BattleScreen = lazy(() => import('./BattleScreen').then((m) => ({ default: m.BattleScreen })));
 
+const DungeonScreen = lazy(() => import('./DungeonScreen').then((m) => ({ default: m.DungeonScreen })));
+
 const SAVE_KEY = 'last-sanctuary.quicksave';
 
 export type Dispatch = (cmd: Command) => boolean;
@@ -27,6 +29,8 @@ export function App() {
   const [hasSave, setHasSave] = useState(() => readSave() !== null);
   // The latest state, readable from the battle's frame loop without waiting for a render.
   const stateRef = useRef(state);
+  // Which screen the player chose while an expedition is out.
+  const [view, setView] = useState<'guild' | 'dungeon'>('dungeon');
 
   const replaceState = (next: CampaignState) => {
     stateRef.current = next;
@@ -78,6 +82,8 @@ export function App() {
     setNotice(null);
   };
 
+  // The labyrinth takes the screen unless an attack needs attention or the player went back to the guild.
+  const inDungeon = state.expedition !== null && state.battle === null && state.pendingBattle === null && state.pendingMiracle === null && view === 'dungeon';
   const blocked = state.pendingBattle !== null || state.pendingMiracle !== null || state.phase === 'GAME_OVER';
   const untilInvasion = state.nextInvasionHour === null ? null : state.nextInvasionHour - state.simHour;
   const needed = cfg.campaign.miracle_recharge_stable_victories;
@@ -134,7 +140,13 @@ export function App() {
         </Suspense>
       )}
 
-      <main className="columns" hidden={state.battle !== null}>
+      {inDungeon && (
+        <Suspense fallback={<p className="muted">Lighting the lanterns…</p>}>
+          <DungeonScreen state={state} dispatch={dispatch} onLeaveView={() => setView('guild')} />
+        </Suspense>
+      )}
+
+      <main className="columns" hidden={state.battle !== null || inDungeon}>
         <section className="column">
           {state.pendingMiracle && <MiraclePanel state={state} dispatch={dispatch} />}
           {state.pendingBattle && !state.pendingMiracle && <BattlePanel state={state} dispatch={dispatch} />}
@@ -181,7 +193,7 @@ export function App() {
         </section>
 
         <section className="column wide">
-          <RosterPanel state={state} dispatch={dispatch} />
+          <RosterPanel state={state} dispatch={dispatch} onOpenDungeon={() => setView('dungeon')} />
           <LogPanel state={state} />
         </section>
 

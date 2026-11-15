@@ -144,6 +144,14 @@ function frontierBattle(cfg: GameConfig): CampaignState {
   return applyAll(postSensibly(stableSecured(cfg), 'frontier', cfg), [{ type: 'debug_force_invasion' }], cfg);
 }
 
+/** A balanced party of five standing at the labyrinth entrance. */
+function inLabyrinth(cfg: GameConfig, level: number): CampaignState {
+  const s = applyAll(fullRoster(cfg), [{ type: 'debug_set_level', level }], cfg);
+  const pick = (classId: string, n: number) => s.adventurers.filter((a) => a.classId === classId).slice(0, n).map((a) => a.id);
+  const partyIds = [...pick('Guardian', 1), ...pick('Gunner', 2), ...pick('Alchemist', 1), ...pick('Medic', 1)];
+  return applyAll(s, [{ type: 'start_expedition', partyIds }], cfg);
+}
+
 function gameOver(cfg: GameConfig): CampaignState {
   return applyAll(siegeBattle(cfg), [{ type: 'resolve_battle', result: 'loss' }], cfg);
 }
@@ -153,6 +161,8 @@ const wrap = (fn: (cfg: GameConfig) => CampaignState) => (cfg: GameConfig = defa
 export const fixtures: Fixture[] = [
   { id: 'new_game', label: 'New game', description: 'Empty guild hall, eight goddess-sponsored summons waiting.', build: wrap((cfg) => createCampaign(cfg)) },
   { id: 'full_roster', label: 'Full roster', description: 'Eight adventurers, first stratum still unexplored.', build: wrap(fullRoster) },
+  { id: 'expedition', label: 'In the labyrinth (level 1)', description: 'A fresh party of five at the entrance of the first stratum.', build: wrap((cfg) => inLabyrinth(cfg, 1)) },
+  { id: 'expedition_veteran', label: 'In the labyrinth (level 5)', description: 'A seasoned party of five at the entrance: strong enough for the elite and the boss.', build: wrap((cfg) => inLabyrinth(cfg, 5)) },
   { id: 'stable_secured', label: 'Stable, stratum secured', description: 'First boss defeated; protected extraction running.', build: wrap(stableSecured) },
   { id: 'frontier_battle', label: 'Frontier attack (battle)', description: 'A scheduled attack has arrived with seven defenders posted.', build: wrap(frontierBattle) },
   { id: 'divine_emergency', label: 'Divine emergency', description: 'Frontier lost with the miracle charged: three of six fallen restored, three still lying at the frontier.', build: wrap(divineEmergency) },

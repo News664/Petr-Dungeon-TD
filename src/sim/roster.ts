@@ -1,7 +1,7 @@
 import type { GameConfig } from './config';
 import { randomInt } from './rng';
 import { frontierHeld, getAdventurer, getStructure, rosterCount } from './selectors';
-import { clearAssignment, retrieve, solidify } from './statues';
+import { clearAssignment } from './statues';
 import type { Adventurer, CampaignState } from './types';
 import { fail, log, pay } from './util';
 
@@ -37,6 +37,7 @@ export function summon(s: CampaignState, cfg: GameConfig, classId: string, emerg
   }
 
   const name = pickName(s);
+  const combat = cfg.dungeon.class_stats[classId];
   s.seal.summonCount += 1;
   const adv: Adventurer = {
     id: `adv_${s.seal.summonCount}`,
@@ -49,6 +50,9 @@ export function summon(s: CampaignState, cfg: GameConfig, classId: string, emerg
     gauge: 0,
     condition: 'ready',
     assignment: { type: 'idle' },
+    sp: combat?.max_sp ?? 0,
+    maxSp: combat?.max_sp ?? 0,
+    row: combat?.row ?? 'back',
     targetPriority: 'first',
     summonedAtHour: s.simHour,
   };
@@ -114,54 +118,7 @@ export function unassignDefender(s: CampaignState, adventurerId: string): void {
   clearAssignment(s, adv);
 }
 
-export function startExpedition(s: CampaignState, cfg: GameConfig, partyIds: string[]): void {
-  if (s.expedition) fail('An expedition is already under way.');
-  if (!frontierHeld(s.phase)) fail('The labyrinth cannot be reached while the frontier is overrun.');
-  const stratumId = s.frontierStratumId ?? fail('There is no unexplored stratum left in this prototype.');
-  const unique = [...new Set(partyIds)];
-  if (unique.length === 0) fail('Choose at least one adventurer.');
-  if (unique.length > cfg.roster.max_dungeon_party) fail(`An expedition takes at most ${cfg.roster.max_dungeon_party} adventurers.`);
-  const party = unique.map((id) => getAdventurer(s, id));
-  for (const adv of party) {
-    if (adv.condition !== 'ready') fail(`${adv.name} is solidified and cannot join.`);
-    if (adv.assignment.type === 'defense') fail(`${adv.name} is holding ${adv.assignment.structureId}; relieve her first.`);
-  }
-  for (const adv of party) adv.assignment = { type: 'expedition' };
-  s.expedition = { stratumId, partyIds: unique, startedAtHour: s.simHour, carriedStatueIds: [] };
-  log(s, 'expedition_started', `An expedition of ${unique.length} entered the labyrinth.`);
-}
-
-export function endExpedition(s: CampaignState): void {
-  const exp = s.expedition ?? fail('No expedition is under way.');
-  for (const id of exp.partyIds) getAdventurer(s, id).assignment = { type: 'idle' };
-  for (const st of s.statues.filter((x) => exp.carriedStatueIds.includes(x.adventurerId))) {
-    retrieve(s, st, 'carried out by the expedition');
-  }
-  s.expedition = null;
-  log(s, 'expedition_returned', 'The expedition returned to the sanctuary.');
-}
-
-/** A party member fell in the labyrinth. Her statue stays where she fell. */
-export function reportCasualty(s: CampaignState, cfg: GameConfig, adventurerId: string, locationId?: string): void {
-  const exp = s.expedition ?? fail('No expedition is under way.');
-  const adv = getAdventurer(s, adventurerId);
-  if (adv.assignment.type !== 'expedition') fail(`${adv.name} is not on the expedition.`);
-  solidify(s, cfg, adventurerId, 'dungeon', locationId ?? `${exp.stratumId}:floor_1`);
-  if (exp.partyIds.length === 0) {
-    // Total wipe: nobody is left to carry anything out.
-    exp.carriedStatueIds = [];
-    s.expedition = null;
-    log(s, 'expedition_wiped', 'The whole expedition was solidified. A rescue party will be needed.');
-  }
-}
-
-export function pickUpStatue(s: CampaignState, adventurerId: string): void {
-  const exp = s.expedition ?? fail('A statue in the labyrinth can only be recovered by an expedition.');
-  const adv = getAdventurer(s, adventurerId);
-  const statue = s.statues.find((st) => st.adventurerId === adventurerId) ?? fail(`${adv.name} is not solidified.`);
-  if (statue.permanent) fail(`${adv.name} is permanently solidified.`);
-  if (statue.locationType !== 'dungeon' || statue.retrievedAtHour !== null) fail(`${adv.name}'s statue is not in the labyrinth.`);
-  if (exp.carriedStatueIds.includes(adventurerId)) fail(`${adv.name}'s statue is already being carried.`);
-  exp.carriedStatueIds.push(adventurerId);
-  log(s, 'statue_secured', `The expedition secured ${adv.name}'s statue. She is safe once they return.`);
+export function setRow(s: CampaignState, adventurerId: string, row: Adventurer['row']): void {
+  if (s.expedition?.combat) fail('Rows cannot be changed in the middle of a fight.');
+  getAdventurer(s, adventurerId).row = row;
 }

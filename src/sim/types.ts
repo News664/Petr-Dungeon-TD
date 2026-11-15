@@ -40,10 +40,17 @@ export interface Adventurer {
   gauge: number;
   condition: Condition;
   assignment: Assignment;
+  /** Skill points for labyrinth combat. */
+  sp: number;
+  maxSp: number;
+  /** Where she stands in a labyrinth fight. */
+  row: Row;
   /** Who she shoots first when holding a defensive structure. */
   targetPriority: TargetPriority;
   summonedAtHour: number;
 }
+
+export type Row = 'front' | 'back';
 
 export type TargetPriority = 'first' | 'strongest' | 'petrifier';
 
@@ -168,12 +175,77 @@ export interface PendingMiracle {
   count: number;
 }
 
+export interface CombatEnemy {
+  id: number;
+  type: string;
+  hp: number;
+  maxHp: number;
+  /** Index of its next move in its fixed pattern. */
+  patternIndex: number;
+  /** Rounds of halved armor left. */
+  corrode: number;
+  /** Rounds of halved speed left. */
+  slow: number;
+}
+
+export type CombatKind = 'normal' | 'elite' | 'boss';
+
+/** A turn-based fight in the labyrinth. */
+export interface DungeonCombat {
+  kind: CombatKind;
+  eliteId: string | null;
+  round: number;
+  enemies: CombatEnemy[];
+  /** Rounds left on party-wide protections. */
+  shieldWall: number;
+  wardMist: number;
+  taunt: { adventurerId: string; rounds: number } | null;
+  /** What happened, oldest first. */
+  log: string[];
+}
+
+export type CombatAction =
+  | { type: 'attack'; target: number }
+  | { type: 'skill'; skillId: string; target?: number | string }
+  | { type: 'guard' };
+
+export type MoveKind = 'forward' | 'back' | 'left' | 'right' | 'turn_left' | 'turn_right';
+
 export interface Expedition {
   stratumId: string;
   partyIds: string[];
   startedAtHour: number;
   /** Statues picked up in the dungeon; only safe once the party returns. */
   carriedStatueIds: string[];
+  floor: number;
+  x: number;
+  y: number;
+  /** 0 north, 1 east, 2 south, 3 west. */
+  facing: number;
+  /** The tile the party came from, to fall back to when it flees. */
+  prevX: number;
+  prevY: number;
+  /** Encounter meter, 0–100. A fight starts when it fills. */
+  danger: number;
+  /** Gathered and looted resources; banked only when the party gets home. */
+  loot: Resources;
+  combat: DungeonCombat | null;
+  /** Position of each roaming elite along its patrol loop, by elite key. */
+  elitePositions: Record<string, number>;
+  /** Lines from the last finished fight or notable event. */
+  report: string[];
+}
+
+/** What the guild knows about the labyrinth. Persists between expeditions. */
+export interface DungeonKnowledge {
+  /** Per floor key, one string per grid row: '1' where the tile has been seen. */
+  discovered: Record<string, string[]>;
+  openGates: string[];
+  /** Deepest floor index reached, per stratum. */
+  reachedFloor: Record<string, number>;
+  gatheredAtHour: Record<string, number>;
+  /** Hour at which a defeated elite returns, by elite key. */
+  eliteRespawnHour: Record<string, number>;
 }
 
 export interface SummoningSeal {
@@ -189,7 +261,7 @@ export interface LogEntry {
 }
 
 export interface CampaignState {
-  version: 1;
+  version: 2;
   seed: number;
   rngState: number;
   phase: Phase;
@@ -214,6 +286,7 @@ export interface CampaignState {
   /** Abstract frontier rebuild in progress (counteroffensive preparation). */
   rebuild: { finishHour: number } | null;
   expedition: Expedition | null;
+  dungeon: DungeonKnowledge;
   seal: SummoningSeal;
   siegeAttempts: number;
   log: LogEntry[];
@@ -224,7 +297,18 @@ export type Command =
   | { type: 'summon'; classId: ClassId; emergency?: boolean }
   | { type: 'assign_defender'; adventurerId: string; structureId: string }
   | { type: 'unassign_defender'; adventurerId: string }
-  | { type: 'start_expedition'; partyIds: string[] }
+  | { type: 'start_expedition'; partyIds: string[]; floor?: number; stratumId?: string }
+  | { type: 'dungeon_move'; move: MoveKind }
+  | { type: 'dungeon_stairs' }
+  | { type: 'dungeon_gather' }
+  | { type: 'dungeon_recall' }
+  | { type: 'combat_round'; actions: Record<string, CombatAction> }
+  | { type: 'combat_escape' }
+  | { type: 'set_row'; adventurerId: string; row: Row }
+  | { type: 'debug_teleport'; floor: number; x: number; y: number }
+  | { type: 'debug_reveal_map' }
+  | { type: 'debug_win_combat' }
+  | { type: 'debug_set_level'; level: number }
   | { type: 'end_expedition' }
   | { type: 'report_casualty'; adventurerId: string; locationId?: string }
   | { type: 'expedition_pickup_statue'; adventurerId: string }

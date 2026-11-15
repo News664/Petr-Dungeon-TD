@@ -16,6 +16,6 @@ export function deserialize(text: string): CampaignState {
   }
   const wrapper = parsed as { format?: string; state?: CampaignState };
   if (wrapper?.format !== SAVE_FORMAT || !wrapper.state) throw new Error('This is not a Last Sanctuary save.');
-  if (wrapper.state.version !== 1) throw new Error(`Save version ${String(wrapper.state.version)} is not supported.`);
+  if (wrapper.state.version !== 2) throw new Error('This save is from an older build of the prototype and cannot be loaded.');
   return wrapper.state;
 }
