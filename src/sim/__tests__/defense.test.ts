@@ -33,12 +33,12 @@ function post(state: CampaignState, map: 'frontier' | 'sanctuary', posts: Record
 
 function frontierBattle(posts: Record<string, string>, priority: TargetPriority = 'first') {
   const s = post(buildFixture('stable_secured'), 'frontier', posts, priority);
-  return applyAll(s, [{ type: 'debug_force_invasion' }, { type: 'battle_start' }]);
+  return applyAll(s, [{ type: 'debug_force_invasion' }, { type: 'battle_start' }, { type: 'battle_begin' }]);
 }
 
 function siegeBattle(posts: Record<string, string>) {
   const s = post(buildFixture('sanctuary_siege'), 'sanctuary', posts, 'petrifier');
-  return applyAll(s, [{ type: 'advance_time', hours: cfg.clock.sanctuary_siege_delay_hours }, { type: 'battle_start' }]);
+  return applyAll(s, [{ type: 'advance_time', hours: cfg.clock.sanctuary_siege_delay_hours }, { type: 'battle_start' }, { type: 'battle_begin' }]);
 }
 
 describe('map data', () => {
@@ -107,12 +107,32 @@ describe('frontier battles', () => {
   });
 
   it('protects a bunker occupant far better than a watchtower occupant', () => {
-    const exposed = must(frontierBattle({ watchtower_2: 'Guardian' }), WHOLE_BATTLE);
-    const sheltered = must(frontierBattle({ bunker_1: 'Guardian' }), WHOLE_BATTLE);
+    // Watchtower 3 is out of the brutes' reach, so only the petrifiers decide her fate there.
+    const exposed = must(frontierBattle({ watchtower_3: 'Guardian' }), WHOLE_BATTLE);
+    const sheltered = must(frontierBattle({ bunker_2: 'Guardian' }), WHOLE_BATTLE);
     const guardian = (s: CampaignState) => s.adventurers.find((a) => a.classId === 'Guardian')!;
-    expect(guardian(exposed).condition).toBe('solidified');
     expect(guardian(sheltered).condition).toBe('ready');
-    expect(guardian(sheltered).gauge).toBeLessThan(60);
+    expect(guardian(sheltered).gauge).toBeGreaterThan(0);
+    expect(guardian(exposed).gauge).toBeGreaterThanOrEqual(guardian(sheltered).gauge * 4);
+  });
+
+  it('has brutes stop to batter a manned structure, a few blows each, and leave empty ones alone', () => {
+    let s = frontierBattle({ support_station_1: 'Medic' });
+    const ram = cfg.defense.enemy_stats.armored!.structure_attack!;
+    const station = () => s.structures.find((d) => d.id === 'frontier_support_station_1')!;
+    const brutes = () => s.battle!.enemies.filter((e) => e.type === 'armored');
+    while (s.battle!.outcome === 'ongoing' && !brutes().some((e) => e.siegeTarget)) s = must(s, { type: 'battle_tick', ticks: 5 });
+    const brute = brutes().find((e) => e.siegeTarget)!;
+    expect(brute.siegeTarget).toBe('frontier_support_station_1');
+    expect(station().hp).toBe(station().maxHp); // it winds up first: no damage on arrival
+    const stoppedAt = brute.progress;
+    s = must(s, { type: 'battle_tick', ticks: Math.round(ram.cooldown_seconds * TPS) + 1 });
+    const same = brutes().find((e) => e.id === brute.id)!;
+    expect(same.progress).toBe(stoppedAt); // halted while it batters
+    expect(station().hp).toBe(station().maxHp - ram.damage);
+    s = must(s, WHOLE_BATTLE);
+    // Nothing was manned elsewhere, so nothing else was touched.
+    expect(s.structures.filter((d) => d.map === 'frontier' && d.id !== station().id).every((d) => d.hp === d.maxHp)).toBe(true);
   });
 
   it('lets armored enemies wreck a structure and drive its occupant out unharmed', () => {
@@ -249,7 +269,7 @@ describe('sanctuary siege', () => {
     ]);
     const drained = structuredClone(start);
     drained.sanctuary.automatedAmmo = 0;
-    const s = applyAll(drained, [{ type: 'battle_start' }, WHOLE_BATTLE]);
+    const s = applyAll(drained, [{ type: 'battle_start' }, { type: 'battle_begin' }, WHOLE_BATTLE]);
     expect(s.battle).toMatchObject({ outcome: 'loss', killed: 0, ammoSpent: 0 });
     expect(apply(s, { type: 'restock_ammo' }).ok).toBe(false); // not during a battle
   });

@@ -7,6 +7,7 @@ import { CombatPanel } from './CombatPanel';
 import { DungeonView } from './DungeonView';
 import type { ViewMarker } from './DungeonView';
 import { duration } from './format';
+import { Portrait } from './Portrait';
 
 const D = cfg.dungeon;
 const KEYS: Record<string, MoveKind> = {
@@ -114,7 +115,7 @@ export function DungeonScreen({ state, dispatch, onLeaveView }: Props) {
           <button onClick={onLeaveView}>Guild view</button>
         </div>
 
-        <div className="dungeon-stage">
+        <div className={`dungeon-stage ${inCombat ? 'in-combat' : ''}`}>
           <DungeonView floor={floor} floorId={floorId} x={exp.x} y={exp.y} facing={exp.facing} openGates={state.dungeon.openGates} markers={markers} dimmed={inCombat} />
           {inCombat && <CombatPanel state={state} dispatch={dispatch} />}
         </div>
@@ -196,9 +197,12 @@ export function DungeonScreen({ state, dispatch, onLeaveView }: Props) {
             {members.map((m) => (
               <li key={m.id}>
                 <div className="post-head">
-                  <strong>
-                    {m.name} <span className="muted">· {m.classId} Lv {m.level}</span>
-                  </strong>
+                  <span className="who">
+                    <Portrait adv={m} size={30} />
+                    <strong>
+                      {m.name} <span className="muted">· {m.classId} Lv {m.level}</span>
+                    </strong>
+                  </span>
                   <button
                     className="inline"
                     disabled={inCombat}

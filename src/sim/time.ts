@@ -8,6 +8,7 @@ import { fail, log } from './util';
 
 export function ensureClockFree(s: CampaignState): void {
   if (s.phase === 'GAME_OVER') fail('The sanctuary has fallen.');
+  if (s.phase === 'PROLOGUE') fail('The goddess holds the hour still until the sanctuary is safe.');
   if (s.pendingMiracle) fail('Choose who the goddess restores first.');
   if (s.pendingBattle) fail('The attack has arrived and must be fought before time moves on.');
 }

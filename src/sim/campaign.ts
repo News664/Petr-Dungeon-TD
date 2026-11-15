@@ -62,6 +62,50 @@ function restoreFrontier(s: CampaignState, cfg: GameConfig, what: string): void 
   log(s, 'frontier_restored', `${what} The frontier holds and access to secured production is restored.`);
 }
 
+/** Undo every wound of the prologue: nobody stays stone, nothing stays broken. */
+function restoreEveryone(s: CampaignState): void {
+  for (const adv of s.adventurers) {
+    if (adv.condition !== 'ready') restoreAdventurer(s, adv.id);
+    adv.hp = adv.maxHp;
+    adv.gauge = 0;
+    adv.sp = adv.maxSp;
+  }
+  for (const d of s.structures) d.hp = d.maxHp;
+}
+
+/** The champions are called; the monsters are at the sanctuary's own gate. */
+export function beginPrologueDefense(s: CampaignState, cfg: GameConfig): void {
+  if (s.phase !== 'PROLOGUE') fail('The prologue is over.');
+  if (s.pendingBattle) fail('The attack is already at the gate.');
+  if (s.seal.freeCredits > 0) {
+    fail(`Call all ${cfg.roster.starter_free_summons} champions first; ${s.seal.freeCredits} of the goddess's summons remain.`);
+  }
+  s.pendingBattle = { kind: 'tutorial_defense', map: 'sanctuary', dueHour: s.simHour };
+  log(s, 'invasion', 'Monsters reach the sanctuary. The first defense begins.');
+}
+
+/** The sanctuary is safe for now: the clock starts and the guild is on its own. */
+export function completePrologue(s: CampaignState, cfg: GameConfig): void {
+  restoreEveryone(s);
+  evacuateMap(s, 'sanctuary');
+  s.phase = 'STABLE_FRONTIER';
+  s.resources = { ...cfg.resources.starting_stockpile };
+  s.seal.freeCredits += cfg.roster.bonus_early_summon_credits;
+  s.nextInvasionHour = s.simHour + cfg.clock.invasion_interval_hours;
+  s.sanctuary.automatedAmmo = cfg.defense.sanctuary_initial_automated_ammo;
+  log(s, 'prologue_done', "The sanctuary holds. The goddess's protection fades; the guild must now find its own strength in the labyrinth.");
+}
+
+/** Debug: call the remaining champions and skip the first defense. */
+export function skipPrologue(s: CampaignState, cfg: GameConfig, summonOne: (classId: string) => void): void {
+  if (s.phase !== 'PROLOGUE') fail('The prologue is over.');
+  let i = 0;
+  while (s.seal.freeCredits > 0) summonOne(cfg.roster.classes[i++ % cfg.roster.classes.length] as string);
+  s.battle = null;
+  s.pendingBattle = null;
+  completePrologue(s, cfg);
+}
+
 /** Debug / headless shortcut: declare the outcome of the pending battle without fighting it. */
 export function resolveBattle(s: CampaignState, cfg: GameConfig, cmd: Extract<Command, { type: 'resolve_battle' }>): void {
   const battle = s.pendingBattle ?? fail('There is no battle to resolve.');
@@ -92,7 +136,22 @@ export function concludeBattle(
   fallen: string[],
   miracleChoices?: string[],
 ): void {
+  // Whatever the outcome, the defenders stand down. Their posts are remembered for next time.
+  const map = kind === 'sanctuary_siege' || kind === 'tutorial_defense' ? 'sanctuary' : 'frontier';
+  for (const d of s.structures) {
+    if (d.map === map && d.occupantId) getAdventurer(s, d.occupantId).lastPost = d.id;
+  }
+  evacuateMap(s, map);
   switch (kind) {
+    case 'tutorial_defense':
+      if (won) completePrologue(s, cfg);
+      else {
+        // The first defense cannot end the story: she turns the hour back and they try again.
+        restoreEveryone(s);
+        s.pendingBattle = { kind: 'tutorial_defense', map: 'sanctuary', dueHour: s.simHour };
+        log(s, 'prologue_retry', 'The gate breaks, and the goddess turns the hour back. The defenders stand ready once more.');
+      }
+      break;
     case 'frontier_defense':
       if (won) {
         s.nextInvasionHour = s.simHour + cfg.clock.invasion_interval_hours;

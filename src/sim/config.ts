@@ -33,6 +33,8 @@ export interface GameConfig {
     summon_cost: Partial<Resources>;
     emergency_summon_cost: Partial<Resources>;
     classes: string[];
+    /** Names given to summoned adventurers. A character's art is matched to her name. */
+    names: string[];
     class_stats: Record<string, { max_hp: number }>;
     rest_hp_per_day: number;
     rest_gauge_per_day: number;
@@ -177,7 +179,8 @@ export interface EnemyStats {
   speed: number;
   armor: number;
   gate_damage: number;
-  structure_attack?: { range: number; damage: number; cooldown_seconds: number };
+  /** Halts beside a manned structure and batters it: this many blows, on this many structures. */
+  structure_attack?: { range: number; damage: number; cooldown_seconds: number; blows: number; max_structures: number };
   petrify_attack?: { range: number; gauge: number; damage: number; cooldown_seconds: number };
 }
 

@@ -159,7 +159,8 @@ function gameOver(cfg: GameConfig): CampaignState {
 const wrap = (fn: (cfg: GameConfig) => CampaignState) => (cfg: GameConfig = defaultConfig) => fn(cfg);
 
 export const fixtures: Fixture[] = [
-  { id: 'new_game', label: 'New game', description: 'Empty guild hall, eight goddess-sponsored summons waiting.', build: wrap((cfg) => createCampaign(cfg)) },
+  { id: 'prologue', label: 'Prologue', description: 'The very beginning: five summons from the goddess, then the first defense.', build: wrap((cfg) => createCampaign(cfg, 1, { prologue: true })) },
+  { id: 'new_game', label: 'After the prologue (empty hall)', description: 'Empty guild hall with eight free summons waiting.', build: wrap((cfg) => createCampaign(cfg)) },
   { id: 'full_roster', label: 'Full roster', description: 'Eight adventurers, first stratum still unexplored.', build: wrap(fullRoster) },
   { id: 'expedition', label: 'In the labyrinth (level 1)', description: 'A fresh party of five at the entrance of the first stratum.', build: wrap((cfg) => inLabyrinth(cfg, 1)) },
   { id: 'expedition_veteran', label: 'In the labyrinth (level 5)', description: 'A seasoned party of five at the entrance: strong enough for the elite and the boss.', build: wrap((cfg) => inLabyrinth(cfg, 5)) },

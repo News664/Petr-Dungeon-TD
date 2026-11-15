@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { defaultConfig as cfg, enemyIntent } from '../sim';
 import type { CampaignState, CombatAction } from '../sim';
 import type { Dispatch } from './App';
+import { Portrait } from './Portrait';
 
 const D = cfg.dungeon;
 
@@ -20,6 +21,12 @@ export function CombatPanel({ state, dispatch }: { state: CampaignState; dispatc
   const combat = exp?.combat;
   // Chosen order per adventurer: "attack", "guard" or a skill id; and a target.
   const [orders, setOrders] = useState<Record<string, { what: string; target: string }>>({});
+  const logRef = useRef<HTMLOListElement>(null);
+  const lines = combat?.log.length ?? 0;
+  // Keep the newest lines in view; the log reads top to bottom in the order things happened.
+  useEffect(() => {
+    if (logRef.current) logRef.current.scrollTop = logRef.current.scrollHeight;
+  }, [lines]);
   if (!exp || !combat) return null;
 
   const foes = combat.enemies.filter((e) => e.hp > 0);
@@ -81,8 +88,15 @@ export function CombatPanel({ state, dispatch }: { state: CampaignState; dispatc
           const stats = D.class_stats[m.classId];
           return (
             <div key={m.id} className="order">
-              <span>
-                <strong>{m.name}</strong> <span className="muted small">{m.row} row</span>
+              <span className="who">
+                <Portrait adv={m} size={30} />
+                <span>
+                  <strong>{m.name}</strong>
+                  <br />
+                  <span className="muted small">
+                    {m.classId} · {m.row} row · SP {m.sp}
+                  </span>
+                </span>
               </span>
               <select aria-label={`Order for ${m.name}`} value={o.what} onChange={(e) => set(m.id, { what: e.target.value })}>
                 <option value="attack">Attack</option>
@@ -136,15 +150,12 @@ export function CombatPanel({ state, dispatch }: { state: CampaignState; dispatc
         </span>
       </div>
 
-      <ol className="combat-log" aria-label="Combat log">
-        {combat.log
-          .slice(-10)
-          .reverse()
-          .map((line, i) => (
-            <li key={`${combat.log.length - i}`} className={line.startsWith('—') ? 'muted' : line.includes('solidified') ? 'danger-text' : ''}>
-              {line}
-            </li>
-          ))}
+      <ol className="combat-log" aria-label="Combat log" ref={logRef}>
+        {combat.log.slice(-40).map((line, i) => (
+          <li key={`${combat.log.length}-${i}`} className={line.startsWith('—') ? 'round-mark' : line.includes('solidified') ? 'danger-text' : ''}>
+            {line}
+          </li>
+        ))}
       </ol>
     </div>
   );

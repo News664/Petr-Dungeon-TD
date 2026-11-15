@@ -26,18 +26,18 @@ export function BattlePanel({ state, dispatch }: { state: CampaignState; dispatc
     <div className="panel alert">
       <h2>{BATTLE_LABEL[battle.kind]}</h2>
       <p className="muted small">
-        The attack has arrived. {defenders.length === 0 ? 'Nobody' : `${defenders.length}`} deployed on the {battle.map} map; you can still change
-        posts in the roster before the fighting starts.
+        The attack has arrived. You post your defenders on the map before the first wave comes
+        {defenders.length > 0 ? `; ${defenders.length} already hold a post there` : ''}.
       </p>
       <ol className="plain small">
-        {waveForecast(battle.map).map((w) => (
+        {waveForecast(battle.map, battle.kind).map((w) => (
           <li key={w.wave}>
             <strong>Wave {w.wave}:</strong> {w.groups.map((g) => enemyCount(g.enemy, g.count)).join(', ')}
           </li>
         ))}
       </ol>
       <button className="primary" onClick={() => dispatch({ type: 'battle_start' })}>
-        Fight the battle
+        Go to the {battle.map === 'sanctuary' ? 'walls' : 'frontier'}
       </button>
       <details>
         <summary>Debug: decide the outcome without fighting</summary>

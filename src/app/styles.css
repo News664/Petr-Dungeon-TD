@@ -660,3 +660,205 @@ ol.plain {
   overflow-y: auto;
   min-height: 60px;
 }
+
+/* Portraits and name chips */
+.portrait {
+  border-radius: 5px;
+  flex: none;
+  display: block;
+}
+.who {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-align: left;
+  line-height: 1.2;
+  padding: 5px 10px 5px 6px;
+  cursor: grab;
+}
+.chip.held {
+  border-color: var(--ward);
+  background: var(--ward-dim);
+}
+
+/* Deployment: posts on the map are drop targets */
+.slot-hit {
+  position: absolute;
+  width: 6.4%;
+  aspect-ratio: 1;
+  min-height: 0;
+  padding: 0;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: transparent;
+  border: 2px solid transparent;
+  z-index: 1;
+}
+.slot-hit:hover,
+.slot-hit:focus-visible {
+  border-color: rgba(220, 216, 207, 0.6);
+}
+.slot-hit.target {
+  border: 2px dashed var(--ward);
+  background: rgba(116, 199, 182, 0.12);
+}
+.slot-hit.held {
+  border-color: var(--amber);
+}
+.slot-hit[draggable='true'] {
+  cursor: grab;
+}
+.reserve-tray.target {
+  border-style: dashed;
+  border-color: var(--ward);
+}
+
+/* Combat log reads downward */
+.combat-log {
+  display: grid;
+  gap: 2px;
+  align-content: start;
+  max-height: 220px;
+}
+.combat-log .round-mark {
+  color: var(--muted);
+  margin-top: 6px;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+}
+.order .who strong {
+  font-size: 14px;
+}
+
+/* Title, prologue and story panels */
+.title-screen {
+  max-width: 620px;
+  margin: 12vh auto 0;
+  display: grid;
+  gap: 14px;
+}
+.title-screen h1 {
+  font-size: 46px;
+}
+.title-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  margin: 10px 0;
+}
+button.large {
+  padding: 10px 22px;
+  font-size: 16px;
+}
+.story {
+  max-width: 720px;
+  line-height: 1.65;
+}
+.story p {
+  margin-bottom: 10px;
+}
+.prologue {
+  display: grid;
+  gap: var(--gap);
+}
+.class-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--gap);
+}
+.class-card {
+  align-content: start;
+}
+.chip.static {
+  cursor: default;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: var(--bg-inset);
+}
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  background: rgba(6, 8, 10, 0.82);
+  overflow-y: auto;
+}
+
+/* Advisor and calendar */
+ul.advice,
+ol.calendar {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+  font-size: 14px;
+}
+ul.advice li {
+  padding: 6px 10px;
+  border-left: 3px solid var(--line-strong);
+  background: var(--bg-inset);
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+ol.calendar {
+  font-size: 13px;
+  gap: 2px;
+}
+ol.calendar li {
+  display: grid;
+  grid-template-columns: 78px 1fr;
+  gap: 8px;
+  padding: 2px 0 2px 8px;
+  border-left: 3px solid var(--line-strong);
+}
+ol.calendar time {
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+.advice-danger {
+  border-left-color: var(--danger) !important;
+}
+.advice-warn {
+  border-left-color: var(--amber) !important;
+}
+.advice-good {
+  border-left-color: var(--ward) !important;
+}
+.debug-tools > summary {
+  margin-bottom: 8px;
+}
+
+/* In a fight the orders set the height; the darkened corridor sits behind them. */
+.dungeon-stage.in-combat .dungeon-view {
+  position: absolute;
+  inset: 0;
+}
+.dungeon-stage.in-combat .combat {
+  position: relative;
+  inset: auto;
+  grid-template-rows: none;
+  overflow: visible;
+}
+.order {
+  grid-template-columns: 230px 180px 1fr;
+}
+.order .who .small {
+  white-space: nowrap;
+}
+.combat-log {
+  min-height: 132px;
+}
+@media (max-width: 900px) {
+  .order {
+    grid-template-columns: 1fr 1fr;
+  }
+}

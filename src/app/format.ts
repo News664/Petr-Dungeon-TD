@@ -9,6 +9,7 @@ export function duration(hours: number): string {
 }
 
 export const PHASE_LABEL: Record<Phase, string> = {
+  PROLOGUE: 'The last summoner',
   STABLE_FRONTIER: 'Stable frontier',
   DIVINE_EMERGENCY: 'Divine emergency',
   SANCTUARY_SIEGE: 'Sanctuary siege',
@@ -18,6 +19,7 @@ export const PHASE_LABEL: Record<Phase, string> = {
 };
 
 export const PHASE_NOTE: Record<Phase, string> = {
+  PROLOGUE: 'The goddess spends the last of her strength on your seal.',
   STABLE_FRONTIER: 'The frontier holds. Secured sites produce normally.',
   DIVINE_EMERGENCY: 'The goddess is spent. Production is crippled until the rematch is won.',
   SANCTUARY_SIEGE: 'The frontier is overrun. Outside production has stopped.',
@@ -27,6 +29,7 @@ export const PHASE_NOTE: Record<Phase, string> = {
 };
 
 export const BATTLE_LABEL: Record<BattleKind, string> = {
+  tutorial_defense: 'The first defense',
   frontier_defense: 'Frontier defense',
   frontier_rematch: 'Frontier rematch',
   sanctuary_siege: 'Sanctuary siege',

@@ -60,7 +60,33 @@
     },
     "rest_hp_per_day": 40,
     "rest_gauge_per_day": 30,
-    "rest_sp_per_day": 20
+    "rest_sp_per_day": 20,
+    "names": [
+      "Ysolde",
+      "Maren",
+      "Thessaly",
+      "Okka",
+      "Brisa",
+      "Linnet",
+      "Havela",
+      "Sorrel",
+      "Quenby",
+      "Idris",
+      "Velka",
+      "Nimue",
+      "Aurel",
+      "Castane",
+      "Petra",
+      "Rhosyn",
+      "Ember",
+      "Wren",
+      "Zofia",
+      "Calla",
+      "Edda",
+      "Mirelle",
+      "Tamsin",
+      "Oriel"
+    ]
   },
   "resources": {
     "starting_stockpile": {
@@ -159,8 +185,10 @@
         "gate_damage": 15,
         "structure_attack": {
           "range": 75,
-          "damage": 3,
-          "cooldown_seconds": 1.5
+          "damage": 8,
+          "cooldown_seconds": 1.2,
+          "blows": 3,
+          "max_structures": 1
         }
       },
       "petrifier": {

@@ -192,7 +192,8 @@
      }
     ]
    }
-  ]
+  ],
+  "tutorial_waves": []
  },
  "sanctuary": {
   "name": "Sanctuary approach",
@@ -334,6 +335,62 @@
       "count": 16,
       "interval_seconds": 0.5,
       "delay_seconds": 6
+     }
+    ]
+   }
+  ],
+  "tutorial_waves": [
+   {
+    "start_seconds": 4,
+    "groups": [
+     {
+      "lane": 0,
+      "enemy": "runner",
+      "count": 6,
+      "interval_seconds": 1.2
+     }
+    ]
+   },
+   {
+    "start_seconds": 24,
+    "groups": [
+     {
+      "lane": 0,
+      "enemy": "runner",
+      "count": 6,
+      "interval_seconds": 0.9
+     },
+     {
+      "lane": 0,
+      "enemy": "armored",
+      "count": 1,
+      "interval_seconds": 1,
+      "delay_seconds": 4
+     }
+    ]
+   },
+   {
+    "start_seconds": 46,
+    "groups": [
+     {
+      "lane": 0,
+      "enemy": "petrifier",
+      "count": 1,
+      "interval_seconds": 1
+     },
+     {
+      "lane": 0,
+      "enemy": "runner",
+      "count": 8,
+      "interval_seconds": 0.8,
+      "delay_seconds": 2
+     },
+     {
+      "lane": 0,
+      "enemy": "armored",
+      "count": 2,
+      "interval_seconds": 3,
+      "delay_seconds": 5
      }
     ]
    }

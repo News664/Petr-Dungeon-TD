@@ -5,6 +5,7 @@
  */
 
 export type Phase =
+  | 'PROLOGUE'
   | 'STABLE_FRONTIER'
   | 'DIVINE_EMERGENCY'
   | 'SANCTUARY_SIEGE'
@@ -45,6 +46,8 @@ export interface Adventurer {
   maxSp: number;
   /** Where she stands in a labyrinth fight. */
   row: Row;
+  /** The post she held in the last battle, offered again at the next deployment. */
+  lastPost: string | null;
   /** Who she shoots first when holding a defensive structure. */
   targetPriority: TargetPriority;
   summonedAtHour: number;
@@ -109,7 +112,7 @@ export interface DefenseStructure {
   occupantId: string | null;
 }
 
-export type BattleKind = 'frontier_defense' | 'frontier_rematch' | 'sanctuary_siege' | 'frontier_breakthrough';
+export type BattleKind = 'tutorial_defense' | 'frontier_defense' | 'frontier_rematch' | 'sanctuary_siege' | 'frontier_breakthrough';
 
 export interface PendingBattle {
   kind: BattleKind;
@@ -132,6 +135,11 @@ export interface BattleEnemy {
   /** Armor percentage while corroded (e.g. 50). */
   corrodePct: number;
   cooldown: number;
+  /** Structure this enemy has stopped to batter, if any. */
+  siegeTarget: string | null;
+  siegeBlows: number;
+  /** Structures it has already battered and will not attack again. */
+  battered: string[];
 }
 
 export type ShotKind = 'attack' | 'splash' | 'support' | 'petrify' | 'turret' | 'structure';
@@ -166,6 +174,8 @@ export interface DefenseBattle {
   leaked: number;
   ammoSpent: number;
   outcome: 'ongoing' | 'win' | 'loss';
+  /** Before the first wave: posts can be changed freely and no time passes. */
+  deploying: boolean;
   shots: BattleShot[];
 }
 
@@ -318,7 +328,11 @@ export type Command =
   | { type: 'defeat_boss'; stratumId: string }
   | { type: 'resolve_battle'; result: 'win' | 'loss'; solidified?: string[]; ammoSpent?: number; miracleChoices?: string[] }
   | { type: 'choose_miracle_targets'; adventurerIds: string[] }
+  | { type: 'prologue_begin_defense' }
+  | { type: 'debug_skip_prologue' }
   | { type: 'battle_start' }
+  | { type: 'battle_repost' }
+  | { type: 'battle_begin' }
   | { type: 'battle_tick'; ticks: number }
   | { type: 'battle_concede' }
   | { type: 'battle_finish' }

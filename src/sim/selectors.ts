@@ -31,6 +31,7 @@ export function productionMultiplier(s: CampaignState, cfg: GameConfig): number 
     case 'COUNTEROFFENSIVE_PREPARATION':
     case 'FRONTIER_BREAKTHROUGH':
       return cfg.campaign.counteroffensive_outside_production_multiplier;
+    case 'PROLOGUE':
     case 'GAME_OVER':
       return 0;
   }
@@ -38,6 +39,8 @@ export function productionMultiplier(s: CampaignState, cfg: GameConfig): number 
 
 export function battleKindForPhase(phase: Phase): BattleKind {
   switch (phase) {
+    case 'PROLOGUE':
+      return 'tutorial_defense';
     case 'STABLE_FRONTIER':
       return 'frontier_defense';
     case 'DIVINE_EMERGENCY':
@@ -53,9 +56,18 @@ export function combatReady(s: CampaignState): Adventurer[] {
   return s.adventurers.filter((a) => a.condition === 'ready');
 }
 
-/** Everyone who still occupies a roster place (permanently lost champions free theirs). */
+/**
+ * Places taken in the guild hall, which is what limits summoning: everyone
+ * fit to fight plus every statue lying in the recovery ward. A champion who
+ * is still out there as an unrecovered statue holds no bed, and one who is
+ * permanently lost has given hers up.
+ */
 export function rosterCount(s: CampaignState): number {
-  return s.adventurers.filter((a) => a.condition !== 'lost').length;
+  return s.adventurers.filter((a) => {
+    if (a.condition === 'ready') return true;
+    if (a.condition === 'lost') return false;
+    return s.statues.some((st) => st.adventurerId === a.id && st.retrievedAtHour !== null);
+  }).length;
 }
 
 /** Hours spent abandoned. Stops growing once she is safely retrieved. */

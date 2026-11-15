@@ -33,7 +33,21 @@ function buildStratum(id: string, name: string, cfg: GameConfig): Stratum {
 }
 
 /** A brand-new campaign: empty guild hall, goddess-sponsored summons waiting at the seal. */
-export function createCampaign(cfg: GameConfig = defaultConfig, seed = 1): CampaignState {
+export function createCampaign(cfg: GameConfig = defaultConfig, seed = 1, options: { prologue?: boolean } = {}): CampaignState {
+  const state = createStableCampaign(cfg, seed);
+  if (!options.prologue) return state;
+  // The very beginning: the goddess holds the hour still, the stores are empty,
+  // and only her five sponsored summons are on offer until the sanctuary is safe.
+  return {
+    ...state,
+    phase: 'PROLOGUE',
+    nextInvasionHour: null,
+    resources: { ward_energy: 0, construction_materials: 0, restoration_reagent: 0 },
+    seal: { ...state.seal, freeCredits: cfg.roster.starter_free_summons },
+  };
+}
+
+function createStableCampaign(cfg: GameConfig, seed: number): CampaignState {
   return {
     version: 2,
     seed,

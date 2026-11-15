@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import { defaultConfig as cfg, findStatue, frontierHeld, recoverableStatues, treatmentCost } from '../sim';
+import { defaultConfig as cfg, findStatue, frontierHeld, recoverableStatues, rosterCount, treatmentCost } from '../sim';
 import type { Adventurer, CampaignState } from '../sim';
 import type { Dispatch } from './App';
 import { duration } from './format';
+import { Portrait } from './Portrait';
 
 function StatusCell({ state, adv, dispatch }: { state: CampaignState; adv: Adventurer; dispatch: Dispatch }) {
   if (adv.condition === 'ready') {
@@ -71,7 +72,7 @@ export function RosterPanel({ state, dispatch, onOpenDungeon }: { state: Campaig
   return (
     <div className="panel">
       <h2>
-        Guild roster <span className="muted">· {state.adventurers.filter((a) => a.condition !== 'lost').length}/{cfg.roster.max_roster}</span>
+        Guild roster <span className="muted" title="Fighters and statues in the ward. Summoning stops when the hall is full.">· hall {rosterCount(state)}/{cfg.roster.max_roster}</span>
       </h2>
       {state.adventurers.length === 0 ? (
         <p className="muted">The guild hall is empty. Use the summoning seal to call the first champions.</p>
@@ -103,7 +104,12 @@ export function RosterPanel({ state, dispatch, onOpenDungeon }: { state: Campaig
                         />
                       )}
                     </td>
-                    <td>{adv.name}</td>
+                    <td>
+                      <span className="who">
+                        <Portrait adv={adv} size={28} />
+                        {adv.name}
+                      </span>
+                    </td>
                     <td className="muted">
                       {adv.classId} <span className="small">Lv {adv.level}</span>
                     </td>

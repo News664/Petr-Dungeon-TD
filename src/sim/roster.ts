@@ -5,14 +5,9 @@ import { clearAssignment } from './statues';
 import type { Adventurer, CampaignState } from './types';
 import { fail, log, pay } from './util';
 
-const NAMES = [
-  'Ysolde', 'Maren', 'Thessaly', 'Okka', 'Brisa', 'Linnet', 'Havela', 'Sorrel', 'Quenby', 'Idris', 'Velka', 'Nimue',
-  'Aurel', 'Castane', 'Petra', 'Rhosyn', 'Ember', 'Wren', 'Zofia', 'Calla', 'Edda', 'Mirelle', 'Tamsin', 'Oriel',
-];
-
-function pickName(s: CampaignState): string {
+function pickName(s: CampaignState, cfg: GameConfig): string {
   const used = new Set(s.adventurers.map((a) => a.name));
-  const free = NAMES.filter((n) => !used.has(n));
+  const free = cfg.roster.names.filter((n) => !used.has(n));
   if (free.length === 0) return `Champion ${s.seal.summonCount + 1}`;
   return free[randomInt(s, free.length)] as string;
 }
@@ -22,6 +17,9 @@ export function summon(s: CampaignState, cfg: GameConfig, classId: string, emerg
   const stats = cfg.roster.class_stats[classId];
   if (!cfg.roster.classes.includes(classId) || !stats) fail(`Unknown class "${classId}".`);
   if (rosterCount(s) >= cfg.roster.max_roster) fail(`The guild hall is full (${cfg.roster.max_roster} adventurers).`);
+  if (s.phase === 'PROLOGUE' && (emergency || s.seal.freeCredits <= 0)) {
+    fail('The goddess has strength for no more than these few champions until the sanctuary is safe.');
+  }
 
   if (s.seal.freeCredits > 0 && !emergency) {
     s.seal.freeCredits -= 1;
@@ -36,7 +34,7 @@ export function summon(s: CampaignState, cfg: GameConfig, classId: string, emerg
     s.seal.nextAvailableHour = s.simHour + cfg.roster.default_summon_cooldown_hours;
   }
 
-  const name = pickName(s);
+  const name = pickName(s, cfg);
   const combat = cfg.dungeon.class_stats[classId];
   s.seal.summonCount += 1;
   const adv: Adventurer = {
@@ -53,6 +51,7 @@ export function summon(s: CampaignState, cfg: GameConfig, classId: string, emerg
     sp: combat?.max_sp ?? 0,
     maxSp: combat?.max_sp ?? 0,
     row: combat?.row ?? 'back',
+    lastPost: null,
     targetPriority: 'first',
     summonedAtHour: s.simHour,
   };
@@ -78,7 +77,7 @@ export function assignDefender(s: CampaignState, cfg: GameConfig, adventurerId: 
   structure.occupantId = adv.id;
   adv.assignment = { type: 'defense', structureId };
   // Moving under fire is not instant: she cannot act until she is in position.
-  if (s.battle && s.battle.outcome === 'ongoing' && s.battle.map === structure.map) {
+  if (s.battle && s.battle.outcome === 'ongoing' && !s.battle.deploying && s.battle.map === structure.map) {
     s.battle.busyUntil[adv.id] = s.battle.tick + Math.round(cfg.defense.reposition_seconds * cfg.defense.ticks_per_second);
     s.battle.cooldowns[adv.id] = 0;
   }

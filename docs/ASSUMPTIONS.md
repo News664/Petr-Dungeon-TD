@@ -26,7 +26,7 @@ The design spec leaves some rules open and asks that each choice be logged. Thes
 
 ## Keys added to the balance file
 
-`clock.sanctuary_siege_delay_hours`, `campaign.frontier_recovery_sortie_hours`, `roster.class_stats`, `resources.deposit_workers`, `defense.frontier_layout`, `defense.sanctuary_layout`, `defense.structure_max_hp`, `roster.rest_hp_per_day`, `roster.rest_gauge_per_day`, `roster.rest_sp_per_day`, the whole `dungeon` section, and the battle values under `defense` (`ticks_per_second`, `reposition_seconds`, `repair_materials_per_10_hp`, `sanctuary_max_automated_ammo`, `ammo_restock`, `enemy_stats`, `structure_stats`, `class_combat`, `turret`). Map layouts and wave scripts are in `config/defense_maps.json`; labyrinth floors are in `config/dungeon_maps.json`.
+`clock.sanctuary_siege_delay_hours`, `campaign.frontier_recovery_sortie_hours`, `roster.class_stats`, `resources.deposit_workers`, `defense.frontier_layout`, `defense.sanctuary_layout`, `defense.structure_max_hp`, `roster.names`, `roster.rest_hp_per_day`, `roster.rest_gauge_per_day`, `roster.rest_sp_per_day`, the whole `dungeon` section, and the battle values under `defense` (`ticks_per_second`, `reposition_seconds`, `repair_materials_per_10_hp`, `sanctuary_max_automated_ammo`, `ammo_restock`, `enemy_stats`, `structure_stats`, `class_combat`, `turret`). Map layouts and wave scripts are in `config/defense_maps.json`; labyrinth floors are in `config/dungeon_maps.json`.
 
 ## Decisions made in M1 (defense battles)
 
@@ -38,10 +38,12 @@ The design spec leaves some rules open and asks that each choice be logged. Thes
 | Structures | A structure multiplies its occupant's range and damage and sets how exposed she is to petrifying attacks (watchtower 100%, support station 50%, bunker 15%). Guardians get extra reach and damage in a bunker. | `balance.json` |
 | Classes in defense | Gunner: long range, pierces armor. Alchemist: splash damage that also corrodes armor. Guardian: slows what she hits. Medic: eases the gauge and heals allies in reach, and fires only when nobody needs her. | `battle.ts` |
 | Targeting | Each adventurer has a standing priority: nearest the gate, strongest, or petrifiers first. | `battle.ts` |
-| Enemies | Runners only run. Armored brutes damage structures they pass. Petrifiers attack the most exposed defender in reach, filling her gauge and wounding her. | `battle.ts` |
+| Enemies | Runners only run. An armored brute halts beside the first manned structure in its reach, winds up, and batters it three times before moving on; it leaves empty structures alone. Petrifiers attack the most exposed defender in reach, filling her gauge and wounding her. | `battle.ts` |
 | Solidified in battle | The moment the gauge reaches 100 or health reaches 0. Her post goes silent. | `battle.ts` |
 | Wrecked structure | Its occupant falls back to reserve unharmed. Damage persists after the battle; repairs cost materials (1 per 10 points). | `battle.ts`, `roster.ts` |
-| Moving under fire | A defender posted or moved during a battle cannot act for 6 seconds. Withdrawing is immediate. | `roster.ts` |
+| Deployment | Every battle opens with a deployment phase: no time passes and posts can be changed freely until the player begins. | `battle.ts` |
+| Moving under fire | Once the fighting has begun, a defender posted or moved cannot act for 6 seconds. Withdrawing is immediate. | `roster.ts` |
+| After a battle | All defenders stand down to reserve. Each remembers her post, and the next deployment can restore them in one step. | `campaign.ts`, `battle.ts` |
 | Sounding the retreat | The player may concede: an immediate loss with no further casualties. | `battle.ts` |
 | Gate | Starts every battle at full strength. | `battle.ts` |
 | Sanctuary weapons | Three automated weapons, one unit of ammunition per shot. Ammunition does not regenerate; 10 units cost 6 materials, up to 100. | `battle.ts`, `roster.ts` |
@@ -75,6 +77,18 @@ The design spec leaves some rules open and asks that each choice be logged. Thes
 | Invasion during an expedition | The expedition pauses until the battle is resolved; its members cannot defend. If the frontier falls for good, the party is called home with its loot. | `campaign.ts` |
 | After the boss | The stratum is secured and the frontier moves on. The cleared stratum can still be entered. The second stratum has no map yet. | `dungeon.ts` |
 
+## Decisions made in M3 (prologue and integration)
+
+| Topic | Choice | Where |
+|---|---|---|
+| Prologue | A new game starts in a prologue phase: empty stores, five sponsored summons, the clock held still. Nothing outside the walls can be done. | `create.ts`, `campaign.ts` |
+| First defense | A short three-wave battle on the sanctuary map that introduces each enemy once. The automated weapons use no ammunition in it. | `defense_maps.json`, `battle.ts` |
+| Losing the first defense | The goddess turns the hour back: everyone is restored and the battle is offered again. It cannot end the game. | `campaign.ts` |
+| After the first defense | Everyone is restored, the starter stockpile and three more sponsored summons are granted, and the first attack is scheduled seven days out. | `campaign.ts` |
+| Hall capacity | The limit of eight counts adventurers fit to fight plus statues lying in the ward. A champion still out there as a statue holds no bed, so replacements can be summoned while she is missing; rescuing her is never refused, even if that leaves the hall over capacity. No summoning while the hall is at or over capacity. | `selectors.ts` |
+| Names | Summoned adventurers draw their names from `roster.names` in the balance file. Character art is matched to the name. | `roster.ts` |
+| Saving | The game autosaves in the browser after every action outside a running battle. Quicksave and quickload are separate. | `App.tsx` |
+
 ## Balance, first pass
 
 Checked by simulated battles with no player input during the fight:
@@ -88,6 +102,8 @@ Known weakness: "petrifiers first" is close to always correct. It has not been t
 
 Labyrinth, checked with a scripted player that uses skills sensibly:
 
+- Whole campaign, played by a scripted guild master (`src/sim/__tests__/director.ts`) who trains one floor at a time, rests before attacks and takes on the boss at level 5: the first stratum is secured between day 19 and day 26 across eight seeds, with nobody lost and the miracle unspent.
+- The same player attempting the boss at level 4 is usually wiped at its door. Since the hall-capacity change, that is recoverable: emergency summons, rescue expeditions, and the boss falls about a week later. Before that change the same wipe ended in game over by day 23.
 - A level-1 party of five (Guardian, two Gunners, Alchemist, Medic) clears floor-1 fights but runs out of skill points within a few.
 - The roaming elite wipes a level-1 party, is a narrow win at level 2 and a solid win at level 3.
 - The boss wipes a level-1 party and is a narrow win for a fresh level-3 party; level 4 or 5 is comfortable. Reaching it tired makes it harder.
@@ -101,7 +117,7 @@ Labyrinth, checked with a scripted player that uses skills sensibly:
 - What conceding a battle should cost. At the moment it is free apart from losing the battle.
 - Whether attacks should grow stronger over the campaign, and how scouting changes the forecast.
 - Slot upgrades: how extra structure slots are unlocked.
-- Whether emergency summoning should be limited per crisis. At the moment only resources and the roster cap limit it.
+- Whether the hall should be allowed over capacity after a rescue, and whether emergency summoning needs a limit of its own. At the moment only resources and the capacity rule limit it, and a guild that loses a party and rescues it can end up with more than eight.
 - Resident and worker casualties in a siege and their effect on later defenses.
 - Skill trees and equipment: classes currently have a fixed skill list and no gear.
 - Whether levels should also strengthen an adventurer in defense battles. At the moment they do not.

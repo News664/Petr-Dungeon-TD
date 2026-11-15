@@ -9,7 +9,7 @@ export type { Fixture } from './fixtures';
 export * from './selectors';
 export { formatCost, formatHour, RESOURCE_LABELS } from './util';
 export { defenderWeapon, waveForecast } from './battle';
-export { flatGroups, getDefenseMap, laneLength, lanePoint } from './defenseMap';
+export { flatGroups, getDefenseMap, laneLength, lanePoint, wavesFor } from './defenseMap';
 export type { DefenseMapData, Point } from './defenseMap';
 export { repairCost } from './roster';
 export { enemyIntent, partyAttack } from './combat';

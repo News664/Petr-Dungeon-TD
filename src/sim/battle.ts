@@ -1,6 +1,6 @@
 import { concludeBattle } from './campaign';
 import type { ClassCombat, GameConfig, WeaponStats } from './config';
-import { flatGroups, getDefenseMap, laneLength, lanePoint } from './defenseMap';
+import { flatGroups, getDefenseMap, laneLength, lanePoint, wavesFor } from './defenseMap';
 import type { Point } from './defenseMap';
 import { getAdventurer } from './selectors';
 import { clearAssignment, solidify } from './statues';
@@ -28,7 +28,7 @@ export function startBattle(s: CampaignState, cfg: GameConfig): void {
     gateMaxHp,
     enemies: [],
     nextEnemyId: 1,
-    spawned: flatGroups(pending.map).map(() => 0),
+    spawned: flatGroups(pending.map, pending.kind).map(() => 0),
     cooldowns: {},
     busyUntil: {},
     turretCooldowns: map.turrets.map(() => 0),
@@ -37,9 +37,10 @@ export function startBattle(s: CampaignState, cfg: GameConfig): void {
     leaked: 0,
     ammoSpent: 0,
     outcome: 'ongoing',
+    deploying: true,
     shots: [],
   };
-  log(s, 'battle_started', `The defense of the ${map.name.toLowerCase()} begins.`);
+  log(s, 'battle_started', `The defenders take up positions at the ${map.name.toLowerCase()}.`);
 }
 
 /** Effective weapon of an adventurer in a given structure. */
@@ -103,7 +104,7 @@ function pickTarget(cfg: GameConfig, located: Located[], origin: Point, range: n
 
 function spawn(cfg: GameConfig, b: DefenseBattle): void {
   const tps = cfg.defense.ticks_per_second;
-  flatGroups(b.map).forEach(({ start, group }, g) => {
+  flatGroups(b.map, b.kind).forEach(({ start, group }, g) => {
     const stats = cfg.defense.enemy_stats[group.enemy];
     if (!stats) return;
     while ((b.spawned[g] ?? 0) < group.count) {
@@ -121,6 +122,9 @@ function spawn(cfg: GameConfig, b: DefenseBattle): void {
         corrodeTicks: 0,
         corrodePct: 100,
         cooldown: 0,
+        siegeTarget: null,
+        siegeBlows: 0,
+        battered: [],
       });
       b.spawned[g] = n + 1;
     }
@@ -202,8 +206,11 @@ function turretsAct(s: CampaignState, cfg: GameConfig, b: DefenseBattle, located
     const target = pickTarget(cfg, located, pos, turret.range, 'first');
     if (!target) return;
     damage(cfg, target.enemy, turret);
-    s.sanctuary.automatedAmmo -= 1;
-    b.ammoSpent += 1;
+    // In the prologue the goddess herself feeds the weapons.
+    if (b.kind !== 'tutorial_defense') {
+      s.sanctuary.automatedAmmo -= 1;
+      b.ammoSpent += 1;
+    }
     shot(b, 'turret', pos, [target.x, target.y]);
     b.turretCooldowns[i] = toTicks(turret.cooldown_seconds, cfg);
   });
@@ -221,8 +228,39 @@ function enemiesAct(s: CampaignState, cfg: GameConfig, b: DefenseBattle): void {
     const stats = cfg.defense.enemy_stats[enemy.type];
     if (!stats) continue;
 
-    const step = Math.round((stats.speed * 1000) / tps);
-    enemy.progress += enemy.slowTicks > 0 ? Math.round((step * enemy.slowPct) / 100) : step;
+    // A brute halts beside a manned structure in reach and batters it before moving on.
+    const ram = stats.structure_attack;
+    if (ram) {
+      if (enemy.siegeTarget) {
+        const held = s.structures.find((d) => d.id === enemy.siegeTarget);
+        if (!held || held.hp <= 0 || !held.occupantId || enemy.siegeBlows <= 0) enemy.siegeTarget = null;
+      }
+      if (!enemy.siegeTarget && enemy.battered.length < ram.max_structures) {
+        const [px, py] = lanePoint(b.map, enemy.lane, enemy.progress / 1000);
+        let target: DefenseStructure | null = null;
+        let nearest = Infinity;
+        for (const structure of s.structures) {
+          const pos = structure.map === b.map ? map.slots[structure.id] : undefined;
+          if (!pos || structure.hp <= 0 || !structure.occupantId || enemy.battered.includes(structure.id)) continue;
+          const d = dist(px, py, pos[0], pos[1]);
+          if (d <= ram.range && d < nearest) {
+            nearest = d;
+            target = structure;
+          }
+        }
+        if (target) {
+          enemy.siegeTarget = target.id;
+          enemy.siegeBlows = ram.blows;
+          enemy.battered.push(target.id);
+          enemy.cooldown = toTicks(ram.cooldown_seconds, cfg); // it winds up before the first blow
+        }
+      }
+    }
+
+    if (!enemy.siegeTarget) {
+      const step = Math.round((stats.speed * 1000) / tps);
+      enemy.progress += enemy.slowTicks > 0 ? Math.round((step * enemy.slowPct) / 100) : step;
+    }
     if (enemy.slowTicks > 0) enemy.slowTicks -= 1;
     if (enemy.corrodeTicks > 0) enemy.corrodeTicks -= 1;
 
@@ -267,32 +305,20 @@ function enemiesAct(s: CampaignState, cfg: GameConfig, b: DefenseBattle): void {
       }
     }
 
-    const ram = stats.structure_attack;
-    if (ram) {
-      let target: DefenseStructure | null = null;
-      let nearest = Infinity;
-      for (const structure of s.structures) {
-        const pos = structure.map === b.map ? map.slots[structure.id] : undefined;
-        if (!pos || structure.hp <= 0) continue;
-        const d = dist(x, y, pos[0], pos[1]);
-        if (d <= ram.range && d < nearest) {
-          nearest = d;
-          target = structure;
-        }
-      }
-      if (target) {
-        target.hp = Math.max(0, target.hp - ram.damage);
-        shot(b, 'structure', [x, y], map.slots[target.id] as Point);
-        enemy.cooldown = toTicks(ram.cooldown_seconds, cfg);
-        if (target.hp === 0) {
-          const name = target.id.replace(/_/g, ' ');
-          if (target.occupantId) {
-            const adv = getAdventurer(s, target.occupantId);
-            clearAssignment(s, adv); // she gets out unharmed, but the post is gone
-            log(s, 'structure_destroyed', `The ${name} was destroyed; ${adv.name} fell back to reserve.`);
-          } else {
-            log(s, 'structure_destroyed', `The ${name} was destroyed.`);
-          }
+    const target = ram && enemy.siegeTarget ? s.structures.find((d) => d.id === enemy.siegeTarget) : undefined;
+    if (ram && target) {
+      target.hp = Math.max(0, target.hp - ram.damage);
+      enemy.siegeBlows -= 1;
+      shot(b, 'structure', [x, y], map.slots[target.id] as Point);
+      enemy.cooldown = toTicks(ram.cooldown_seconds, cfg);
+      if (target.hp === 0) {
+        const name = target.id.replace(/_/g, ' ');
+        if (target.occupantId) {
+          const adv = getAdventurer(s, target.occupantId);
+          clearAssignment(s, adv); // she gets out unharmed, but the post is gone
+          log(s, 'structure_destroyed', `The ${name} was destroyed; ${adv.name} fell back to reserve.`);
+        } else {
+          log(s, 'structure_destroyed', `The ${name} was destroyed.`);
         }
       }
     }
@@ -311,14 +337,34 @@ function tick(s: CampaignState, cfg: GameConfig, b: DefenseBattle): void {
   if (b.gateHp <= 0) {
     b.outcome = 'loss';
     log(s, 'battle_lost', 'The gate has been broken.');
-  } else if (b.enemies.length === 0 && flatGroups(b.map).every(({ group }, g) => (b.spawned[g] ?? 0) >= group.count)) {
+  } else if (b.enemies.length === 0 && flatGroups(b.map, b.kind).every(({ group }, g) => (b.spawned[g] ?? 0) >= group.count)) {
     b.outcome = 'win';
     log(s, 'battle_won', 'The last of the attackers has been driven off.');
   }
 }
 
+/** During deployment: send everyone in reserve back to the post she held last time, where it is free. */
+export function repostDefenders(s: CampaignState, assign: (adventurerId: string, structureId: string) => void): void {
+  const b = s.battle ?? fail('No battle is under way.');
+  if (!b.deploying) fail('The fighting has already begun.');
+  for (const adv of s.adventurers) {
+    if (adv.condition !== 'ready' || adv.assignment.type !== 'idle' || !adv.lastPost) continue;
+    const post = s.structures.find((d) => d.id === adv.lastPost);
+    if (post && post.map === b.map && post.hp > 0 && !post.occupantId) assign(adv.id, post.id);
+  }
+}
+
+/** End the deployment phase: the first wave is on its way. */
+export function beginBattle(s: CampaignState): void {
+  const b = s.battle ?? fail('No battle is under way.');
+  if (!b.deploying) fail('The fighting has already begun.');
+  b.deploying = false;
+  log(s, 'battle_begun', 'The attackers come into sight.');
+}
+
 export function tickBattle(s: CampaignState, cfg: GameConfig, ticks: number): void {
   const b = s.battle ?? fail('No battle is under way.');
+  if (b.deploying) fail('The defenders are still taking up positions.');
   if (!Number.isInteger(ticks) || ticks < 0) fail('Ticks must be a whole number.');
   b.shots = [];
   for (let i = 0; i < ticks && b.outcome === 'ongoing'; i++) tick(s, cfg, b);
@@ -343,9 +389,9 @@ export function finishBattle(s: CampaignState, cfg: GameConfig, miracleChoices?:
 }
 
 /** Summary of what is coming, for the forecast shown before and during a battle. */
-export function waveForecast(map: DefenseBattle['map']): { wave: number; startSeconds: number; groups: { enemy: string; count: number; lane: string }[] }[] {
+export function waveForecast(map: DefenseBattle['map'], kind?: DefenseBattle['kind']): { wave: number; startSeconds: number; groups: { enemy: string; count: number; lane: string }[] }[] {
   const data = getDefenseMap(map);
-  return data.waves.map((w, wave) => ({
+  return wavesFor(map, kind).map((w, wave) => ({
     wave: wave + 1,
     startSeconds: w.start_seconds,
     groups: w.groups.map((g) => ({ enemy: g.enemy, count: g.count, lane: data.lane_names[g.lane] ?? `lane ${g.lane + 1}` })),

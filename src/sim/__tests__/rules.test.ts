@@ -195,7 +195,7 @@ describe('fixtures and module boundaries', () => {
   it('builds every debug fixture', () => {
     const phases = new Set(fixtures.map((f) => f.build().phase));
     expect([...phases].sort()).toEqual(
-      ['COUNTEROFFENSIVE_PREPARATION', 'DIVINE_EMERGENCY', 'FRONTIER_BREAKTHROUGH', 'GAME_OVER', 'SANCTUARY_SIEGE', 'STABLE_FRONTIER'],
+      ['COUNTEROFFENSIVE_PREPARATION', 'DIVINE_EMERGENCY', 'FRONTIER_BREAKTHROUGH', 'GAME_OVER', 'PROLOGUE', 'SANCTUARY_SIEGE', 'STABLE_FRONTIER'],
     );
   });
 

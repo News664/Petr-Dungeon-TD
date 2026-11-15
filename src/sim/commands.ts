@@ -1,5 +1,5 @@
-import { concedeBattle, finishBattle, startBattle, tickBattle } from './battle';
-import { chooseMiracleTargets, resolveBattle, startFrontierRebuild, triggerInvasion } from './campaign';
+import { beginBattle, concedeBattle, finishBattle, repostDefenders, startBattle, tickBattle } from './battle';
+import { beginPrologueDefense, chooseMiracleTargets, resolveBattle, skipPrologue, startFrontierRebuild, triggerInvasion } from './campaign';
 import type { GameConfig } from './config';
 import { defaultConfig } from './config';
 import { defeatBoss, setDepositActive } from './economy';
@@ -120,8 +120,20 @@ function run(s: CampaignState, cfg: GameConfig, cmd: Command): void {
     case 'choose_miracle_targets':
       chooseMiracleTargets(s, cmd.adventurerIds);
       return;
+    case 'prologue_begin_defense':
+      beginPrologueDefense(s, cfg);
+      return;
+    case 'debug_skip_prologue':
+      skipPrologue(s, cfg, (classId) => summon(s, cfg, classId, false));
+      return;
     case 'battle_start':
       startBattle(s, cfg);
+      return;
+    case 'battle_repost':
+      repostDefenders(s, (adventurerId, structureId) => assignDefender(s, cfg, adventurerId, structureId));
+      return;
+    case 'battle_begin':
+      beginBattle(s);
       return;
     case 'battle_tick':
       tickBattle(s, cfg, cmd.ticks);

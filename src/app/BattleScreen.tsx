@@ -5,6 +5,7 @@ import { defaultConfig as cfg, defenderWeapon, getDefenseMap, laneLength, lanePo
 import type { BattleShot, CampaignState, DefenseMapId, TargetPriority } from '../sim';
 import type { Dispatch } from './App';
 import { BATTLE_LABEL, enemyCount, title } from './format';
+import { Portrait } from './Portrait';
 
 const CLASS_COLOR: Record<string, number> = { Guardian: 0x6f9bd8, Gunner: 0xd8a64a, Alchemist: 0xb07fd8, Medic: 0x74c7b6 };
 const ENEMY_LOOK: Record<string, { color: number; size: number }> = {
@@ -108,6 +109,12 @@ function drawBattle(g: Graphics, labels: Map<string, Text>, s: CampaignState, se
     else if (e.type === 'petrifier') g.poly([x, y - r - 2, x + r, y + r, x - r, y + r]).fill({ color: look.color });
     else g.circle(x, y, r).fill({ color: look.color });
     if (e.slowTicks > 0) g.circle(x, y, r + 4).stroke({ width: 1, color: 0x6f9bd8 });
+    // A brute that has stopped to batter a structure: show what it is hitting.
+    const battered = e.siegeTarget ? map.slots[e.siegeTarget] : undefined;
+    if (battered) {
+      g.moveTo(x, y).lineTo(battered[0], battered[1]).stroke({ width: 2, color: COLORS.danger, alpha: 0.45 });
+      g.circle(battered[0], battered[1], 24).stroke({ width: 2, color: COLORS.danger, alpha: 0.8 });
+    }
     if (e.hp < e.maxHp) bar(g, x, y - r - 8, 22, e.hp / e.maxHp, COLORS.danger);
   }
 
@@ -171,12 +178,19 @@ export function BattleScreen({ state, stateRef, dispatch }: Props) {
           labels.set(id, label);
         }
 
-        app.canvas.addEventListener('pointerdown', (event) => {
-          const rect = app.canvas.getBoundingClientRect();
-          const x = ((event.clientX - rect.left) / rect.width) * map.width;
-          const y = ((event.clientY - rect.top) / rect.height) * map.height;
-          const hit = Object.entries(map.slots).find(([, [sx, sy]]) => Math.hypot(sx - x, sy - y) <= 28);
-          setSelected(hit ? hit[0] : null);
+        // Name each post on the map so it can be found without the side panel.
+        for (const [id, [x, y]] of Object.entries(map.slots)) {
+          const kind = id.includes('watchtower') ? 'tower' : id.includes('bunker') ? 'bunker' : 'support';
+          const postLabel = new Text({ text: kind, style: { fontFamily: 'system-ui, sans-serif', fontSize: 11, fill: 0x8a8f99 } });
+          postLabel.anchor.set(0.5, 0);
+          postLabel.position.set(x, y + 34);
+          app.stage.addChild(postLabel);
+        }
+        map.lanes.forEach((lane, i) => {
+          const [lx, ly] = lane[0] ?? [0, 0];
+          const laneLabel = new Text({ text: map.lane_names[i] ?? '', style: { fontFamily: 'system-ui, sans-serif', fontSize: 12, fill: 0x8a8f99 } });
+          laneLabel.position.set(lx + 8, ly - 34);
+          app.stage.addChild(laneLabel);
         });
 
         let owed = 0;
@@ -184,7 +198,7 @@ export function BattleScreen({ state, stateRef, dispatch }: Props) {
         const fx: { shot: BattleShot; life: number }[] = [];
         app.ticker.add((ticker) => {
           const live = stateRef.current.battle;
-          if (live && live.outcome === 'ongoing' && speedRef.current > 0) {
+          if (live && live.outcome === 'ongoing' && !live.deploying && speedRef.current > 0) {
             owed += (ticker.deltaMS / 1000) * cfg.defense.ticks_per_second * speedRef.current;
             const ticks = Math.min(Math.floor(owed), 30); // never try to catch up a long stall
             if (ticks > 0) {
@@ -209,23 +223,57 @@ export function BattleScreen({ state, stateRef, dispatch }: Props) {
     };
   }, [mapId, dispatch, stateRef]);
 
+  // The adventurer picked up for a tap-to-place move (dragging works too).
+  const [picked, setPicked] = useState<string | null>(null);
+
   if (!battle) return null;
   const map = getDefenseMap(battle.map);
   const tps = cfg.defense.ticks_per_second;
   const seconds = battle.tick / tps;
-  const forecast = waveForecast(battle.map);
+  const forecast = waveForecast(battle.map, battle.kind);
   const started = forecast.filter((w) => w.startSeconds <= seconds).length;
   const next = forecast[started];
   const structures = state.structures.filter((d) => d.map === battle.map);
   const reserves = state.adventurers.filter((a) => a.condition === 'ready' && a.assignment.type === 'idle');
   const name = (id: string) => state.adventurers.find((a) => a.id === id)?.name ?? id;
   const over = battle.outcome !== 'ongoing';
+  const deploying = battle.deploying && !over;
+  const tutorial = battle.kind === 'tutorial_defense';
 
   const setPost = (structureId: string, occupantId: string | null, nextId: string) => {
     if (nextId === (occupantId ?? '')) return;
     if (occupantId) dispatch({ type: 'unassign_defender', adventurerId: occupantId });
     if (nextId) dispatch({ type: 'assign_defender', adventurerId: nextId, structureId });
   };
+  /** Put an adventurer on a post, sending whoever held it back to reserve. */
+  const place = (adventurerId: string, structureId: string) => {
+    const target = structures.find((d) => d.id === structureId);
+    if (!target || target.hp <= 0 || target.occupantId === adventurerId) return;
+    if (target.occupantId) dispatch({ type: 'unassign_defender', adventurerId: target.occupantId });
+    dispatch({ type: 'assign_defender', adventurerId, structureId });
+    setPicked(null);
+    setSelected(structureId);
+  };
+  const withdraw = (adventurerId: string) => {
+    if (state.adventurers.find((a) => a.id === adventurerId)?.assignment.type === 'defense') dispatch({ type: 'unassign_defender', adventurerId });
+    setPicked(null);
+  };
+  const onSlot = (structureId: string, occupantId: string | null) => {
+    if (picked && picked !== occupantId) place(picked, structureId);
+    else {
+      setSelected(structureId);
+      setPicked(occupantId && picked !== occupantId ? occupantId : null);
+    }
+  };
+  const tip = !tutorial
+    ? null
+    : deploying
+      ? 'Drag each champion onto a post, or tap her and then the post. Watchtowers hit hard and far but leave her exposed; the bunker shelters her; the support station suits your Medic. The weapons on the walls fire by themselves.'
+      : started <= 1
+        ? 'Runners only run for the gate. Anything that reaches it wears the gate down.'
+        : started === 2
+          ? 'The armored brute stops beside a manned post and batters it. Bring it down while it stands still.'
+          : 'The petrifier turns the most exposed defender in its reach to stone. Set a Gunner to "Petrifiers first", or pull the threatened champion back to reserve.';
 
   return (
     <div className="battle">
@@ -265,16 +313,57 @@ export function BattleScreen({ state, stateRef, dispatch }: Props) {
               </div>
             )}
           </dl>
-          <div className="row">
-            {[0, 1, 2, 4].map((v) => (
-              <button key={v} className={speed === v ? 'primary' : ''} aria-pressed={speed === v} disabled={over} onClick={() => setSpeed(v)}>
-                {v === 0 ? 'Pause' : `${v}×`}
+          {deploying ? (
+            <div className="row">
+              {state.adventurers.some((a) => a.condition === 'ready' && a.assignment.type === 'idle' && a.lastPost?.startsWith(battle.map)) && (
+                <button onClick={() => dispatch({ type: 'battle_repost' })}>Post as last time</button>
+              )}
+              <button className="primary" onClick={() => dispatch({ type: 'battle_begin' })}>
+                Begin the battle
               </button>
-            ))}
-          </div>
+            </div>
+          ) : (
+            <div className="row">
+              {[0, 1, 2, 4].map((v) => (
+                <button key={v} className={speed === v ? 'primary' : ''} aria-pressed={speed === v} disabled={over} onClick={() => setSpeed(v)}>
+                  {v === 0 ? 'Pause' : `${v}×`}
+                </button>
+              ))}
+            </div>
+          )}
         </div>
 
+        {tip && (
+          <p className="notice info" role="note">
+            <strong>The goddess:</strong> {tip}
+          </p>
+        )}
+
         <div className="battle-field" ref={hostRef}>
+          {!over &&
+            structures.map((d) => {
+              const pos = map.slots[d.id];
+              if (!pos) return null;
+              const occupant = state.adventurers.find((a) => a.id === d.occupantId);
+              return (
+                <button
+                  key={d.id}
+                  className={`slot-hit ${picked && picked !== d.occupantId ? 'target' : ''} ${picked && picked === d.occupantId ? 'held' : ''}`}
+                  style={{ left: `${(pos[0] / map.width) * 100}%`, top: `${(pos[1] / map.height) * 100}%` }}
+                  aria-label={`${title(d.id.replace(`${d.map}_`, ''))}: ${occupant ? `${occupant.name}, ${occupant.classId}` : d.hp <= 0 ? 'destroyed' : 'empty'}`}
+                  title={`${title(d.id.replace(`${d.map}_`, ''))}${occupant ? ` · ${occupant.name}, ${occupant.classId}` : ''}`}
+                  draggable={!!occupant}
+                  onDragStart={(e) => occupant && e.dataTransfer.setData('text/plain', occupant.id)}
+                  onDragOver={(e) => e.preventDefault()}
+                  onDrop={(e) => {
+                    e.preventDefault();
+                    const id = e.dataTransfer.getData('text/plain');
+                    if (id) place(id, d.id);
+                  }}
+                  onClick={() => onSlot(d.id, d.occupantId)}
+                />
+              );
+            })}
           {over && (
             <div className="battle-result" role="dialog" aria-label="Battle result">
               <h2 className={battle.outcome === 'win' ? 'good' : 'danger-text'} data-testid="battle-outcome">
@@ -290,9 +379,48 @@ export function BattleScreen({ state, stateRef, dispatch }: Props) {
             </div>
           )}
         </div>
+        {!over && (
+          <div
+            className={`panel reserve-tray ${picked ? 'target' : ''}`}
+            onDragOver={(e) => e.preventDefault()}
+            onDrop={(e) => {
+              e.preventDefault();
+              const id = e.dataTransfer.getData('text/plain');
+              if (id) withdraw(id);
+            }}
+            onClick={() => picked && withdraw(picked)}
+          >
+            <h3>
+              Reserve <span className="muted">· {deploying ? 'drag a champion onto a post, or tap her and then the post' : 'moving under fire takes a few seconds'}</span>
+            </h3>
+            <div className="row">
+              {reserves.length === 0 && <span className="small muted">Everyone is posted. Drop someone here to pull her back.</span>}
+              {reserves.map((a) => (
+                <button
+                  key={a.id}
+                  className={`chip ${picked === a.id ? 'held' : ''}`}
+                  draggable
+                  aria-pressed={picked === a.id}
+                  onDragStart={(e) => e.dataTransfer.setData('text/plain', a.id)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setPicked(picked === a.id ? null : a.id);
+                  }}
+                >
+                  <Portrait adv={a} size={26} />
+                  <span>
+                    {a.name}
+                    <br />
+                    <span className="muted small">{a.classId}</span>
+                  </span>
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
         <p className="small muted legend">
           <span className="dot" style={{ background: '#d8a64a' }} /> runner
-          <span className="sq" style={{ background: '#9aa3ad' }} /> armored brute: wrecks nearby structures
+          <span className="sq" style={{ background: '#9aa3ad' }} /> armored brute: stops to batter a manned post in reach
           <span className="tri" /> petrifier: solidifies the most exposed defender in reach
         </p>
       </div>
@@ -383,7 +511,7 @@ export function BattleScreen({ state, stateRef, dispatch }: Props) {
             <button className="danger" disabled={over} onClick={() => dispatch({ type: 'battle_concede' })}>
               Sound the retreat
             </button>
-            <button disabled={over} onClick={() => dispatch({ type: 'battle_tick', ticks: tps * 600 })}>
+            <button disabled={over || deploying} onClick={() => dispatch({ type: 'battle_tick', ticks: tps * 600 })}>
               Debug: skip to the end
             </button>
           </div>

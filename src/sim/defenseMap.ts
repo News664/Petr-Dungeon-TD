@@ -1,5 +1,5 @@
 import raw from '../../config/defense_maps.json';
-import type { DefenseMapId } from './types';
+import type { BattleKind, DefenseMapId } from './types';
 
 export type Point = [number, number];
 
@@ -28,6 +28,8 @@ export interface DefenseMapData {
   /** Automated weapons (sanctuary only). */
   turrets: Point[];
   waves: Wave[];
+  /** The gentler script used for the prologue's first defense. */
+  tutorial_waves: Wave[];
 }
 
 const maps = raw as unknown as Record<DefenseMapId, DefenseMapData>;
@@ -81,9 +83,14 @@ export function lanePoint(map: DefenseMapId, lane: number, distance: number): Po
   return [ax + (bx - ax) * t, ay + (by - ay) * t];
 }
 
+export function wavesFor(map: DefenseMapId, kind?: BattleKind): Wave[] {
+  const data = getDefenseMap(map);
+  return kind === 'tutorial_defense' ? data.tutorial_waves : data.waves;
+}
+
 /** Every wave group in map order, with the wave it belongs to. */
-export function flatGroups(map: DefenseMapId): { wave: number; start: number; group: WaveGroup }[] {
-  return getDefenseMap(map).waves.flatMap((w, wave) =>
+export function flatGroups(map: DefenseMapId, kind?: BattleKind): { wave: number; start: number; group: WaveGroup }[] {
+  return wavesFor(map, kind).flatMap((w, wave) =>
     w.groups.map((group) => ({ wave, start: w.start_seconds + (group.delay_seconds ?? 0), group })),
   );
 }
