@@ -21,6 +21,7 @@ function defend(state: CampaignState): CampaignState {
   const map = s.pendingBattle!.map;
   for (const d of s.structures) if (d.occupantId) s = applyAll(s, [{ type: 'unassign_defender', adventurerId: d.occupantId }]);
   s = applyAll(s, [{ type: 'battle_start' }]);
+  s = tryApply(s, { type: 'build_recommended', map }); // on bare ground, raise the standard defenses
   const pool = [...idle(s)].sort((a, b) => b.level - a.level);
   const open = s.structures.filter((d) => d.map === map && d.hp > 0);
   for (const pass of [0, 1]) {

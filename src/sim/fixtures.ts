@@ -39,7 +39,8 @@ function deploy(s: CampaignState, slots: string[], ids: string[], cfg: GameConfi
 }
 
 function fullRoster(cfg: GameConfig): CampaignState {
-  return applyAll(createCampaign(cfg), summons(cfg.roster.max_roster), cfg);
+  // Everyone the goddess sponsors: the five starters and the three that follow.
+  return applyAll(createCampaign(cfg), summons(cfg.roster.starter_free_summons + cfg.roster.bonus_early_summon_credits), cfg);
 }
 
 function stableSecured(cfg: GameConfig): CampaignState {

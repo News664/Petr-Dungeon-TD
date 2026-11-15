@@ -23,8 +23,12 @@ export interface DefenseMapData {
   gate: Point;
   lane_names: string[];
   lanes: Point[][];
-  /** Structure id -> position. */
-  slots: Record<string, Point>;
+  /** Places where a structure may stand. */
+  sites: Record<string, Point>;
+  /** Built for a ready-made campaign, and by the 'recommended layout' button. */
+  default_layout: { site: string; type: string }[];
+  /** Always present; cannot be removed. */
+  fixed_layout: { site: string; type: string }[];
   /** Automated weapons (sanctuary only). */
   turrets: Point[];
   waves: Wave[];

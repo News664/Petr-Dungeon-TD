@@ -6,6 +6,7 @@ import type { CampaignState, Command } from '../sim';
 import { Advisor, Calendar } from './Advisor';
 import { BattlePanel, MiraclePanel } from './BattlePanel';
 import { PHASE_LABEL, PHASE_NOTE, duration } from './format';
+import { AdventurerSheet, WorkshopPanel } from './GrowthPanels';
 import { ArtContext } from './Portrait';
 import { PrologueScreen } from './PrologueScreen';
 import { RosterPanel } from './RosterPanel';
@@ -61,6 +62,8 @@ export function App() {
   const [art, setArt] = useState<ArtManifest | null>(null);
   // Which screen the player chose while an expedition is out.
   const [view, setView] = useState<'guild' | 'dungeon'>('dungeon');
+  // The adventurer whose skills and gear are open.
+  const [sheetId, setSheetId] = useState<string | null>(null);
   // The latest state, readable from the battle's frame loop without waiting for a render.
   const stateRef = useRef(state);
 
@@ -168,6 +171,7 @@ export function App() {
   const blocked = state.pendingBattle !== null || state.pendingMiracle !== null || state.phase === 'GAME_OVER';
   const untilInvasion = state.nextInvasionHour === null ? null : state.nextInvasionHour - state.simHour;
   const needed = cfg.campaign.miracle_recharge_stable_victories;
+  const sheet = state.adventurers.find((a) => a.id === sheetId);
   const awayAtAttack = state.expedition !== null && untilInvasion !== null && untilInvasion <= 24;
 
   return (
@@ -331,13 +335,15 @@ export function App() {
 
           <section className="column wide">
             <Advisor state={state} />
-            <RosterPanel state={state} dispatch={dispatch} onOpenDungeon={() => setView('dungeon')} />
+            {sheet && <AdventurerSheet state={state} adv={sheet} dispatch={dispatch} onClose={() => setSheetId(null)} />}
+            <RosterPanel state={state} dispatch={dispatch} onOpenDungeon={() => setView('dungeon')} onOpenSheet={setSheetId} />
             <LogPanel state={state} />
           </section>
 
           <section className="column">
             <TerritoryPanel state={state} dispatch={dispatch} />
             <WardPanel state={state} />
+            <WorkshopPanel state={state} dispatch={dispatch} />
           </section>
         </main>
       </div>

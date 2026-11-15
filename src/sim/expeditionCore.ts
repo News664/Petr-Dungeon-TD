@@ -13,6 +13,7 @@ export function finishExpedition(s: CampaignState, how: string): void {
     retrieve(s, st, 'carried out by the expedition');
   }
   for (const id of RESOURCE_IDS) s.resources[id] += exp.loot[id];
+  for (const [id, n] of Object.entries(exp.pack)) s.supplies[id] = (s.supplies[id] ?? 0) + n;
   const haul = RESOURCE_IDS.some((id) => exp.loot[id] > 0) ? ` They brought back ${formatCost(exp.loot)}.` : '';
   s.expedition = null;
   log(s, 'expedition_returned', `${how}${haul}`);

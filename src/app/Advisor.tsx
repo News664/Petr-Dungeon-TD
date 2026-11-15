@@ -49,6 +49,14 @@ function notes(s: CampaignState): Note[] {
   const broken = s.structures.filter((d) => d.hp < d.maxHp && (d.map === 'sanctuary' || frontierHeld(s.phase)));
   if (broken.length > 0) out.push({ tone: 'info', text: `${broken.length} defensive structure(s) are damaged. Repairs are under Territory.` });
 
+  if (frontierHeld(s.phase) && !s.structures.some((d) => d.map === 'frontier')) {
+    out.push({ tone: 'warn', text: 'The frontier outpost has no defenses yet. You choose where they stand when you take up positions for the first attack.' });
+  }
+  const points = ready.filter((a) => a.skillPoints > 0);
+  if (points.length > 0) out.push({ tone: 'info', text: `${points.map((a) => a.name).join(', ')} ${points.length === 1 ? 'has' : 'have'} skill points to spend. Click a name in the roster.` });
+  const fading = s.adventurers.filter((a) => a.fadesAtHour !== null && a.fadesAtHour - s.simHour <= 72);
+  for (const a of fading) out.push({ tone: 'warn', text: `${a.name}'s emergency summoning runs out in ${duration(Math.max(0, a.fadesAtHour! - s.simHour))}.` });
+
   if (s.seal.freeCredits > 0) out.push({ tone: 'info', text: `${s.seal.freeCredits} sponsored summons remain at the seal. A full hall holds ${cfg.roster.max_roster}.` });
 
   const frontier = s.strata.find((st) => st.id === s.frontierStratumId);

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { defaultConfig as cfg, enemyIntent } from '../sim';
+import { defaultConfig as cfg, enemyIntent, skillRank } from '../sim';
 import type { CampaignState, CombatAction } from '../sim';
 import type { Dispatch } from './App';
 import { Portrait } from './Portrait';
@@ -38,8 +38,10 @@ export function CombatPanel({ state, dispatch }: { state: CampaignState; dispatc
     const adv = members.find((m) => m.id === id)!;
     const skill = D.skills[chosen.what];
     // Fall back when the skill can no longer be paid for.
-    const what = skill && adv.sp < skill.sp ? 'attack' : chosen.what;
-    const targetKind = what === 'attack' ? 'enemy' : what === 'guard' ? 'none' : (D.skills[what]?.target ?? 'none');
+    const gone = chosen.what.startsWith('item:') && (exp.pack[chosen.what.slice(5)] ?? 0) <= 0;
+    const what = (skill && adv.sp < skill.sp) || gone ? 'attack' : chosen.what;
+    const supply = what.startsWith('item:') ? what.slice(5) : null;
+    const targetKind = what === 'attack' ? 'enemy' : what === 'guard' ? 'none' : supply ? 'ally' : (D.skills[what]?.target ?? 'none');
     let target = chosen.target;
     if (targetKind === 'enemy' && !foes.some((e) => String(e.id) === target)) target = firstFoe;
     if (targetKind === 'ally' && !exp.partyIds.includes(target)) target = id;
@@ -52,6 +54,7 @@ export function CombatPanel({ state, dispatch }: { state: CampaignState; dispatc
       const o = orderFor(m.id);
       if (o.what === 'attack') actions[m.id] = { type: 'attack', target: Number(o.target) };
       else if (o.what === 'guard') actions[m.id] = { type: 'guard' };
+      else if (o.what.startsWith('item:')) actions[m.id] = { type: 'item', itemId: o.what.slice(5), target: o.target };
       else actions[m.id] = { type: 'skill', skillId: o.what, target: o.targetKind === 'enemy' ? Number(o.target) : o.targetKind === 'ally' ? o.target : undefined };
     }
     dispatch({ type: 'combat_round', actions });
@@ -101,14 +104,21 @@ export function CombatPanel({ state, dispatch }: { state: CampaignState; dispatc
               <select aria-label={`Order for ${m.name}`} value={o.what} onChange={(e) => set(m.id, { what: e.target.value })}>
                 <option value="attack">Attack</option>
                 <option value="guard">Guard</option>
-                {(stats?.skills ?? []).map((id) => {
+                {(stats?.tree ?? []).map((id) => {
                   const skill = D.skills[id];
-                  return skill ? (
+                  return skill && skill.effect.kind !== 'passive' && skillRank(m, id) > 0 ? (
                     <option key={id} value={id} disabled={m.sp < skill.sp} title={skill.text}>
                       {skill.name} ({skill.sp} SP)
                     </option>
                   ) : null;
                 })}
+                {Object.entries(exp.pack)
+                  .filter(([, n]) => n > 0)
+                  .map(([id, n]) => (
+                    <option key={id} value={`item:${id}`} title={cfg.supplies.items[id]?.text}>
+                      Use {cfg.supplies.items[id]?.name} (×{n})
+                    </option>
+                  ))}
               </select>
               {o.targetKind === 'enemy' && (
                 <select aria-label={`Target for ${m.name}`} value={o.target} onChange={(e) => set(m.id, { target: e.target.value })}>

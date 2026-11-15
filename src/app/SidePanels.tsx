@@ -35,9 +35,13 @@ export function SealPanel({ state, dispatch }: PanelProps) {
           Summon
         </button>
       </div>
-      <button disabled={full} onClick={() => dispatch({ type: 'summon', classId, emergency: true })}>
+      <button onClick={() => dispatch({ type: 'summon', classId, emergency: true })}>
         Emergency summon · {formatCost(cfg.roster.emergency_summon_cost)}
       </button>
+      <p className="small muted">
+        An emergency summon answers at once and takes no place in the hall, but fades after {duration(cfg.roster.emergency.lifetime_hours)}. At most{' '}
+        {cfg.roster.emergency.max_active} at a time.
+      </p>
     </div>
   );
 }

@@ -27,7 +27,7 @@
   "roster": {
     "starter_free_summons": 5,
     "bonus_early_summon_credits": 3,
-    "max_roster": 8,
+    "max_roster": 10,
     "max_dungeon_party": 5,
     "default_summon_cooldown_hours": 336,
     "summon_cost": {
@@ -61,32 +61,44 @@
     "rest_hp_per_day": 40,
     "rest_gauge_per_day": 30,
     "rest_sp_per_day": 20,
-    "names": [
-      "Ysolde",
-      "Maren",
-      "Thessaly",
-      "Okka",
-      "Brisa",
-      "Linnet",
-      "Havela",
-      "Sorrel",
-      "Quenby",
-      "Idris",
-      "Velka",
-      "Nimue",
-      "Aurel",
-      "Castane",
-      "Petra",
-      "Rhosyn",
-      "Ember",
-      "Wren",
-      "Zofia",
-      "Calla",
-      "Edda",
-      "Mirelle",
-      "Tamsin",
-      "Oriel"
-    ]
+    "emergency": {
+      "lifetime_hours": 336,
+      "max_active": 3
+    },
+    "names_by_class": {
+      "Guardian": [
+        "Rhosyn",
+        "Havela",
+        "Tamsin",
+        "Brisa",
+        "Edda",
+        "Petra"
+      ],
+      "Gunner": [
+        "Ysolde",
+        "Okka",
+        "Quenby",
+        "Wren",
+        "Calla",
+        "Zofia"
+      ],
+      "Alchemist": [
+        "Aurel",
+        "Idris",
+        "Velka",
+        "Nimue",
+        "Sorrel",
+        "Castane"
+      ],
+      "Medic": [
+        "Oriel",
+        "Maren",
+        "Linnet",
+        "Thessaly",
+        "Mirelle",
+        "Ember"
+      ]
+    }
   },
   "resources": {
     "starting_stockpile": {
@@ -274,6 +286,19 @@
       "range": 210,
       "cooldown_seconds": 1.5,
       "armor_pierce": 0.5
+    },
+    "level_damage_bonus": 0.05,
+    "build_caps": {
+      "frontier": {
+        "watchtower": 3,
+        "bunker": 2,
+        "support_station": 2
+      },
+      "sanctuary": {
+        "watchtower": 1,
+        "bunker": 1,
+        "support_station": 0
+      }
     }
   },
   "ui": {
@@ -330,6 +355,14 @@
           "heavy_blow",
           "taunt",
           "shield_wall"
+        ],
+        "tree": [
+          "heavy_blow",
+          "taunt",
+          "shield_wall",
+          "bulwark",
+          "stone_blood",
+          "wall_warden"
         ]
       },
       "Gunner": {
@@ -341,7 +374,16 @@
         "melee": false,
         "skills": [
           "aimed_shot",
-          "suppressing_fire"
+          "suppressing_fire",
+          "armor_breaker"
+        ],
+        "tree": [
+          "aimed_shot",
+          "suppressing_fire",
+          "armor_breaker",
+          "steady_aim",
+          "long_watch",
+          "quick_hands"
         ]
       },
       "Alchemist": {
@@ -355,6 +397,14 @@
           "flame_flask",
           "corrosive_mist",
           "frost_vial"
+        ],
+        "tree": [
+          "flame_flask",
+          "corrosive_mist",
+          "frost_vial",
+          "volatile_mix",
+          "deep_satchel",
+          "siege_flasks"
         ]
       },
       "Medic": {
@@ -368,6 +418,14 @@
           "mend",
           "purge_stone",
           "ward_mist"
+        ],
+        "tree": [
+          "mend",
+          "purge_stone",
+          "ward_mist",
+          "field_surgeon",
+          "calm_breath",
+          "wardkeeper"
         ]
       }
     },
@@ -487,6 +545,162 @@
           "kind": "party_buff",
           "buff": "ward_mist",
           "rounds": 3
+        }
+      },
+      "armor_breaker": {
+        "name": "Armor Breaker",
+        "sp": 4,
+        "target": "enemy",
+        "text": "120% damage and halves the target's armor for 3 rounds.",
+        "effect": {
+          "kind": "damage",
+          "power": 1.2,
+          "status": "corrode",
+          "rounds": 3
+        }
+      },
+      "bulwark": {
+        "name": "Bulwark",
+        "sp": 0,
+        "target": "self",
+        "text": "+2 armor per rank.",
+        "requires_level": 1,
+        "effect": {
+          "kind": "passive",
+          "stat": "def",
+          "per_rank": 2
+        }
+      },
+      "stone_blood": {
+        "name": "Stone Blood",
+        "sp": 0,
+        "target": "self",
+        "text": "Takes 10% less solidification per rank.",
+        "requires_level": 2,
+        "effect": {
+          "kind": "passive",
+          "stat": "gauge_resist_pct",
+          "per_rank": 10
+        }
+      },
+      "wall_warden": {
+        "name": "Wall Warden",
+        "sp": 0,
+        "target": "self",
+        "text": "+15% damage per rank when holding a defensive post.",
+        "requires_level": 3,
+        "effect": {
+          "kind": "passive",
+          "stat": "td_damage_pct",
+          "per_rank": 15
+        }
+      },
+      "steady_aim": {
+        "name": "Steady Aim",
+        "sp": 0,
+        "target": "self",
+        "text": "+8% attack per rank.",
+        "requires_level": 1,
+        "effect": {
+          "kind": "passive",
+          "stat": "atk_pct",
+          "per_rank": 8
+        }
+      },
+      "long_watch": {
+        "name": "Long Watch",
+        "sp": 0,
+        "target": "self",
+        "text": "+8% reach per rank when holding a defensive post.",
+        "requires_level": 2,
+        "effect": {
+          "kind": "passive",
+          "stat": "td_range_pct",
+          "per_rank": 8
+        }
+      },
+      "quick_hands": {
+        "name": "Quick Hands",
+        "sp": 0,
+        "target": "self",
+        "text": "+1 speed per rank.",
+        "requires_level": 3,
+        "effect": {
+          "kind": "passive",
+          "stat": "speed",
+          "per_rank": 1
+        }
+      },
+      "volatile_mix": {
+        "name": "Volatile Mix",
+        "sp": 0,
+        "target": "self",
+        "text": "+8% attack per rank.",
+        "requires_level": 1,
+        "effect": {
+          "kind": "passive",
+          "stat": "atk_pct",
+          "per_rank": 8
+        }
+      },
+      "deep_satchel": {
+        "name": "Deep Satchel",
+        "sp": 0,
+        "target": "self",
+        "text": "+4 skill points per rank.",
+        "requires_level": 2,
+        "effect": {
+          "kind": "passive",
+          "stat": "max_sp",
+          "per_rank": 4
+        }
+      },
+      "siege_flasks": {
+        "name": "Siege Flasks",
+        "sp": 0,
+        "target": "self",
+        "text": "+12% damage per rank when holding a defensive post.",
+        "requires_level": 3,
+        "effect": {
+          "kind": "passive",
+          "stat": "td_damage_pct",
+          "per_rank": 12
+        }
+      },
+      "field_surgeon": {
+        "name": "Field Surgeon",
+        "sp": 0,
+        "target": "self",
+        "text": "Healing and purging are 15% stronger per rank, in the labyrinth and on the walls.",
+        "requires_level": 1,
+        "effect": {
+          "kind": "passive",
+          "stat": "support_pct",
+          "per_rank": 15
+        }
+      },
+      "calm_breath": {
+        "name": "Calm Breath",
+        "sp": 0,
+        "target": "self",
+        "text": "+4 skill points per rank.",
+        "requires_level": 2,
+        "effect": {
+          "kind": "passive",
+          "stat": "max_sp",
+          "per_rank": 4
+        }
+      },
+      "wardkeeper": {
+        "name": "Wardkeeper",
+        "sp": 0,
+        "target": "self",
+        "text": "Takes 8% less solidification per rank.",
+        "requires_level": 3,
+        "effect": {
+          "kind": "passive",
+          "stat": "gauge_resist_pct",
+          "per_rank": 8
         }
       }
     },
@@ -692,6 +906,187 @@
           "construction_materials": 20,
           "restoration_reagent": 10,
           "ward_energy": 20
+        }
+      }
+    },
+    "starting_skill_points": 1,
+    "skill_points_per_level": 1,
+    "skill_max_rank": 3,
+    "rank_bonus": 0.2,
+    "field_action_minutes": 5
+  },
+  "equipment": {
+    "slots": [
+      "weapon",
+      "armor",
+      "charm"
+    ],
+    "unlock_text": {
+      "start": "available from the start",
+      "floor_2": "found on the second floor",
+      "floor_3": "found on the third floor",
+      "elite": "taken from the roaming elite",
+      "boss": "won from the master of the stratum"
+    },
+    "items": {
+      "iron_arms": {
+        "name": "Iron Arms",
+        "slot": "weapon",
+        "unlock": "start",
+        "cost": {
+          "construction_materials": 10
+        },
+        "stats": {
+          "atk": 3
+        },
+        "text": "Plain, dependable weapons."
+      },
+      "padded_coat": {
+        "name": "Padded Coat",
+        "slot": "armor",
+        "unlock": "start",
+        "cost": {
+          "construction_materials": 10
+        },
+        "stats": {
+          "def": 2,
+          "max_hp": 10
+        },
+        "text": "Layers of quilted cloth."
+      },
+      "ward_charm": {
+        "name": "Ward Charm",
+        "slot": "charm",
+        "unlock": "start",
+        "cost": {
+          "ward_energy": 10,
+          "restoration_reagent": 4
+        },
+        "stats": {
+          "gauge_resist_pct": 10
+        },
+        "text": "A sliver of ward light worn at the throat."
+      },
+      "galleries_steel": {
+        "name": "Galleries Steel",
+        "slot": "weapon",
+        "unlock": "floor_2",
+        "cost": {
+          "construction_materials": 24
+        },
+        "stats": {
+          "atk": 6
+        },
+        "text": "Reforged from what the first floor gave up."
+      },
+      "scout_leathers": {
+        "name": "Scout Leathers",
+        "slot": "armor",
+        "unlock": "floor_2",
+        "cost": {
+          "construction_materials": 22
+        },
+        "stats": {
+          "def": 3,
+          "speed": 1
+        },
+        "text": "Light enough to move first."
+      },
+      "sentinel_plate": {
+        "name": "Sentinel Plate",
+        "slot": "armor",
+        "classes": [
+          "Guardian"
+        ],
+        "unlock": "floor_3",
+        "cost": {
+          "construction_materials": 30
+        },
+        "stats": {
+          "def": 5,
+          "max_hp": 20
+        },
+        "text": "Basalt plates on a steel frame."
+      },
+      "marksman_scope": {
+        "name": "Marksman Scope",
+        "slot": "charm",
+        "classes": [
+          "Gunner"
+        ],
+        "unlock": "floor_3",
+        "cost": {
+          "construction_materials": 18
+        },
+        "stats": {
+          "atk_pct": 5,
+          "td_range_pct": 12
+        },
+        "text": "Ground crystal lenses."
+      },
+      "warden_core": {
+        "name": "Warden Core",
+        "slot": "charm",
+        "unlock": "elite",
+        "cost": {
+          "ward_energy": 30,
+          "restoration_reagent": 12
+        },
+        "stats": {
+          "gauge_resist_pct": 25,
+          "max_sp": 6
+        },
+        "text": "The still heart of the Warden of Dust."
+      },
+      "colossus_edge": {
+        "name": "Colossus Edge",
+        "slot": "weapon",
+        "unlock": "boss",
+        "cost": {
+          "construction_materials": 45
+        },
+        "stats": {
+          "atk": 10
+        },
+        "text": "Cut from the Hollow Colossus."
+      }
+    }
+  },
+  "supplies": {
+    "pack_limit_per_item": 3,
+    "items": {
+      "draught": {
+        "name": "Restorative Draught",
+        "cost": {
+          "restoration_reagent": 4
+        },
+        "text": "Restores 50 health.",
+        "effect": {
+          "kind": "heal",
+          "amount": 50
+        }
+      },
+      "salve": {
+        "name": "Ward Salve",
+        "cost": {
+          "restoration_reagent": 5
+        },
+        "text": "Lowers solidification by 35.",
+        "effect": {
+          "kind": "purge",
+          "gauge": 35
+        }
+      },
+      "tonic": {
+        "name": "Clear Tonic",
+        "cost": {
+          "restoration_reagent": 3,
+          "ward_energy": 3
+        },
+        "text": "Restores 12 skill points.",
+        "effect": {
+          "kind": "restore_sp",
+          "amount": 12
         }
       }
     }

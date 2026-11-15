@@ -3,6 +3,7 @@ import type { GameConfig } from './config';
 import { DIRS, DIR_LETTERS, elitePath, findTile, floorKey, getStratumMap, parseTileKey, tileAt, tileKey } from './dungeonMap';
 import type { FloorData, GridPoint } from './dungeonMap';
 import { finishExpedition, wipeExpedition } from './expeditionCore';
+import { addMilestone, applyRemedy, loadPack, rankScale, skillRank, statsOf } from './growth';
 import { randomInt } from './rng';
 import { frontierHeld, getAdventurer } from './selectors';
 import { solidify } from './statues';
@@ -52,6 +53,8 @@ function place(s: CampaignState, exp: Expedition, floorIndex: number, tile: stri
   const [x, y] = findTile(floor, tile) ?? fail('That floor has no way in.');
   Object.assign(exp, { floor: floorIndex, x, y, prevX: x, prevY: y, facing: floor.start_facing });
   s.dungeon.reachedFloor[exp.stratumId] = Math.max(s.dungeon.reachedFloor[exp.stratumId] ?? 0, floorIndex);
+  if (floorIndex >= 1) addMilestone(s, `floor_${floorIndex + 1}`);
+  if (floorIndex >= 2) addMilestone(s, 'floor_2');
   discover(s, exp);
 }
 
@@ -93,6 +96,7 @@ export function startExpedition(s: CampaignState, cfg: GameConfig, partyIds: str
     loot: { ward_energy: 0, construction_materials: 0, restoration_reagent: 0 },
     combat: null,
     elitePositions: {},
+    pack: loadPack(s, cfg),
     report: [],
   };
   s.expedition = exp;
@@ -138,7 +142,7 @@ function afterStep(s: CampaignState, cfg: GameConfig): void {
     exp.report = ['Pale mist clings to the party. The stone creeps a little further.'];
     for (const id of [...exp.partyIds]) {
       const adv = getAdventurer(s, id);
-      adv.gauge = Math.min(100, adv.gauge + cfg.dungeon.mist_gauge);
+      adv.gauge = Math.min(100, adv.gauge + Math.round(cfg.dungeon.mist_gauge * (1 - statsOf(cfg, adv).gaugeResist)));
       if (adv.gauge >= 100) solidify(s, cfg, id, 'dungeon', partyTile(exp));
     }
     if (exp.partyIds.length === 0) {
@@ -292,4 +296,39 @@ export function debugRevealMap(s: CampaignState): void {
     s.dungeon.discovered[floorKey(exp.stratumId, i)] = floor.grid.map((row) => '1'.repeat(row.length));
   });
   s.dungeon.reachedFloor[exp.stratumId] = (getStratumMap(exp.stratumId)?.floors.length ?? 1) - 1;
+}
+
+function fieldReady(s: CampaignState): Expedition {
+  const exp = expedition(s);
+  ensureClockFree(s);
+  if (exp.combat) fail('The party is in a fight; give the order there.');
+  return exp;
+}
+
+/** Use a carried supply between fights. */
+export function fieldUseItem(s: CampaignState, cfg: GameConfig, itemId: string, targetId: string): void {
+  const exp = fieldReady(s);
+  const item = cfg.supplies.items[itemId] ?? fail('There is no such supply.');
+  if ((exp.pack[itemId] ?? 0) <= 0) fail(`The party has no ${item.name} left.`);
+  if (!exp.partyIds.includes(targetId)) fail(`${item.name} needs someone in the party.`);
+  exp.pack[itemId] = (exp.pack[itemId] ?? 0) - 1;
+  exp.report = [`${applyRemedy(item.effect, getAdventurer(s, targetId), 1)}.`];
+  advanceMinutes(s, cfg, cfg.dungeon.field_action_minutes);
+}
+
+/** Use a healing or purging skill between fights. */
+export function fieldUseSkill(s: CampaignState, cfg: GameConfig, adventurerId: string, skillId: string, targetId: string): void {
+  const exp = fieldReady(s);
+  const adv = getAdventurer(s, adventurerId);
+  const skill = cfg.dungeon.skills[skillId];
+  if (!exp.partyIds.includes(adventurerId)) fail(`${adv.name} is not with the party.`);
+  if (!skill || skillRank(adv, skillId) < 1) fail(`${adv.name} does not know that skill.`);
+  const effect = skill.effect;
+  if (effect.kind !== 'heal' && effect.kind !== 'purge') fail(`${skill.name} can only be used in a fight.`);
+  if (!exp.partyIds.includes(targetId)) fail(`${skill.name} needs someone in the party.`);
+  if (adv.sp < skill.sp) fail(`${adv.name} does not have the skill points for ${skill.name}.`);
+  adv.sp -= skill.sp;
+  const strength = rankScale(cfg, skillRank(adv, skillId)) * statsOf(cfg, adv).support;
+  exp.report = [`${adv.name} uses ${skill.name}: ${applyRemedy(effect, getAdventurer(s, targetId), strength)}.`];
+  advanceMinutes(s, cfg, cfg.dungeon.field_action_minutes);
 }

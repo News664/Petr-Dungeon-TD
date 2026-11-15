@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import type { MutableRefObject } from 'react';
 import { Application, Graphics, Text } from 'pixi.js';
-import { defaultConfig as cfg, defenderWeapon, getDefenseMap, laneLength, lanePoint, waveForecast } from '../sim';
+import { buildsLeft, defaultConfig as cfg, defenderWeapon, getDefenseMap, laneLength, lanePoint, waveForecast } from '../sim';
 import type { BattleShot, CampaignState, DefenseMapId, TargetPriority } from '../sim';
 import type { Dispatch } from './App';
 import { BATTLE_LABEL, enemyCount, title } from './format';
@@ -42,16 +42,17 @@ function drawGround(g: Graphics, mapId: DefenseMapId) {
   }
 }
 
-function drawBattle(g: Graphics, labels: Map<string, Text>, s: CampaignState, selected: string | null, fx: { shot: BattleShot; life: number }[]) {
+function drawBattle(g: Graphics, labels: Map<string, Text>, kinds: Map<string, Text>, s: CampaignState, selected: string | null, fx: { shot: BattleShot; life: number }[]) {
   const b = s.battle;
   g.clear();
   if (!b) return;
   const map = getDefenseMap(b.map);
+  for (const text of [...labels.values(), ...kinds.values()]) text.text = '';
 
   // Reach of the selected post.
   const selectedStructure = s.structures.find((d) => d.id === selected && d.map === b.map);
   if (selectedStructure) {
-    const [x, y] = map.slots[selectedStructure.id] ?? [0, 0];
+    const { x, y } = selectedStructure;
     const occupant = s.adventurers.find((a) => a.id === selectedStructure.occupantId);
     const weapon = occupant ? defenderWeapon(cfg, occupant, selectedStructure) : null;
     if (weapon) g.circle(x, y, weapon.range).fill({ color: COLORS.ward, alpha: 0.06 }).stroke({ width: 1, color: COLORS.ward, alpha: 0.5 });
@@ -70,11 +71,17 @@ function drawBattle(g: Graphics, labels: Map<string, Text>, s: CampaignState, se
       .stroke({ width: 2, color: s.sanctuary.automatedAmmo > 0 ? 0x8fd9ff : COLORS.line });
   });
 
+  // Free building sites, shown while the defenders take up positions.
+  if (b.deploying) {
+    for (const [site, [sx, sy]] of Object.entries(map.sites)) {
+      if (!s.structures.some((d) => d.map === b.map && d.site === site)) g.circle(sx, sy, 15).stroke({ width: 1, color: COLORS.line, alpha: 0.9 });
+    }
+  }
+
   // Structures and their occupants.
   for (const d of s.structures) {
-    const pos = d.map === b.map ? map.slots[d.id] : undefined;
-    if (!pos) continue;
-    const [x, y] = pos;
+    if (d.map !== b.map) continue;
+    const { x, y } = d;
     const wrecked = d.hp <= 0;
     const outline = { width: 2, color: wrecked ? COLORS.danger : COLORS.line, alpha: wrecked ? 0.7 : 1 };
     if (d.type === 'watchtower') g.circle(x, y, 18).fill({ color: 0x15181d }).stroke(outline);
@@ -84,8 +91,10 @@ function drawBattle(g: Graphics, labels: Map<string, Text>, s: CampaignState, se
     else bar(g, x, y + 24, 30, d.hp / d.maxHp, 0x7d8794);
 
     const occupant = s.adventurers.find((a) => a.id === d.occupantId);
-    const label = labels.get(d.id);
+    const label = labels.get(d.site);
     if (label) label.text = occupant ? occupant.name.charAt(0) : '';
+    const kind = kinds.get(d.site);
+    if (kind) kind.text = d.type === 'watchtower' ? 'tower' : d.type === 'bunker' ? 'bunker' : 'support';
     if (occupant) {
       const moving = b.tick < (b.busyUntil[occupant.id] ?? 0);
       g.circle(x, y, 11).fill({ color: CLASS_COLOR[occupant.classId] ?? COLORS.text, alpha: moving ? 0.35 : 1 });
@@ -110,10 +119,10 @@ function drawBattle(g: Graphics, labels: Map<string, Text>, s: CampaignState, se
     else g.circle(x, y, r).fill({ color: look.color });
     if (e.slowTicks > 0) g.circle(x, y, r + 4).stroke({ width: 1, color: 0x6f9bd8 });
     // A brute that has stopped to batter a structure: show what it is hitting.
-    const battered = e.siegeTarget ? map.slots[e.siegeTarget] : undefined;
+    const battered = e.siegeTarget ? s.structures.find((d) => d.id === e.siegeTarget) : undefined;
     if (battered) {
-      g.moveTo(x, y).lineTo(battered[0], battered[1]).stroke({ width: 2, color: COLORS.danger, alpha: 0.45 });
-      g.circle(battered[0], battered[1], 24).stroke({ width: 2, color: COLORS.danger, alpha: 0.8 });
+      g.moveTo(x, y).lineTo(battered.x, battered.y).stroke({ width: 2, color: COLORS.danger, alpha: 0.45 });
+      g.circle(battered.x, battered.y, 24).stroke({ width: 2, color: COLORS.danger, alpha: 0.8 });
     }
     if (e.hp < e.maxHp) bar(g, x, y - r - 8, 22, e.hp / e.maxHp, COLORS.danger);
   }
@@ -169,22 +178,19 @@ export function BattleScreen({ state, stateRef, dispatch }: Props) {
         drawGround(ground, mapId);
         const dynamic = new Graphics();
         app.stage.addChild(ground, dynamic);
+        // One initial and one caption per building site; filled in while drawing.
         const labels = new Map<string, Text>();
-        for (const [id, [x, y]] of Object.entries(map.slots)) {
+        const kinds = new Map<string, Text>();
+        for (const [site, [x, y]] of Object.entries(map.sites)) {
           const label = new Text({ text: '', style: { fontFamily: 'system-ui, sans-serif', fontSize: 13, fontWeight: '700', fill: 0x0d0f12 } });
           label.anchor.set(0.5);
           label.position.set(x, y);
-          app.stage.addChild(label);
-          labels.set(id, label);
-        }
-
-        // Name each post on the map so it can be found without the side panel.
-        for (const [id, [x, y]] of Object.entries(map.slots)) {
-          const kind = id.includes('watchtower') ? 'tower' : id.includes('bunker') ? 'bunker' : 'support';
-          const postLabel = new Text({ text: kind, style: { fontFamily: 'system-ui, sans-serif', fontSize: 11, fill: 0x8a8f99 } });
-          postLabel.anchor.set(0.5, 0);
-          postLabel.position.set(x, y + 34);
-          app.stage.addChild(postLabel);
+          const kind = new Text({ text: '', style: { fontFamily: 'system-ui, sans-serif', fontSize: 11, fill: 0x8a8f99 } });
+          kind.anchor.set(0.5, 0);
+          kind.position.set(x, y + 34);
+          app.stage.addChild(label, kind);
+          labels.set(site, label);
+          kinds.set(site, kind);
         }
         map.lanes.forEach((lane, i) => {
           const [lx, ly] = lane[0] ?? [0, 0];
@@ -213,7 +219,7 @@ export function BattleScreen({ state, stateRef, dispatch }: Props) {
             lastTick = now.battle.tick;
             for (const shot of now.battle.shots) fx.push({ shot, life: SHOT_LIFE_MS });
           }
-          drawBattle(dynamic, labels, now, selectedRef.current, fx);
+          drawBattle(dynamic, labels, kinds, now, selectedRef.current, fx);
         });
       });
 
@@ -225,6 +231,8 @@ export function BattleScreen({ state, stateRef, dispatch }: Props) {
 
   // The adventurer picked up for a tap-to-place move (dragging works too).
   const [picked, setPicked] = useState<string | null>(null);
+  // While deploying: a structure type to build, or 'remove', or nothing (posting champions).
+  const [tool, setTool] = useState<string | null>(null);
 
   if (!battle) return null;
   const map = getDefenseMap(battle.map);
@@ -259,7 +267,8 @@ export function BattleScreen({ state, stateRef, dispatch }: Props) {
     setPicked(null);
   };
   const onSlot = (structureId: string, occupantId: string | null) => {
-    if (picked && picked !== occupantId) place(picked, structureId);
+    if (deploying && tool === 'remove') dispatch({ type: 'demolish_structure', structureId });
+    else if (picked && picked !== occupantId) place(picked, structureId);
     else {
       setSelected(structureId);
       setPicked(occupantId && picked !== occupantId ? occupantId : null);
@@ -268,7 +277,7 @@ export function BattleScreen({ state, stateRef, dispatch }: Props) {
   const tip = !tutorial
     ? null
     : deploying
-      ? 'Drag each champion onto a post, or tap her and then the post. Watchtowers hit hard and far but leave her exposed; the bunker shelters her; the support station suits your Medic. The weapons on the walls fire by themselves.'
+      ? 'Your posts are the towers, bunker and station already on the map. Drag each champion onto one, or tap her and then the post. Watchtowers hit hard and far but leave her exposed; the bunker shelters her; the support station suits your Medic. The weapons on the walls fire by themselves.'
       : started <= 1
         ? 'Runners only run for the gate. Anything that reaches it wears the gate down.'
         : started === 2
@@ -340,10 +349,23 @@ export function BattleScreen({ state, stateRef, dispatch }: Props) {
         )}
 
         <div className="battle-field" ref={hostRef}>
+          {deploying &&
+            tool &&
+            tool !== 'remove' &&
+            Object.entries(map.sites)
+              .filter(([site]) => !structures.some((d) => d.site === site))
+              .map(([site, [sx, sy]]) => (
+                <button
+                  key={site}
+                  className="slot-hit target"
+                  style={{ left: `${(sx / map.width) * 100}%`, top: `${(sy / map.height) * 100}%` }}
+                  aria-label={`Free site ${site}`}
+                  onClick={() => dispatch({ type: 'build_structure', map: battle.map, site, structureType: tool }) && buildsLeft(stateRef.current, cfg, battle.map, tool) <= 0 && setTool(null)}
+                />
+              ))}
           {!over &&
             structures.map((d) => {
-              const pos = map.slots[d.id];
-              if (!pos) return null;
+              const pos = [d.x, d.y] as const;
               const occupant = state.adventurers.find((a) => a.id === d.occupantId);
               return (
                 <button
@@ -379,6 +401,34 @@ export function BattleScreen({ state, stateRef, dispatch }: Props) {
             </div>
           )}
         </div>
+        {deploying && (
+          <div className="panel build-tray">
+            <h3>
+              Defenses <span className="muted">· pick a structure, then tap a free site on the map</span>
+            </h3>
+            <div className="row">
+              {Object.keys(cfg.defense.structure_stats).map((type) => {
+                const left = buildsLeft(state, cfg, battle.map, type);
+                return (
+                  <button key={type} className={tool === type ? 'primary' : ''} aria-pressed={tool === type} disabled={left <= 0} onClick={() => setTool(tool === type ? null : type)}>
+                    {title(type)} · {Math.max(0, left)} left
+                  </button>
+                );
+              })}
+              <button className={tool === 'remove' ? 'danger' : ''} aria-pressed={tool === 'remove'} onClick={() => setTool(tool === 'remove' ? null : 'remove')}>
+                Remove
+              </button>
+              {map.default_layout.length > 0 && <button onClick={() => dispatch({ type: 'build_recommended', map: battle.map })}>Recommended layout</button>}
+            </div>
+            <p className="small muted">
+              {tool === 'remove'
+                ? 'Tap an empty structure to pull it down. Fixed posts cannot be removed.'
+                : tool
+                  ? `Tap a free site to raise a ${tool.replace(/_/g, ' ')} there.`
+                  : 'Where the structures stand is yours to choose; how many of each you may raise is limited.'}
+            </p>
+          </div>
+        )}
         {!over && (
           <div
             className={`panel reserve-tray ${picked ? 'target' : ''}`}

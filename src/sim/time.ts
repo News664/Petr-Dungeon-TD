@@ -1,6 +1,7 @@
 import { completeRebuild, triggerInvasion } from './campaign';
 import type { GameConfig } from './config';
 import { applyDailyProduction } from './economy';
+import { returnGear } from './growth';
 import { frontierHeld, recoverableStatues } from './selectors';
 import { processPermanence, processTreatments, retrieveAllAt } from './statues';
 import type { CampaignState } from './types';
@@ -17,8 +18,24 @@ export function ensureClockFree(s: CampaignState): void {
  * Everything that can happen at one hour boundary, in a fixed order:
  * permanence -> treatment -> rebuild (and its retrieval) -> daily production -> invasion.
  */
+/** Emergency summons go home when their time is up, wherever that leaves the guild. */
+function processFades(s: CampaignState): void {
+  for (const adv of [...s.adventurers]) {
+    if (adv.fadesAtHour === null || s.simHour < adv.fadesAtHour) continue;
+    // Someone in the middle of an expedition or a posting holds on until she is back.
+    if (adv.condition === 'ready' && adv.assignment.type !== 'idle') continue;
+    returnGear(s, adv);
+    s.statues = s.statues.filter((st) => st.adventurerId !== adv.id);
+    s.treatmentJobs = s.treatmentJobs.filter((j) => j.adventurerId !== adv.id);
+    if (s.expedition) s.expedition.carriedStatueIds = s.expedition.carriedStatueIds.filter((id) => id !== adv.id);
+    s.adventurers = s.adventurers.filter((a) => a.id !== adv.id);
+    log(s, 'faded', `${adv.name}'s summoning ran out. She has returned to her own world.`);
+  }
+}
+
 function processHour(s: CampaignState, cfg: GameConfig): void {
   processPermanence(s);
+  processFades(s);
   processTreatments(s, cfg);
   if (s.rebuild && s.simHour >= s.rebuild.finishHour) completeRebuild(s);
   if (s.simHour % cfg.clock.hours_per_day === 0) {

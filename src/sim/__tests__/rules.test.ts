@@ -147,20 +147,20 @@ describe('economy and roster', () => {
   });
 
   it('charges for summons after the free ones and enforces the cooldown and the cap', () => {
-    let s = buildFixture('full_roster');
+    let s = must(buildFixture('full_roster'), { type: 'debug_set_next_invasion', hour: 100_000 });
     expect(s.seal.freeCredits).toBe(0);
-    expect(rejected(s, { type: 'summon', classId: 'Medic' })).toMatch(/full/);
-    // A permanent loss frees a place.
-    s = must(s, { type: 'debug_set_next_invasion', hour: 100_000 });
-    s = must(s, { type: 'debug_solidify', adventurerId: 'adv_1', locationType: 'dungeon' });
-    s = must(s, { type: 'debug_solidify', adventurerId: 'adv_2', locationType: 'dungeon' });
-    s = advanceTo(s, cfg.clock.solidification_permanence_hours);
     const before = { ...s.resources };
     s = must(s, { type: 'summon', classId: 'Medic' });
     expect(before.ward_energy - s.resources.ward_energy).toBe(cfg.roster.summon_cost.ward_energy);
     expect(rejected(s, { type: 'summon', classId: 'Medic' })).toMatch(/recharging/);
-    s = must(s, { type: 'summon', classId: 'Medic', emergency: true });
-    expect(s.adventurers.filter((a) => a.condition !== 'lost')).toHaveLength(cfg.roster.max_roster);
+    // Fill the hall the slow way: one paid summon per cooldown.
+    s = must(s, { type: 'debug_set_resources', resources: { ward_energy: 500, construction_materials: 500 } });
+    while (s.adventurers.length < cfg.roster.max_roster) {
+      s = advanceTo(s, s.seal.nextAvailableHour);
+      s = must(s, { type: 'summon', classId: 'Medic' });
+    }
+    s = advanceTo(s, s.seal.nextAvailableHour);
+    expect(rejected(s, { type: 'summon', classId: 'Medic' })).toMatch(/full/);
   });
 
   it('runs at most the configured number of treatments at once', () => {

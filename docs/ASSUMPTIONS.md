@@ -85,9 +85,26 @@ The design spec leaves some rules open and asks that each choice be logged. Thes
 | First defense | A short three-wave battle on the sanctuary map that introduces each enemy once. The automated weapons use no ammunition in it. | `defense_maps.json`, `battle.ts` |
 | Losing the first defense | The goddess turns the hour back: everyone is restored and the battle is offered again. It cannot end the game. | `campaign.ts` |
 | After the first defense | Everyone is restored, the starter stockpile and three more sponsored summons are granted, and the first attack is scheduled seven days out. | `campaign.ts` |
-| Hall capacity | The limit of eight counts adventurers fit to fight plus statues lying in the ward. A champion still out there as a statue holds no bed, so replacements can be summoned while she is missing; rescuing her is never refused, even if that leaves the hall over capacity. No summoning while the hall is at or over capacity. | `selectors.ts` |
-| Names | Summoned adventurers draw their names from `roster.names` in the balance file. Character art is matched to the name. | `roster.ts` |
+| Hall capacity | The limit (eight at the time, now ten) counts adventurers fit to fight plus statues lying in the ward. A champion still out there as a statue holds no bed, so replacements can be summoned while she is missing; rescuing her is never refused, even if that leaves the hall over capacity. No summoning while the hall is at or over capacity. | `selectors.ts` |
 | Saving | The game autosaves in the browser after every action outside a running battle. Quicksave and quickload are separate. | `App.tsx` |
+
+## Decisions made in the growth and fortification iteration
+
+| Topic | Choice | Where |
+|---|---|---|
+| Hall capacity | Raised to 10. Still counts fighters plus statues in the ward. | `balance.json` |
+| Emergency summons | Temporary: she arrives at once, holds no place in the hall, and fades after 14 days. At most three at a time. If she is on an expedition or a post when her time comes, she holds on until she is back. Her gear returns to the armory. | `roster.ts`, `time.ts` |
+| Names | Each name belongs to one class, so a name is always the same character. | `balance.json`, `roster.ts` |
+| Skill trees | Each class has six nodes: its three active skills (known from the start at rank 1) and three passives. One point at summoning and one per level; three ranks per node; some passives need level 2 or 3. Each rank above the first adds 20% to a skill's main number, or one round to a buff. No way to take points back yet. | `growth.ts`, `balance.json` |
+| Passives and both modes | Passives can raise attack, armor, speed, health, skill points, resistance to solidification, healing, and damage or reach on a defensive post. Healing and resistance apply in the labyrinth and on the walls. | `growth.ts`, `battle.ts`, `combat.ts` |
+| Levels on the walls | Each level above the first adds 5% damage on a defensive post. | `battle.ts` |
+| Equipment | Three slots (weapon, armor, charm). Made at the workshop from resources once the recipe is found: from the start, by reaching floor 2 or 3 on foot, by killing the elite, by killing the boss. Kept in an armory; changed only at the guild. A permanently lost or faded adventurer's gear returns to the armory. | `growth.ts` |
+| Supplies | Three consumables made from reagent: heal, purge, restore skill points. An expedition packs up to three of each automatically and brings back what it does not use. A wiped party loses them. | `growth.ts`, `dungeon.ts` |
+| Field menu | Between fights the party can use supplies and its healing and purging skills. Each use takes 5 minutes. | `dungeon.ts` |
+| Supplies in a fight | Using one is that adventurer's action for the round. | `combat.ts` |
+| Building defenses | Structures stand on building sites the player chooses. Each map has more sites than structures and a cap per type (frontier: 3 watchtowers, 2 bunkers, 2 support stations). Building and removing are free and happen while taking up positions or between battles, never during the fighting. | `fortify.ts`, `defense_maps.json` |
+| Bare frontier | A new game starts with no frontier structures. The first deployment there is where they are placed; a "recommended layout" button builds the standard one. Ready-made debug states start with the standard layout. | `create.ts` |
+| Sanctuary structures | Its four posts are fixed and cannot be removed. The player may add one watchtower and one bunker on the remaining sites. | `fortify.ts`, `balance.json` |
 
 ## Balance, first pass
 
@@ -116,10 +133,11 @@ Labyrinth, checked with a scripted player that uses skills sensibly:
 
 - What conceding a battle should cost. At the moment it is free apart from losing the battle.
 - Whether attacks should grow stronger over the campaign, and how scouting changes the forecast.
-- Slot upgrades: how extra structure slots are unlocked.
-- Whether the hall should be allowed over capacity after a rescue, and whether emergency summoning needs a limit of its own. At the moment only resources and the capacity rule limit it, and a guild that loses a party and rescues it can end up with more than eight.
+- How the build caps grow: upgrades, discoveries, or secured strata.
+- Whether building and moving structures should cost materials or time. At the moment only the caps limit it.
+- Whether skill points can be taken back, and at what price.
+- Whether a party should choose what it packs. At the moment it takes up to three of everything.
 - Resident and worker casualties in a siege and their effect on later defenses.
-- Skill trees and equipment: classes currently have a fixed skill list and no gear.
-- Whether levels should also strengthen an adventurer in defense battles. At the moment they do not.
-- Consumable items and a carrying limit for loot.
+- Whether the tree needs new active skills to unlock, not only ranks and passives.
+- A carrying limit for loot.
 - Whether the slice ends at the first boss or continues into the second stratum. A second stratum exists as a stub so the loop keeps running.

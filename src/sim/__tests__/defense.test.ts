@@ -46,8 +46,10 @@ describe('map data', () => {
     const s = buildFixture('new_game');
     for (const mapId of ['frontier', 'sanctuary'] as const) {
       const map = getDefenseMap(mapId);
-      const ids = s.structures.filter((d) => d.map === mapId).map((d) => d.id);
-      expect(Object.keys(map.slots).sort()).toEqual([...ids].sort());
+      for (const d of s.structures.filter((x) => x.map === mapId)) {
+        expect(map.sites[d.site], d.id).toEqual([d.x, d.y]);
+      }
+      expect(Object.keys(map.sites).length).toBeGreaterThan(s.structures.filter((d) => d.map === mapId).length);
       for (const { group } of flatGroups(mapId)) {
         expect(cfg.defense.enemy_stats[group.enemy], group.enemy).toBeDefined();
         expect(map.lanes[group.lane]).toBeDefined();

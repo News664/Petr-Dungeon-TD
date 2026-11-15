@@ -862,3 +862,62 @@ ol.calendar time {
     grid-template-columns: 1fr 1fr;
   }
 }
+
+/* Skills, equipment, workshop and the field menu */
+ul.tree {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+}
+ul.tree li {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+  align-items: center;
+  padding: 6px 10px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--bg-inset);
+}
+ul.tree li.unlearned strong {
+  color: var(--muted);
+}
+ul.tree button {
+  font-size: 13px;
+  padding: 4px 10px;
+  min-height: 30px;
+}
+.sheet {
+  border-color: var(--ward);
+}
+.sheet h2 {
+  margin: 0;
+}
+.name-button {
+  background: transparent;
+  border: 1px solid transparent;
+  padding: 2px 6px 2px 2px;
+  min-height: 0;
+  text-align: left;
+}
+.name-button:hover {
+  border-color: var(--line-strong);
+}
+.pip {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--ward);
+  flex: none;
+}
+.field-row {
+  display: grid;
+  gap: 4px;
+  padding: 6px 0;
+  border-top: 1px solid var(--line);
+}
+.build-tray {
+  border-style: dashed;
+}

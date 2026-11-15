@@ -16,3 +16,6 @@ export { enemyIntent, partyAttack } from './combat';
 export { elitesHere, partyTile } from './dungeon';
 export { DIRS, findTile, floorKey, getStratumMap, parseTileKey, tileAt, tileKey } from './dungeonMap';
 export type { FloorData, GridPoint, StratumMap } from './dungeonMap';
+export { buildsLeft } from './fortify';
+export { rankScale, skillRank, statsOf } from './growth';
+export type { Stats } from './growth';

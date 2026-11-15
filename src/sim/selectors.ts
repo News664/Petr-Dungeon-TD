@@ -60,10 +60,12 @@ export function combatReady(s: CampaignState): Adventurer[] {
  * Places taken in the guild hall, which is what limits summoning: everyone
  * fit to fight plus every statue lying in the recovery ward. A champion who
  * is still out there as an unrecovered statue holds no bed, and one who is
- * permanently lost has given hers up.
+ * permanently lost has given hers up. Emergency summons are temporary and
+ * hold no place at all.
  */
 export function rosterCount(s: CampaignState): number {
   return s.adventurers.filter((a) => {
+    if (a.fadesAtHour !== null) return false; // an emergency summon is only passing through
     if (a.condition === 'ready') return true;
     if (a.condition === 'lost') return false;
     return s.statues.some((st) => st.adventurerId === a.id && st.retrievedAtHour !== null);

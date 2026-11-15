@@ -7,6 +7,7 @@ import { CombatPanel } from './CombatPanel';
 import { DungeonView } from './DungeonView';
 import type { ViewMarker } from './DungeonView';
 import { duration } from './format';
+import { FieldMenu } from './GrowthPanels';
 import { Portrait } from './Portrait';
 
 const D = cfg.dungeon;
@@ -234,6 +235,8 @@ export function DungeonScreen({ state, dispatch, onLeaveView }: Props) {
             </ol>
           )}
         </div>
+
+        {!inCombat && <FieldMenu state={state} dispatch={dispatch} />}
 
         <div className="panel debug">
           <h2>Debug</h2>

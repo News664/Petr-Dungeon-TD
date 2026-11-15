@@ -5,10 +5,11 @@ import { clearAssignment } from './statues';
 import type { Adventurer, CampaignState } from './types';
 import { fail, log, pay } from './util';
 
-function pickName(s: CampaignState, cfg: GameConfig): string {
+function pickName(s: CampaignState, cfg: GameConfig, classId: string): string {
   const used = new Set(s.adventurers.map((a) => a.name));
-  const free = cfg.roster.names.filter((n) => !used.has(n));
-  if (free.length === 0) return `Champion ${s.seal.summonCount + 1}`;
+  // Each name belongs to one class, so a given name is always the same character.
+  const free = (cfg.roster.names_by_class[classId] ?? []).filter((n) => !used.has(n));
+  if (free.length === 0) return `${classId} ${s.seal.summonCount + 1}`;
   return free[randomInt(s, free.length)] as string;
 }
 
@@ -16,25 +17,27 @@ export function summon(s: CampaignState, cfg: GameConfig, classId: string, emerg
   if (s.phase === 'GAME_OVER') fail('The sanctuary has fallen.');
   const stats = cfg.roster.class_stats[classId];
   if (!cfg.roster.classes.includes(classId) || !stats) fail(`Unknown class "${classId}".`);
-  if (rosterCount(s) >= cfg.roster.max_roster) fail(`The guild hall is full (${cfg.roster.max_roster} adventurers).`);
   if (s.phase === 'PROLOGUE' && (emergency || s.seal.freeCredits <= 0)) {
     fail('The goddess has strength for no more than these few champions until the sanctuary is safe.');
   }
 
-  if (s.seal.freeCredits > 0 && !emergency) {
-    s.seal.freeCredits -= 1;
-  } else if (emergency) {
-    // Costly way out of a crisis: ignores the cooldown, never free.
+  if (emergency) {
+    // A costly stopgap: she answers at once, holds no place in the hall, and fades after a while.
+    const active = s.adventurers.filter((a) => a.fadesAtHour !== null && a.condition !== 'lost').length;
+    if (active >= cfg.roster.emergency.max_active) fail(`The seal cannot hold more than ${cfg.roster.emergency.max_active} emergency summons at once.`);
     pay(s, cfg.roster.emergency_summon_cost, 'perform an emergency summoning');
   } else {
-    if (s.simHour < s.seal.nextAvailableHour) {
-      fail(`The seal is recharging for another ${s.seal.nextAvailableHour - s.simHour} hours.`);
+    if (rosterCount(s) >= cfg.roster.max_roster) fail(`The guild hall is full (${cfg.roster.max_roster} adventurers).`);
+    if (s.seal.freeCredits > 0) {
+      s.seal.freeCredits -= 1;
+    } else {
+      if (s.simHour < s.seal.nextAvailableHour) fail(`The seal is recharging for another ${s.seal.nextAvailableHour - s.simHour} hours.`);
+      pay(s, cfg.roster.summon_cost, 'perform a summoning');
+      s.seal.nextAvailableHour = s.simHour + cfg.roster.default_summon_cooldown_hours;
     }
-    pay(s, cfg.roster.summon_cost, 'perform a summoning');
-    s.seal.nextAvailableHour = s.simHour + cfg.roster.default_summon_cooldown_hours;
   }
 
-  const name = pickName(s, cfg);
+  const name = pickName(s, cfg, classId);
   const combat = cfg.dungeon.class_stats[classId];
   s.seal.summonCount += 1;
   const adv: Adventurer = {
@@ -51,12 +54,16 @@ export function summon(s: CampaignState, cfg: GameConfig, classId: string, emerg
     sp: combat?.max_sp ?? 0,
     maxSp: combat?.max_sp ?? 0,
     row: combat?.row ?? 'back',
+    skills: Object.fromEntries((combat?.skills ?? []).map((id) => [id, 1])),
+    skillPoints: cfg.dungeon.starting_skill_points,
+    equipment: { weapon: null, armor: null, charm: null },
+    fadesAtHour: emergency ? s.simHour + cfg.roster.emergency.lifetime_hours : null,
     lastPost: null,
     targetPriority: 'first',
     summonedAtHour: s.simHour,
   };
   s.adventurers.push(adv);
-  log(s, 'summoned', `${name} the ${classId} answered the seal${emergency ? ' (emergency summoning)' : ''}.`);
+  log(s, 'summoned', emergency ? `${name} the ${classId} answered an emergency summoning. She will fade in ${cfg.roster.emergency.lifetime_hours / cfg.clock.hours_per_day} days.` : `${name} the ${classId} answered the seal.`);
   return adv;
 }
 

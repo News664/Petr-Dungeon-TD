@@ -8,6 +8,8 @@ import {
   debugRevealMap,
   debugTeleport,
   endExpedition,
+  fieldUseItem,
+  fieldUseSkill,
   gather,
   moveParty,
   pickUpStatue,
@@ -16,6 +18,8 @@ import {
   startExpedition,
   useStairs,
 } from './dungeon';
+import { buildRecommended, buildStructure, demolishStructure } from './fortify';
+import { craftItem, craftSupply, equipItem, learnSkill, refreshDerived, unequipItem } from './growth';
 import { assignDefender, repairStructure, restockAmmo, setRow, setTargetPriority, summon, unassignDefender } from './roster';
 import { findStatue, getAdventurer } from './selectors';
 import { queueTreatment, retrieve, solidify } from './statues';
@@ -79,6 +83,36 @@ function run(s: CampaignState, cfg: GameConfig, cmd: Command): void {
     case 'set_row':
       setRow(s, cmd.adventurerId, cmd.row);
       return;
+    case 'learn_skill':
+      learnSkill(s, cfg, cmd.adventurerId, cmd.skillId);
+      return;
+    case 'craft_item':
+      craftItem(s, cfg, cmd.itemId);
+      return;
+    case 'equip_item':
+      equipItem(s, cfg, cmd.adventurerId, cmd.itemId);
+      return;
+    case 'unequip_item':
+      unequipItem(s, cfg, cmd.adventurerId, cmd.slot);
+      return;
+    case 'craft_supply':
+      craftSupply(s, cfg, cmd.itemId);
+      return;
+    case 'field_use_item':
+      fieldUseItem(s, cfg, cmd.itemId, cmd.target);
+      return;
+    case 'field_use_skill':
+      fieldUseSkill(s, cfg, cmd.adventurerId, cmd.skillId, cmd.target);
+      return;
+    case 'build_structure':
+      buildStructure(s, cfg, cmd.map, cmd.site, cmd.structureType);
+      return;
+    case 'demolish_structure':
+      demolishStructure(s, cmd.structureId);
+      return;
+    case 'build_recommended':
+      buildRecommended(s, cfg, cmd.map);
+      return;
     case 'debug_teleport':
       debugTeleport(s, cmd.floor, cmd.x, cmd.y);
       return;
@@ -92,9 +126,10 @@ function run(s: CampaignState, cfg: GameConfig, cmd: Command): void {
       const level = Math.max(1, Math.min(cfg.dungeon.level_cap, Math.floor(cmd.level)));
       for (const adv of s.adventurers) {
         if (adv.condition !== 'ready') continue;
+        adv.skillPoints += Math.max(0, level - adv.level) * cfg.dungeon.skill_points_per_level;
         adv.level = level;
         adv.xp = 0;
-        adv.maxHp = Math.round((cfg.roster.class_stats[adv.classId]?.max_hp ?? adv.maxHp) * (1 + cfg.dungeon.level_hp_bonus * (level - 1)));
+        refreshDerived(cfg, adv);
         adv.hp = adv.maxHp;
         adv.sp = adv.maxSp;
         adv.gauge = 0;

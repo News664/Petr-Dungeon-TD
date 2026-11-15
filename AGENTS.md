@@ -11,7 +11,13 @@ Read `docs/design/handoff/GAME_DESIGN_SPEC.md` and `docs/design/handoff/AGENTS.m
 - Defense battles are part of the simulator (`src/sim/battle.ts`): fixed ticks, no randomness, integer state. The renderer only draws `state.battle` and sends `battle_tick`.
 - The labyrinth is part of the simulator too (`src/sim/dungeon.ts`, `src/sim/combat.ts`). Randomness there goes through the seeded generator in the state.
 - Presentation (`src/app`) reads state and dispatches commands. It holds no game rules.
+- An adventurer's strength (level, skill ranks, gear) is read through `statsOf` in `src/sim/growth.ts`. Do not read class base stats directly in combat or battle code.
 - Every statue uses the same 30-day deadline. Do not add location- or structure-specific timers.
+
+## Other folders
+
+- `graphics/` holds art requirements (style guide, briefs, `asset_list.json`). It is documentation: the game reads art only from `public/art/`.
+- `lore/` holds the world and character draft. Statements there are labelled Fixed, Proposed or Open; keep the labels when adding to it, and do not contradict a Fixed statement without changing the rules it comes from.
 
 ## Before you commit
 

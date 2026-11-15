@@ -10,6 +10,7 @@ Prototype of a hardcore first-person grid dungeon RPG combined with adventurer-s
 | M1 | Tower defense layer (frontier and sanctuary maps) | Playable, placeholder art |
 | M2 | First-person dungeon, turn-based party combat, statue rescue | Playable, placeholder art |
 | M3 | Tutorial, integration, balance | Prologue, tutorial defense, guild advisor and autosave done; balance by hand play and real art still open |
+| M4 | Growth and fortification | Skill trees, equipment, supplies and field menu, buildable defenses, temporary emergency summons; art briefs and lore draft |
 
 The slice is playable from start to finish: prologue and first defense, the three-floor labyrinth, weekly attacks, the boss, protected extraction, and the crisis loops after a lost frontier. A scripted player finishes it in tests.
 
@@ -49,6 +50,8 @@ config/dungeon_maps.json   Labyrinth floors, gates, elites and encounter tables
 docs/design/handoff/       The original design handoff, unchanged
 docs/ASSUMPTIONS.md        Prototype decisions and open design questions
 docs/ART_PIPELINE.md       How character art is organised and how to add it
+graphics/                  Art requirements: style guide, briefs, and a list of every picture needed
+lore/                      World and character draft, with open questions
 public/art/                Character art and its manifest (empty for now)
 src/sim/                   Campaign simulator and its tests
 src/art/                   Art manifest: which picture shows at which solidification stage

@@ -2,6 +2,7 @@ import { concludeBattle } from './campaign';
 import type { ClassCombat, GameConfig, WeaponStats } from './config';
 import { flatGroups, getDefenseMap, laneLength, lanePoint, wavesFor } from './defenseMap';
 import type { Point } from './defenseMap';
+import { statsOf } from './growth';
 import { getAdventurer } from './selectors';
 import { clearAssignment, solidify } from './statues';
 import type { Adventurer, BattleEnemy, CampaignState, DefenseBattle, DefenseStructure, ShotKind } from './types';
@@ -49,11 +50,12 @@ export function defenderWeapon(cfg: GameConfig, adv: Adventurer, structure: Defe
   const st = cfg.defense.structure_stats[structure.type];
   if (!combat || !st) return null;
   const affinity = combat.affinity?.[structure.type];
+  const own = statsOf(cfg, adv);
   return {
     ...combat,
-    damage: Math.round(combat.damage * st.damage_mult * (affinity?.damage_mult ?? 1)),
-    range: Math.round(combat.range * st.range_mult * (affinity?.range_mult ?? 1)),
-    supportMult: st.support_mult,
+    damage: Math.round(combat.damage * st.damage_mult * (affinity?.damage_mult ?? 1) * own.tdDamage),
+    range: Math.round(combat.range * st.range_mult * (affinity?.range_mult ?? 1) * own.tdRange),
+    supportMult: st.support_mult * own.support,
   };
 }
 
@@ -132,12 +134,10 @@ function spawn(cfg: GameConfig, b: DefenseBattle): void {
 }
 
 function manned(s: CampaignState, b: DefenseBattle): { structure: DefenseStructure; adv: Adventurer; pos: Point }[] {
-  const map = getDefenseMap(b.map);
   const out: { structure: DefenseStructure; adv: Adventurer; pos: Point }[] = [];
   for (const structure of s.structures) {
     if (structure.map !== b.map || !structure.occupantId) continue;
-    const pos = map.slots[structure.id];
-    if (pos) out.push({ structure, adv: getAdventurer(s, structure.occupantId), pos });
+    out.push({ structure, adv: getAdventurer(s, structure.occupantId), pos: [structure.x, structure.y] });
   }
   return out;
 }
@@ -218,7 +218,6 @@ function turretsAct(s: CampaignState, cfg: GameConfig, b: DefenseBattle, located
 
 function enemiesAct(s: CampaignState, cfg: GameConfig, b: DefenseBattle): void {
   const tps = cfg.defense.ticks_per_second;
-  const map = getDefenseMap(b.map);
   const survivors: BattleEnemy[] = [];
   for (const enemy of b.enemies) {
     if (enemy.hp <= 0) {
@@ -240,9 +239,8 @@ function enemiesAct(s: CampaignState, cfg: GameConfig, b: DefenseBattle): void {
         let target: DefenseStructure | null = null;
         let nearest = Infinity;
         for (const structure of s.structures) {
-          const pos = structure.map === b.map ? map.slots[structure.id] : undefined;
-          if (!pos || structure.hp <= 0 || !structure.occupantId || enemy.battered.includes(structure.id)) continue;
-          const d = dist(px, py, pos[0], pos[1]);
+          if (structure.map !== b.map || structure.hp <= 0 || !structure.occupantId || enemy.battered.includes(structure.id)) continue;
+          const d = dist(px, py, structure.x, structure.y);
           if (d <= ram.range && d < nearest) {
             nearest = d;
             target = structure;
@@ -294,7 +292,7 @@ function enemiesAct(s: CampaignState, cfg: GameConfig, b: DefenseBattle): void {
       }
       if (victim) {
         const exposure = cfg.defense.structure_stats[victim.structure.type]?.exposure ?? 1;
-        victim.adv.gauge = Math.min(100, victim.adv.gauge + Math.round(petrify.gauge * exposure));
+        victim.adv.gauge = Math.min(100, victim.adv.gauge + Math.round(petrify.gauge * exposure * (1 - statsOf(cfg, victim.adv).gaugeResist)));
         victim.adv.hp = Math.max(0, victim.adv.hp - Math.round(petrify.damage * exposure));
         shot(b, 'petrify', [x, y], victim.pos);
         enemy.cooldown = toTicks(petrify.cooldown_seconds, cfg);
@@ -309,7 +307,7 @@ function enemiesAct(s: CampaignState, cfg: GameConfig, b: DefenseBattle): void {
     if (ram && target) {
       target.hp = Math.max(0, target.hp - ram.damage);
       enemy.siegeBlows -= 1;
-      shot(b, 'structure', [x, y], map.slots[target.id] as Point);
+      shot(b, 'structure', [x, y], [target.x, target.y]);
       enemy.cooldown = toTicks(ram.cooldown_seconds, cfg);
       if (target.hp === 0) {
         const name = target.id.replace(/_/g, ' ');

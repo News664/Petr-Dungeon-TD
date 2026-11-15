@@ -46,6 +46,13 @@ export interface Adventurer {
   maxSp: number;
   /** Where she stands in a labyrinth fight. */
   row: Row;
+  /** Rank in each skill she has learned (0 or absent = not learned). */
+  skills: Record<string, number>;
+  /** Unspent points for her skill tree. */
+  skillPoints: number;
+  equipment: Equipment;
+  /** Set for an emergency summon: the hour she fades back to her own world. */
+  fadesAtHour: number | null;
   /** The post she held in the last battle, offered again at the next deployment. */
   lastPost: string | null;
   /** Who she shoots first when holding a defensive structure. */
@@ -54,6 +61,9 @@ export interface Adventurer {
 }
 
 export type Row = 'front' | 'back';
+
+export type EquipSlot = 'weapon' | 'armor' | 'charm';
+export type Equipment = Record<EquipSlot, string | null>;
 
 export type TargetPriority = 'first' | 'strongest' | 'petrifier';
 
@@ -110,6 +120,12 @@ export interface DefenseStructure {
   hp: number;
   maxHp: number;
   occupantId: string | null;
+  /** Build site it stands on, and where that is on the map. */
+  site: string;
+  x: number;
+  y: number;
+  /** Part of the place itself: cannot be removed. */
+  fixed: boolean;
 }
 
 export type BattleKind = 'tutorial_defense' | 'frontier_defense' | 'frontier_rematch' | 'sanctuary_siege' | 'frontier_breakthrough';
@@ -217,6 +233,7 @@ export interface DungeonCombat {
 export type CombatAction =
   | { type: 'attack'; target: number }
   | { type: 'skill'; skillId: string; target?: number | string }
+  | { type: 'item'; itemId: string; target: string }
   | { type: 'guard' };
 
 export type MoveKind = 'forward' | 'back' | 'left' | 'right' | 'turn_left' | 'turn_right';
@@ -242,6 +259,8 @@ export interface Expedition {
   combat: DungeonCombat | null;
   /** Position of each roaming elite along its patrol loop, by elite key. */
   elitePositions: Record<string, number>;
+  /** Supplies carried: what is unused comes home with the party. */
+  pack: Record<string, number>;
   /** Lines from the last finished fight or notable event. */
   report: string[];
 }
@@ -271,7 +290,7 @@ export interface LogEntry {
 }
 
 export interface CampaignState {
-  version: 2;
+  version: 3;
   seed: number;
   rngState: number;
   phase: Phase;
@@ -297,6 +316,12 @@ export interface CampaignState {
   rebuild: { finishHour: number } | null;
   expedition: Expedition | null;
   dungeon: DungeonKnowledge;
+  /** Crafted equipment not currently worn, by item id. */
+  armory: Record<string, number>;
+  /** Consumable supplies in the guild's stores, by item id. */
+  supplies: Record<string, number>;
+  /** Discoveries that unlock recipes: floor_2, floor_3, elite, boss. */
+  milestones: string[];
   seal: SummoningSeal;
   siegeAttempts: number;
   log: LogEntry[];
@@ -315,6 +340,16 @@ export type Command =
   | { type: 'combat_round'; actions: Record<string, CombatAction> }
   | { type: 'combat_escape' }
   | { type: 'set_row'; adventurerId: string; row: Row }
+  | { type: 'learn_skill'; adventurerId: string; skillId: string }
+  | { type: 'craft_item'; itemId: string }
+  | { type: 'equip_item'; adventurerId: string; itemId: string }
+  | { type: 'unequip_item'; adventurerId: string; slot: EquipSlot }
+  | { type: 'craft_supply'; itemId: string }
+  | { type: 'field_use_item'; itemId: string; target: string }
+  | { type: 'field_use_skill'; adventurerId: string; skillId: string; target: string }
+  | { type: 'build_structure'; map: DefenseMapId; site: string; structureType: StructureType }
+  | { type: 'demolish_structure'; structureId: string }
+  | { type: 'build_recommended'; map: DefenseMapId }
   | { type: 'debug_teleport'; floor: number; x: number; y: number }
   | { type: 'debug_reveal_map' }
   | { type: 'debug_win_combat' }

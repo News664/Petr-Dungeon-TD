@@ -50,6 +50,12 @@ export function processPermanence(s: CampaignState): void {
       st.permanent = true;
       const adv = getAdventurer(s, st.adventurerId);
       adv.condition = 'lost';
+      // Her gear was recovered long ago, or never left; either way the armory keeps it.
+      for (const slot of ['weapon', 'armor', 'charm'] as const) {
+        const itemId = adv.equipment[slot];
+        if (itemId) s.armory[itemId] = (s.armory[itemId] ?? 0) + 1;
+        adv.equipment[slot] = null;
+      }
       if (s.expedition) s.expedition.carriedStatueIds = s.expedition.carriedStatueIds.filter((id) => id !== adv.id);
       log(s, 'permanent', `${adv.name} was abandoned for too long. Her solidification is now permanent.`);
     }

@@ -50,7 +50,7 @@ function StatusCell({ state, adv, dispatch }: { state: CampaignState; adv: Adven
   );
 }
 
-export function RosterPanel({ state, dispatch, onOpenDungeon }: { state: CampaignState; dispatch: Dispatch; onOpenDungeon: () => void }) {
+export function RosterPanel({ state, dispatch, onOpenDungeon, onOpenSheet }: { state: CampaignState; dispatch: Dispatch; onOpenDungeon: () => void; onOpenSheet: (id: string) => void }) {
   const [party, setParty] = useState<string[]>([]);
   const [startFloor, setStartFloor] = useState(0);
   const expedition = state.expedition;
@@ -105,13 +105,15 @@ export function RosterPanel({ state, dispatch, onOpenDungeon }: { state: Campaig
                       )}
                     </td>
                     <td>
-                      <span className="who">
+                      <button className="who name-button" title="Skills and equipment" onClick={() => onOpenSheet(adv.id)}>
                         <Portrait adv={adv} size={28} />
                         {adv.name}
-                      </span>
+                        {adv.skillPoints > 0 && adv.condition === 'ready' && <span className="pip" title={`${adv.skillPoints} skill point(s) to spend`} />}
+                      </button>
                     </td>
                     <td className="muted">
                       {adv.classId} <span className="small">Lv {adv.level}</span>
+                      {adv.fadesAtHour !== null && <span className="small warn"> · fades in {duration(Math.max(0, adv.fadesAtHour - state.simHour))}</span>}
                     </td>
                     <td>
                       <StatusCell state={state} adv={adv} dispatch={dispatch} />

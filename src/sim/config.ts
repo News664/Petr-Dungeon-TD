@@ -28,13 +28,15 @@ export interface GameConfig {
     starter_free_summons: number;
     bonus_early_summon_credits: number;
     max_roster: number;
+    /** Emergency summons are temporary and hold no place in the hall. */
+    emergency: { lifetime_hours: number; max_active: number };
     max_dungeon_party: number;
     default_summon_cooldown_hours: number;
     summon_cost: Partial<Resources>;
     emergency_summon_cost: Partial<Resources>;
     classes: string[];
-    /** Names given to summoned adventurers. A character's art is matched to her name. */
-    names: string[];
+    /** Names given to summoned adventurers, by class, so a name always means the same character. Her art is matched to her name. */
+    names_by_class: Record<string, string[]>;
     class_stats: Record<string, { max_hp: number }>;
     rest_hp_per_day: number;
     rest_gauge_per_day: number;
@@ -55,8 +57,6 @@ export interface GameConfig {
     restoration_cost_brackets: { elapsed_hours_lt: number; multiplier: number }[];
   };
   defense: {
-    frontier_layout: string[];
-    sanctuary_layout: string[];
     structure_max_hp: Record<string, number>;
     sanctuary_initial_automated_ammo: number;
     sanctuary_max_automated_ammo: number;
@@ -70,7 +70,13 @@ export interface GameConfig {
     structure_stats: Record<string, StructureStats>;
     class_combat: Record<string, ClassCombat>;
     turret: WeaponStats;
+    /** Extra damage on a defensive post per level above the first. */
+    level_damage_bonus: number;
+    /** How many structures of each type the player may build on each map, beyond the fixed ones. */
+    build_caps: Record<string, Record<string, number>>;
   };
+  equipment: { slots: string[]; unlock_text: Record<string, string>; items: Record<string, EquipmentItem> };
+  supplies: { pack_limit_per_item: number; items: Record<string, SupplyItem> };
   dungeon: {
     floor_travel_hours: number;
     recall: { ward_energy: number; hours: number };
@@ -89,6 +95,12 @@ export interface GameConfig {
     level_cap: number;
     level_hp_bonus: number;
     level_atk_bonus: number;
+    starting_skill_points: number;
+    skill_points_per_level: number;
+    skill_max_rank: number;
+    /** Each rank above the first strengthens a skill's main number by this share. */
+    rank_bonus: number;
+    field_action_minutes: number;
     class_stats: Record<string, DungeonClassStats>;
     skills: Record<string, SkillData>;
     attacks: Record<string, EnemyAttack>;
@@ -107,7 +119,10 @@ export interface DungeonClassStats {
   max_sp: number;
   row: 'front' | 'back';
   melee: boolean;
+  /** Active skills she knows from the start, at rank 1. */
   skills: string[];
+  /** Everything she can put points into: her active skills and her passives. */
+  tree: string[];
 }
 
 export type SkillEffect =
@@ -116,13 +131,37 @@ export type SkillEffect =
   | { kind: 'heal'; amount: number }
   | { kind: 'purge'; gauge: number }
   | { kind: 'party_buff'; buff: 'shield_wall' | 'ward_mist'; rounds: number }
-  | { kind: 'taunt'; rounds: number };
+  | { kind: 'taunt'; rounds: number }
+  | { kind: 'passive'; stat: StatKey; per_rank: number };
+
+export type StatKey = 'atk' | 'atk_pct' | 'def' | 'speed' | 'max_hp' | 'max_sp' | 'gauge_resist_pct' | 'td_damage_pct' | 'td_range_pct' | 'support_pct';
+
+export type RemedyEffect = { kind: 'heal'; amount: number } | { kind: 'purge'; gauge: number } | { kind: 'restore_sp'; amount: number };
+
+export interface EquipmentItem {
+  name: string;
+  slot: 'weapon' | 'armor' | 'charm';
+  classes?: string[];
+  unlock: string;
+  cost: Partial<Resources>;
+  stats: Partial<Record<StatKey, number>>;
+  text: string;
+}
+
+export interface SupplyItem {
+  name: string;
+  cost: Partial<Resources>;
+  text: string;
+  effect: RemedyEffect;
+}
 
 export interface SkillData {
   name: string;
   sp: number;
   target: 'enemy' | 'all_enemies' | 'ally' | 'party' | 'self';
   text: string;
+  /** Level needed before the first point can be spent on it. */
+  requires_level?: number;
   effect: SkillEffect;
 }
 

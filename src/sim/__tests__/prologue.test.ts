@@ -41,7 +41,9 @@ describe('prologue', () => {
     expect(s.adventurers).toHaveLength(5);
     expect(rejected(s, { type: 'summon', classId: 'Medic' })).toMatch(/no more than these few/);
     expect(rejected(s, { type: 'start_expedition', partyIds: ['adv_1'] })).toMatch(/holds the hour still/);
-    expect(rejected(s, { type: 'assign_defender', adventurerId: 'adv_1', structureId: 'frontier_bunker_1' })).toMatch(/overrun/);
+    // The frontier is bare ground and out of reach until the sanctuary is safe.
+    expect(s.structures.filter((d) => d.map === 'frontier')).toHaveLength(0);
+    expect(rejected(s, { type: 'build_structure', map: 'frontier', site: 's1', structureType: 'watchtower' })).toMatch(/overrun/);
   });
 
   it('uses a short, gentle wave script for the first defense', () => {

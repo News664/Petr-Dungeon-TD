@@ -29,8 +29,8 @@ describe('playing the slice through', () => {
     const s = run.state;
     expect(s.phase).toBe('STABLE_FRONTIER');
     expect(run.bossDay).not.toBeNull();
-    // Getting back cost emergency summons, paid from the stores.
-    expect(s.adventurers.length).toBeGreaterThan(cfg.roster.max_roster);
+    // Getting back took emergency summons, who have since faded; the hall is not overfull.
+    expect(s.adventurers.filter((a) => a.fadesAtHour === null).length).toBeLessThanOrEqual(cfg.roster.max_roster);
     expect(run.lost).toBe(0);
   });
 });
@@ -38,18 +38,34 @@ describe('playing the slice through', () => {
 describe('the guild hall', () => {
   it('counts fighters and statues in the ward, not champions still lying out there', () => {
     let s = must(buildFixture('full_roster'), { type: 'debug_set_next_invasion', hour: 1e6 });
-    expect(rosterCount(s)).toBe(cfg.roster.max_roster);
-    expect(rejected(s, { type: 'summon', classId: 'Medic', emergency: true })).toMatch(/full/);
-    // One falls in the labyrinth: her bed is free while she lies there.
+    const full = s.adventurers.length;
+    expect(rosterCount(s)).toBe(full);
     s = must(s, { type: 'debug_solidify', adventurerId: 'adv_1', locationType: 'dungeon' });
-    expect(rosterCount(s)).toBe(cfg.roster.max_roster - 1);
-    s = must(s, { type: 'summon', classId: 'Guardian', emergency: true });
-    expect(rejected(s, { type: 'summon', classId: 'Medic', emergency: true })).toMatch(/full/);
-    // Bringing her home is never refused, even though the hall is then over capacity.
+    expect(rosterCount(s)).toBe(full - 1); // her bed is free while she lies out there
     s = must(s, { type: 'debug_retrieve', adventurerId: 'adv_1' });
-    expect(rosterCount(s)).toBe(cfg.roster.max_roster + 1);
-    s = applyAll(s, [{ type: 'queue_treatment', adventurerId: 'adv_1' }, { type: 'advance_time', hours: cfg.resources.treatment_hours }]);
-    expect(s.adventurers.filter((a) => a.condition === 'ready')).toHaveLength(cfg.roster.max_roster + 1);
+    expect(rosterCount(s)).toBe(full); // and taken again once she is in the ward
+  });
+
+  it('treats emergency summons as temporary: outside the hall count, limited in number, gone after two weeks', () => {
+    let s = must(buildFixture('full_roster'), { type: 'debug_set_next_invasion', hour: 1e6 });
+    s = must(s, { type: 'debug_set_resources', resources: { ward_energy: 500, construction_materials: 500 } });
+    const hall = rosterCount(s);
+    const E = cfg.roster.emergency;
+    for (let i = 0; i < E.max_active; i++) s = must(s, { type: 'summon', classId: 'Guardian', emergency: true });
+    expect(rosterCount(s)).toBe(hall);
+    expect(rejected(s, { type: 'summon', classId: 'Guardian', emergency: true })).toMatch(/cannot hold more/);
+    const temps = s.adventurers.filter((a) => a.fadesAtHour !== null);
+    expect(temps.every((a) => a.fadesAtHour === E.lifetime_hours)).toBe(true);
+
+    // One is out on an expedition when her time comes: she holds on until she is home.
+    s = must(s, { type: 'debug_set_level', level: 9 });
+    s = must(s, { type: 'advance_time', hours: E.lifetime_hours - 1 });
+    s = must(s, { type: 'start_expedition', partyIds: [temps[0]!.id] });
+    s = must(s, { type: 'advance_time', hours: 2 });
+    expect(s.adventurers.filter((a) => a.fadesAtHour !== null).map((a) => a.id)).toEqual([temps[0]!.id]);
+    s = applyAll(s, [{ type: 'end_expedition' }, { type: 'advance_time', hours: 1 }]);
+    expect(s.adventurers.some((a) => a.fadesAtHour !== null)).toBe(false);
+    expect(s.adventurers).toHaveLength(hall);
   });
 
   it('stands the defenders down after a battle and offers them their old posts next time', () => {

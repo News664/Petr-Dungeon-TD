@@ -20,12 +20,14 @@ type Subject = Pick<Adventurer, 'name' | 'classId' | 'gauge' | 'condition'>;
 
 /**
  * A character's picture. Uses her art from the manifest when it exists
- * (matched by her name in lower case); otherwise a class emblem that greys
- * over from the bottom as the stone creeps up.
+ * (matched by her name in lower case), then her class's shared art (matched
+ * by the class name in lower case); otherwise a class emblem that greys over
+ * from the bottom as the stone creeps up.
  */
 export function Portrait({ adv, size = 36 }: { adv: Subject; size?: number }) {
   const manifest = useContext(ArtContext);
-  const art = manifest?.characters.find((c) => c.id === adv.name.toLowerCase());
+  // Her own pictures if they exist; otherwise the shared pictures for her class, if those exist.
+  const art = manifest?.characters.find((c) => c.id === adv.name.toLowerCase()) ?? manifest?.characters.find((c) => c.id === adv.classId.toLowerCase());
   const label = `${adv.name}, ${adv.classId}`;
   if (manifest && art) {
     const picture = portraitFor(art, { gauge: adv.gauge, condition: adv.condition });
