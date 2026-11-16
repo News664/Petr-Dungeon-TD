@@ -50,6 +50,7 @@ export function effectiveTile(s: CampaignState, stratumId: string, floorIndex: n
     case 'C':
     case 'A':
     case 'T':
+    case 'P':
     case 'X':
       return flag(s, key) ? '.' : raw;
     case 'D': {
@@ -62,7 +63,7 @@ export function effectiveTile(s: CampaignState, stratumId: string, floorIndex: n
   }
 }
 
-const SOLID = new Set(['#', 'L', 'S', 'H', 'T']);
+const SOLID = new Set(['#', 'L', 'S', 'H', 'T', 'P']);
 
 /** Whether a party could stand on this tile at all (gates and bosses aside). */
 export function canEnter(s: CampaignState, stratumId: string, floorIndex: number, x: number, y: number): boolean {
@@ -278,7 +279,7 @@ export function moveParty(s: CampaignState, cfg: GameConfig, move: MoveKind): vo
   const tile = effectiveTile(s, exp.stratumId, exp.floor, nx, ny);
   if (tile === '#') fail('A wall blocks the way.');
   if (tile === 'L') fail('The door is locked. Its key must be somewhere on this floor.');
-  if (tile === 'S' || tile === 'H' || tile === 'T') fail('A statue stands in the way.');
+  if (tile === 'S' || tile === 'H' || tile === 'T' || tile === 'P') fail('A statue stands in the way.');
 
   if (tile === '=') {
     const key = tileKey(exp.stratumId, exp.floor, nx, ny);
@@ -424,11 +425,11 @@ export function fieldUseSkill(s: CampaignState, cfg: GameConfig, adventurerId: s
 }
 
 /** Statues of the long lost that stand next to the party and could be carried home. */
-export function statuesInReach(s: CampaignState, exp: Expedition): { key: string; holdsDoor: boolean }[] {
+export function statuesInReach(s: CampaignState, exp: Expedition): { key: string; holdsDoor: boolean; prized: boolean }[] {
   return DIRS.map(([dx, dy]) => [exp.x + dx, exp.y + dy] as const)
     .map(([x, y]) => ({ tile: effectiveTile(s, exp.stratumId, exp.floor, x, y), key: tileKey(exp.stratumId, exp.floor, x, y) }))
-    .filter((n) => n.tile === 'H' || n.tile === 'T')
-    .map((n) => ({ key: n.key, holdsDoor: n.tile === 'H' }));
+    .filter((n) => n.tile === 'H' || n.tile === 'T' || n.tile === 'P')
+    .map((n) => ({ key: n.key, holdsDoor: n.tile === 'H', prized: n.tile === 'P' }));
 }
 
 /**
@@ -441,7 +442,8 @@ export function takeStatue(s: CampaignState): void {
   if (exp.combat) fail('The party is in a fight.');
   const target = statuesInReach(s, exp)[0] ?? fail('There is no statue here that can be carried.');
   if (exp.carriedStatueIds.length + exp.exhibits.length >= exp.partyIds.length) fail('Everyone in the party is already carrying a statue.');
+  if (target.prized && !s.milestones.includes('keeper')) fail('The Keeper will not let her be touched.');
   setFlag(s, target.key);
   exp.exhibits.push(target.key);
-  exp.report = [target.holdsDoor ? 'They lift her down. Behind them the door she was holding grinds shut, and will not open again.' : 'They take her up between them. She is lighter than she looks.'];
+  exp.report = [target.prized ? 'This is the one the Keeper kept from Iwanaga. They take her up as carefully as they have ever carried anything.' : target.holdsDoor ? 'They lift her down. Behind them the door she was holding grinds shut, and will not open again.' : 'They take her up between them. She is lighter than she looks.'];
 }

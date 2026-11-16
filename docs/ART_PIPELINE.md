@@ -39,23 +39,26 @@ The list of pictures the game needs, with sizes, prompts and delivery paths, is 
 
 ## Adding a character's art
 
-1. Put her pictures in `public/art/characters/<id>/`.
-2. Add an entry to `public/art/manifest.json` with the same `"id"`.
-3. Reload.
+1. Put her pictures in `public/art/characters/<id>/` as `normal`, `early`, `mid`, `late`, `statue` and optionally `permanent`, in `.webp` or `.png`.
+2. That is all. `npm run art:manifest` (run automatically before `dev` and `build`) scans the folder and writes the manifest; nobody edits it by hand. A set appears once it has at least `normal` and `statue`. Stages start at gauge 0, 25, 50 and 75.
 
 The game looks for an adventurer's pictures in this order:
 
-1. An entry whose id is her name in lower case (for example `ysolde`).
-2. An entry whose id is her class in lower case (`guardian`, `gunner`, `alchemist`, `medic`).
+1. A folder named for her in lower case (for example `kaede`).
+2. A folder named for her class in lower case (`guardian`, `gunner`, `alchemist`, `medic`).
 3. The built-in class emblem.
 
-So four class sets are enough to give every adventurer a picture, and named characters can be added one at a time. Each champion belongs to one class; the cast is in `config/balance.json` under `roster.champions`.
+So four class sets are enough to give every adventurer a picture, and named characters can be added one at a time. The cast is in `config/balance.json` under `roster.champions`.
 
-A manifest with mistakes is ignored as a whole and the problems are printed in the browser console.
+`npm run art:check` reports what is delivered and flags wrong sizes, wrong names and incomplete sets.
+
+## Other pictures
+
+The manifest also lists every picture present, and the game shows one only if it is there: monsters in labyrinth fights (`monsters/<enemy id>`), Sakuya in the prologue (`people/sakuya`), Iwanaga on the game-over screen (`people/iwanaga`), the title background (`places/title`).
 
 ## Not built yet
 
 - Portraits are shown small and square, cropped from the top of the picture. There is no full-figure view yet, and no transition between stages.
-- Monster, place, icon and goddess pictures have delivery paths in `graphics/asset_list.json`, but the game does not load them yet. They will be wired in as they arrive.
+- Labyrinth textures, battle-map pieces, statue props, icons and resident portraits have delivery paths in `graphics/asset_list.json`, but the game does not draw them yet.
 - No image conversion script: files must already be web-ready.
 - The class emblems that stand in for missing art are placeholders, not a proposal for the final look.

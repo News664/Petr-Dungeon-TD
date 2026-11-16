@@ -44,7 +44,7 @@ export function createCampaign(cfg: GameConfig = defaultConfig, seed = 1, option
 
 function createStableCampaign(cfg: GameConfig, seed: number): CampaignState {
   return {
-    version: 6,
+    version: 7,
     standardCast: true,
     playerName: 'Master',
     seed,
@@ -73,6 +73,7 @@ function createStableCampaign(cfg: GameConfig, seed: number): CampaignState {
     supplies: {},
     milestones: [],
     memorialUnnamed: 0,
+    stories: [],
     seal: {
       nextAvailableHour: 0,
       freeCredits: cfg.roster.starter_free_summons + cfg.roster.bonus_early_summon_credits,

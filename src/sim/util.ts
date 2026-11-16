@@ -25,7 +25,7 @@ export function pay(s: CampaignState, cost: Partial<Resources>, what: string): v
 }
 
 export const RESOURCE_LABELS: Record<ResourceId, string> = {
-  ward_energy: 'ward energy',
+  ward_energy: 'blossom-light',
   construction_materials: 'construction materials',
   restoration_reagent: 'restoration reagent',
 };

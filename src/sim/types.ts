@@ -308,7 +308,7 @@ export interface LogEntry {
 }
 
 export interface CampaignState {
-  version: 6;
+  version: 7;
   /** Ready-made debug and test campaigns use a standard cast: no traits, no attribute differences. */
   standardCast: boolean;
   /** What the champions call the guild master. */
@@ -346,6 +346,8 @@ export interface CampaignState {
   milestones: string[];
   /** Nameless statues carried home from the labyrinth to the memorial. */
   memorialUnnamed: number;
+  /** Stories unlocked, by id, in the order they were earned. */
+  stories: string[];
   seal: SummoningSeal;
   siegeAttempts: number;
   log: LogEntry[];

@@ -22,7 +22,7 @@ function StatusCell({ state, adv, dispatch }: { state: CampaignState; adv: Adven
   }
   if (adv.condition === 'lost') {
     const where = findStatue(state, adv.id)?.locationType;
-    return <span className="stone">{where === 'memorial' ? 'Lost · she stands in the memorial' : `Lost for good · her statue is still ${where === 'dungeon' ? 'in the labyrinth' : 'out there'}`}</span>;
+    return <span className="stone">{where === 'memorial' ? 'Lost · she stands in the Still Grove' : `Lost for good · her statue is still ${where === 'dungeon' ? 'in the labyrinth' : 'out there'}`}</span>;
   }
   const statue = findStatue(state, adv.id);
   if (!statue) return null;

@@ -77,7 +77,7 @@ export function DungeonScreen({ state, dispatch, onLeaveView }: Props) {
       return where && where.stratumId === exp.stratumId && where.floor === exp.floor ? [{ kind: 'statue' as const, x: where.x, y: where.y }] : [];
     }),
   ];
-  floor.grid.forEach((row, y) => [...row].forEach((tile, x) => 'SHT'.includes(tile) && markers.push({ kind: 'statue', x, y })));
+  floor.grid.forEach((row, y) => [...row].forEach((tile, x) => 'SHTP'.includes(tile) && markers.push({ kind: 'statue', x, y })));
   const hidden = findTile(floor, 'X');
   if (hidden) markers.push({ kind: 'boss', x: hidden[0], y: hidden[1] });
   const takeable = statuesInReach(state, exp);
@@ -176,7 +176,7 @@ export function DungeonScreen({ state, dispatch, onLeaveView }: Props) {
                 ))}
                 {takeable.length > 0 && (
                   <button onClick={() => dispatch({ type: 'dungeon_take_statue' })} title="She cannot be restored. Bringing her home changes nothing but where she stands.">
-                    Carry her home{takeable[0]?.holdsDoor ? ' (the door she holds will shut for good)' : ''}
+                    Carry her home{takeable[0]?.holdsDoor ? ' (the door she holds will shut for good)' : takeable[0]?.prized ? ' (the one the Keeper guarded)' : ''}
                   </button>
                 )}
                 {canLeave && (

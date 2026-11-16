@@ -146,6 +146,16 @@ The answers themselves are recorded in `lore/04_open_questions.md`. These are th
 | The hidden Keeper | The clue from floor 3 opens the secret door on floor 2. She cannot be fled, moves first, and her "Rearrange" swaps the party's front and back rows. Beating her does not secure the stratum; it unlocks a charm recipe. | `combat.ts`, `balance.json` |
 | Rebalance | A level now needs 115 experience per current level (was 100). The Warden has 800 health and 44 attack; the Colossus 1050 and 45. | `balance.json` |
 
+## Decisions made for terms, the Keeper's charge and art delivery
+
+| Topic | Choice | Where |
+|---|---|---|
+| Terms | The game's text says the Flowering (miracle), blossom-light (ward energy), the Blossom Seal, the Last Garden, the Still Grove (memorial), the Still Tide (the weekly attack) and "a blossom out of season" (emergency summon). Rules and code keep the plain names. | interface and log text |
+| The Keeper's charge | A prized statue stands behind the Keeper. It can be taken only after she is beaten, uses a carrying place, and on reaching home unlocks a story from Sakuya. It gives nothing else. The quest line it points to does not exist yet. | `dungeon.ts`, `expeditionCore.ts`, `stories.ts` |
+| Stories | Unlocked stories are kept in the campaign and can be reread from the Still Grove panel. Their text lives in the interface, not the rules. | `stories.ts` |
+| Art manifest | Generated from the files under `public/art/` before every `dev` and `build`; not committed and never edited by hand. PNG is accepted in place of WebP. | `scripts/art-manifest.mjs` |
+| Art check | `npm run art:check` compares delivered pictures with `graphics/asset_list.json` and fails on a wrong size, an unknown file, a non-picture file, or a character set without both `normal` and `statue`. It runs in CI. | `scripts/art-check.mjs` |
+
 ## Balance, first pass
 
 Checked by simulated battles with no player input during the fight:

@@ -33,18 +33,18 @@ Terms as the game uses them. "In-world" is what a resident would say; where it i
 | Boss | A master | The creature that rules a stratum | Proposed |
 | Watchtower, bunker, support station | Tower, hold, lamp-post | The three defensive structures | Proposed |
 
-## Terms that could follow the names
+## Terms that follow the names
 
-With Sakuya and Iwanaga chosen, some words could take on the blossom-and-rock opposition. These are suggestions in English, so the text stays readable; none is in the game yet. Choose any, all or none.
+Agreed on 16 November 2026 and now used in the game's text. The plain game terms in the table above remain the names used in rules and code.
 
-| Now | Suggestion | Why |
+| Plain term | In the game | Why |
 |---|---|---|
-| The Stilling | The Stilling (keep), or "the Long Rock" | Iwanaga's gift is permanence; the current word already says it plainly |
+| Solidification (the phenomenon) | The Stilling | Iwanaga's gift is permanence |
 | Miracle | The Flowering | Sakuya's one great act: the fallen bloom back to life |
 | Ward energy | Blossom-light | Wards as her light, stored in crystal |
 | Summoning seal | The Blossom Seal | A calling that flowers briefly across worlds |
-| Sanctuary | The Last Garden, or keep "the sanctuary" | The one place where anything still grows |
+| Sanctuary | The Last Garden (its name; "the sanctuary" is still what it is) | The one place where anything still grows |
 | Memorial | The Still Grove | Where those who cannot bloom again are kept among trees |
-| Surge | The Stone Tide | Iwanaga's weekly pressure on the line |
-| Curator | Keeper of a wing (keep "curator") | Fits Iwanaga's manner |
+| Surge, invasion | The Still Tide | Iwanaga's weekly pressure on the line. Not "stone": other materials may come |
+| Curator | Curator | Fits Iwanaga's manner |
 | Emergency summon | A blossom out of season | She answers, and fades |

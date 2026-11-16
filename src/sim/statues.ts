@@ -80,7 +80,7 @@ export function enshrine(s: CampaignState, statue: Statue): void {
   if (!statue.permanent || statue.locationType === 'memorial') return;
   statue.locationType = 'memorial';
   statue.locationId = 'memorial';
-  log(s, 'enshrined', `${getAdventurer(s, statue.adventurerId).name} was carried home. She stands in the memorial now.`);
+  log(s, 'enshrined', `${getAdventurer(s, statue.adventurerId).name} was carried home. She stands in the Still Grove now.`);
 }
 
 export function retrieveAllAt(s: CampaignState, locationType: StatueLocationType, how: string): number {

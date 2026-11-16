@@ -1,3 +1,4 @@
+import { getStratumMap, parseTileKey, tileAt } from './dungeonMap';
 import { getAdventurer } from './selectors';
 import { enshrine, retrieve } from './statues';
 import type { CampaignState } from './types';
@@ -13,9 +14,20 @@ export function finishExpedition(s: CampaignState, how: string): void {
     if (st.permanent) enshrine(s, st);
     else retrieve(s, st, 'carried out by the expedition');
   }
-  if (exp.exhibits.length > 0) {
-    s.memorialUnnamed += exp.exhibits.length;
-    log(s, 'enshrined', `${exp.exhibits.length} of the long lost ${exp.exhibits.length === 1 ? 'was' : 'were'} carried home to the memorial. Nobody knows their names.`);
+  // Most of the long lost are nameless. One of them is the statue the Keeper hid from Iwanaga.
+  const prized = exp.exhibits.filter((key) => {
+    const at = parseTileKey(key);
+    const floor = at ? getStratumMap(at.stratumId)?.floors[at.floor] : undefined;
+    return at && floor ? tileAt(floor, at.x, at.y) === 'P' : false;
+  });
+  const nameless = exp.exhibits.length - prized.length;
+  if (nameless > 0) {
+    s.memorialUnnamed += nameless;
+    log(s, 'enshrined', `${nameless} of the long lost ${nameless === 1 ? 'was' : 'were'} carried home to the Still Grove. Nobody knows their names.`);
+  }
+  if (prized.length > 0 && !s.stories.includes('the_first')) {
+    s.stories.push('the_first');
+    log(s, 'story', 'The statue the Keeper guarded stands in the Still Grove. Sakuya has something to tell you.');
   }
   for (const id of RESOURCE_IDS) s.resources[id] += exp.loot[id];
   for (const [id, n] of Object.entries(exp.pack)) s.supplies[id] = (s.supplies[id] ?? 0) + n;

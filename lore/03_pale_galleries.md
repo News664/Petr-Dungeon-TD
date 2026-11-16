@@ -52,7 +52,11 @@ A party can time its passage and never fight it. Killing it is a choice, and it 
 
 **In the game now.** A ring of keys lies in the baited room on floor 3. With it, a wall on floor 2 opens onto her rooms. She fights by rearranging: the party's front and back rows change places.
 
-**Open.** What she guards, and what she says.
+**Fixed.** She guards a statue that Iwanaga wants for her collection for good. Bringing it home unlocks stories from Sakuya, and can open a longer, harder line of quests.
+
+**Proposed.** The statue is the first champion Sakuya ever called, and the first Iwanaga took: the one freely given thing she could not bear to see end. The Keeper hid her. In the game, carrying her to the Still Grove unlocks Sakuya's story "The first to answer". The quest line it points to is not written.
+
+**Open.** What the Keeper says, and where the longer road leads.
 
 ## The Hollow Colossus
 

@@ -1,5 +1,5 @@
 import { Suspense, lazy, useCallback, useEffect, useRef, useState } from 'react';
-import { validateManifest } from '../art/manifest';
+import { artUrl, validateManifest } from '../art/manifest';
 import type { ArtManifest } from '../art/manifest';
 import { apply, buildFixture, defaultConfig as cfg, createCampaign, deserialize, fixtures, formatHour, nextEventHour, serialize } from '../sim';
 import type { CampaignState, Command } from '../sim';
@@ -11,6 +11,7 @@ import { ArtContext } from './Portrait';
 import { PrologueScreen } from './PrologueScreen';
 import { RosterPanel } from './RosterPanel';
 import { DebugPanel, LogPanel, MemorialPanel, SealPanel, TerritoryPanel, WardPanel } from './SidePanels';
+import { STORIES } from './stories';
 import { TitleScreen } from './TitleScreen';
 
 // The renderers are the heavy part of the bundle; load each only when it is needed.
@@ -57,6 +58,8 @@ export function App() {
   const [screen, setScreen] = useState<'title' | 'game'>('title');
   const [notice, setNotice] = useState<{ kind: 'error' | 'info'; text: string } | null>(null);
   const [modal, setModal] = useState<Modal>(null);
+  // A story from Sakuya being read.
+  const [storyId, setStoryId] = useState<string | null>(null);
   const [hasQuicksave, setHasQuicksave] = useState(() => loadSave(QUICKSAVE_KEY) !== null);
   const [hasAutosave, setHasAutosave] = useState(() => loadSave(AUTOSAVE_KEY) !== null);
   const [art, setArt] = useState<ArtManifest | null>(null);
@@ -85,6 +88,8 @@ export function App() {
       if (before.phase === 'PROLOGUE' && result.state.phase === 'STABLE_FRONTIER') setModal('prologue_done');
       const securedBefore = before.strata.filter((st) => st.secured).length;
       if (result.state.strata.filter((st) => st.secured).length > securedBefore) setModal('stratum_secured');
+      const told = result.state.stories.find((id) => !before.stories.includes(id));
+      if (told) setStoryId(told);
     } else {
       setNotice({ kind: 'error', text: result.error ?? 'That is not possible.' });
     }
@@ -149,7 +154,7 @@ export function App() {
 
   if (screen === 'title') {
     return (
-      <div className="shell">
+      <div className="shell title-shell" style={artUrl(art, 'places/title') ? { backgroundImage: `linear-gradient(rgba(13,15,18,0.55), rgba(13,15,18,0.92)), url(${artUrl(art, 'places/title')})` } : undefined}>
         <TitleScreen
           hasAutosave={hasAutosave}
           onNew={() => newGame(false)}
@@ -195,13 +200,13 @@ export function App() {
               </dd>
             </div>
             <div>
-              <dt>Sakuya's miracle</dt>
+              <dt>The Flowering</dt>
               <dd className={state.miracleCharges > 0 ? 'good' : ''}>
-                {prologue ? 'Holding the hour' : state.miracleCharges > 0 ? 'Charged' : `Spent · ${state.stableCycles}/${needed} stable cycles`}
+                {prologue ? 'Holding the hour' : state.miracleCharges > 0 ? 'Ready' : `Spent · ${state.stableCycles}/${needed} stable cycles`}
               </dd>
             </div>
             <div>
-              <dt>Ward energy</dt>
+              <dt>Blossom-light</dt>
               <dd>{state.resources.ward_energy}</dd>
             </div>
             <div>
@@ -261,6 +266,21 @@ export function App() {
           </div>
         )}
 
+        {storyId && STORIES[storyId] && !modal && (
+          <div className="modal" role="dialog" aria-modal="true" aria-label={STORIES[storyId].title}>
+            <div className="panel story">
+              <p className="eyebrow">{STORIES[storyId].speaker}</p>
+              <h2>{STORIES[storyId].title}</h2>
+              {STORIES[storyId].paragraphs.map((text, i) => (
+                <p key={i}>{text}</p>
+              ))}
+              <button className="primary large" onClick={() => setStoryId(null)}>
+                Continue
+              </button>
+            </div>
+          </div>
+        )}
+
         {state.battle && (
           <Suspense fallback={<p className="muted">Preparing the field…</p>}>
             <BattleScreen state={state} stateRef={stateRef} dispatch={dispatch} />
@@ -281,6 +301,7 @@ export function App() {
             {state.pendingBattle && !state.pendingMiracle && <BattlePanel state={state} dispatch={dispatch} />}
             {state.phase === 'GAME_OVER' && (
               <div className="panel alert">
+                {artUrl(art, 'people/iwanaga') && <img className="story-art" src={artUrl(art, 'people/iwanaga') ?? ''} alt="Iwanaga" />}
                 <h2>The last sanctuary has fallen</h2>
                 <p className="small">
                   Iwanaga does not break what she collects. {state.playerName} is set in the seal she kept, a statue that goes on calling champions
@@ -347,7 +368,7 @@ export function App() {
           <section className="column">
             <TerritoryPanel state={state} dispatch={dispatch} />
             <WardPanel state={state} />
-            <MemorialPanel state={state} />
+            <MemorialPanel state={state} onReadStory={setStoryId} />
             <WorkshopPanel state={state} dispatch={dispatch} />
           </section>
         </main>

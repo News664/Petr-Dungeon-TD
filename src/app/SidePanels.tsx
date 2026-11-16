@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { RESOURCE_IDS, availableChampions, defaultConfig as cfg, formatCost, formatHour, productionMultiplier, repairCost, rosterCount } from '../sim';
 import type { CampaignState, Fixture, ResourceId } from '../sim';
 import type { Dispatch } from './App';
+import { STORIES } from './stories';
 import { duration, title } from './format';
 
 interface PanelProps {
@@ -16,7 +17,7 @@ export function SealPanel({ state, dispatch }: PanelProps) {
   const answering = availableChampions(state, cfg, classId);
   return (
     <div className="panel">
-      <h2>Summoning seal</h2>
+      <h2>The Blossom Seal</h2>
       <p className="small muted">
         {full
           ? 'The guild hall is full.'
@@ -51,10 +52,10 @@ export function SealPanel({ state, dispatch }: PanelProps) {
         ))}
       </ul>
       <button onClick={() => dispatch({ type: 'summon', classId, emergency: true })}>
-        Emergency summon ({classId}) · {formatCost(cfg.roster.emergency_summon_cost)}
+        A blossom out of season ({classId}) · {formatCost(cfg.roster.emergency_summon_cost)}
       </button>
       <p className="small muted">
-        An emergency summon is a stranger of that class: she answers at once and takes no place in the hall, but fades after{' '}
+        An emergency summoning calls a stranger of that class: she answers at once and takes no place in the hall, but fades after{' '}
         {duration(cfg.roster.emergency.lifetime_hours)}. At most {cfg.roster.emergency.max_active} at a time.
       </p>
     </div>
@@ -140,14 +141,20 @@ export function WardPanel({ state }: { state: CampaignState }) {
 }
 
 /** Those who could not be restored, but were not left out there. */
-export function MemorialPanel({ state }: { state: CampaignState }) {
+export function MemorialPanel({ state, onReadStory }: { state: CampaignState; onReadStory: (id: string) => void }) {
   const named = state.statues.filter((st) => st.locationType === 'memorial').map((st) => state.adventurers.find((a) => a.id === st.adventurerId)?.name ?? '');
-  if (named.length === 0 && state.memorialUnnamed === 0) return null;
+  if (named.length === 0 && state.memorialUnnamed === 0 && state.stories.length === 0) return null;
   return (
     <div className="panel">
-      <h2>Memorial</h2>
+      <h2>The Still Grove</h2>
+      {state.stories.includes('the_first') && <p className="small">The first to answer, whom the Keeper hid from Iwanaga.</p>}
       {named.length > 0 && <p className="small">{named.join(', ')}.</p>}
       {state.memorialUnnamed > 0 && <p className="small muted">{state.memorialUnnamed} of the long lost, carried up from the labyrinth. Nobody knows their names.</p>}
+      {state.stories.map((id) => (
+        <button key={id} onClick={() => onReadStory(id)}>
+          Hear again: {STORIES[id]?.title ?? id}
+        </button>
+      ))}
     </div>
   );
 }

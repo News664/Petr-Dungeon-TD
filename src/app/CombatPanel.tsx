@@ -1,8 +1,9 @@
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
+import { artUrl } from '../art/manifest';
 import { defaultConfig as cfg, enemyIntent, skillRank } from '../sim';
 import type { CampaignState, CombatAction } from '../sim';
 import type { Dispatch } from './App';
-import { Portrait } from './Portrait';
+import { ArtContext, Portrait } from './Portrait';
 
 const D = cfg.dungeon;
 
@@ -21,6 +22,7 @@ export function CombatPanel({ state, dispatch }: { state: CampaignState; dispatc
   const combat = exp?.combat;
   // Chosen order per adventurer: "attack", "guard" or a skill id; and a target.
   const [orders, setOrders] = useState<Record<string, { what: string; target: string }>>({});
+  const art = useContext(ArtContext);
   const logRef = useRef<HTMLOListElement>(null);
   const lines = combat?.log.length ?? 0;
   // Keep the newest lines in view; the log reads top to bottom in the order things happened.
@@ -70,6 +72,7 @@ export function CombatPanel({ state, dispatch }: { state: CampaignState; dispatc
           const data = D.enemies[e.type];
           return (
             <div key={e.id} className={`foe ${e.hp <= 0 ? 'down' : ''} ${combat.kind !== 'normal' ? 'major' : ''}`}>
+              {artUrl(art, `monsters/${e.type}`) && <img className="foe-art" src={artUrl(art, `monsters/${e.type}`) ?? ''} alt="" />}
               <strong>{data?.name ?? e.type}</strong>
               <span className="meter danger-meter" title="Health">
                 <i style={{ width: `${(e.hp / e.maxHp) * 100}%` }} />

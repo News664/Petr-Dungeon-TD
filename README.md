@@ -53,10 +53,25 @@ docs/ASSUMPTIONS.md        Prototype decisions and open design questions
 docs/ART_PIPELINE.md       How character art is organised and how to add it
 graphics/                  Art requirements: style guide, briefs, and a list of every picture needed
 lore/                      World and character draft, with open questions
-public/art/                Character art and its manifest (empty for now)
+public/art/                Delivered pictures (the game scans this folder when built)
+scripts/                   Art tooling: manifest generation and the delivery check
 src/sim/                   Campaign simulator and its tests
 src/art/                   Art manifest: which picture shows at which solidification stage
 src/app/                   Campaign console (debug-grade interface)
+```
+
+## Art: working with an image-generation agent
+
+The pictures are made outside this codebase, by an image tool or an artist working from the briefs in `graphics/`.
+
+- **What to make:** `graphics/asset_list.json` lists every picture with its size, delivery path and a prompt. `graphics/AGENT_GUIDE.md` is the instruction sheet for an agent; `graphics/STYLE_GUIDE.md` and `graphics/briefs/` give the direction.
+- **Where it goes:** `public/art/`, at the exact path in the list. An agent with write access opens a pull request that adds only picture files there. Without write access, upload the files through GitHub's "Add file → Upload files".
+- **No data to edit:** the game builds its picture list from the files present each time it is built (`npm run art:manifest`, run automatically before `dev` and `build`).
+- **Checking:** `npm run art:check` reports progress and any picture with the wrong size, name or an incomplete character set. It runs in CI.
+- **What shows up today:** character portraits everywhere an adventurer appears (her own set, else her class's set), monsters in labyrinth fights, Sakuya in the prologue, Iwanaga on the game-over screen, and the title background. Labyrinth textures, battle-map pieces and icons have delivery paths but are not drawn yet.
+
+```bash
+npm run art:check
 ```
 
 ## Balance and debug

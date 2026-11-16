@@ -4,3 +4,5 @@ dist/
 .DS_Store
 test-results/
 playwright-report/
+# Generated from the pictures present; see scripts/art-manifest.mjs
+public/art/manifest.json

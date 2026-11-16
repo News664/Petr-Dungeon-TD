@@ -27,14 +27,16 @@ The first twelve questions were answered on 16 November 2026. The answers are re
 | Choosing at the seal | The player picks a specific champion by her name, epithet and trait. Each can be called once. | In the game. |
 | The memorial | A recovered permanent statue stands in the sanctuary. It gives no benefit in play. | In the game. |
 | Materials | More than one is possible, but not in the early strata. One person is one medium, never a mixture. The first stratum is stone. | The rules carry a medium per person; only stone exists so far. |
-| The goddesses | Sakuya and Iwanaga, provisionally. Some terms may change to suit. | In the game's text. Suggested terms in `05_glossary.md`. |
+| The goddesses | Sakuya and Iwanaga, provisionally. | In the game's text. |
+| Terms | The suggested blossom-and-rock terms are adopted, with "the Still Tide" for the surge so that no material is named. | In the game's text; table in `05_glossary.md`. |
+| What the Keeper guards | A statue Iwanaga wants for good. Bringing it home unlocks stories from Sakuya and can open a longer, harder quest line. | The statue and the first story are in the game; the quest line is not. |
+| Second stratum | Started. | `06_strata_outline.md`, and in the game. |
 
 ## Raised by the answers
 
-1. **Which terms follow the names.** The glossary suggests a blossom-and-rock vocabulary; none of it is in the game yet.
 2. **What the memorial is.** A place in the sanctuary, a screen in the game, a line in the chronicle?
 3. **How statues are used against the party** in play. Built so far, on floor 3: exhibits as scenery, one holding a door, one as bait. Not built: false signs, and statues as weapons of giants. Which of those are wanted, and where?
-4. **The hidden keeper.** She is in the game (see `03_pale_galleries.md`). What she guards and what she says are open.
+4. **The longer road.** Bringing home the statue the Keeper guarded is meant to open a harder quest line. What is it, and where does it lead?
 5. **When the second medium appears,** and which it is.
 
 ## Still open from before

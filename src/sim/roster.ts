@@ -98,7 +98,7 @@ export function summon(s: CampaignState, cfg: GameConfig, requestedClass: string
   adv.hp = adv.maxHp;
   adv.sp = adv.maxSp;
   s.adventurers.push(adv);
-  log(s, 'summoned', emergency ? `${name} the ${classId} answered an emergency summoning. She will fade in ${cfg.roster.emergency.lifetime_hours / cfg.clock.hours_per_day} days.` : `${name} the ${classId} answered the seal.`);
+  log(s, 'summoned', emergency ? `${name} the ${classId} answered out of season. She will fade in ${cfg.roster.emergency.lifetime_hours / cfg.clock.hours_per_day} days.` : `${name} the ${classId} answered the seal.`);
   return adv;
 }
 

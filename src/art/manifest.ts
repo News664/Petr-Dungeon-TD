@@ -28,6 +28,14 @@ export interface ArtManifest {
   /** Folder that all `file` paths are relative to. */
   basePath: string;
   characters: CharacterArt[];
+  /** Every picture present under public/art, relative to it. Lets the game show a picture only if it exists. */
+  files?: string[];
+}
+
+/** The URL of a delivered picture (given without extension, relative to public/art), or null if it is not there yet. */
+export function artUrl(manifest: ArtManifest | null, stem: string): string | null {
+  const file = manifest?.files?.find((f) => f === `${stem}.webp` || f === `${stem}.png`);
+  return file ? `./art/${file}` : null;
 }
 
 export interface PortraitQuery {

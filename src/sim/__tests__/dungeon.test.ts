@@ -72,7 +72,7 @@ describe('labyrinth data', () => {
           for (const [dx, dy] of DIRS) {
             const t = tileAt(floor, x + dx, y + dy);
             // Statues are solid; gates, locks and the secret door only count as open in the "everything opened" pass.
-            if ('#SHT'.includes(t) || ('=%L'.includes(t) && !gatesOpen) || seen.has([x + dx, y + dy].join())) continue;
+            if ('#SHTP'.includes(t) || ('=%L'.includes(t) && !gatesOpen) || seen.has([x + dx, y + dy].join())) continue;
             seen.add([x + dx, y + dy].join());
             if (t !== 'B' && t !== 'X') queue.push([x + dx, y + dy]);
           }
@@ -82,7 +82,7 @@ describe('labyrinth data', () => {
       const closed = reach(false);
       const open = reach(true);
       // Nothing is walled off for good, and the way onward never depends on a shortcut.
-      floor.grid.forEach((row, y) => [...row].forEach((t, x) => !'#SHT'.includes(t) && expect(open.has([x, y].join()), `floor ${index + 1} (${x},${y})`).toBe(true)));
+      floor.grid.forEach((row, y) => [...row].forEach((t, x) => !'#SHTP'.includes(t) && expect(open.has([x, y].join()), `floor ${index + 1} (${x},${y})`).toBe(true)));
       const onward = findTile(floor, index === 2 ? 'B' : '>')!;
       expect(closed.has(onward.join())).toBe(true);
       for (const gate of floor.gates) {
@@ -536,5 +536,16 @@ describe('the expanded first stratum', () => {
     expect(s.strata[0]!.secured).toBe(false); // she is not the master of the stratum
     s = step(s, 3);
     expect(s.expedition).toMatchObject({ x: 15, y: 5, combat: null });
+
+    // What she kept from Iwanaga can now be taken home, and Sakuya has a story for it.
+    s = must(s, { type: 'dungeon_take_statue' });
+    s = must(at(s, 1, 1, 1), { type: 'end_expedition' });
+    expect(s.stories).toEqual(['the_first']);
+    expect(s.memorialUnnamed).toBe(0);
+  });
+
+  it('floor 2: the prized statue cannot be touched while the Keeper stands', () => {
+    let s = at(delve({ level: 9 }), 1, 13, 5);
+    expect(rejected(s, { type: 'dungeon_take_statue' })).toMatch(/Keeper will not let her/);
   });
 });

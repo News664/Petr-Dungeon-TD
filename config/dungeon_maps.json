@@ -1,5 +1,5 @@
 {
- "_notice": "Labyrinth layouts. Grid legend: # wall, . floor, E entrance, > stairs down, < stairs up, G gathering node, = one-way gate (see gates), ~ solidifying mist, B boss, K key, L locked door (needs this floor's key), $ cache (once), ^ dust trap, % secret door (opens once the stratum's clue is found), X hidden boss, S exhibit statue (scenery), H statue holding the door D open, D that door, T a statue that can be taken, A ambush (once), C clue. Coordinates are [x, y] with y growing downward. Each stratum solidifies in one medium.",
+ "_notice": "Labyrinth layouts. Grid legend: # wall, . floor, E entrance, > stairs down, < stairs up, G gathering node, = one-way gate (see gates), ~ solidifying mist, B boss, K key, L locked door (needs this floor's key), $ cache (once), ^ dust trap, % secret door (opens once the stratum's clue is found), X hidden boss, S exhibit statue (scenery), H statue holding the door D open, D that door, T a statue that can be taken, A ambush (once), C clue, P a prized statue kept by the hidden boss. Coordinates are [x, y] with y growing downward. Each stratum solidifies in one medium.",
  "stratum_1": {
   "medium": "stone",
   "boss": [
@@ -71,7 +71,7 @@
      "#.#########.#######",
      "#.#.......#.#.....#",
      "#.#.#####.#.#.###.#",
-     "#...#G....^.#.#X..#",
+     "#...#G....^.#.PX..#",
      "#.#.#####.#.#.###.#",
      "#.#.......#.%.....#",
      "#.#####.###.#######",

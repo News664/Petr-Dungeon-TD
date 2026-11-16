@@ -35,6 +35,10 @@ export function deserialize(text: string): CampaignState {
     if (state.expedition) Object.assign(state.expedition, { sprung: [], exhibits: [] });
     saved.version = 6;
   }
-  if (saved.version !== 6) throw new Error('This save is from an older build of the prototype and cannot be loaded.');
+  if (saved.version === 6) {
+    state.stories = [];
+    saved.version = 7;
+  }
+  if (saved.version !== 7) throw new Error('This save is from an older build of the prototype and cannot be loaded.');
   return state;
 }

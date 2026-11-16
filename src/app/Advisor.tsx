@@ -87,11 +87,11 @@ interface Upcoming {
 function upcoming(s: CampaignState): Upcoming[] {
   const name = (id: string) => s.adventurers.find((a) => a.id === id)?.name ?? id;
   const list: Upcoming[] = [];
-  if (s.nextInvasionHour !== null) list.push({ hour: s.nextInvasionHour, text: 'Monsters attack', tone: 'warn' });
+  if (s.nextInvasionHour !== null) list.push({ hour: s.nextInvasionHour, text: 'The Still Tide comes in', tone: 'warn' });
   if (s.rebuild) list.push({ hour: s.rebuild.finishHour, text: 'Frontier outpost rebuilt', tone: 'good' });
   for (const job of s.treatmentJobs) if (job.finishHour !== null) list.push({ hour: job.finishHour, text: `${name(job.adventurerId)} restored`, tone: 'good' });
   for (const st of recoverableStatues(s)) list.push({ hour: st.permanenceAtHour, text: `${name(st.adventurerId)} lost for good`, tone: 'danger' });
-  if (s.seal.nextAvailableHour > s.simHour && s.seal.freeCredits === 0) list.push({ hour: s.seal.nextAvailableHour, text: 'Summoning seal ready', tone: 'info' });
+  if (s.seal.nextAvailableHour > s.simHour && s.seal.freeCredits === 0) list.push({ hour: s.seal.nextAvailableHour, text: 'The Blossom Seal is ready', tone: 'info' });
   return list.filter((e) => e.hour >= s.simHour).sort((a, b) => a.hour - b.hour);
 }
 

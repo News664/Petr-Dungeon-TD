@@ -20,7 +20,7 @@ export function triggerInvasion(s: CampaignState): void {
   const map = kind === 'sanctuary_siege' ? 'sanctuary' : 'frontier';
   if (kind === 'sanctuary_siege') s.siegeAttempts += 1;
   s.pendingBattle = { kind, map, dueHour: s.simHour };
-  log(s, 'invasion', `Monsters attack: ${kind.replace(/_/g, ' ')}.`);
+  log(s, 'invasion', `The Still Tide comes in: ${kind.replace(/_/g, ' ')}.`);
 }
 
 function evacuateMap(s: CampaignState, map: 'frontier' | 'sanctuary'): void {
@@ -36,9 +36,9 @@ function recordStableCycle(s: CampaignState, cfg: GameConfig): void {
   s.stableCycles = Math.min(needed, s.stableCycles + 1);
   if (s.stableCycles >= needed) {
     s.miracleCharges = Math.min(max, s.miracleCharges + 1);
-    log(s, 'miracle_charged', "Sakuya's miracle is charged again.");
+    log(s, 'miracle_charged', "The Flowering is ready again.");
   } else {
-    log(s, 'stable_cycle', `Stable cycle ${s.stableCycles}/${needed} towards Sakuya's miracle.`);
+    log(s, 'stable_cycle', `Stable cycle ${s.stableCycles}/${needed} towards the Flowering.`);
   }
 }
 
@@ -165,7 +165,7 @@ export function concludeBattle(
         s.stableCycles = 0;
         s.phase = 'DIVINE_EMERGENCY';
         s.nextInvasionHour = s.simHour + cfg.clock.invasion_interval_hours;
-        log(s, 'miracle', 'The frontier fell. Sakuya spends her miracle to banish the invasion; ward-based production is crippled.');
+        log(s, 'miracle', 'The frontier fell. Sakuya spends the Flowering to banish the invasion; production under her light is crippled.');
         const count = miracleRestoreCount(cfg, fallen.length);
         if (count > 0) {
           s.pendingMiracle = { eligibleIds: fallen, count };
@@ -203,7 +203,7 @@ export function concludeBattle(
 
 /** The one exception to treatment cost and time: chosen defenders are fully restored at once. */
 export function chooseMiracleTargets(s: CampaignState, adventurerIds: string[]): void {
-  const pending = s.pendingMiracle ?? fail('Sakuya is not offering a miracle right now.');
+  const pending = s.pendingMiracle ?? fail('Sakuya is not offering the Flowering right now.');
   const chosen = [...new Set(adventurerIds)];
   if (chosen.length !== pending.count) fail(`Choose exactly ${pending.count} fallen defender(s) for Sakuya to restore.`);
   for (const id of chosen) {

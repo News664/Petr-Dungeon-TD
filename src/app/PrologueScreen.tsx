@@ -1,7 +1,9 @@
+import { useContext } from 'react';
+import { artUrl } from '../art/manifest';
 import { availableChampions, defaultConfig as cfg } from '../sim';
 import type { CampaignState } from '../sim';
 import type { Dispatch } from './App';
-import { Portrait } from './Portrait';
+import { ArtContext, Portrait } from './Portrait';
 
 const CLASS_TEXT: Record<string, { labyrinth: string; defense: string }> = {
   Guardian: { labyrinth: 'Holds the front row, draws attacks and shields the party.', defense: 'Slows what she strikes. At her best in a bunker.' },
@@ -12,12 +14,14 @@ const CLASS_TEXT: Record<string, { labyrinth: string; defense: string }> = {
 
 /** The opening: the goddess, the seal, and the five champions she can still afford. */
 export function PrologueScreen({ state, dispatch }: { state: CampaignState; dispatch: Dispatch }) {
+  const sakuya = artUrl(useContext(ArtContext), 'people/sakuya');
   const left = state.seal.freeCredits;
   const total = cfg.roster.starter_free_summons;
   const begin = () => dispatch({ type: 'prologue_begin_defense' }) && dispatch({ type: 'battle_start' });
   return (
     <div className="prologue">
       <div className="panel story">
+        {sakuya && <img className="story-art" src={sakuya} alt="Sakuya" />}
         <p className="eyebrow">Prologue</p>
         <h2>The seal answers one last time</h2>
         <p>
@@ -25,7 +29,7 @@ export function PrologueScreen({ state, dispatch }: { state: CampaignState; disp
           now does not turn at all.
         </p>
         <p>
-          One sanctuary is left, and Sakuya, the goddess who keeps it, and one summoner who can still wake the old seal: you. She has strength
+          One sanctuary is left, the Last Garden, and Sakuya, the goddess who keeps it, and one summoner who can still wake the old seal: you. She has strength
           for {total} champions from other worlds, and the monsters are already on the road to the gate.
         </p>
         <label className="field name-field">

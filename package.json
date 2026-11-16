@@ -9,7 +9,11 @@
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "art:manifest": "node scripts/art-manifest.mjs",
+    "art:check": "node scripts/art-check.mjs",
+    "predev": "node scripts/art-manifest.mjs",
+    "prebuild": "node scripts/art-manifest.mjs"
   },
   "dependencies": {
     "pixi.js": "^8.23.0",
