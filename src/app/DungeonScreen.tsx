@@ -1,5 +1,5 @@
 import { useEffect, useMemo } from 'react';
-import { defaultConfig as cfg, effectiveTile, elitesHere, findTile, floorKey, formatCost, getStratumMap, parseTileKey, partyTile, statuesInReach, tileAt } from '../sim';
+import { defaultConfig as cfg, effectiveTile, elitesHere, findTile, floorKey, formatCost, getStratumMap, parseTileKey, partyTile, statuesInReach, tideState, tileAt } from '../sim';
 import type { CampaignState, MoveKind } from '../sim';
 import type { Dispatch } from './App';
 import { AutoMap } from './AutoMap';
@@ -55,7 +55,7 @@ export function DungeonScreen({ state, dispatch, onLeaveView }: Props) {
   const floor = useMemo(
     () => (exp && rawFloor ? { ...rawFloor, grid: rawFloor.grid.map((row, y) => [...row].map((_, x) => effectiveTile(state, exp.stratumId, exp.floor, x, y)).join('')) } : undefined),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [rawFloor, flagCount, exp?.stratumId, exp?.floor],
+    [rawFloor, flagCount, exp?.stratumId, exp?.floor, exp ? tideState(state, exp.stratumId)?.low : null],
   );
 
   if (!exp) return null;
@@ -81,6 +81,7 @@ export function DungeonScreen({ state, dispatch, onLeaveView }: Props) {
   const hidden = findTile(floor, 'X');
   if (hidden) markers.push({ kind: 'boss', x: hidden[0], y: hidden[1] });
   const takeable = statuesInReach(state, exp);
+  const tide = tideState(state, exp.stratumId);
   const boss = findTile(floor, 'B');
   if (boss && !stratum.bossDefeated) markers.push({ kind: 'boss', x: boss[0], y: boss[1] });
 
@@ -118,6 +119,14 @@ export function DungeonScreen({ state, dispatch, onLeaveView }: Props) {
               <dt>Danger</dt>
               <dd className={exp.danger >= 70 ? 'danger-text' : exp.danger >= 35 ? 'warn' : 'good'}>{dangerLabel}</dd>
             </div>
+            {tide && (
+              <div>
+                <dt>Tide</dt>
+                <dd className={tide.low ? 'good' : 'warn'}>
+                  {tide.low ? 'Low' : 'High'} · {tide.low ? 'rises' : 'falls'} in {duration(tide.changesInHours)}
+                </dd>
+              </div>
+            )}
             <div>
               <dt>Carried</dt>
               <dd>
@@ -210,6 +219,7 @@ export function DungeonScreen({ state, dispatch, onLeaveView }: Props) {
             <span style={{ color: 'var(--danger)' }}>!</span> trap
             <span style={{ color: 'var(--amber)' }}>k ▣</span> key, cache
             <span style={{ color: 'var(--stone)' }}>▮</span> locked
+            <span style={{ color: '#5a8fb8' }}>≋</span> flooded at high tide
           </p>
         </div>
 

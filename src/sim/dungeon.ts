@@ -27,6 +27,16 @@ const setFlag = (s: CampaignState, key: string) => {
   if (!s.dungeon.flags.includes(key)) s.dungeon.flags.push(key);
 };
 
+/** Whether a stratum's water is low right now, and how long until that changes. */
+export function tideState(s: CampaignState, stratumId: string): { low: boolean; changesInHours: number } | null {
+  const tide = getStratumMap(stratumId)?.tide;
+  if (!tide) return null;
+  const at = s.simHour % tide.period_hours;
+  const low = at >= tide.low_start && at < tide.low_start + tide.low_hours;
+  const next = low ? tide.low_start + tide.low_hours - at : (tide.low_start - at + tide.period_hours) % tide.period_hours;
+  return { low, changesInHours: next === 0 ? tide.period_hours : next };
+}
+
 /**
  * What a tile is right now, after everything the guild has done to the
  * labyrinth: keys found, caches emptied, the secret door revealed, statues
@@ -40,6 +50,8 @@ export function effectiveTile(s: CampaignState, stratumId: string, floorIndex: n
   switch (raw) {
     case '%':
       return flag(s, `${stratumId}:clue`) ? '.' : '#';
+    case 'w':
+      return tideState(s, stratumId)?.low ? '.' : 'w';
     case 'L':
       return flag(s, `${stratumId}:${floorIndex}:key`) ? '.' : 'L';
     case 'H':
@@ -63,7 +75,7 @@ export function effectiveTile(s: CampaignState, stratumId: string, floorIndex: n
   }
 }
 
-const SOLID = new Set(['#', 'L', 'S', 'H', 'T', 'P']);
+const SOLID = new Set(['#', 'L', 'S', 'H', 'T', 'P', 'w']);
 
 /** Whether a party could stand on this tile at all (gates and bosses aside). */
 export function canEnter(s: CampaignState, stratumId: string, floorIndex: number, x: number, y: number): boolean {
@@ -101,8 +113,10 @@ function place(s: CampaignState, exp: Expedition, floorIndex: number, tile: stri
   const [x, y] = findTile(floor, tile) ?? fail('That floor has no way in.');
   Object.assign(exp, { floor: floorIndex, x, y, prevX: x, prevY: y, facing: floor.start_facing });
   s.dungeon.reachedFloor[exp.stratumId] = Math.max(s.dungeon.reachedFloor[exp.stratumId] ?? 0, floorIndex);
-  if (floorIndex >= 1) addMilestone(s, `floor_${floorIndex + 1}`);
-  if (floorIndex >= 2) addMilestone(s, 'floor_2');
+  // Discoveries in the first stratum keep their short names; deeper ones carry the stratum's.
+  const prefix = exp.stratumId === 'stratum_1' ? '' : `${exp.stratumId}:`;
+  if (floorIndex >= 1) addMilestone(s, `${prefix}floor_${floorIndex + 1}`);
+  if (floorIndex >= 2) addMilestone(s, `${prefix}floor_2`);
   discover(s, exp);
 }
 
@@ -279,6 +293,7 @@ export function moveParty(s: CampaignState, cfg: GameConfig, move: MoveKind): vo
   const tile = effectiveTile(s, exp.stratumId, exp.floor, nx, ny);
   if (tile === '#') fail('A wall blocks the way.');
   if (tile === 'L') fail('The door is locked. Its key must be somewhere on this floor.');
+  if (tile === 'w') fail(`The corridor is flooded. The water falls in ${tideState(s, exp.stratumId)?.changesInHours ?? '?'} hours.`);
   if (tile === 'S' || tile === 'H' || tile === 'T' || tile === 'P') fail('A statue stands in the way.');
 
   if (tile === '=') {

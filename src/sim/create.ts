@@ -62,7 +62,7 @@ function createStableCampaign(cfg: GameConfig, seed: number): CampaignState {
     adventurers: [],
     statues: [],
     treatmentJobs: [],
-    strata: [buildStratum('stratum_1', 'The Pale Galleries', cfg), buildStratum('stratum_2', 'The Drowned Cloister', cfg)],
+    strata: [buildStratum('stratum_1', 'The Pale Galleries', cfg), buildStratum('stratum_2', 'The Drowned Cloister', cfg), buildStratum('stratum_3', 'The Gilded Exchange', cfg)],
     frontierStratumId: 'stratum_1',
     structures: [...initialStructures(cfg, 'frontier', true), ...initialStructures(cfg, 'sanctuary', true)],
     sanctuary: { automatedAmmo: cfg.defense.sanctuary_initial_automated_ammo },

@@ -156,6 +156,18 @@ The answers themselves are recorded in `lore/04_open_questions.md`. These are th
 | Art manifest | Generated from the files under `public/art/` before every `dev` and `build`; not committed and never edited by hand. PNG is accepted in place of WebP. | `scripts/art-manifest.mjs` |
 | Art check | `npm run art:check` compares delivered pictures with `graphics/asset_list.json` and fails on a wrong size, an unknown file, a non-picture file, or a character set without both `normal` and `statue`. It runs in CI. | `scripts/art-check.mjs` |
 
+## Decisions made for the second stratum
+
+| Topic | Choice | Where |
+|---|---|---|
+| The Drowned Cloister | Three floors: the Flooded Narthex, the Cloister Walk (with a roaming elite, the Bellringer, and a trap), and the Still Chapel (the Abbess of Still Water). Medium: stone. | `dungeon_maps.json` |
+| Tide | The stratum's water is low for six hours in every twelve (06:00–12:00 and 18:00–24:00). Corridors marked as flooded can be entered only at low tide. The way onward on every floor is dry; the water guards shortcuts and the second floor's gathering hall. A party standing in a corridor when the water rises is not harmed. | `dungeon.ts` |
+| Speech | An enemy may have lines; one is spoken at the start of each round until they run out. The Abbess has five. | `combat.ts`, `balance.json` |
+| Entering | With more than one stratum charted, an expedition chooses which to enter; the default is the frontier. | `dungeon.ts`, `RosterPanel.tsx` |
+| Discoveries | The first stratum's recipe unlocks keep their short names; deeper ones are prefixed with the stratum (`stratum_2:floor_2`, `stratum_2:boss`). | `dungeon.ts`, `combat.ts` |
+| Third stratum | Exists by name only (the Gilded Exchange), so the frontier can move on after the Abbess. | `create.ts` |
+| Not done | The second stratum's numbers are a first guess and have not been tuned. Attacks on the frontier do not yet change when the frontier moves down. Saves made before this build have no third stratum. | — |
+
 ## Balance, first pass
 
 Checked by simulated battles with no player input during the fight:

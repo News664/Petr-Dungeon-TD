@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { defaultConfig as cfg, findStatue, frontierHeld, recoverableStatues, rosterCount, treatmentCost } from '../sim';
+import { defaultConfig as cfg, findStatue, frontierHeld, getStratumMap, recoverableStatues, rosterCount, treatmentCost } from '../sim';
 import type { Adventurer, CampaignState } from '../sim';
 import type { Dispatch } from './App';
 import { duration } from './format';
@@ -56,12 +56,16 @@ function StatusCell({ state, adv, dispatch }: { state: CampaignState; adv: Adven
 export function RosterPanel({ state, dispatch, onOpenDungeon, onOpenSheet }: { state: CampaignState; dispatch: Dispatch; onOpenDungeon: () => void; onOpenSheet: (id: string) => void }) {
   const [party, setParty] = useState<string[]>([]);
   const [startFloor, setStartFloor] = useState(0);
+  const [chosenStratum, setChosenStratum] = useState<string | null>(null);
   const expedition = state.expedition;
   const canDeployFrontier = frontierHeld(state.phase);
   const selectable = party.filter((id) => state.adventurers.some((a) => a.id === id && a.condition === 'ready' && a.assignment.type === 'idle'));
   const dungeonStatues = recoverableStatues(state, 'dungeon').filter((st) => !expedition?.carriedStatueIds.includes(st.adventurerId));
   const frontierStatues = recoverableStatues(state, 'frontier');
-  const deepest = Math.max(0, ...Object.values(state.dungeon.reachedFloor));
+  // Every charted stratum the guild can reach: the frontier, and whatever lies secured behind it.
+  const enterable = state.strata.filter((st) => getStratumMap(st.id) && (st.secured || st.id === state.frontierStratumId));
+  const stratum = enterable.find((st) => st.id === chosenStratum) ?? enterable.find((st) => st.id === state.frontierStratumId) ?? enterable[enterable.length - 1];
+  const deepest = stratum ? (state.dungeon.reachedFloor[stratum.id] ?? 0) : 0;
   const overlap =
     state.nextInvasionHour !== null && state.nextInvasionHour - state.simHour <= 24
       ? 'The next attack is less than a day away; anyone in the labyrinth cannot defend.'
@@ -175,7 +179,7 @@ export function RosterPanel({ state, dispatch, onOpenDungeon, onOpenSheet }: { s
                 className="primary"
                 disabled={selectable.length === 0}
                 onClick={() => {
-                  if (dispatch({ type: 'start_expedition', partyIds: selectable, floor: Math.min(startFloor, deepest) })) {
+                  if (dispatch({ type: 'start_expedition', partyIds: selectable, floor: Math.min(startFloor, deepest), stratumId: stratum?.id })) {
                     setParty([]);
                     onOpenDungeon();
                   }
@@ -183,6 +187,16 @@ export function RosterPanel({ state, dispatch, onOpenDungeon, onOpenSheet }: { s
               >
                 Send {selectable.length || ''} into the labyrinth
               </button>
+              {enterable.length > 1 && (
+                <select aria-label="Stratum" value={stratum?.id ?? ''} onChange={(e) => setChosenStratum(e.target.value)}>
+                  {enterable.map((st) => (
+                    <option key={st.id} value={st.id}>
+                      {st.name}
+                      {st.secured ? ' (secured)' : ''}
+                    </option>
+                  ))}
+                </select>
+              )}
               {deepest > 0 && (
                 <select aria-label="Starting floor" value={Math.min(startFloor, deepest)} onChange={(e) => setStartFloor(Number(e.target.value))}>
                   {Array.from({ length: deepest + 1 }, (_, i) => (

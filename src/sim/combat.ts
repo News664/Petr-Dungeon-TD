@@ -221,7 +221,7 @@ function victory(s: CampaignState, cfg: GameConfig, exp: Expedition, c: DungeonC
   log(s, 'combat_won', `The party won a fight on floor ${exp.floor + 1}.`);
   if (c.kind === 'elite' && c.eliteId) {
     s.dungeon.eliteRespawnHour[c.eliteId] = s.simHour + D.elite_respawn_hours;
-    addMilestone(s, 'elite');
+    addMilestone(s, exp.stratumId === 'stratum_1' ? 'elite' : `${exp.stratumId}:elite`);
   }
   if (c.kind === 'hidden' && c.eliteId) {
     if (!s.dungeon.flags.includes(c.eliteId)) s.dungeon.flags.push(c.eliteId);
@@ -229,7 +229,7 @@ function victory(s: CampaignState, cfg: GameConfig, exp: Expedition, c: DungeonC
     log(s, 'hidden_boss', 'The Keeper of the Galleries is at rest. What she kept is the guild\'s to use.');
   }
   if (c.kind === 'boss') {
-    addMilestone(s, 'boss');
+    addMilestone(s, exp.stratumId === 'stratum_1' ? 'boss' : `${exp.stratumId}:boss`);
     defeatBoss(s, exp.stratumId);
   }
 }
@@ -271,6 +271,11 @@ export function resolveRound(s: CampaignState, cfg: GameConfig, actions: Record<
 
   c.round += 1;
   say(c, `— Round ${c.round} —`);
+  // Those who speak say their piece before anyone moves.
+  for (const e of alive(c)) {
+    const line = D.enemies[e.type]?.speech?.[c.round - 1];
+    if (line) say(c, `${D.enemies[e.type]?.name}: "${line}"`);
+  }
   const guarding = new Set<string>();
   // Guards and party-wide protections are in place before anyone moves.
   for (const adv of party(s, exp)) {

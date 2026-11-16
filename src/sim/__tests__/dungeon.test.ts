@@ -369,7 +369,7 @@ describe('elite and boss', () => {
 
     // The secured stratum can still be visited, and danger builds far more slowly there.
     s = applyAll(s, [{ type: 'debug_teleport', floor: 2, x: 1, y: 1 }, { type: 'end_expedition' }]);
-    s = must(s, { type: 'start_expedition', partyIds: PARTY });
+    s = must(s, { type: 'start_expedition', partyIds: PARTY, stratumId: 'stratum_1' });
     expect(s.expedition!.stratumId).toBe('stratum_1');
     s = applyAll(s, moves('forward', 'forward'));
     expect(s.expedition!.danger).toBeLessThanOrEqual(2 * Math.round(D.encounter.gain_max * D.encounter.secured_multiplier));

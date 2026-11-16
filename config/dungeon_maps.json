@@ -1,5 +1,5 @@
 {
- "_notice": "Labyrinth layouts. Grid legend: # wall, . floor, E entrance, > stairs down, < stairs up, G gathering node, = one-way gate (see gates), ~ solidifying mist, B boss, K key, L locked door (needs this floor's key), $ cache (once), ^ dust trap, % secret door (opens once the stratum's clue is found), X hidden boss, S exhibit statue (scenery), H statue holding the door D open, D that door, T a statue that can be taken, A ambush (once), C clue, P a prized statue kept by the hidden boss. Coordinates are [x, y] with y growing downward. Each stratum solidifies in one medium.",
+ "_notice": "Labyrinth layouts. Grid legend: # wall, . floor, E entrance, > stairs down, < stairs up, G gathering node, = one-way gate (see gates), ~ solidifying mist, B boss, K key, L locked door (needs this floor's key), $ cache (once), ^ dust trap, % secret door (opens once the stratum's clue is found), X hidden boss, S exhibit statue (scenery), H statue holding the door D open, D that door, T a statue that can be taken, A ambush (once), C clue, w a corridor that is flooded except at low tide (see the stratum's tide), P a prized statue kept by the hidden boss. Coordinates are [x, y] with y growing downward. Each stratum solidifies in one medium.",
  "stratum_1": {
   "medium": "stone",
   "boss": [
@@ -182,6 +182,180 @@
      "gazer",
      "gazer",
      "stone_hound"
+    ]
+   }
+  ]
+ },
+ "stratum_2": {
+  "medium": "stone",
+  "tide": {
+   "period_hours": 12,
+   "low_start": 6,
+   "low_hours": 6
+  },
+  "boss": [
+   "abbess_of_still_water"
+  ],
+  "floors": [
+   {
+    "name": "Flooded Narthex",
+    "start_facing": 1,
+    "grid": [
+     "#################",
+     "#E....#...G.....#",
+     "#.###.#.#####.#.#",
+     "#.#...#.#...#.#.#",
+     "#.#.###.#.#.#.#.#",
+     "#.#..wwww.#...#.#",
+     "#.###.###.#####.#",
+     "#.....#.........#",
+     "#####.#.#######.#",
+     "#.~.....#......>#",
+     "#################"
+    ],
+    "gates": [],
+    "elites": [],
+    "gather_yield": {
+     "construction_materials": 10,
+     "restoration_reagent": 6,
+     "ward_energy": 4
+    },
+    "encounters": [
+     [
+      "drowned_novice",
+      "drowned_novice"
+     ],
+     [
+      "cloister_eel",
+      "cloister_eel",
+      "drowned_novice"
+     ],
+     [
+      "silt_choir",
+      "drowned_novice"
+     ],
+     [
+      "cloister_eel",
+      "cloister_eel",
+      "cloister_eel"
+     ],
+     [
+      "weeping_icon",
+      "drowned_novice"
+     ]
+    ]
+   },
+   {
+    "name": "The Cloister Walk",
+    "start_facing": 1,
+    "grid": [
+     "#################",
+     "#<..............#",
+     "#.#############.#",
+     "#.#...........#.#",
+     "#.#.#########.#.#",
+     "#...#G.....ww...#",
+     "#.#.#########.#.#",
+     "#.#...........#.#",
+     "#.######^######.#",
+     "#..............>#",
+     "#################"
+    ],
+    "gates": [],
+    "elites": [
+     {
+      "id": "bellringer",
+      "group": [
+       "the_bellringer"
+      ],
+      "loop": [
+       [
+        3,
+        3
+       ],
+       [
+        13,
+        3
+       ],
+       [
+        13,
+        7
+       ],
+       [
+        3,
+        7
+       ]
+      ]
+     }
+    ],
+    "gather_yield": {
+     "construction_materials": 8,
+     "restoration_reagent": 10,
+     "ward_energy": 8
+    },
+    "encounters": [
+     [
+      "bell_warden"
+     ],
+     [
+      "weeping_icon",
+      "silt_choir"
+     ],
+     [
+      "drowned_novice",
+      "drowned_novice",
+      "cloister_eel"
+     ],
+     [
+      "silt_choir",
+      "silt_choir",
+      "cloister_eel"
+     ],
+     [
+      "bell_warden",
+      "drowned_novice"
+     ]
+    ]
+   },
+   {
+    "name": "The Still Chapel",
+    "start_facing": 1,
+    "grid": [
+     "#################",
+     "#<....#.........#",
+     "#.###.#.#######.#",
+     "#.#...#.#.....#.#",
+     "#.#.###.#.###.#.#",
+     "#.#.....w..B#.#.#",
+     "#.#####.#.###.#.#",
+     "#.~...#.#.......#",
+     "#.###.#.#######.#",
+     "#.....#.........#",
+     "#################"
+    ],
+    "gates": [],
+    "elites": [],
+    "encounters": [
+     [
+      "bell_warden",
+      "weeping_icon"
+     ],
+     [
+      "weeping_icon",
+      "weeping_icon",
+      "silt_choir"
+     ],
+     [
+      "bell_warden",
+      "cloister_eel",
+      "cloister_eel"
+     ],
+     [
+      "drowned_novice",
+      "drowned_novice",
+      "silt_choir",
+      "silt_choir"
+     ]
     ]
    }
   ]

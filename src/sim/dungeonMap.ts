@@ -23,6 +23,8 @@ export interface FloorData {
 export interface StratumMap {
   /** What this stratum's creatures turn their victims into. */
   medium: string;
+  /** Water that rises and falls by the clock: corridors marked `w` are passable only at low tide. */
+  tide?: { period_hours: number; low_start: number; low_hours: number };
   boss: string[];
   floors: FloorData[];
 }

@@ -1106,6 +1106,42 @@
         "name": "Rearrange",
         "effect": "swap_rows",
         "telegraph": "walks through the party as if hanging pictures, and everyone finds herself standing somewhere else"
+      },
+      "grasp": {
+        "name": "Grasp",
+        "kind": "melee",
+        "target": "single",
+        "power": 1
+      },
+      "toll": {
+        "name": "Toll",
+        "charge": true,
+        "telegraph": "raises its bell"
+      },
+      "knell": {
+        "name": "Knell",
+        "kind": "ranged",
+        "target": "all",
+        "power": 0.9
+      },
+      "dirge": {
+        "name": "Dirge",
+        "kind": "ranged",
+        "target": "all",
+        "power": 0.4,
+        "gauge": 9
+      },
+      "still_the_water": {
+        "name": "Still the Water",
+        "charge": true,
+        "telegraph": "lifts her hands, and the water goes quiet"
+      },
+      "still_water": {
+        "name": "Still Water",
+        "kind": "ranged",
+        "target": "all",
+        "power": 0.7,
+        "gauge": 26
       }
     },
     "enemies": {
@@ -1245,6 +1281,130 @@
           "restoration_reagent": 15,
           "ward_energy": 25
         }
+      },
+      "drowned_novice": {
+        "name": "Drowned Novice",
+        "hp": 85,
+        "atk": 30,
+        "def": 4,
+        "speed": 6,
+        "pattern": [
+          "grasp"
+        ],
+        "xp": 30,
+        "loot": {
+          "construction_materials": 2
+        }
+      },
+      "cloister_eel": {
+        "name": "Cloister Eel",
+        "hp": 60,
+        "atk": 26,
+        "def": 2,
+        "speed": 12,
+        "pattern": [
+          "lunge",
+          "bite"
+        ],
+        "xp": 28,
+        "loot": {
+          "restoration_reagent": 2
+        }
+      },
+      "bell_warden": {
+        "name": "Bell Warden",
+        "hp": 190,
+        "atk": 40,
+        "def": 12,
+        "speed": 3,
+        "pattern": [
+          "slam",
+          "toll",
+          "knell"
+        ],
+        "xp": 55,
+        "loot": {
+          "construction_materials": 6
+        }
+      },
+      "weeping_icon": {
+        "name": "Weeping Icon",
+        "hp": 90,
+        "atk": 20,
+        "def": 5,
+        "speed": 7,
+        "pattern": [
+          "stone_gaze",
+          "stare",
+          "stone_gaze"
+        ],
+        "xp": 45,
+        "loot": {
+          "restoration_reagent": 3
+        }
+      },
+      "silt_choir": {
+        "name": "Silt Choir",
+        "hp": 70,
+        "atk": 18,
+        "def": 2,
+        "speed": 8,
+        "pattern": [
+          "dirge",
+          "flutter"
+        ],
+        "xp": 40,
+        "loot": {
+          "ward_energy": 2
+        }
+      },
+      "the_bellringer": {
+        "name": "The Bellringer",
+        "hp": 1500,
+        "atk": 58,
+        "def": 11,
+        "speed": 7,
+        "pattern": [
+          "sweep",
+          "toll",
+          "knell",
+          "stone_gaze",
+          "crush"
+        ],
+        "xp": 320,
+        "loot": {
+          "construction_materials": 20,
+          "restoration_reagent": 12,
+          "ward_energy": 16
+        }
+      },
+      "abbess_of_still_water": {
+        "name": "The Abbess of Still Water",
+        "hp": 2100,
+        "atk": 60,
+        "def": 11,
+        "speed": 8,
+        "pattern": [
+          "crush",
+          "still_the_water",
+          "still_water",
+          "stone_gaze",
+          "rearrange",
+          "sweep"
+        ],
+        "xp": 600,
+        "loot": {
+          "construction_materials": 35,
+          "restoration_reagent": 20,
+          "ward_energy": 35
+        },
+        "speech": [
+          "You have come a long way down to be kept. Sit. The water is patient.",
+          "My sisters did not suffer. Look at them. Not a line on any face.",
+          "She sends you? My lady's little sister. She always did love things that fall.",
+          "You are tired. I can see what each of you is worth. It is more than you think.",
+          "Enough. I will have you as you are now, before you spoil."
+        ]
       }
     },
     "starting_skill_points": 1,
@@ -1267,7 +1427,10 @@
       "floor_3": "found on the third floor",
       "elite": "taken from the roaming elite",
       "boss": "won from the master of the stratum",
-      "keeper": "given up by the Keeper of the Galleries"
+      "keeper": "given up by the Keeper of the Galleries",
+      "stratum_2:floor_2": "found on the Cloister Walk",
+      "stratum_2:floor_3": "found in the Still Chapel",
+      "stratum_2:boss": "left by the Abbess of Still Water"
     },
     "items": {
       "iron_arms": {
@@ -1405,6 +1568,45 @@
           "max_sp": 4
         },
         "text": "A ring of small keys. None of them fits anything any more."
+      },
+      "cloister_mail": {
+        "name": "Cloister Mail",
+        "slot": "armor",
+        "unlock": "stratum_2:floor_2",
+        "cost": {
+          "construction_materials": 40
+        },
+        "stats": {
+          "def": 5,
+          "max_hp": 25
+        },
+        "text": "Fine rings, green with age, still sound."
+      },
+      "bellmetal_arms": {
+        "name": "Bellmetal Arms",
+        "slot": "weapon",
+        "unlock": "stratum_2:floor_3",
+        "cost": {
+          "construction_materials": 60
+        },
+        "stats": {
+          "atk": 14
+        },
+        "text": "Recast from a bell that will not ring again."
+      },
+      "abbess_veil": {
+        "name": "Abbess's Veil",
+        "slot": "charm",
+        "unlock": "stratum_2:boss",
+        "cost": {
+          "ward_energy": 40,
+          "restoration_reagent": 20
+        },
+        "stats": {
+          "gauge_resist_pct": 30,
+          "support_pct": 10
+        },
+        "text": "Cold to the touch. Nothing clings to it."
       }
     }
   },

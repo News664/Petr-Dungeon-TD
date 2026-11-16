@@ -137,6 +137,10 @@ function buildMarkers(floor: FloorData, floorId: string, openGates: string[], ma
       } else if (tile === '~' && !underfoot) {
         const mist = new THREE.Mesh(new THREE.BoxGeometry(CELL, WALL_HEIGHT, CELL), new THREE.MeshBasicMaterial({ color: 0xcfd6e6, transparent: true, opacity: 0.16, depthWrite: false }));
         at(mist, x, y, WALL_HEIGHT / 2);
+      } else if (tile === 'w') {
+        // A corridor under water: it can be seen into, not walked into.
+        const water = new THREE.Mesh(new THREE.BoxGeometry(CELL, WALL_HEIGHT * 0.62, CELL), new THREE.MeshBasicMaterial({ color: 0x2c5f8a, transparent: true, opacity: 0.55, depthWrite: false }));
+        at(water, x, y, (WALL_HEIGHT * 0.62) / 2);
       } else if (tile === '^') {
         // A pressure plate: easy to miss, impossible to mistake once seen.
         at(new THREE.Mesh(new THREE.BoxGeometry(1.1, 0.04, 1.1), glow(0x8a2f29, 0.5)), x, y, 0.02);

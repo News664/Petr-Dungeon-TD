@@ -189,6 +189,8 @@ export interface DungeonEnemyData {
   def: number;
   speed: number;
   pattern: string[];
+  /** Things it says, one at the start of each round, for those that speak. */
+  speech?: string[];
   xp: number;
   loot: Partial<Resources>;
 }
