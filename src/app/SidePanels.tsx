@@ -139,6 +139,19 @@ export function WardPanel({ state }: { state: CampaignState }) {
   );
 }
 
+/** Those who could not be restored, but were not left out there. */
+export function MemorialPanel({ state }: { state: CampaignState }) {
+  const named = state.statues.filter((st) => st.locationType === 'memorial').map((st) => state.adventurers.find((a) => a.id === st.adventurerId)?.name ?? '');
+  if (named.length === 0 && state.memorialUnnamed === 0) return null;
+  return (
+    <div className="panel">
+      <h2>Memorial</h2>
+      {named.length > 0 && <p className="small">{named.join(', ')}.</p>}
+      {state.memorialUnnamed > 0 && <p className="small muted">{state.memorialUnnamed} of the long lost, carried up from the labyrinth. Nobody knows their names.</p>}
+    </div>
+  );
+}
+
 export function LogPanel({ state }: { state: CampaignState }) {
   const entries = state.log.slice(-60).reverse();
   return (

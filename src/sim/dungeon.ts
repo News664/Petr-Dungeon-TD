@@ -21,6 +21,53 @@ function floorOf(exp: Expedition): FloorData {
 }
 
 export const partyTile = (exp: Expedition) => tileKey(exp.stratumId, exp.floor, exp.x, exp.y);
+
+const flag = (s: CampaignState, key: string) => s.dungeon.flags.includes(key);
+const setFlag = (s: CampaignState, key: string) => {
+  if (!s.dungeon.flags.includes(key)) s.dungeon.flags.push(key);
+};
+
+/**
+ * What a tile is right now, after everything the guild has done to the
+ * labyrinth: keys found, caches emptied, the secret door revealed, statues
+ * taken away, the door one of them was holding fallen shut.
+ */
+export function effectiveTile(s: CampaignState, stratumId: string, floorIndex: number, x: number, y: number): string {
+  const floor = getStratumMap(stratumId)?.floors[floorIndex];
+  if (!floor) return '#';
+  const raw = tileAt(floor, x, y);
+  const key = tileKey(stratumId, floorIndex, x, y);
+  switch (raw) {
+    case '%':
+      return flag(s, `${stratumId}:clue`) ? '.' : '#';
+    case 'L':
+      return flag(s, `${stratumId}:${floorIndex}:key`) ? '.' : 'L';
+    case 'H':
+      // She stood in the door's counterweight niche; with her gone it closes with the door.
+      return flag(s, key) ? '#' : raw;
+    case 'K':
+    case '$':
+    case 'C':
+    case 'A':
+    case 'T':
+    case 'X':
+      return flag(s, key) ? '.' : raw;
+    case 'D': {
+      // The door stands open only while the statue beside it still holds it.
+      const holder = DIRS.map(([dx, dy]) => [x + dx, y + dy] as const).find(([hx, hy]) => tileAt(floor, hx, hy) === 'H');
+      return holder && flag(s, tileKey(stratumId, floorIndex, holder[0], holder[1])) ? '#' : '.';
+    }
+    default:
+      return raw;
+  }
+}
+
+const SOLID = new Set(['#', 'L', 'S', 'H', 'T']);
+
+/** Whether a party could stand on this tile at all (gates and bosses aside). */
+export function canEnter(s: CampaignState, stratumId: string, floorIndex: number, x: number, y: number): boolean {
+  return !SOLID.has(effectiveTile(s, stratumId, floorIndex, x, y));
+}
 const eliteKey = (exp: Expedition, id: string) => `${exp.stratumId}:${exp.floor}:${id}`;
 
 /** Elites currently roaming the party's floor, with where they stand. */
@@ -96,6 +143,8 @@ export function startExpedition(s: CampaignState, cfg: GameConfig, partyIds: str
     loot: { ward_energy: 0, construction_materials: 0, restoration_reagent: 0 },
     combat: null,
     elitePositions: {},
+    sprung: [],
+    exhibits: [],
     pack: loadPack(s, cfg),
     report: [],
   };
@@ -136,13 +185,47 @@ function afterStep(s: CampaignState, cfg: GameConfig): void {
   if (!exp) return; // called home while walking
   const floor = floorOf(exp);
   discover(s, exp);
-  const tile = tileAt(floor, exp.x, exp.y);
+  const tile = effectiveTile(s, exp.stratumId, exp.floor, exp.x, exp.y);
+  const here = partyTile(exp);
+  const medium = getStratumMap(exp.stratumId)?.medium ?? 'stone';
+
+  if (tile === 'K') {
+    setFlag(s, here);
+    setFlag(s, `${exp.stratumId}:${exp.floor}:key`);
+    exp.report = ['The party finds a key. A locked door on this floor will open to it.'];
+  } else if (tile === '$') {
+    setFlag(s, here);
+    for (const id of RESOURCE_IDS) exp.loot[id] += floor.cache?.[id] ?? 0;
+    exp.report = [`A store nobody has touched since the fall: ${formatCost(floor.cache ?? {})}.`];
+  } else if (tile === 'C') {
+    setFlag(s, here);
+    setFlag(s, `${exp.stratumId}:clue`);
+    exp.report = ['A ring of small keys, left where only someone who walked into the trap would find it. Somewhere above, a wall is not a wall.'];
+    log(s, 'clue', 'The party found a ring of keys. A hidden way has opened on another floor.');
+  } else if (tile === 'A') {
+    setFlag(s, here);
+    exp.report = ['It was bait.'];
+    startCombat(s, cfg, 'normal', floor.ambush ?? [], null);
+    return;
+  } else if (tile === '^' && !exp.sprung.includes(here)) {
+    exp.sprung.push(here);
+    exp.danger = Math.min(99, exp.danger + cfg.dungeon.trap_danger);
+    exp.report = ['A plate sinks underfoot and pale dust bursts from the walls.'];
+    for (const id of [...exp.partyIds]) {
+      const adv = getAdventurer(s, id);
+      addGauge(adv, Math.round(cfg.dungeon.trap_gauge * (1 - statsOf(cfg, adv).gaugeResist)), medium);
+      if (adv.gauge >= 100) solidify(s, cfg, id, 'dungeon', here, medium);
+    }
+    if (exp.partyIds.length === 0) {
+      wipeExpedition(s, here);
+      return;
+    }
+  }
 
   if (tile === '~') {
     exp.report = ['Pale mist clings to the party. The solidification creeps a little further.'];
     for (const id of [...exp.partyIds]) {
       const adv = getAdventurer(s, id);
-      const medium = getStratumMap(exp.stratumId)?.medium ?? 'stone';
       addGauge(adv, Math.round(cfg.dungeon.mist_gauge * (1 - statsOf(cfg, adv).gaugeResist)), medium);
       if (adv.gauge >= 100) solidify(s, cfg, id, 'dungeon', partyTile(exp), medium);
     }
@@ -166,7 +249,7 @@ function afterStep(s: CampaignState, cfg: GameConfig): void {
     }
   }
 
-  if (tile === '.' || tile === '~' || tile === '=') {
+  if (tile === '.' || tile === '~' || tile === '=' || tile === '^') {
     const enc = cfg.dungeon.encounter;
     const secured = s.strata.find((st) => st.id === exp.stratumId)?.secured ?? false;
     const gain = enc.gain_min + randomInt(s, enc.gain_max - enc.gain_min + 1);
@@ -192,8 +275,10 @@ export function moveParty(s: CampaignState, cfg: GameConfig, move: MoveKind): vo
   const nx = exp.x + dx;
   const ny = exp.y + dy;
   const floor = floorOf(exp);
-  const tile = tileAt(floor, nx, ny);
+  const tile = effectiveTile(s, exp.stratumId, exp.floor, nx, ny);
   if (tile === '#') fail('A wall blocks the way.');
+  if (tile === 'L') fail('The door is locked. Its key must be somewhere on this floor.');
+  if (tile === 'S' || tile === 'H' || tile === 'T') fail('A statue stands in the way.');
 
   if (tile === '=') {
     const key = tileKey(exp.stratumId, exp.floor, nx, ny);
@@ -211,6 +296,10 @@ export function moveParty(s: CampaignState, cfg: GameConfig, move: MoveKind): vo
   const stratum = s.strata.find((st) => st.id === exp.stratumId);
   if (tile === 'B' && stratum && !stratum.bossDefeated) {
     startCombat(s, cfg, 'boss', getStratumMap(exp.stratumId)?.boss ?? [], null);
+    return;
+  }
+  if (tile === 'X') {
+    startCombat(s, cfg, 'hidden', floor.hidden_boss ?? [], tileKey(exp.stratumId, exp.floor, nx, ny));
     return;
   }
   const blocking = elitesHere(s, exp).find((e) => e.pos[0] === nx && e.pos[1] === ny);
@@ -267,7 +356,7 @@ export function pickUpStatue(s: CampaignState, adventurerId: string): void {
   if (exp.carriedStatueIds.includes(adventurerId)) fail(`${adv.name}'s statue is already being carried.`);
   const where = parseTileKey(statue.locationId);
   if (where && statue.locationId !== partyTile(exp)) fail(`${adv.name}'s statue is not here.`);
-  if (exp.carriedStatueIds.length >= exp.partyIds.length) fail('Everyone in the party is already carrying a statue.');
+  if (exp.carriedStatueIds.length + exp.exhibits.length >= exp.partyIds.length) fail('Everyone in the party is already carrying a statue.');
   exp.carriedStatueIds.push(adventurerId);
   log(s, 'statue_secured', statue.permanent ? `The expedition took up ${adv.name}'s statue to carry her home.` : `The expedition secured ${adv.name}'s statue. She is safe once they return.`);
 }
@@ -284,8 +373,8 @@ export function reportCasualty(s: CampaignState, cfg: GameConfig, adventurerId: 
 
 export function debugTeleport(s: CampaignState, floor: number, x: number, y: number): void {
   const exp = expedition(s);
-  const target = getStratumMap(exp.stratumId)?.floors[floor] ?? fail('There is no such floor.');
-  if (tileAt(target, x, y) === '#') fail('That tile is solid rock.');
+  if (!getStratumMap(exp.stratumId)?.floors[floor]) fail('There is no such floor.');
+  if (!canEnter(s, exp.stratumId, floor, x, y)) fail('Nobody could stand there.');
   Object.assign(exp, { floor, x, y, prevX: x, prevY: y, combat: null });
   s.dungeon.reachedFloor[exp.stratumId] = Math.max(s.dungeon.reachedFloor[exp.stratumId] ?? 0, floor);
   discover(s, exp);
@@ -332,4 +421,27 @@ export function fieldUseSkill(s: CampaignState, cfg: GameConfig, adventurerId: s
   const strength = rankScale(cfg, skillRank(adv, skillId)) * statsOf(cfg, adv).support;
   exp.report = [`${adv.name} uses ${skill.name}: ${applyRemedy(effect, getAdventurer(s, targetId), strength)}.`];
   advanceMinutes(s, cfg, cfg.dungeon.field_action_minutes);
+}
+
+/** Statues of the long lost that stand next to the party and could be carried home. */
+export function statuesInReach(s: CampaignState, exp: Expedition): { key: string; holdsDoor: boolean }[] {
+  return DIRS.map(([dx, dy]) => [exp.x + dx, exp.y + dy] as const)
+    .map(([x, y]) => ({ tile: effectiveTile(s, exp.stratumId, exp.floor, x, y), key: tileKey(exp.stratumId, exp.floor, x, y) }))
+    .filter((n) => n.tile === 'H' || n.tile === 'T')
+    .map((n) => ({ key: n.key, holdsDoor: n.tile === 'H' }));
+}
+
+/**
+ * Take up one of the long-lost statues beside the party to bring her home to
+ * the memorial. It changes nothing in the guild's favour. If she was holding
+ * a door open, the door shuts for good.
+ */
+export function takeStatue(s: CampaignState): void {
+  const exp = expedition(s);
+  if (exp.combat) fail('The party is in a fight.');
+  const target = statuesInReach(s, exp)[0] ?? fail('There is no statue here that can be carried.');
+  if (exp.carriedStatueIds.length + exp.exhibits.length >= exp.partyIds.length) fail('Everyone in the party is already carrying a statue.');
+  setFlag(s, target.key);
+  exp.exhibits.push(target.key);
+  exp.report = [target.holdsDoor ? 'They lift her down. Behind them the door she was holding grinds shut, and will not open again.' : 'They take her up between them. She is lighter than she looks.'];
 }

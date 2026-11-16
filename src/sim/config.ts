@@ -87,6 +87,8 @@ export interface GameConfig {
     gather_danger: number;
     encounter: { gain_min: number; gain_max: number; secured_multiplier: number };
     mist_gauge: number;
+    trap_gauge: number;
+    trap_danger: number;
     elite_respawn_hours: number;
     escape_chance: { normal: number; elite: number };
     back_row_melee_dealt: number;
@@ -169,6 +171,8 @@ export interface SkillData {
 
 export interface EnemyAttack {
   name: string;
+  /** A move that changes the fight without striking: `swap_rows` sends the front row back and the back row forward. */
+  effect?: 'swap_rows';
   /** A charge turn does nothing but warn of the next move. */
   charge?: boolean;
   telegraph?: string;

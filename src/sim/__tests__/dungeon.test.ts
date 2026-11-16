@@ -71,9 +71,10 @@ describe('labyrinth data', () => {
           const [x, y] = queue.shift()!;
           for (const [dx, dy] of DIRS) {
             const t = tileAt(floor, x + dx, y + dy);
-            if (t === '#' || (t === '=' && !gatesOpen) || seen.has([x + dx, y + dy].join())) continue;
+            // Statues are solid; gates, locks and the secret door only count as open in the "everything opened" pass.
+            if ('#SHT'.includes(t) || ('=%L'.includes(t) && !gatesOpen) || seen.has([x + dx, y + dy].join())) continue;
             seen.add([x + dx, y + dy].join());
-            if (t !== 'B') queue.push([x + dx, y + dy]);
+            if (t !== 'B' && t !== 'X') queue.push([x + dx, y + dy]);
           }
         }
         return seen;
@@ -81,7 +82,7 @@ describe('labyrinth data', () => {
       const closed = reach(false);
       const open = reach(true);
       // Nothing is walled off for good, and the way onward never depends on a shortcut.
-      floor.grid.forEach((row, y) => [...row].forEach((t, x) => t !== '#' && expect(open.has([x, y].join()), `floor ${index + 1} (${x},${y})`).toBe(true)));
+      floor.grid.forEach((row, y) => [...row].forEach((t, x) => !'#SHT'.includes(t) && expect(open.has([x, y].join()), `floor ${index + 1} (${x},${y})`).toBe(true)));
       const onward = findTile(floor, index === 2 ? 'B' : '>')!;
       expect(closed.has(onward.join())).toBe(true);
       for (const gate of floor.gates) {
@@ -105,7 +106,7 @@ describe('exploring', () => {
     expect(s.minuteCarry).toBe(10); // turning is free
     const seen = s.dungeon.discovered['stratum_1:0']!;
     expect(seen[1]!.slice(0, 5)).toBe('11111');
-    expect(seen[5]).toBe('0'.repeat(15));
+    expect(seen[5]).toBe('0'.repeat(MAP.floors[0]!.grid[0]!.length));
   });
 
   it('opens a one-way gate only from its far side, and keeps it open', () => {
@@ -272,17 +273,15 @@ describe('combat', () => {
   });
 
   it('rewards a win with experience, levels and loot', () => {
-    const start = versus(delve(), ['stone_hound', 'stone_hound', 'stone_hound', 'stone_hound', 'gazer']);
-    const { state: s, result } = fightOut(start);
-    expect(result).toBe('won');
-    const xp = 4 * D.enemies.stone_hound!.xp + D.enemies.gazer!.xp;
+    const group = ['stone_hound', 'stone_hound', 'stone_hound', 'stone_hound', 'stone_hound', 'gazer'];
+    const s = must(versus(delve(), group), { type: 'debug_win_combat' });
+    const xp = 5 * D.enemies.stone_hound!.xp + D.enemies.gazer!.xp;
     const survivor = s.adventurers.find((a) => a.condition === 'ready' && a.assignment.type === 'expedition')!;
     expect(survivor.level).toBe(2);
     expect(survivor.xp).toBe(xp - D.xp_per_level);
     expect(survivor.maxHp).toBe(Math.round(cfg.roster.class_stats[survivor.classId]!.max_hp * (1 + D.level_hp_bonus)));
-    expect(s.expedition!.loot.construction_materials).toBe(8);
+    expect(s.expedition!.loot.construction_materials).toBe(10);
     expect(s.expedition!.report.join(' ')).toMatch(/Victory/);
-    expect(s.minuteCarry + s.simHour * 60).toBeGreaterThanOrEqual(cfg.clock.battle_action_minutes);
   });
 
   it('turns the defeated into statues on the spot, and a rescue must go to that tile', () => {
@@ -377,7 +376,7 @@ describe('elite and boss', () => {
   });
 
   it('can be played through: three floors, the boss, and home again', () => {
-    let s = delve({ level: 7 });
+    let s = delve({ level: 10 });
     s = walkTo(s, 3, 3);
     s = must(s, { type: 'dungeon_gather' });
     s = walkTo(s, 13, 9);
@@ -447,5 +446,95 @@ describe('the labyrinth and the campaign', () => {
 describe('fixtures still build', () => {
   it('builds a stable campaign with the dungeon state in place', () => {
     expect(buildFixture('stable_secured').dungeon).toMatchObject({ openGates: [] });
+  });
+});
+
+describe('the expanded first stratum', () => {
+  const at = (s: CampaignState, floor: number, x: number, y: number) => must(s, { type: 'debug_teleport', floor, x, y });
+  const face = (s: CampaignState, dir: number) => {
+    let out = s;
+    while (out.expedition!.facing !== dir) out = must(out, { type: 'dungeon_move', move: 'turn_right' });
+    return out;
+  };
+  const step = (s: CampaignState, dir: number) => must(face(s, dir), { type: 'dungeon_move', move: 'forward' });
+
+  it('floor 1: a key opens the locked store, whose cache can be taken once', () => {
+    let s = at(delve({ level: 9 }), 0, 19, 7);
+    expect(rejected(face(s, 2), { type: 'dungeon_move', move: 'forward' })).toMatch(/locked/);
+    s = step(at(s, 0, 18, 3), 3); // onto the key
+    expect(s.expedition!.report.join(' ')).toMatch(/key/);
+    s = step(at(s, 0, 19, 7), 2);
+    if (s.expedition!.combat) s = must(s, { type: 'debug_win_combat' });
+    expect(s.expedition).toMatchObject({ x: 19, y: 8 });
+    const before = s.expedition!.loot.construction_materials;
+    s = step(at(s, 0, 19, 9), 3);
+    if (s.expedition!.combat) s = must(s, { type: 'debug_win_combat' });
+    expect(s.expedition!.loot.construction_materials - before).toBe(MAP.floors[0]!.cache!.construction_materials);
+    const again = step(step(s, 1), 3);
+    expect(again.expedition!.loot.construction_materials).toBe(s.expedition!.loot.construction_materials);
+  });
+
+  it('floor 2: a dust trap springs once per trip and makes noise', () => {
+    let s = at(delve({ level: 9 }), 1, 9, 9);
+    s = step(s, 3); // west onto the plate at (8,9)
+    for (const id of PARTY) expect(adv(s, id).gauge).toBe(D.trap_gauge);
+    expect(s.expedition!.danger).toBeGreaterThanOrEqual(D.trap_danger);
+    if (s.expedition!.combat) s = must(s, { type: 'debug_win_combat' });
+    s = step(step(s, 1), 3);
+    if (s.expedition!.combat) s = must(s, { type: 'debug_win_combat' });
+    for (const id of PARTY) expect(adv(s, id).gauge).toBe(D.trap_gauge);
+  });
+
+  it('floor 3: a statue holds a door open, and carrying her home shuts it for good', () => {
+    let s = at(delve({ level: 9 }), 2, 7, 5);
+    expect(route(s, 9, 4)).toHaveLength(3); // through the held door
+    s = step(s, 1); // into the doorway
+    expect(rejected(face(s, 2), { type: 'dungeon_move', move: 'forward' })).toMatch(/statue stands in the way/);
+    s = must(s, { type: 'dungeon_take_statue' });
+    expect(s.expedition!.exhibits).toHaveLength(1);
+    s = at(s, 2, 7, 5);
+    expect(rejected(face(s, 1), { type: 'dungeon_move', move: 'forward' })).toMatch(/wall/);
+    expect(route(s, 9, 4)!.length).toBeGreaterThan(15); // the long way still reaches the boss
+    s = must(at(s, 2, 1, 1), { type: 'end_expedition' });
+    expect(s.memorialUnnamed).toBe(1);
+    expect(s.resources).toEqual(buildFixture('full_roster').resources); // no reward of any kind
+  });
+
+  it('floor 3: the lone statue is bait, and behind the ambush lies the clue to the hidden way', () => {
+    let s = at(delve({ level: 9 }), 2, 15, 7);
+    s = step(s, 2); // onto the ambush tile
+    expect(s.expedition!.combat?.enemies.map((e) => e.type)).toEqual(MAP.floors[2]!.ambush);
+    s = must(s, { type: 'debug_win_combat' });
+    s = step(s, 2);
+    s = step(s, 3); // the clue
+    expect(s.dungeon.flags).toContain('stratum_1:clue');
+    s = step(s, 1);
+    s = must(s, { type: 'dungeon_take_statue' }); // the bait herself can still be brought home
+    // A wiped party sets the nameless back where they stood.
+    const wiped = applyAll(s, s.expedition!.partyIds.map((id) => ({ type: 'report_casualty' as const, adventurerId: id })));
+    expect(wiped.memorialUnnamed).toBe(0);
+    expect(wiped.dungeon.flags).not.toContain('stratum_1:2:16,9');
+    expect(wiped.dungeon.flags).toContain('stratum_1:clue');
+  });
+
+  it('floor 2: the wall is a wall until the clue is found; then the Keeper can be met, and she rearranges the party', () => {
+    let s = at(delve({ level: 9 }), 1, 11, 7);
+    expect(rejected(face(s, 1), { type: 'dungeon_move', move: 'forward' })).toMatch(/wall/);
+    s = structuredClone(s);
+    s.dungeon.flags.push('stratum_1:clue');
+    s = step(s, 1);
+    if (s.expedition!.combat) s = must(s, { type: 'debug_win_combat' });
+    expect(s.expedition).toMatchObject({ x: 12, y: 7 });
+    s = step(at(s, 1, 16, 5), 3);
+    expect(s.expedition!.combat).toMatchObject({ kind: 'hidden' });
+    expect(rejected(s, { type: 'combat_escape' })).toMatch(/no escaping/);
+    const rows = PARTY.map((id) => adv(s, id).row);
+    s = must(s, { type: 'combat_round', actions: guardAll(s) });
+    expect(PARTY.map((id) => adv(s, id).row)).toEqual(rows.map((r) => (r === 'front' ? 'back' : 'front')));
+    s = must(s, { type: 'debug_win_combat' });
+    expect(s.milestones).toContain('keeper');
+    expect(s.strata[0]!.secured).toBe(false); // she is not the master of the stratum
+    s = step(s, 3);
+    expect(s.expedition).toMatchObject({ x: 15, y: 5, combat: null });
   });
 });

@@ -29,6 +29,12 @@ export function deserialize(text: string): CampaignState {
     for (const statue of state.statues) statue.medium = 'stone';
     saved.version = 5;
   }
-  if (saved.version !== 5) throw new Error('This save is from an older build of the prototype and cannot be loaded.');
+  if (saved.version === 5) {
+    state.dungeon.flags = [];
+    state.memorialUnnamed = 0;
+    if (state.expedition) Object.assign(state.expedition, { sprung: [], exhibits: [] });
+    saved.version = 6;
+  }
+  if (saved.version !== 6) throw new Error('This save is from an older build of the prototype and cannot be loaded.');
   return state;
 }

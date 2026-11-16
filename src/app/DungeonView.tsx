@@ -137,7 +137,16 @@ function buildMarkers(floor: FloorData, floorId: string, openGates: string[], ma
       } else if (tile === '~' && !underfoot) {
         const mist = new THREE.Mesh(new THREE.BoxGeometry(CELL, WALL_HEIGHT, CELL), new THREE.MeshBasicMaterial({ color: 0xcfd6e6, transparent: true, opacity: 0.16, depthWrite: false }));
         at(mist, x, y, WALL_HEIGHT / 2);
-      } else if (tile === '=' && !openGates.includes(`${floorId}:${x},${y}`)) {
+      } else if (tile === '^') {
+        // A pressure plate: easy to miss, impossible to mistake once seen.
+        at(new THREE.Mesh(new THREE.BoxGeometry(1.1, 0.04, 1.1), glow(0x8a2f29, 0.5)), x, y, 0.02);
+      } else if (tile === 'K' && !underfoot) {
+        at(new THREE.Mesh(new THREE.TorusGeometry(0.14, 0.04, 8, 20), glow(0xd8a64a, 0.9)), x, y, 0.6);
+      } else if (tile === '$' && !underfoot) {
+        at(new THREE.Mesh(new THREE.BoxGeometry(0.7, 0.45, 0.5), new THREE.MeshStandardMaterial({ color: 0x6b5a3a, emissive: 0xd8a64a, emissiveIntensity: 0.15, roughness: 0.8 })), x, y, 0.23);
+      } else if (tile === 'C' && !underfoot) {
+        at(new THREE.Mesh(new THREE.OctahedronGeometry(0.14), glow(0xf2b7cf, 1)), x, y, 0.5);
+      } else if (tile === 'L' || (tile === '=' && !openGates.includes(`${floorId}:${x},${y}`))) {
         // A barred gate fills the corridor; the bars run across whichever way the corridor goes.
         const alongX = (floor.grid[y]?.[x - 1] ?? '#') !== '#';
         for (let i = -2; i <= 2; i++) {

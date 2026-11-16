@@ -44,7 +44,7 @@ export function createCampaign(cfg: GameConfig = defaultConfig, seed = 1, option
 
 function createStableCampaign(cfg: GameConfig, seed: number): CampaignState {
   return {
-    version: 5,
+    version: 6,
     standardCast: true,
     playerName: 'Master',
     seed,
@@ -68,10 +68,11 @@ function createStableCampaign(cfg: GameConfig, seed: number): CampaignState {
     sanctuary: { automatedAmmo: cfg.defense.sanctuary_initial_automated_ammo },
     rebuild: null,
     expedition: null,
-    dungeon: { discovered: {}, openGates: [], reachedFloor: {}, gatheredAtHour: {}, eliteRespawnHour: {} },
+    dungeon: { discovered: {}, openGates: [], reachedFloor: {}, gatheredAtHour: {}, eliteRespawnHour: {}, flags: [] },
     armory: {},
     supplies: {},
     milestones: [],
+    memorialUnnamed: 0,
     seal: {
       nextAvailableHour: 0,
       freeCredits: cfg.roster.starter_free_summons + cfg.roster.bonus_early_summon_credits,

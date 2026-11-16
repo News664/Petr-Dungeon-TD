@@ -12,6 +12,12 @@ export interface FloorData {
   elites: { id: string; group: string[]; loop: GridPoint[] }[];
   gather_yield?: Partial<Resources>;
   encounters: string[][];
+  /** What a cache ($) holds. */
+  cache?: Partial<Resources>;
+  /** Who waits at an ambush tile (A). */
+  ambush?: string[];
+  /** Who waits at the hidden boss tile (X). */
+  hidden_boss?: string[];
 }
 
 export interface StratumMap {

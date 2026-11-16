@@ -225,7 +225,8 @@ export interface CombatEnemy {
   slow: number;
 }
 
-export type CombatKind = 'normal' | 'elite' | 'boss';
+/** `hidden`: a secret boss; it cannot be fled and securing the stratum does not depend on it. */
+export type CombatKind = 'normal' | 'elite' | 'boss' | 'hidden';
 
 /** A turn-based fight in the labyrinth. */
 export interface DungeonCombat {
@@ -270,6 +271,10 @@ export interface Expedition {
   combat: DungeonCombat | null;
   /** Position of each roaming elite along its patrol loop, by elite key. */
   elitePositions: Record<string, number>;
+  /** Traps already sprung on this trip. */
+  sprung: string[];
+  /** Nameless statues taken from the labyrinth to be brought home, by tile key. */
+  exhibits: string[];
   /** Supplies carried: what is unused comes home with the party. */
   pack: Record<string, number>;
   /** Lines from the last finished fight or notable event. */
@@ -286,6 +291,8 @@ export interface DungeonKnowledge {
   gatheredAtHour: Record<string, number>;
   /** Hour at which a defeated elite returns, by elite key. */
   eliteRespawnHour: Record<string, number>;
+  /** Lasting changes to the labyrinth: keys found, caches emptied, clues, statues taken, secret bosses beaten. */
+  flags: string[];
 }
 
 export interface SummoningSeal {
@@ -301,7 +308,7 @@ export interface LogEntry {
 }
 
 export interface CampaignState {
-  version: 5;
+  version: 6;
   /** Ready-made debug and test campaigns use a standard cast: no traits, no attribute differences. */
   standardCast: boolean;
   /** What the champions call the guild master. */
@@ -337,6 +344,8 @@ export interface CampaignState {
   supplies: Record<string, number>;
   /** Discoveries that unlock recipes: floor_2, floor_3, elite, boss. */
   milestones: string[];
+  /** Nameless statues carried home from the labyrinth to the memorial. */
+  memorialUnnamed: number;
   seal: SummoningSeal;
   siegeAttempts: number;
   log: LogEntry[];
@@ -352,6 +361,7 @@ export type Command =
   | { type: 'dungeon_stairs' }
   | { type: 'dungeon_gather' }
   | { type: 'dungeon_recall' }
+  | { type: 'dungeon_take_statue' }
   | { type: 'combat_round'; actions: Record<string, CombatAction> }
   | { type: 'combat_escape' }
   | { type: 'set_row'; adventurerId: string; row: Row }

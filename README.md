@@ -11,6 +11,7 @@ Prototype of a hardcore first-person grid dungeon RPG combined with adventurer-s
 | M2 | First-person dungeon, turn-based party combat, statue rescue | Playable, placeholder art |
 | M3 | Tutorial, integration, balance | Prologue, tutorial defense, guild advisor and autosave done; balance by hand play and real art still open |
 | M4 | Growth and fortification | Skill trees, equipment, supplies and field menu, buildable defenses, temporary emergency summons; art briefs and lore draft |
+| M5 | Cast and first-stratum expansion | Twenty-four original champions with traits; larger floors with keys, traps, exhibits, a baited room and a hidden boss; rebalanced |
 
 The slice is playable from start to finish: prologue and first defense, the three-floor labyrinth, weekly attacks, the boss, protected extraction, and the crisis loops after a lost frontier. A scripted player finishes it in tests.
 

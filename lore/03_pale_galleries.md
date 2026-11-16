@@ -18,13 +18,15 @@ The name is what the residents call it. Its old name is lost. **Open.**
 
 Much more is wanted on every floor than the prototype has.
 
-**Proposed.** What the party finds, as the floors stand now and as they could grow:
+**In the game now:**
 
-| Floor | Name | Now | Could add |
-|---|---|---|---|
-| 1 | Outer Galleries | Wide halls, blank frames, a barred service gate that opens only from the inside, a storeroom to work for timber and stone, a drift of pale mist | Three areas with their own look and creatures: the entrance halls, the storerooms, the restorers' workshops. A locked door whose key is elsewhere on the floor. |
-| 2 | Gallery of Echoes | A ring of cloisters around a teaching hall; the Warden walks the ring; a herb garden has gone on growing in the dark | Pressure plates that loose a gust of pale dust; a corridor that closes behind the party; a second way round the ring that is shorter and trapped. |
-| 3 | The Pale Court | The festival court, mist in two places, the sculptors' yard at the far end | The court is set out like an exhibition, and the exhibits are people: visitors and earlier delvers, posed. Some hold doors open and cannot be moved without closing them. One points the wrong way. One stands alone in a side room, too easy to reach. |
+| Floor | Name | What is there |
+|---|---|---|
+| 1 | Outer Galleries | The entrance halls and the barred service gate; the storeroom to work for timber and stone; a drift of pale mist. East, the restorers' wing: a key left on a workbench, and a locked store nobody has opened since the fall. |
+| 2 | Gallery of Echoes | The ring of cloisters the Warden walks, around the hall where a herb garden still grows. Two pressure plates that loose pale dust. And one wall on the east side that is not a wall. |
+| 3 | The Pale Court | The festival court. An exhibition hall where the exhibits are people. One of them holds the short door to the sculptors' yard open with her raised arms. One stands alone in a side room, too easy to reach. |
+
+**Proposed, not yet built:** distinct creatures for each area of floor 1; a corridor on floor 2 that closes behind the party; a statue on floor 3 that points the wrong way.
 
 ## What lives there
 
@@ -48,7 +50,9 @@ A party can time its passage and never fight it. Killing it is a choice, and it 
 
 **Proposed.** The Warden is her route without her. She is elsewhere, behind a wall the ring does not show, still keeping the one room Iwanaga never entered. She is not stone and has not been for a long time; what she is instead is the question of the fight.
 
-**Open.** How she is reached, and what she guards.
+**In the game now.** A ring of keys lies in the baited room on floor 3. With it, a wall on floor 2 opens onto her rooms. She fights by rearranging: the party's front and back rows change places.
+
+**Open.** What she guards, and what she says.
 
 ## The Hollow Colossus
 

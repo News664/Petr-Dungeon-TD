@@ -19,6 +19,12 @@ const GLYPH: Record<string, { text: string; color: string }> = {
   '<': { text: '▲', color: 'var(--ward)' },
   G: { text: '◆', color: 'var(--amber)' },
   B: { text: 'B', color: 'var(--danger)' },
+  X: { text: '?', color: 'var(--danger)' },
+  K: { text: 'k', color: 'var(--amber)' },
+  $: { text: '▣', color: 'var(--amber)' },
+  '^': { text: '!', color: 'var(--danger)' },
+  L: { text: '▮', color: 'var(--stone)' },
+  C: { text: '✦', color: 'var(--divine)' },
 };
 
 /** The party's own chart of the floor: only what it has seen. */

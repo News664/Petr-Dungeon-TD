@@ -131,6 +131,21 @@ The answers themselves are recorded in `lore/04_open_questions.md`. These are th
 | Medium | Every champion and statue carries a medium. Whatever first raises her gauge decides it until the gauge is back at zero. A stratum declares its medium; the first is stone, and attackers carry the frontier stratum's medium. Nothing else uses it yet. | `growth.ts`, `dungeon_maps.json` |
 | Goddesses | Sakuya and Iwanaga in all game text. Sakuya's colour changed from violet to blossom pink. | interface text, `styles.css` |
 
+## Decisions made in the first-stratum expansion
+
+| Topic | Choice | Where |
+|---|---|---|
+| Floor 1 | Widened with an east wing: a key room, and a locked store holding a one-time cache. | `dungeon_maps.json` |
+| Keys and locks | A floor's key opens that floor's locked door for good. | `dungeon.ts` |
+| Floor 2 | Two dust traps, and a secret door to the Keeper's rooms. | `dungeon_maps.json` |
+| Traps | A plate adds 14 gauge to everyone and raises the danger meter by 30. It springs once per expedition and is drawn on the chart as soon as the party has seen the tile, so it can be walked around. | `dungeon.ts` |
+| Floor 3 | An exhibition hall of statues (scenery, solid), a statue holding the boss approach's short door open, and a baited side room. The old short way to the boss is walled; the long way round always remains. | `dungeon_maps.json` |
+| Carrying the long lost home | A statue standing beside the party can be taken up; it uses one member's carrying place. On return it joins the memorial as one of the nameless. It gives nothing. If the party is wiped, she is set back where she stood. | `dungeon.ts`, `expeditionCore.ts` |
+| The held door | Taking the statue that holds it shuts the door for good, and her niche closes with it. | `dungeon.ts` |
+| Bait | Stepping into the side room on floor 3 starts a fixed, hard fight once. Behind it is a clue. | `dungeon.ts` |
+| The hidden Keeper | The clue from floor 3 opens the secret door on floor 2. She cannot be fled, moves first, and her "Rearrange" swaps the party's front and back rows. Beating her does not secure the stratum; it unlocks a charm recipe. | `combat.ts`, `balance.json` |
+| Rebalance | A level now needs 115 experience per current level (was 100). The Warden has 800 health and 44 attack; the Colossus 1050 and 45. | `balance.json` |
+
 ## Balance, first pass
 
 Checked by simulated battles with no player input during the fight:
@@ -146,6 +161,8 @@ Labyrinth, checked with a scripted player that uses skills sensibly:
 
 - Whole campaign, played by a scripted guild master (`src/sim/__tests__/director.ts`) who trains one floor at a time, rests before attacks and takes on the boss at level 5: the first stratum is secured between day 19 and day 26 across eight seeds, with nobody lost and the miracle unspent.
 - The same player attempting the boss at level 4 is usually wiped at its door. Since the hall-capacity change, that is recoverable: emergency summons, rescue expeditions, and the boss falls about a week later. Before that change the same wipe ended in game over by day 23.
+- After the cast, skill, gear and floor changes, and the rebalance above: the careful scripted player (who spends no skill points and makes no gear) secures the stratum between day 11 and day 24 on six seeds, usually with one to four champions solidified along the way and all of them recovered. The same player attempting the boss at level 4 loses the campaign on two seeds of six. A human using skills, gear and supplies will find it easier than that.
+- The figures below this line were measured before those changes and are kept for comparison.
 - A level-1 party of five (Guardian, two Gunners, Alchemist, Medic) clears floor-1 fights but runs out of skill points within a few.
 - The roaming elite wipes a level-1 party, is a narrow win at level 2 and a solid win at level 3.
 - The boss wipes a level-1 party and is a narrow win for a fresh level-3 party; level 4 or 5 is comfortable. Reaching it tired makes it harder.

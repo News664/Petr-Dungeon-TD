@@ -1,5 +1,5 @@
 /** A simple, sensible player for headless dungeon tests and balance probes. */
-import { DIRS, apply, applyAll, defaultConfig as cfg, enemyIntent, getStratumMap, tileAt } from '../index';
+import { DIRS, apply, applyAll, canEnter, defaultConfig as cfg, effectiveTile, enemyIntent } from '../index';
 import type { CampaignState, CombatAction, Command } from '../index';
 
 export function chooseActions(s: CampaignState): Record<string, CombatAction> {
@@ -75,7 +75,6 @@ export function fightOut(state: CampaignState): { state: CampaignState; result: 
 /** Shortest walkable route on the party's floor, as [x, y] steps (gates count as open only if opened). */
 export function route(s: CampaignState, tx: number, ty: number, avoid: (x: number, y: number) => boolean = () => false): [number, number][] | null {
   const exp = s.expedition!;
-  const floor = getStratumMap(exp.stratumId)!.floors[exp.floor]!;
   const key = (x: number, y: number) => `${x},${y}`;
   const from = new Map<string, string | null>([[key(exp.x, exp.y), null]]);
   const queue: [number, number][] = [[exp.x, exp.y]];
@@ -85,10 +84,11 @@ export function route(s: CampaignState, tx: number, ty: number, avoid: (x: numbe
     for (const [dx, dy] of DIRS) {
       const nx = x + dx;
       const ny = y + dy;
-      const tile = tileAt(floor, nx, ny);
-      if (tile === '#' || from.has(key(nx, ny)) || avoid(nx, ny)) continue;
+      const tile = effectiveTile(s, exp.stratumId, exp.floor, nx, ny);
+      if (!canEnter(s, exp.stratumId, exp.floor, nx, ny) || from.has(key(nx, ny)) || avoid(nx, ny)) continue;
       if (tile === '=' && !s.dungeon.openGates.includes(`${exp.stratumId}:${exp.floor}:${nx},${ny}`)) continue;
-      if (tile === 'B' && !(nx === tx && ny === ty)) continue;
+      // Bosses and ambushes are only walked into on purpose.
+      if ((tile === 'B' || tile === 'X' || tile === 'A') && !(nx === tx && ny === ty)) continue;
       from.set(key(nx, ny), key(x, y));
       queue.push([nx, ny]);
     }

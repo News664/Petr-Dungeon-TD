@@ -16,6 +16,7 @@ import {
   recallExpedition,
   reportCasualty,
   startExpedition,
+  takeStatue,
   useStairs,
 } from './dungeon';
 import { buildRecommended, buildStructure, demolishStructure } from './fortify';
@@ -70,6 +71,9 @@ function run(s: CampaignState, cfg: GameConfig, cmd: Command): void {
       return;
     case 'dungeon_gather':
       gather(s, cfg);
+      return;
+    case 'dungeon_take_statue':
+      takeStatue(s);
       return;
     case 'dungeon_recall':
       recallExpedition(s, cfg);

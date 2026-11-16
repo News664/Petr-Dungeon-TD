@@ -1,5 +1,5 @@
 {
- "_notice": "Labyrinth layouts. Grid legend: # wall, . floor, E entrance, > stairs down, < stairs up, G gathering node, = one-way gate (see gates), ~ solidifying mist, B boss. Coordinates are [x, y] with y growing downward. Each stratum solidifies in one medium.",
+ "_notice": "Labyrinth layouts. Grid legend: # wall, . floor, E entrance, > stairs down, < stairs up, G gathering node, = one-way gate (see gates), ~ solidifying mist, B boss, K key, L locked door (needs this floor's key), $ cache (once), ^ dust trap, % secret door (opens once the stratum's clue is found), X hidden boss, S exhibit statue (scenery), H statue holding the door D open, D that door, T a statue that can be taken, A ambush (once), C clue. Coordinates are [x, y] with y growing downward. Each stratum solidifies in one medium.",
  "stratum_1": {
   "medium": "stone",
   "boss": [
@@ -10,17 +10,17 @@
     "name": "Outer Galleries",
     "start_facing": 1,
     "grid": [
-     "###############",
-     "#E..=.........#",
-     "#.#####.#####.#",
-     "#.#G..#.#...#.#",
-     "#.#.#.#.#.#.#.#",
-     "#.#.#...#.#...#",
-     "#.#.#####.###.#",
-     "#.#...~...#...#",
-     "#.#.#####.#.#.#",
-     "#......#....#>#",
-     "###############"
+     "#######################",
+     "#E..=.........#.......#",
+     "#.#####.#####.#.#####.#",
+     "#.#G..#.#...#.#.#K..#.#",
+     "#.#.#.#.#.#.#.#.#.#.#.#",
+     "#.#.#...#.#.........#.#",
+     "#.#.#####.###.#.#####.#",
+     "#.#...~...#...#.......#",
+     "#.#.#####.#.#.#####L###",
+     "#......#....#>#...$...#",
+     "#######################"
     ],
     "gates": [
      {
@@ -56,23 +56,27 @@
      [
       "stone_hound"
      ]
-    ]
+    ],
+    "cache": {
+     "construction_materials": 14,
+     "restoration_reagent": 6
+    }
    },
    {
     "name": "Gallery of Echoes",
     "start_facing": 1,
     "grid": [
-     "#############",
-     "#<..........#",
-     "#.#########.#",
-     "#.#.......#.#",
-     "#.#.#####.#.#",
-     "#...#G......#",
-     "#.#.#####.#.#",
-     "#.#.......#.#",
-     "#.#####.###.#",
-     "#.....~.#..>#",
-     "#############"
+     "###################",
+     "#<..........#######",
+     "#.#########.#######",
+     "#.#.......#.#.....#",
+     "#.#.#####.#.#.###.#",
+     "#...#G....^.#.#X..#",
+     "#.#.#####.#.#.###.#",
+     "#.#.......#.%.....#",
+     "#.#####.###.#######",
+     "#.....~.^..>#######",
+     "###################"
     ],
     "gates": [],
     "elites": [
@@ -127,23 +131,26 @@
       "dust_moth",
       "dust_moth"
      ]
+    ],
+    "hidden_boss": [
+     "keeper_of_the_galleries"
     ]
    },
    {
     "name": "The Pale Court",
     "start_facing": 1,
     "grid": [
-     "#############",
-     "#<....#.....#",
-     "#.###.#.###.#",
-     "#.#...#.#B#.#",
-     "#.#.###.#.#.#",
-     "#.#.....#.#.#",
-     "#.#####.#.#.#",
-     "#.~...#...#.#",
-     "#.###.#####.#",
-     "#.....~.....#",
-     "#############"
+     "###################",
+     "#<....#.....#######",
+     "#.###.#.###.#######",
+     "#.#...#.#B#.#.S.S.#",
+     "#.#.###.#.#.#.....#",
+     "#.#.....D.#.......#",
+     "#.#####.H.#.#.S.S.#",
+     "#.~...#.#...#.....#",
+     "#.###.#####.###A###",
+     "#.....~.....#.C.T##",
+     "###################"
     ],
     "gates": [],
     "elites": [],
@@ -170,6 +177,11 @@
       "gazer",
       "pale_crawler"
      ]
+    ],
+    "ambush": [
+     "gazer",
+     "gazer",
+     "stone_hound"
     ]
    }
   ]

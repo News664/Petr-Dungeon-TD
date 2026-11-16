@@ -39,7 +39,7 @@ export function startCombat(s: CampaignState, cfg: GameConfig, kind: CombatKind,
     return { id: i + 1, type, hp: data.hp, maxHp: data.hp, patternIndex: 0, corrode: 0, slow: 0 };
   });
   const names = enemies.map((e) => cfg.dungeon.enemies[e.type]?.name).join(', ');
-  const intro = kind === 'boss' ? `The master of this stratum rises: ${names}.` : kind === 'elite' ? `The party is caught by ${names}.` : `Monsters attack: ${names}.`;
+  const intro = kind === 'boss' ? `The master of this stratum rises: ${names}.` : kind === 'hidden' ? `Someone has been waiting here: ${names}.` : kind === 'elite' ? `The party is caught by ${names}.` : `Monsters attack: ${names}.`;
   exp.combat = { kind, eliteId, round: 0, enemies, shieldWall: 0, wardMist: 0, taunt: null, log: [intro] };
   log(s, 'combat', intro);
 }
@@ -148,6 +148,11 @@ function enemyActs(s: CampaignState, cfg: GameConfig, exp: Expedition, c: Dungeo
     say(c, `${data.name} ${attack.telegraph ?? 'gathers itself'}.`);
     return;
   }
+  if (attack.effect === 'swap_rows') {
+    for (const adv of party(s, exp)) adv.row = adv.row === 'front' ? 'back' : 'front';
+    say(c, `${data.name} ${attack.telegraph ?? 'rearranges the party'}. Front and back rows have changed places.`);
+    return;
+  }
   const living = party(s, exp);
   if (living.length === 0) return;
   const front = living.filter((a) => a.row === 'front');
@@ -217,6 +222,11 @@ function victory(s: CampaignState, cfg: GameConfig, exp: Expedition, c: DungeonC
   if (c.kind === 'elite' && c.eliteId) {
     s.dungeon.eliteRespawnHour[c.eliteId] = s.simHour + D.elite_respawn_hours;
     addMilestone(s, 'elite');
+  }
+  if (c.kind === 'hidden' && c.eliteId) {
+    if (!s.dungeon.flags.includes(c.eliteId)) s.dungeon.flags.push(c.eliteId);
+    addMilestone(s, 'keeper');
+    log(s, 'hidden_boss', 'The Keeper of the Galleries is at rest. What she kept is the guild\'s to use.');
   }
   if (c.kind === 'boss') {
     addMilestone(s, 'boss');
@@ -308,7 +318,7 @@ export function resolveRound(s: CampaignState, cfg: GameConfig, actions: Record<
 export function escapeCombat(s: CampaignState, cfg: GameConfig): void {
   const { exp, c } = fight(s);
   ensureClockFree(s);
-  if (c.kind === 'boss') fail('There is no escaping this fight.');
+  if (c.kind === 'boss' || c.kind === 'hidden') fail('There is no escaping this fight.');
   const chance = c.kind === 'elite' ? cfg.dungeon.escape_chance.elite : cfg.dungeon.escape_chance.normal;
   c.round += 1;
   if (nextRandom(s) < chance) {

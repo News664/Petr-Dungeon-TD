@@ -1,5 +1,5 @@
-import { useEffect } from 'react';
-import { defaultConfig as cfg, elitesHere, findTile, floorKey, formatCost, getStratumMap, parseTileKey, partyTile, tileAt } from '../sim';
+import { useEffect, useMemo } from 'react';
+import { defaultConfig as cfg, effectiveTile, elitesHere, findTile, floorKey, formatCost, getStratumMap, parseTileKey, partyTile, statuesInReach, tileAt } from '../sim';
 import type { CampaignState, MoveKind } from '../sim';
 import type { Dispatch } from './App';
 import { AutoMap } from './AutoMap';
@@ -49,9 +49,17 @@ export function DungeonScreen({ state, dispatch, onLeaveView }: Props) {
     return () => window.removeEventListener('keydown', onKey);
   }, [dispatch, inCombat]);
 
+  // The floor as it stands now: secret doors revealed, taken things gone, fallen doors shut.
+  const flagCount = state.dungeon.flags.length;
+  const rawFloor = exp ? getStratumMap(exp.stratumId)?.floors[exp.floor] : undefined;
+  const floor = useMemo(
+    () => (exp && rawFloor ? { ...rawFloor, grid: rawFloor.grid.map((row, y) => [...row].map((_, x) => effectiveTile(state, exp.stratumId, exp.floor, x, y)).join('')) } : undefined),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [rawFloor, flagCount, exp?.stratumId, exp?.floor],
+  );
+
   if (!exp) return null;
   const map = getStratumMap(exp.stratumId);
-  const floor = map?.floors[exp.floor];
   const stratum = state.strata.find((st) => st.id === exp.stratumId);
   if (!map || !floor || !stratum) return null;
 
@@ -69,6 +77,10 @@ export function DungeonScreen({ state, dispatch, onLeaveView }: Props) {
       return where && where.stratumId === exp.stratumId && where.floor === exp.floor ? [{ kind: 'statue' as const, x: where.x, y: where.y }] : [];
     }),
   ];
+  floor.grid.forEach((row, y) => [...row].forEach((tile, x) => 'SHT'.includes(tile) && markers.push({ kind: 'statue', x, y })));
+  const hidden = findTile(floor, 'X');
+  if (hidden) markers.push({ kind: 'boss', x: hidden[0], y: hidden[1] });
+  const takeable = statuesInReach(state, exp);
   const boss = findTile(floor, 'B');
   if (boss && !stratum.bossDefeated) markers.push({ kind: 'boss', x: boss[0], y: boss[1] });
 
@@ -110,7 +122,7 @@ export function DungeonScreen({ state, dispatch, onLeaveView }: Props) {
               <dt>Carried</dt>
               <dd>
                 {formatCost(exp.loot)}
-                {exp.carriedStatueIds.length > 0 && ` · ${exp.carriedStatueIds.length} statue(s)`}
+                {exp.carriedStatueIds.length + exp.exhibits.length > 0 && ` · ${exp.carriedStatueIds.length + exp.exhibits.length} statue(s)`}
               </dd>
             </div>
           </dl>
@@ -162,6 +174,11 @@ export function DungeonScreen({ state, dispatch, onLeaveView }: Props) {
                     {st.permanent ? 'Carry home' : 'Secure'} {name(st.adventurerId)}'s statue
                   </button>
                 ))}
+                {takeable.length > 0 && (
+                  <button onClick={() => dispatch({ type: 'dungeon_take_statue' })} title="She cannot be restored. Bringing her home changes nothing but where she stands.">
+                    Carry her home{takeable[0]?.holdsDoor ? ' (the door she holds will shut for good)' : ''}
+                  </button>
+                )}
                 {canLeave && (
                   <button className="primary" onClick={() => dispatch({ type: 'end_expedition' })}>
                     Return to the sanctuary{exp.floor > 0 ? ` · ${duration(exp.floor * D.floor_travel_hours)}` : ''}
@@ -190,6 +207,9 @@ export function DungeonScreen({ state, dispatch, onLeaveView }: Props) {
             <span>≈</span> mist
             <span style={{ color: 'var(--danger)' }}>●</span> roaming elite
             <span style={{ color: 'var(--stone)' }}>●</span> statue
+            <span style={{ color: 'var(--danger)' }}>!</span> trap
+            <span style={{ color: 'var(--amber)' }}>k ▣</span> key, cache
+            <span style={{ color: 'var(--stone)' }}>▮</span> locked
           </p>
         </div>
 

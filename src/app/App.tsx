@@ -10,7 +10,7 @@ import { AdventurerSheet, WorkshopPanel } from './GrowthPanels';
 import { ArtContext } from './Portrait';
 import { PrologueScreen } from './PrologueScreen';
 import { RosterPanel } from './RosterPanel';
-import { DebugPanel, LogPanel, SealPanel, TerritoryPanel, WardPanel } from './SidePanels';
+import { DebugPanel, LogPanel, MemorialPanel, SealPanel, TerritoryPanel, WardPanel } from './SidePanels';
 import { TitleScreen } from './TitleScreen';
 
 // The renderers are the heavy part of the bundle; load each only when it is needed.
@@ -347,6 +347,7 @@ export function App() {
           <section className="column">
             <TerritoryPanel state={state} dispatch={dispatch} />
             <WardPanel state={state} />
+            <MemorialPanel state={state} />
             <WorkshopPanel state={state} dispatch={dispatch} />
           </section>
         </main>

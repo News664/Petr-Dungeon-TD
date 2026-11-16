@@ -650,7 +650,7 @@
     "guard_multiplier": 0.5,
     "shield_wall_multiplier": 0.6,
     "ward_mist_multiplier": 0.5,
-    "xp_per_level": 100,
+    "xp_per_level": 115,
     "level_cap": 10,
     "level_hp_bonus": 0.1,
     "level_atk_bonus": 0.12,
@@ -838,7 +838,7 @@
         }
       },
       "purge_stone": {
-        "name": "Purge Stone",
+        "name": "Purge",
         "sp": 5,
         "target": "ally",
         "text": "Lowers one ally's solidification by 40.",
@@ -1101,6 +1101,11 @@
         "target": "all",
         "power": 0.6,
         "gauge": 28
+      },
+      "rearrange": {
+        "name": "Rearrange",
+        "effect": "swap_rows",
+        "telegraph": "walks through the party as if hanging pictures, and everyone finds herself standing somewhere else"
       }
     },
     "enemies": {
@@ -1182,8 +1187,8 @@
       },
       "warden_of_dust": {
         "name": "Warden of Dust",
-        "hp": 700,
-        "atk": 42,
+        "hp": 800,
+        "atk": 44,
         "def": 9,
         "speed": 6,
         "pattern": [
@@ -1201,8 +1206,8 @@
       },
       "hollow_colossus": {
         "name": "Hollow Colossus",
-        "hp": 900,
-        "atk": 44,
+        "hp": 1050,
+        "atk": 45,
         "def": 9,
         "speed": 5,
         "pattern": [
@@ -1218,13 +1223,37 @@
           "restoration_reagent": 10,
           "ward_energy": 20
         }
+      },
+      "keeper_of_the_galleries": {
+        "name": "The Keeper of the Galleries",
+        "hp": 1100,
+        "atk": 46,
+        "def": 8,
+        "speed": 9,
+        "pattern": [
+          "rearrange",
+          "crush",
+          "stone_gaze",
+          "sweep",
+          "rearrange",
+          "gather_dust",
+          "collapse"
+        ],
+        "xp": 400,
+        "loot": {
+          "construction_materials": 25,
+          "restoration_reagent": 15,
+          "ward_energy": 25
+        }
       }
     },
     "starting_skill_points": 1,
     "skill_points_per_level": 1,
     "skill_max_rank": 3,
     "rank_bonus": 0.2,
-    "field_action_minutes": 5
+    "field_action_minutes": 5,
+    "trap_gauge": 14,
+    "trap_danger": 30
   },
   "equipment": {
     "slots": [
@@ -1237,7 +1266,8 @@
       "floor_2": "found on the second floor",
       "floor_3": "found on the third floor",
       "elite": "taken from the roaming elite",
-      "boss": "won from the master of the stratum"
+      "boss": "won from the master of the stratum",
+      "keeper": "given up by the Keeper of the Galleries"
     },
     "items": {
       "iron_arms": {
@@ -1360,6 +1390,21 @@
           "atk": 10
         },
         "text": "Cut from the Hollow Colossus."
+      },
+      "keepers_ring": {
+        "name": "Keeper's Ring",
+        "slot": "charm",
+        "unlock": "keeper",
+        "cost": {
+          "ward_energy": 20,
+          "restoration_reagent": 10
+        },
+        "stats": {
+          "gauge_resist_pct": 15,
+          "speed": 1,
+          "max_sp": 4
+        },
+        "text": "A ring of small keys. None of them fits anything any more."
       }
     }
   },

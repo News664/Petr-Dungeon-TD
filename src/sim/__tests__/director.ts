@@ -162,9 +162,21 @@ function expedition(state: CampaignState, party: Adventurer[], bossLevel: number
   const start = findTile(floor, floorIndex === 0 ? 'E' : '<')!;
   const onward = findTile(floor, '>');
   const node = floorIndex === 0 ? findTile(floor, 'G') : null; // the floor-2 site sits inside the elite's loop
-  // On the last floor there are no stairs to walk to: patrol out to the far corner instead.
-  const far: [number, number] = [floor.grid[0]!.length - 2, floor.grid.length - 2];
-  const turn = onward ?? (tileAt(floor, far[0], far[1]) === '.' ? far : null);
+  // On the last floor there are no stairs to walk to: patrol out to the farthest open tile instead.
+  let turn: [number, number] | null = onward;
+  if (!turn) {
+    let longest = 0;
+    floor.grid.forEach((row, y) =>
+      [...row].forEach((tile, x) => {
+        if (tile !== '.') return;
+        const length = route(s, x, y)?.length ?? 0;
+        if (length > longest) {
+          longest = length;
+          turn = [x, y];
+        }
+      }),
+    );
+  }
   const waypoints = [node, turn, start, turn].filter((p): p is [number, number] => !!p);
   for (let lap = 0; lap < 3 && s.expedition && !tired(s, ids.length) && !s.pendingBattle; lap++) {
     for (const [x, y] of waypoints) {

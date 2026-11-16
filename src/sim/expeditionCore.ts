@@ -13,6 +13,10 @@ export function finishExpedition(s: CampaignState, how: string): void {
     if (st.permanent) enshrine(s, st);
     else retrieve(s, st, 'carried out by the expedition');
   }
+  if (exp.exhibits.length > 0) {
+    s.memorialUnnamed += exp.exhibits.length;
+    log(s, 'enshrined', `${exp.exhibits.length} of the long lost ${exp.exhibits.length === 1 ? 'was' : 'were'} carried home to the memorial. Nobody knows their names.`);
+  }
   for (const id of RESOURCE_IDS) s.resources[id] += exp.loot[id];
   for (const [id, n] of Object.entries(exp.pack)) s.supplies[id] = (s.supplies[id] ?? 0) + n;
   const haul = RESOURCE_IDS.some((id) => exp.loot[id] > 0) ? ` They brought back ${formatCost(exp.loot)}.` : '';
@@ -27,6 +31,8 @@ export function wipeExpedition(s: CampaignState, locationId: string): void {
   for (const st of s.statues) {
     if (exp.carriedStatueIds.includes(st.adventurerId)) st.locationId = locationId;
   }
+  // The nameless ones they were carrying are set back where they stood.
+  s.dungeon.flags = s.dungeon.flags.filter((f) => !exp.exhibits.includes(f));
   s.expedition = null;
   log(s, 'expedition_wiped', 'The whole expedition was solidified. Everything they carried is lost; a rescue party will be needed.');
 }

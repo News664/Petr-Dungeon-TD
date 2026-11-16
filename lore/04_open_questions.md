@@ -33,8 +33,8 @@ The first twelve questions were answered on 16 November 2026. The answers are re
 
 1. **Which terms follow the names.** The glossary suggests a blossom-and-rock vocabulary; none of it is in the game yet.
 2. **What the memorial is.** A place in the sanctuary, a screen in the game, a line in the chronicle?
-3. **How statues are used against the party** in play: which of decoration, trap parts, false signs, bait and giants' weapons become actual mechanics, and from which floor. The first stratum's expansion makes a start; see `03_pale_galleries.md`.
-4. **How the hidden keeper is reached** and what makes her fight different.
+3. **How statues are used against the party** in play. Built so far, on floor 3: exhibits as scenery, one holding a door, one as bait. Not built: false signs, and statues as weapons of giants. Which of those are wanted, and where?
+4. **The hidden keeper.** She is in the game (see `03_pale_galleries.md`). What she guards and what she says are open.
 5. **When the second medium appears,** and which it is.
 
 ## Still open from before
