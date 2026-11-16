@@ -1,21 +1,23 @@
 # People and key art
 
-## The goddess
+## Sakuya
 
-She protects the last sanctuary and is nearly spent. She speaks to the player in the prologue and the first defense, and she is the one who intervenes when the frontier falls.
+The goddess of the last sanctuary, nearly spent. She speaks to the player in the prologue and the first defense, and she is the one who intervenes when the frontier falls. An original character named for the blossom princess of Japanese myth.
 
-- A tall adult woman, serene and sorrowful, in layered pale robes. Violet light around her hands and behind her head; this violet belongs to her alone.
-- She is fading: parts of her outline thin into light. She should look like someone holding a door shut with the last of her strength, and being kind about it.
+- A tall adult woman, serene and sorrowful, in many-layered pale court robes with long sleeves. An original design.
+- Blossom-pink light around her hands and behind her head; cherry petals drift from her sleeves. This pink belongs to her alone.
+- She is fading: parts of her outline thin into petals. She should look like someone holding a door shut with the last of her strength, and being kind about it.
 - Same canvas and framing rules as the adventurers, so she can be shown in the same portrait frames.
-- A second picture, `goddess_spent`, shows her after the miracle is used: dim, eyes closed, leaning on a staff.
+- A second picture, `sakuya_spent`, shows her after the miracle is used: dim, eyes closed, a bare branch in her hands with one blossom left.
 
-## The Collector
+## Iwanaga, the Collector
 
-The demon queen, or rival goddess, who is turning the world into her private collection. She appears at the end of a lost campaign and, later, in story scenes.
+The rival goddess who is turning the world into her private collection, and Sakuya's elder sister. She appears at the end of a lost campaign and, later, in story scenes. An original character named for the rock princess.
 
-- A tall, immaculate adult woman with the bearing of a museum director: dark formal robes, pale gloves, a ring of small keys. Courteous, patient, appraising.
+- A tall, immaculate adult woman with the bearing of a museum director, in austere dark layered court robes patterned like weathered stone and evergreen pine. Hair bound up severely; a ring of small keys at her sash.
 - No horns, no weapons, no threatening pose. What is frightening about her is that she is looking at the viewer as an acquisition.
-- Her light is the cold white-violet of the solidifying creatures. Keep it clearly cooler and whiter than the goddess's violet.
+- Her light is the cold white-violet of the solidifying creatures. Keep it clearly cooler and whiter than Sakuya's pink.
+- A family likeness to Sakuya: the same bearing, none of the warmth.
 - Same canvas and framing rules as the adventurers.
 
 ## Sanctuary residents

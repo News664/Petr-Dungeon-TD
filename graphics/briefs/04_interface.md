@@ -12,7 +12,7 @@ The interface is text-heavy and dark. Icons mark the things a player scans for: 
 | Restoration reagent | Restoring statues, supplies | Soft green |
 | Stone | The solidification gauge | Pale grey |
 | Guard | A guarding adventurer in a fight | Parchment |
-| Miracle | The goddess's one charge | Violet |
+| Miracle | Sakuya's one charge | Blossom pink |
 
 - 256 × 256 px, transparent background, a single centred symbol.
 - Two tones at most. They are shown at 16–32 px, so no fine detail and no outlines thinner than a twelfth of the canvas.

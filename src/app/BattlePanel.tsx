@@ -78,7 +78,7 @@ export function MiraclePanel({ state, dispatch }: { state: CampaignState; dispat
   if (!pending) return null;
   return (
     <div className="panel alert divine">
-      <h2>The goddess intervenes</h2>
+      <h2>Sakuya intervenes</h2>
       <p className="muted small">
         She banishes the invasion and can fully restore {pending.count} of the {pending.eligibleIds.length} who fell. The others remain statues
         at the frontier until you bring them back.

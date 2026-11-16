@@ -24,34 +24,34 @@ Deliver to `public/art/characters/<class>/<stage>.webp` with the class name in l
 
 ## Named characters
 
-One line each to start from. These are proposals: change anything, including the names (the name lists are in `config/balance.json` under `roster.names_by_class`).
+Twenty-four champions, six to a class. They come from many different worlds, so their dress and features should come from many different traditions; no single culture's fantasy should dominate, and each design should be an original one inspired by a tradition, not a costume of it. These are starting points: change anything. The names, epithets and traits live in `config/balance.json` under `roster.champions`.
 
-| Name | Class | Starting idea |
-|---|---|---|
-| Rhosyn | Guardian | Veteran shield-bearer, greying braid, old scar on her jaw, dented tower shield |
-| Havela | Guardian | Tall and young, cropped fair hair, mismatched salvaged plates, eager |
-| Tamsin | Guardian | Stocky, dark skin, shaved sides, hammer at her belt, former mason |
-| Brisa | Guardian | Wiry, wind-burned, fur-collared coat over mail, mountain patrol |
-| Edda | Guardian | Broad, in her fifties, heavy cloak, round shield painted with a faded sun |
-| Petra | Guardian | Quiet, long black hair bound in cord, lacquered lamellar armour |
-| Ysolde | Gunner | Sharp-eyed, auburn hair in a tail, long grey coat, brass-bound rifle |
-| Okka | Gunner | Short, cheerful, goggles pushed up, patched jacket, short carbine |
-| Quenby | Gunner | Tall, dark skin, close-cropped hair, hunter's leathers, long rifle wrapped in cloth |
-| Wren | Gunner | Slight, freckled, scarf over nose and mouth, scout's cloak |
-| Calla | Gunner | Elegant, silver-streaked hair, duelling coat, paired pistols |
-| Zofia | Gunner | Heavy-set, braided crown, bandolier, wide-brimmed hat |
-| Aurel | Alchemist | Scholarly, round spectacles, ink-stained cuffs, book chained at her hip |
-| Idris | Alchemist | Lean, brown skin, headscarf, glass vials sewn into a sash |
-| Velka | Alchemist | Pale, white-blonde, burn-scarred hands, heavy leather apron |
-| Nimue | Alchemist | Dreamy, long dark hair with dried flowers, herb bundles and a copper still on her back |
-| Sorrel | Alchemist | Red-haired, soot-smudged, tinker's harness of tools |
-| Castane | Alchemist | Stern, in her fifties, high collar, precise glass instruments |
-| Oriel | Medic | Gentle, golden-brown skin, hair wrapped in pale cloth, lantern staff |
-| Maren | Medic | Weathered sailor-surgeon, rolled sleeves, tattooed forearms |
-| Linnet | Medic | Young, small, cropped hair, oversized satchel |
-| Thessaly | Medic | Tall, grave, long grey robes, silver circlet |
-| Mirelle | Medic | Warm, plump, apron over travelling dress, flask of cordial |
-| Ember | Medic | Copper-haired, burn-scarred cheek, practical field kit, steady gaze |
+| Name | Class | Epithet | Starting idea |
+|---|---|---|---|
+| Kaede | Guardian | the Unmoved | Composed woman in her thirties, black hair in a high tail, layered lamellar armour in dark lacquer, tall rectangular shield |
+| Ingrid | Guardian | Shieldwall | Tall broad woman in her forties, braided fair hair, mail under a fur-collared cloak, round shield with iron boss |
+| Adaeze | Guardian | the Bulwark | Strong woman in her forties, dark skin, close-cropped hair, bronze-scaled cuirass over indigo cloth, broad oval shield |
+| Meilin | Guardian | Iron Lotus | Lean woman in her late twenties, hair pinned up, fitted brigandine with jade-green cord, long-handled blade and a small buckler |
+| Zarina | Guardian | the Gatekeeper | Weathered woman in her fifties, headscarf under a steel cap, quilted long coat with patterned hem, tower shield |
+| Itzel | Guardian | Stonebreaker | Stocky woman in her thirties, brown skin, hair bound with woven cord, padded armour with turquoise beads, heavy maul |
+| Haruka | Gunner | the Longshot | Calm woman in her twenties, long dark hair tied low, fitted travelling coat with wide sleeves bound back, very long slender rifle |
+| Yevgenia | Gunner | Winter's Eye | Pale woman in her thirties, fur hat, white-grey greatcoat, scoped rifle wrapped in cloth strips |
+| Sooah | Gunner | Quickdraw | Slight quick woman in her twenties, short bobbed hair, cropped riding jacket, two short carbines |
+| Leilani | Gunner | the Wayfinder | Sun-browned woman in her thirties, long wavy hair with a shell clasp, light open coat over wrapped cloth, harpoon-rifle |
+| Amira | Gunner | Falcon | Keen-eyed woman in her late twenties, headscarf, leather falconer's glove, long desert coat, ornate long musket |
+| Catalina | Gunner | Last Round | Elegant woman in her fifties, silver-streaked dark hair, embroidered short jacket and sash, paired pistols |
+| Rin | Alchemist | Emberhand | Energetic woman in her twenties, hair tied up with a cloth band, soot-marked work coat with rolled sleeves, belt of paper-wrapped charges |
+| Priya | Alchemist | the Distiller | Graceful woman in her thirties, long braid, layered wrap in deep violet, glass vials sewn into a sash |
+| Noor | Alchemist | Lamp of Glass | Thoughtful woman in her forties, round spectacles, headscarf, long robe with ink-stained cuffs, lantern of coloured glass |
+| Xiulan | Alchemist | Jade Smoke | Nimble woman in her twenties, hair in two coiled buns, high-collared short robe, gourd flasks on a cord, long pipe |
+| Brigid | Alchemist | the Tinker | Red-haired woman in her thirties, soot-smudged, leather tinker's harness hung with tools, brass sprayer on her back |
+| Thandiwe | Alchemist | Rainmaker | Tall woman in her forties, dark skin, beaded headband, patterned wrap over a work apron, clay jars in a net bag |
+| Aiko | Medic | Gentle Hand | Warm woman in her thirties, hair in a low bun, pale layered robe tied back for work, medicine box on a shoulder strap |
+| Sigrun | Medic | Battle Surgeon | Weathered woman in her forties, braids, rolled sleeves with tattooed forearms, leather surgeon's roll, short axe at her belt |
+| Ngozi | Medic | the Blessing | Serene woman in her forties, dark skin, headwrap, flowing white-and-teal robe, string of small bells |
+| Haeun | Medic | Still Water | Young woman in her early twenties, cropped hair, short padded jacket over a long skirt, oversized satchel |
+| Paloma | Medic | the Dove | Cheerful plump woman in her thirties, kerchief, apron over a travelling dress, flask of cordial and a basket |
+| Anahera | Medic | Dawn Watch | Tall woman in her thirties, long dark hair, woven cloak with a feathered collar, carved staff with a ward-lantern |
 
 Deliver to `public/art/characters/<name>/<stage>.webp` with the name in lower case, and use the lower-case name as the manifest id.
 

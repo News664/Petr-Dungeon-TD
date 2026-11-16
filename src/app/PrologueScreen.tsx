@@ -1,4 +1,4 @@
-import { defaultConfig as cfg } from '../sim';
+import { availableChampions, defaultConfig as cfg } from '../sim';
 import type { CampaignState } from '../sim';
 import type { Dispatch } from './App';
 import { Portrait } from './Portrait';
@@ -25,8 +25,8 @@ export function PrologueScreen({ state, dispatch }: { state: CampaignState; disp
           now does not turn at all.
         </p>
         <p>
-          One sanctuary is left, one goddess keeping it, and one summoner who can still wake the old seal: you. She has strength for {total}{' '}
-          champions from other worlds, and the monsters are already on the road to the gate.
+          One sanctuary is left, and Sakuya, the goddess who keeps it, and one summoner who can still wake the old seal: you. She has strength
+          for {total} champions from other worlds, and the monsters are already on the road to the gate.
         </p>
         <label className="field name-field">
           What the champions will call you (up to 16 characters)
@@ -64,9 +64,20 @@ export function PrologueScreen({ state, dispatch }: { state: CampaignState; disp
             <p className="small">
               <span className="muted">On the walls:</span> {CLASS_TEXT[classId]?.defense}
             </p>
-            <button className="primary" disabled={left === 0} onClick={() => dispatch({ type: 'summon', classId })}>
-              Summon a {classId}
-            </button>
+            <ul className="tree">
+              {availableChampions(state, cfg, classId).map((c) => (
+                <li key={c.name}>
+                  <span>
+                    <strong>{c.name}</strong> <span className="muted small">{c.epithet}</span>
+                    <br />
+                    <span className="small muted">{c.trait.text}</span>
+                  </span>
+                  <button disabled={left === 0} aria-label={`Summon ${c.name}`} onClick={() => dispatch({ type: 'summon', champion: c.name })}>
+                    Summon
+                  </button>
+                </li>
+              ))}
+            </ul>
           </div>
         ))}
       </div>
@@ -85,7 +96,10 @@ export function PrologueScreen({ state, dispatch }: { state: CampaignState; disp
                 <span>
                   {a.name}
                   <br />
-                  <span className="muted small">{a.classId}</span>
+                  <span className="muted small">
+                    {a.classId}
+                    {a.epithet && ` · ${a.epithet}`}
+                  </span>
                 </span>
               </span>
             ))}

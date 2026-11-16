@@ -1,10 +1,12 @@
 # Strata outline
 
-**Everything here is Proposed.** It answers question 11 with a suggestion to react to. Only the first stratum exists in the game.
+**Everything here is Proposed unless marked.** It answers question 11 with a suggestion to react to. Only the first stratum exists in the game.
+
+**Fixed.** More than one medium is possible, but not in the early strata; the first stratum is stone. One person is turned into one medium only, never a mixture. The game's rules already carry this: whatever first touches a champion decides what she is turning into until she is clear of it.
 
 ## The idea
 
-The Collector wants variety. Her labyrinth is a museum with wings, each kept by a curator who works in her own medium. Going down, the party passes through the collection in the order she values it: the commonplace near the top, the prized at the bottom.
+Iwanaga wants variety. Her labyrinth is a museum with wings, each kept by a curator who works in her own medium. Going down, the party passes through the collection in the order she values it: the commonplace near the top, the prized at the bottom.
 
 The rules do not change from wing to wing. There is one gauge and one thirty-day limit everywhere. What changes is what a statue is made of, how the place looks, and what the curator does with the people she keeps.
 
@@ -13,10 +15,10 @@ The rules do not change from wing to wing. There is one gauge and one thirty-day
 | # | Name | Medium | What it was | Its curator | Speaks? | What the party learns |
 |---|---|---|---|---|---|---|
 | 1 | The Pale Galleries | Stone | Halls of art in the hill country | The Hollow Colossus: an unfinished monument the Stilling filled | No | She uses the stilled as furniture. |
-| 2 | The Drowned Cloister | Ice | A lake monastery, sunk and frozen from the bottom up | The Abbess of Still Water: robed, courteous, keeps her sisters in the ice of the cloister walls | Yes | The stilled are sorted and valued. Someone is choosing. |
+| 2 | The Drowned Cloister | Stone still, or the first new medium (ice) | A lake monastery, sunk and frozen from the bottom up | The Abbess of Still Water: robed, courteous, keeps her sisters in the ice of the cloister walls | Yes | The stilled are sorted and valued. Someone is choosing. |
 | 3 | The Gilded Exchange | Metal: bronze and gold | A trading city's great market | The Assayer: a broker who weighs every champion she meets and names a price | Yes | It is a collection, and the seal is why this world was chosen. |
-| 4 | The Glass Conservatory | Glass and crystal | A royal winter garden and its hall of mirrors | The Curator of Likenesses: shows champions what they left behind, and turns that against them | Yes; she alters minds | The Collector believes she is saving them. Some of what the Curator says is true. |
-| 5 | The Vault | All of them | Not a place that was ever anything else | The Collector | Yes | What it costs to end her, and that it will not bring back the lost. |
+| 4 | The Glass Conservatory | Glass and crystal | A royal winter garden and its hall of mirrors | The Curator of Likenesses: shows champions what they left behind, and turns that against them | Yes; she alters minds | Iwanaga believes she is saving them. Some of what the Curator says is true. |
+| 5 | The Vault | All of them | Not a place that was ever anything else | Iwanaga | Yes | What it costs to end her, and that it will not bring back the lost. |
 
 The fourth curator is the mind-altering master asked for in answer 12.
 
@@ -46,4 +48,4 @@ The game's wording is already neutral, so any of these can be chosen later. Art 
 
 - How many wings: five is a suggestion.
 - Whether the hidden keeper of the first wing has counterparts below.
-- Whether the Collector can be met, or heard, before the Vault.
+- Whether Iwanaga can be met, or heard, before the Vault.

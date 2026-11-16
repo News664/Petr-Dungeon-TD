@@ -1,7 +1,7 @@
 import { completeRebuild, triggerInvasion } from './campaign';
 import type { GameConfig } from './config';
 import { applyDailyProduction } from './economy';
-import { returnGear } from './growth';
+import { easeGauge, returnGear } from './growth';
 import { frontierHeld, recoverableStatues } from './selectors';
 import { processPermanence, processTreatments, retrieveAllAt } from './statues';
 import type { CampaignState } from './types';
@@ -9,8 +9,8 @@ import { fail, log } from './util';
 
 export function ensureClockFree(s: CampaignState): void {
   if (s.phase === 'GAME_OVER') fail('The sanctuary has fallen.');
-  if (s.phase === 'PROLOGUE') fail('The goddess holds the hour still until the sanctuary is safe.');
-  if (s.pendingMiracle) fail('Choose who the goddess restores first.');
+  if (s.phase === 'PROLOGUE') fail('Sakuya holds the hour still until the sanctuary is safe.');
+  if (s.pendingMiracle) fail('Choose who Sakuya restores first.');
   if (s.pendingBattle) fail('The attack has arrived and must be fought before time moves on.');
 }
 
@@ -50,7 +50,7 @@ function restAdventurers(s: CampaignState, cfg: GameConfig): void {
   for (const adv of s.adventurers) {
     if (adv.condition !== 'ready' || adv.assignment.type === 'expedition') continue;
     adv.hp = Math.min(adv.maxHp, adv.hp + cfg.roster.rest_hp_per_day);
-    adv.gauge = Math.max(0, adv.gauge - cfg.roster.rest_gauge_per_day);
+    easeGauge(adv, cfg.roster.rest_gauge_per_day);
     adv.sp = Math.min(adv.maxSp, adv.sp + cfg.roster.rest_sp_per_day);
   }
 }

@@ -17,12 +17,18 @@ export function deserialize(text: string): CampaignState {
   const wrapper = parsed as { format?: string; state?: CampaignState };
   if (wrapper?.format !== SAVE_FORMAT || !wrapper.state) throw new Error('This is not a Last Sanctuary save.');
   const state = wrapper.state;
-  const saved = state as unknown as { version: number; playerName?: string };
+  const saved = state as unknown as { version: number; playerName?: string; standardCast?: boolean };
   if (saved.version === 3) {
-    // The previous build's saves differ only by a field that has a safe default.
     saved.playerName = 'Master';
     saved.version = 4;
   }
-  if (saved.version !== 4) throw new Error('This save is from an older build of the prototype and cannot be loaded.');
+  if (saved.version === 4) {
+    // Champions gained traits, aptitudes and a medium; older ones simply have none.
+    saved.standardCast = false;
+    for (const adv of state.adventurers) Object.assign(adv, { epithet: null, trait: null, aptitude: {}, medium: adv.gauge > 0 ? 'stone' : null });
+    for (const statue of state.statues) statue.medium = 'stone';
+    saved.version = 5;
+  }
+  if (saved.version !== 5) throw new Error('This save is from an older build of the prototype and cannot be loaded.');
   return state;
 }

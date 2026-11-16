@@ -24,18 +24,28 @@
 
 **Fixed.** If the sanctuary falls, she does not waste its summoner. She sets her into the seal as a statue that goes on calling champions across the worlds, for her to collect as they arrive.
 
-**Proposed.** Until she is named, these files call her **the Collector**. She is not cruel in her own eyes. She believes she is saving beautiful things from time, and that the sanctuary's goddess, who lets them age and die, is the wasteful one. This makes her patient, courteous, and impossible to bargain with.
+**Proposed.** She is not cruel in her own eyes. She believes she is saving beautiful things from time, and that the sanctuary's goddess, who lets them age and die, is the wasteful one. This makes her patient, courteous, and impossible to bargain with.
 
-**Proposed.** Each master of a stratum is one of her curators, and each works in a medium of her own. See `06_strata_outline.md`.
+**Fixed.** What a person is turned into can differ: stone in the first stratum, possibly other media deeper down. One person is only ever one medium, never a mixture. See `06_strata_outline.md`.
 
-## Names for the two goddesses
+**Proposed.** Each master of a stratum is one of her curators, and each works in a medium of her own.
 
-**Proposed.** Two pairs from mythology, either of which fits. Both need a decision.
+## The two goddesses
 
-| | The sanctuary's goddess | The Collector | Why it fits |
-|---|---|---|---|
-| Japanese | Sakuya, after Konohanasakuya-hime, the blossom princess | Iwanaga, after Iwanaga-hime, the rock princess | In the old story the two are sisters. The blossom stands for life that is beautiful because it ends; the rock stands for what lasts forever. Because the rock was refused, mortal lives became brief. A rival who wants to make the living permanent is that refusal answered. |
-| Greco-Roman | Cardea, goddess of the hinge and the threshold | Euryale, one of Medusa's two immortal sisters | A keeper of doors against a gorgon. Plainer, and less tied to one culture's living religion. |
+**Fixed (provisional).** The sanctuary's goddess is **Sakuya**. Her rival is **Iwanaga**, called Iwanaga. The names are taken, with respect, from Konohanasakuya-hime and Iwanaga-hime of Japanese myth: the blossom princess and the rock princess, sisters. In the old story the blossom stands for life that is beautiful because it ends, and the rock for what lasts forever; because the rock was refused, mortal lives became brief.
+
+**Proposed.** The game's two are original characters who carry those names and that opposition, not portrayals of the kami themselves. Here they are sisters too. Iwanaga's collecting is the old refusal answered: if the brief and blossoming thing was chosen over her, she will make every blossoming thing last. She does not think of it as revenge. She thinks of it as being right at last.
+
+**Proposed.** Their signs follow from this and should run through the art and the words:
+
+| | Sakuya | Iwanaga |
+|---|---|---|
+| Sign | Cherry blossom, a flowering branch | Rock, evergreen pine, a ring of keys |
+| Colour | Blossom pink | Cold white-violet |
+| What she values | That things change, and end, and are loved for it | That nothing beautiful should ever be lost |
+| How she speaks | Plainly, warmly, asking | Courteously, patiently, appraising |
+
+**Open.** How much of the vocabulary should follow the names. The glossary lists the terms that could change and a suggestion for each.
 
 ## The sanctuary
 
@@ -51,9 +61,9 @@
 
 **Fixed.** Her small help is different from her miracle. She can guide rescuers to statues at a rebuilt frontier. She cannot revive them.
 
-**Proposed.** She was a goddess of thresholds and safe return: doors, hearths, the lamp left in the window. It is why the seal answers to her and why she can hold a wall but cannot march. Being this weak has made her plain-spoken. She does not command the player; she asks, and she says thank you.
+**Proposed.** Sakuya is a goddess of blossoming and of safe return. The seal answers to her because calling someone across worlds is a kind of flowering: brief, and it costs the branch. She can hold a wall but cannot march. Being this weak has made her plain-spoken. She does not command the player; she asks, and she says thank you.
 
-**Open.** Her name (proposals above). Whether any other gods are left.
+**Open.** Whether any other gods are left.
 
 ## The seal and the champions
 
@@ -65,7 +75,7 @@
 
 **Proposed.** Champions are not immune. They are from elsewhere, so the Stilling takes them more slowly than it took the people of this world, slowly enough to fight in. That is the whole of their advantage.
 
-**Fixed.** None of them can go home while the Collector holds the world; she does not let anything leave. If she is ended, they can.
+**Fixed.** None of them can go home while Iwanaga holds the world; she does not let anything leave. If she is ended, they can.
 
 **Fixed.** The champions the seal calls in an emergency are different: nobody the guild knows, with made-up names, here for two weeks and gone.
 
@@ -75,7 +85,7 @@
 
 **Fixed.** On a regular rhythm, about every seven days, something stirs the monsters and they attack the guild's forward line. The attacks can be foreseen. The guild's frontier is always at the edge of the deepest stratum it has secured.
 
-**Proposed.** The labyrinth was not built as one thing. It is the buried past of this world, layer under layer: each stratum is a place people once lived, sunk and sealed by the Stilling when it rose through it. The Collector has had each one rearranged to her taste, and keeps what she values most at the bottom.
+**Proposed.** The labyrinth was not built as one thing. It is the buried past of this world, layer under layer: each stratum is a place people once lived, sunk and sealed by the Stilling when it rose through it. Iwanaga has had each one rearranged to her taste, and keeps what she values most at the bottom.
 
 **Proposed.** The weekly stirring is called the **surge**. It rises from below like a tide, and the monsters move ahead of it. The residents can feel it coming a day or two before: bells hum, ward-crystals dim.
 
@@ -87,4 +97,4 @@
 
 **Fixed.** The masters of the strata are different. Some of them speak, the humanoid ones especially, and at least one deeper down can reach into a champion's mind.
 
-**Proposed.** Each master was something else once: a guardian, a monument, a ruler. Now each is one of the Collector's curators, keeping a wing of her collection.
+**Proposed.** Each master was something else once: a guardian, a monument, a ruler. Now each is one of Iwanaga's curators, keeping a wing of her collection.

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { RESOURCE_IDS, defaultConfig as cfg, formatCost, formatHour, productionMultiplier, repairCost, rosterCount } from '../sim';
+import { RESOURCE_IDS, availableChampions, defaultConfig as cfg, formatCost, formatHour, productionMultiplier, repairCost, rosterCount } from '../sim';
 import type { CampaignState, Fixture, ResourceId } from '../sim';
 import type { Dispatch } from './App';
 import { duration, title } from './format';
@@ -13,6 +13,7 @@ export function SealPanel({ state, dispatch }: PanelProps) {
   const [classId, setClassId] = useState(cfg.roster.classes[0] ?? '');
   const wait = state.seal.nextAvailableHour - state.simHour;
   const full = rosterCount(state) >= cfg.roster.max_roster;
+  const answering = availableChampions(state, cfg, classId);
   return (
     <div className="panel">
       <h2>Summoning seal</h2>
@@ -20,27 +21,41 @@ export function SealPanel({ state, dispatch }: PanelProps) {
         {full
           ? 'The guild hall is full.'
           : state.seal.freeCredits > 0
-            ? `${state.seal.freeCredits} goddess-sponsored summons remain.`
+            ? `${state.seal.freeCredits} summons sponsored by Sakuya remain.`
             : wait > 0
               ? `Recharging: ready in ${duration(wait)}.`
               : `Ready. Costs ${formatCost(cfg.roster.summon_cost)}.`}
       </p>
       <div className="row">
-        <select aria-label="Class to summon" value={classId} onChange={(e) => setClassId(e.target.value)}>
-          {cfg.roster.classes.map((c) => (
-            <option key={c}>{c}</option>
-          ))}
-        </select>
-        <button className="primary" disabled={full} onClick={() => dispatch({ type: 'summon', classId })}>
-          Summon
-        </button>
+        {cfg.roster.classes.map((c) => (
+          <button key={c} className={c === classId ? 'primary' : ''} aria-pressed={c === classId} onClick={() => setClassId(c)}>
+            {c}
+          </button>
+        ))}
       </div>
+      <ul className="tree">
+        {answering.length === 0 && <li className="unlearned">No {classId} is left to answer.</li>}
+        {answering.map((c) => (
+          <li key={c.name}>
+            <span>
+              <strong>{c.name}</strong> <span className="muted small">{c.epithet}</span>
+              <br />
+              <span className="small muted">
+                {c.trait.name}: {c.trait.text}
+              </span>
+            </span>
+            <button disabled={full} onClick={() => dispatch({ type: 'summon', champion: c.name })}>
+              Summon
+            </button>
+          </li>
+        ))}
+      </ul>
       <button onClick={() => dispatch({ type: 'summon', classId, emergency: true })}>
-        Emergency summon · {formatCost(cfg.roster.emergency_summon_cost)}
+        Emergency summon ({classId}) · {formatCost(cfg.roster.emergency_summon_cost)}
       </button>
       <p className="small muted">
-        An emergency summon answers at once and takes no place in the hall, but fades after {duration(cfg.roster.emergency.lifetime_hours)}. At most{' '}
-        {cfg.roster.emergency.max_active} at a time.
+        An emergency summon is a stranger of that class: she answers at once and takes no place in the hall, but fades after{' '}
+        {duration(cfg.roster.emergency.lifetime_hours)}. At most {cfg.roster.emergency.max_active} at a time.
       </p>
     </div>
   );

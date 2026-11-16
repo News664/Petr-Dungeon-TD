@@ -36,9 +36,9 @@ function recordStableCycle(s: CampaignState, cfg: GameConfig): void {
   s.stableCycles = Math.min(needed, s.stableCycles + 1);
   if (s.stableCycles >= needed) {
     s.miracleCharges = Math.min(max, s.miracleCharges + 1);
-    log(s, 'miracle_charged', "The goddess's miracle is charged again.");
+    log(s, 'miracle_charged', "Sakuya's miracle is charged again.");
   } else {
-    log(s, 'stable_cycle', `Stable cycle ${s.stableCycles}/${needed} towards the goddess's miracle.`);
+    log(s, 'stable_cycle', `Stable cycle ${s.stableCycles}/${needed} towards Sakuya's miracle.`);
   }
 }
 
@@ -68,6 +68,7 @@ function restoreEveryone(s: CampaignState): void {
     if (adv.condition !== 'ready') restoreAdventurer(s, adv.id);
     adv.hp = adv.maxHp;
     adv.gauge = 0;
+    adv.medium = null;
     adv.sp = adv.maxSp;
   }
   for (const d of s.structures) d.hp = d.maxHp;
@@ -78,7 +79,7 @@ export function beginPrologueDefense(s: CampaignState, cfg: GameConfig): void {
   if (s.phase !== 'PROLOGUE') fail('The prologue is over.');
   if (s.pendingBattle) fail('The attack is already at the gate.');
   if (s.seal.freeCredits > 0) {
-    fail(`Call all ${cfg.roster.starter_free_summons} champions first; ${s.seal.freeCredits} of the goddess's summons remain.`);
+    fail(`Call all ${cfg.roster.starter_free_summons} champions first; ${s.seal.freeCredits} of Sakuya's summons remain.`);
   }
   s.pendingBattle = { kind: 'tutorial_defense', map: 'sanctuary', dueHour: s.simHour };
   log(s, 'invasion', 'Monsters reach the sanctuary. The first defense begins.');
@@ -93,7 +94,7 @@ export function completePrologue(s: CampaignState, cfg: GameConfig): void {
   s.seal.freeCredits += cfg.roster.bonus_early_summon_credits;
   s.nextInvasionHour = s.simHour + cfg.clock.invasion_interval_hours;
   s.sanctuary.automatedAmmo = cfg.defense.sanctuary_initial_automated_ammo;
-  log(s, 'prologue_done', "The sanctuary holds. The goddess's protection fades; the guild must now find its own strength in the labyrinth.");
+  log(s, 'prologue_done', "The sanctuary holds. Sakuya's protection fades; the guild must now find its own strength in the labyrinth.");
 }
 
 /** Debug: call the remaining champions and skip the first defense. */
@@ -149,7 +150,7 @@ export function concludeBattle(
         // The first defense cannot end the story: she turns the hour back and they try again.
         restoreEveryone(s);
         s.pendingBattle = { kind: 'tutorial_defense', map: 'sanctuary', dueHour: s.simHour };
-        log(s, 'prologue_retry', 'The gate breaks, and the goddess turns the hour back. The defenders stand ready once more.');
+        log(s, 'prologue_retry', 'The gate breaks, and Sakuya turns the hour back. The defenders stand ready once more.');
       }
       break;
     case 'frontier_defense':
@@ -164,7 +165,7 @@ export function concludeBattle(
         s.stableCycles = 0;
         s.phase = 'DIVINE_EMERGENCY';
         s.nextInvasionHour = s.simHour + cfg.clock.invasion_interval_hours;
-        log(s, 'miracle', 'The frontier fell. The goddess spends her miracle to banish the invasion; ward-based production is crippled.');
+        log(s, 'miracle', 'The frontier fell. Sakuya spends her miracle to banish the invasion; ward-based production is crippled.');
         const count = miracleRestoreCount(cfg, fallen.length);
         if (count > 0) {
           s.pendingMiracle = { eligibleIds: fallen, count };
@@ -202,15 +203,15 @@ export function concludeBattle(
 
 /** The one exception to treatment cost and time: chosen defenders are fully restored at once. */
 export function chooseMiracleTargets(s: CampaignState, adventurerIds: string[]): void {
-  const pending = s.pendingMiracle ?? fail('The goddess is not offering a miracle right now.');
+  const pending = s.pendingMiracle ?? fail('Sakuya is not offering a miracle right now.');
   const chosen = [...new Set(adventurerIds)];
-  if (chosen.length !== pending.count) fail(`Choose exactly ${pending.count} fallen defender(s) for the goddess to restore.`);
+  if (chosen.length !== pending.count) fail(`Choose exactly ${pending.count} fallen defender(s) for Sakuya to restore.`);
   for (const id of chosen) {
     if (!pending.eligibleIds.includes(id)) fail(`${getAdventurer(s, id).name} did not fall in this battle.`);
   }
   for (const id of chosen) {
     restoreAdventurer(s, id);
-    log(s, 'miracle_restored', `${getAdventurer(s, id).name} was fully restored by the goddess.`);
+    log(s, 'miracle_restored', `${getAdventurer(s, id).name} was fully restored by Sakuya.`);
   }
   s.pendingMiracle = null;
 }
@@ -233,6 +234,6 @@ export function completeRebuild(s: CampaignState): void {
   for (const d of s.structures) if (d.map === 'frontier') d.hp = d.maxHp;
   log(s, 'rebuild_done', 'The frontier outpost stands again. The next attack will be fought there.');
   // Retrieval only: anyone already past the deadline stays lost, nobody is revived.
-  const n = retrieveAllAt(s, 'frontier', 'goddess-guided retrieval');
+  const n = retrieveAllAt(s, 'frontier', 'retrieval guided by Sakuya');
   if (n === 0) log(s, 'retrieval_none', 'No recoverable statues remained at the frontier.');
 }

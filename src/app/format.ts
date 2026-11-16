@@ -19,9 +19,9 @@ export const PHASE_LABEL: Record<Phase, string> = {
 };
 
 export const PHASE_NOTE: Record<Phase, string> = {
-  PROLOGUE: 'The goddess spends the last of her strength on your seal.',
+  PROLOGUE: 'Sakuya spends the last of her strength on your seal.',
   STABLE_FRONTIER: 'The frontier holds. Secured sites produce normally.',
-  DIVINE_EMERGENCY: 'The goddess is spent. Production is crippled until the rematch is won.',
+  DIVINE_EMERGENCY: 'Sakuya is spent. Production is crippled until the rematch is won.',
   SANCTUARY_SIEGE: 'The frontier is overrun. Outside production has stopped.',
   COUNTEROFFENSIVE_PREPARATION: 'The sanctuary held. Rebuild the frontier outpost before the monsters return.',
   FRONTIER_BREAKTHROUGH: 'The outpost stands again. Win the next battle to restore production.',

@@ -9,13 +9,14 @@ Terms as the game uses them. "In-world" is what a resident would say; where it i
 | Statue | The stilled | A fully solidified person who may still be restored | Proposed |
 | Permanent | The kept | A statue abandoned for thirty days; beyond help | Proposed |
 | Sanctuary | | The last protected settlement | Fixed |
-| Goddess | | Its protector | Fixed; unnamed |
+| Goddess | Sakuya | Its protector | Fixed (provisional name) |
 | Miracle | The turning | Her one great intervention when the frontier falls | Proposed |
 | Summoning seal | The seal | The circle in the guild hall that calls champions | Fixed |
 | Adventurer, champion | Champion | A woman who answered the seal | Fixed |
 | Emergency summon | A borrowed hand | A random, unnamed champion called in haste who fades after two weeks | Fixed; in-world name proposed |
 | Guild master | Master, or her chosen name | The player | Fixed |
-| The rival | The Collector | The demon queen or opposing goddess behind the Stilling | Role fixed; title proposed |
+| The rival | Iwanaga, the Collector | The opposing goddess behind the Stilling; Sakuya's elder sister | Fixed (provisional name) |
+| Medium | | What a person is turned into. Stone in the first stratum; one medium per person | Fixed |
 | Memorial | | Where permanently lost champions stand once carried home | Fixed |
 | Curator | | The master of a stratum, seen as a keeper of part of the collection | Proposed |
 | Residents | | The surviving people of this world | Fixed |
@@ -31,3 +32,19 @@ Terms as the game uses them. "In-world" is what a resident would say; where it i
 | Elite | A walker | A powerful creature that patrols a fixed route | Proposed |
 | Boss | A master | The creature that rules a stratum | Proposed |
 | Watchtower, bunker, support station | Tower, hold, lamp-post | The three defensive structures | Proposed |
+
+## Terms that could follow the names
+
+With Sakuya and Iwanaga chosen, some words could take on the blossom-and-rock opposition. These are suggestions in English, so the text stays readable; none is in the game yet. Choose any, all or none.
+
+| Now | Suggestion | Why |
+|---|---|---|
+| The Stilling | The Stilling (keep), or "the Long Rock" | Iwanaga's gift is permanence; the current word already says it plainly |
+| Miracle | The Flowering | Sakuya's one great act: the fallen bloom back to life |
+| Ward energy | Blossom-light | Wards as her light, stored in crystal |
+| Summoning seal | The Blossom Seal | A calling that flowers briefly across worlds |
+| Sanctuary | The Last Garden, or keep "the sanctuary" | The one place where anything still grows |
+| Memorial | The Still Grove | Where those who cannot bloom again are kept among trees |
+| Surge | The Stone Tide | Iwanaga's weekly pressure on the line |
+| Curator | Keeper of a wing (keep "curator") | Fits Iwanaga's manner |
+| Emergency summon | A blossom out of season | She answers, and fades |

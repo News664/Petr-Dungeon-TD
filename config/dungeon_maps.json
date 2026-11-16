@@ -1,6 +1,7 @@
 {
- "_notice": "Labyrinth layouts. Grid legend: # wall, . floor, E entrance, > stairs down, < stairs up, G gathering node, = one-way gate (see gates), ~ solidifying mist, B boss. Coordinates are [x, y] with y growing downward.",
+ "_notice": "Labyrinth layouts. Grid legend: # wall, . floor, E entrance, > stairs down, < stairs up, G gathering node, = one-way gate (see gates), ~ solidifying mist, B boss. Coordinates are [x, y] with y growing downward. Each stratum solidifies in one medium.",
  "stratum_1": {
+  "medium": "stone",
   "boss": [
    "hollow_colossus"
   ],

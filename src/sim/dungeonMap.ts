@@ -15,6 +15,8 @@ export interface FloorData {
 }
 
 export interface StratumMap {
+  /** What this stratum's creatures turn their victims into. */
+  medium: string;
   boss: string[];
   floors: FloorData[];
 }

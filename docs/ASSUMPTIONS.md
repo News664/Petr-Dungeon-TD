@@ -94,7 +94,6 @@ The design spec leaves some rules open and asks that each choice be logged. Thes
 |---|---|---|
 | Hall capacity | Raised to 10. Still counts fighters plus statues in the ward. | `balance.json` |
 | Emergency summons | Temporary: she arrives at once, holds no place in the hall, and fades after 14 days. At most three at a time. If she is on an expedition or a post when her time comes, she holds on until she is back. Her gear returns to the armory. | `roster.ts`, `time.ts` |
-| Names | Each name belongs to one class, so a name is always the same character. | `balance.json`, `roster.ts` |
 | Skill trees | Each class has six nodes: its three active skills (known from the start at rank 1) and three passives. One point at summoning and one per level; three ranks per node; some passives need level 2 or 3. Each rank above the first adds 20% to a skill's main number, or one round to a buff. No way to take points back yet. | `growth.ts`, `balance.json` |
 | Passives and both modes | Passives can raise attack, armor, speed, health, skill points, resistance to solidification, healing, and damage or reach on a defensive post. Healing and resistance apply in the labyrinth and on the walls. | `growth.ts`, `battle.ts`, `combat.ts` |
 | Levels on the walls | Each level above the first adds 5% damage on a defensive post. | `battle.ts` |
@@ -119,6 +118,18 @@ The answers themselves are recorded in `lore/04_open_questions.md`. These are th
 | Wording | The game says "solidified", not "stone", so that other materials remain possible. | interface text |
 | Existing characters | Not used. The roster, lore and art prompts contain only original characters. | — |
 | Saves | Saves from the previous build load; the missing field is filled in. | `save.ts` |
+
+## Decisions made in the cast iteration
+
+| Topic | Choice | Where |
+|---|---|---|
+| The cast | Twenty-four original champions in `roster.champions`, six to a class, with names drawn from many traditions. Each has an epithet and one fixed trait (a small bundle of stat changes). | `balance.json`, `roster.ts` |
+| Choosing | The seal lists the champions who have not yet answered; the player picks one. Each can be summoned once, ever. Asking only for a class picks one at random. | `roster.ts`, `SidePanels.tsx` |
+| Aptitudes | On summoning, health (±8), attack (±2), armor (±1), speed (±1) and skill points (±3) are each rolled once and kept. | `roster.ts`, `balance.json` |
+| Standard cast | Ready-made debug and test campaigns summon champions with no trait and no aptitude rolls, so their numbers stay exact. Real campaigns (started from the prologue) use both. | `create.ts` |
+| Emergency summons | Strangers: a made-up name, no epithet, no trait; aptitudes are rolled. | `roster.ts` |
+| Medium | Every champion and statue carries a medium. Whatever first raises her gauge decides it until the gauge is back at zero. A stratum declares its medium; the first is stone, and attackers carry the frontier stratum's medium. Nothing else uses it yet. | `growth.ts`, `dungeon_maps.json` |
+| Goddesses | Sakuya and Iwanaga in all game text. Sakuya's colour changed from violet to blossom pink. | interface text, `styles.css` |
 
 ## Balance, first pass
 

@@ -49,7 +49,7 @@ The game looks for an adventurer's pictures in this order:
 2. An entry whose id is her class in lower case (`guardian`, `gunner`, `alchemist`, `medic`).
 3. The built-in class emblem.
 
-So four class sets are enough to give every adventurer a picture, and named characters can be added one at a time. Each name belongs to one class; the lists are in `config/balance.json` under `roster.names_by_class`.
+So four class sets are enough to give every adventurer a picture, and named characters can be added one at a time. Each champion belongs to one class; the cast is in `config/balance.json` under `roster.champions`.
 
 A manifest with mistakes is ignored as a whole and the problems are printed in the browser console.
 

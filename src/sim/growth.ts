@@ -33,6 +33,8 @@ function bonuses(cfg: GameConfig, adv: Adventurer): Record<StatKey, number> {
     const effect = cfg.dungeon.skills[skillId]?.effect;
     if (effect?.kind === 'passive') sum[effect.stat] += effect.per_rank * rank;
   }
+  for (const [stat, value] of Object.entries(adv.trait?.stats ?? {})) sum[stat as StatKey] += value;
+  for (const [stat, value] of Object.entries(adv.aptitude)) sum[stat as StatKey] += value;
   for (const itemId of Object.values(adv.equipment)) {
     const item = itemId ? cfg.equipment.items[itemId] : undefined;
     for (const [stat, value] of Object.entries(item?.stats ?? {})) sum[stat as StatKey] += value ?? 0;
@@ -151,7 +153,7 @@ export function applyRemedy(effect: RemedyEffect, target: Adventurer, strength: 
   }
   if (effect.kind === 'purge') {
     const before = target.gauge;
-    target.gauge = Math.max(0, target.gauge - Math.round(effect.gauge * strength));
+    easeGauge(target, Math.round(effect.gauge * strength));
     return `${target.name}'s solidification eases by ${before - target.gauge}%`;
   }
   const before = target.sp;
@@ -177,3 +179,19 @@ export function unloadPack(s: CampaignState, pack: Record<string, number>): void
 }
 
 export const hasCost = (cost: object) => RESOURCE_IDS.some((id) => ((cost as Record<string, number>)[id] ?? 0) > 0);
+
+/**
+ * Add to her gauge. Whatever first touches her decides what she is turning
+ * into, until the gauge is back at zero: a champion is never a mixture.
+ */
+export function addGauge(adv: Adventurer, amount: number, medium: string): void {
+  if (amount <= 0) return;
+  if (adv.gauge <= 0 || !adv.medium) adv.medium = medium;
+  adv.gauge = Math.min(100, adv.gauge + amount);
+}
+
+/** Lower her gauge; once it is gone she is turning into nothing at all. */
+export function easeGauge(adv: Adventurer, amount: number): void {
+  adv.gauge = Math.max(0, adv.gauge - amount);
+  if (adv.gauge === 0) adv.medium = null;
+}

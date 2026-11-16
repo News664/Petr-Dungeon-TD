@@ -19,13 +19,16 @@ export function solidify(
   adventurerId: string,
   locationType: StatueLocationType,
   locationId: string,
+  medium = 'stone',
 ): Statue {
   const adv = getAdventurer(s, adventurerId);
   if (adv.condition !== 'ready') fail(`${adv.name} is already solidified.`);
   clearAssignment(s, adv);
+  const turning = adv.medium;
   adv.condition = 'solidified';
   adv.hp = 0;
   adv.gauge = 100;
+  adv.medium = turning ?? medium;
   const statue: Statue = {
     adventurerId,
     formedAtHour: s.simHour,
@@ -35,6 +38,8 @@ export function solidify(
     locationId,
     retrievedAtHour: null,
     permanent: false,
+    // Whatever had already begun on her finishes the job; otherwise what struck the last blow.
+    medium: adv.medium ?? medium,
     treatment: 'none',
   };
   s.statues.push(statue);
@@ -99,6 +104,7 @@ export function restoreAdventurer(s: CampaignState, adventurerId: string): void 
   adv.condition = 'ready';
   adv.hp = adv.maxHp;
   adv.gauge = 0;
+  adv.medium = null;
   adv.assignment = { type: 'idle' };
 }
 

@@ -1,6 +1,6 @@
 # Decisions and open questions
 
-The first twelve questions were answered on 16 November 2026. The answers are recorded here as given, with what each one changes. The rest of the lore folder has been updated to match.
+The first twelve questions were answered on 16 November 2026. The answers are recorded here as given, with what each one changes. Decisions made in later conversation are in the second table. The rest of the lore folder has been updated to match.
 
 ## Decided
 
@@ -19,20 +19,23 @@ The first twelve questions were answered on 16 November 2026. The answers are re
 | 11 | Later strata | To be decided. | A proposal is in `06_strata_outline.md`. |
 | 12 | Do masters speak | Some do, especially humanoid ones. A later master can alter minds to some extent, and certainly speaks. | Needs a way to show speech in fights, and a "mind" status effect later. |
 
-## Two answers that need a second look
+## Decided since
 
-**Named champions as existing anime and game characters (from answer 6).** This has not been done, and I have not written any existing characters into the roster, the lore or the art prompts. The game is published on a public page, the characters belong to other people whether or not money is involved, and the original design brief for this project rules it out. The premise adds a second problem: many well-known characters are canonically minors, and everyone in this game is an adult. The goal behind the request, that a player can tell at a glance what a champion does, can be met with original characters: see "Readable champions" in `02_people.md`.
-
-**A buff from displayed permanent statues (from answer 5).** The design specification's first rule is that solidification is never useful and never produces power or buffs. A buff from the memorial would mean that losing a champion for good pays something back. The game implements the memorial with no effect on play, which was the alternative offered in the answer. This is easy to change if the buff is wanted after all.
+| Topic | Decision | Where it shows |
+|---|---|---|
+| The cast | Original characters only. They should differ in name and dress, drawing on many traditions, and in how they fight: champions of one class share a skill tree, and each has one trait of her own plus small random differences in attributes. | In the game. Cast in `02_people.md` and `config/balance.json`. |
+| Choosing at the seal | The player picks a specific champion by her name, epithet and trait. Each can be called once. | In the game. |
+| The memorial | A recovered permanent statue stands in the sanctuary. It gives no benefit in play. | In the game. |
+| Materials | More than one is possible, but not in the early strata. One person is one medium, never a mixture. The first stratum is stone. | The rules carry a medium per person; only stone exists so far. |
+| The goddesses | Sakuya and Iwanaga, provisionally. Some terms may change to suit. | In the game's text. Suggested terms in `05_glossary.md`. |
 
 ## Raised by the answers
 
-1. **Is stone the only material?** A collector who wants variety suggests each stratum's master works in her own medium (stone, ice, metal, glass). The rules would not change: one gauge, one thirty-day limit. The wording in the game is now neutral ("solidified"). The cost is in the art: every extra medium is another set of late-stage and statue pictures per character. A proposal is in `06_strata_outline.md`; it needs a yes or no before more art is made.
-2. **Names for the two goddesses.** Two pairs are proposed in `01_world.md`.
-3. **A name or title for the rival** to use until she is named. "The Collector" is used in these files.
-4. **What the memorial is.** A place in the sanctuary, a screen in the game, a line in the chronicle?
-5. **How statues are used against the party** in play: which of decoration, trap parts, false signs, bait and giants' weapons become actual mechanics, and from which floor.
-6. **How the hidden keeper is reached** and what makes her fight different.
+1. **Which terms follow the names.** The glossary suggests a blossom-and-rock vocabulary; none of it is in the game yet.
+2. **What the memorial is.** A place in the sanctuary, a screen in the game, a line in the chronicle?
+3. **How statues are used against the party** in play: which of decoration, trap parts, false signs, bait and giants' weapons become actual mechanics, and from which floor. The first stratum's expansion makes a start; see `03_pale_galleries.md`.
+4. **How the hidden keeper is reached** and what makes her fight different.
+5. **When the second medium appears,** and which it is.
 
 ## Still open from before
 

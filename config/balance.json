@@ -103,39 +103,312 @@
         ]
       }
     },
-    "names_by_class": {
-      "Guardian": [
-        "Rhosyn",
-        "Havela",
-        "Tamsin",
-        "Brisa",
-        "Edda",
-        "Petra"
-      ],
-      "Gunner": [
-        "Ysolde",
-        "Okka",
-        "Quenby",
-        "Wren",
-        "Calla",
-        "Zofia"
-      ],
-      "Alchemist": [
-        "Aurel",
-        "Idris",
-        "Velka",
-        "Nimue",
-        "Sorrel",
-        "Castane"
-      ],
-      "Medic": [
-        "Oriel",
-        "Maren",
-        "Linnet",
-        "Thessaly",
-        "Mirelle",
-        "Ember"
-      ]
+    "champions": [
+      {
+        "name": "Kaede",
+        "class": "Guardian",
+        "epithet": "the Unmoved",
+        "trait": {
+          "name": "Rooted",
+          "text": "+2 armor and 10% less solidification.",
+          "stats": {
+            "def": 2,
+            "gauge_resist_pct": 10
+          }
+        }
+      },
+      {
+        "name": "Ingrid",
+        "class": "Guardian",
+        "epithet": "Shieldwall",
+        "trait": {
+          "name": "Wallborn",
+          "text": "+15% damage on a defensive post and +10 health.",
+          "stats": {
+            "td_damage_pct": 15,
+            "max_hp": 10
+          }
+        }
+      },
+      {
+        "name": "Adaeze",
+        "class": "Guardian",
+        "epithet": "the Bulwark",
+        "trait": {
+          "name": "Hardy",
+          "text": "+25 health.",
+          "stats": {
+            "max_hp": 25
+          }
+        }
+      },
+      {
+        "name": "Meilin",
+        "class": "Guardian",
+        "epithet": "Iron Lotus",
+        "trait": {
+          "name": "Poised",
+          "text": "+1 speed and +1 armor.",
+          "stats": {
+            "speed": 1,
+            "def": 1
+          }
+        }
+      },
+      {
+        "name": "Zarina",
+        "class": "Guardian",
+        "epithet": "the Gatekeeper",
+        "trait": {
+          "name": "Watchful",
+          "text": "20% less solidification.",
+          "stats": {
+            "gauge_resist_pct": 20
+          }
+        }
+      },
+      {
+        "name": "Itzel",
+        "class": "Guardian",
+        "epithet": "Stonebreaker",
+        "trait": {
+          "name": "Heavy hand",
+          "text": "+12% attack.",
+          "stats": {
+            "atk_pct": 12
+          }
+        }
+      },
+      {
+        "name": "Haruka",
+        "class": "Gunner",
+        "epithet": "the Longshot",
+        "trait": {
+          "name": "Far sight",
+          "text": "+15% reach on a defensive post.",
+          "stats": {
+            "td_range_pct": 15
+          }
+        }
+      },
+      {
+        "name": "Yevgenia",
+        "class": "Gunner",
+        "epithet": "Winter's Eye",
+        "trait": {
+          "name": "Cold patience",
+          "text": "+10% attack.",
+          "stats": {
+            "atk_pct": 10
+          }
+        }
+      },
+      {
+        "name": "Sooah",
+        "class": "Gunner",
+        "epithet": "Quickdraw",
+        "trait": {
+          "name": "Fast hands",
+          "text": "+2 speed.",
+          "stats": {
+            "speed": 2
+          }
+        }
+      },
+      {
+        "name": "Leilani",
+        "class": "Gunner",
+        "epithet": "the Wayfinder",
+        "trait": {
+          "name": "Light pack",
+          "text": "+6 skill points and +1 speed.",
+          "stats": {
+            "max_sp": 6,
+            "speed": 1
+          }
+        }
+      },
+      {
+        "name": "Amira",
+        "class": "Gunner",
+        "epithet": "Falcon",
+        "trait": {
+          "name": "Marksman",
+          "text": "+3 attack and +8% damage on a defensive post.",
+          "stats": {
+            "atk": 3,
+            "td_damage_pct": 8
+          }
+        }
+      },
+      {
+        "name": "Catalina",
+        "class": "Gunner",
+        "epithet": "Last Round",
+        "trait": {
+          "name": "Grit",
+          "text": "+15 health and 8% less solidification.",
+          "stats": {
+            "max_hp": 15,
+            "gauge_resist_pct": 8
+          }
+        }
+      },
+      {
+        "name": "Rin",
+        "class": "Alchemist",
+        "epithet": "Emberhand",
+        "trait": {
+          "name": "Hot mix",
+          "text": "+12% attack.",
+          "stats": {
+            "atk_pct": 12
+          }
+        }
+      },
+      {
+        "name": "Priya",
+        "class": "Alchemist",
+        "epithet": "the Distiller",
+        "trait": {
+          "name": "Deep stores",
+          "text": "+8 skill points.",
+          "stats": {
+            "max_sp": 8
+          }
+        }
+      },
+      {
+        "name": "Noor",
+        "class": "Alchemist",
+        "epithet": "Lamp of Glass",
+        "trait": {
+          "name": "Clear head",
+          "text": "15% less solidification.",
+          "stats": {
+            "gauge_resist_pct": 15
+          }
+        }
+      },
+      {
+        "name": "Xiulan",
+        "class": "Alchemist",
+        "epithet": "Jade Smoke",
+        "trait": {
+          "name": "Quick mixer",
+          "text": "+2 speed.",
+          "stats": {
+            "speed": 2
+          }
+        }
+      },
+      {
+        "name": "Brigid",
+        "class": "Alchemist",
+        "epithet": "the Tinker",
+        "trait": {
+          "name": "Siegecraft",
+          "text": "+15% damage on a defensive post.",
+          "stats": {
+            "td_damage_pct": 15
+          }
+        }
+      },
+      {
+        "name": "Thandiwe",
+        "class": "Alchemist",
+        "epithet": "Rainmaker",
+        "trait": {
+          "name": "Wide burn",
+          "text": "+6% attack and +4 skill points.",
+          "stats": {
+            "atk_pct": 6,
+            "max_sp": 4
+          }
+        }
+      },
+      {
+        "name": "Aiko",
+        "class": "Medic",
+        "epithet": "Gentle Hand",
+        "trait": {
+          "name": "Healer's gift",
+          "text": "Healing and purging are 20% stronger.",
+          "stats": {
+            "support_pct": 20
+          }
+        }
+      },
+      {
+        "name": "Sigrun",
+        "class": "Medic",
+        "epithet": "Battle Surgeon",
+        "trait": {
+          "name": "Tough",
+          "text": "+20 health and +1 armor.",
+          "stats": {
+            "max_hp": 20,
+            "def": 1
+          }
+        }
+      },
+      {
+        "name": "Ngozi",
+        "class": "Medic",
+        "epithet": "the Blessing",
+        "trait": {
+          "name": "Ward-singer",
+          "text": "Healing is 10% stronger and she takes 10% less solidification.",
+          "stats": {
+            "support_pct": 10,
+            "gauge_resist_pct": 10
+          }
+        }
+      },
+      {
+        "name": "Haeun",
+        "class": "Medic",
+        "epithet": "Still Water",
+        "trait": {
+          "name": "Calm",
+          "text": "+8 skill points.",
+          "stats": {
+            "max_sp": 8
+          }
+        }
+      },
+      {
+        "name": "Paloma",
+        "class": "Medic",
+        "epithet": "the Dove",
+        "trait": {
+          "name": "Swift aid",
+          "text": "+2 speed.",
+          "stats": {
+            "speed": 2
+          }
+        }
+      },
+      {
+        "name": "Anahera",
+        "class": "Medic",
+        "epithet": "Dawn Watch",
+        "trait": {
+          "name": "Lamp-keeper",
+          "text": "Healing is 10% stronger and +10% reach on a defensive post.",
+          "stats": {
+            "support_pct": 10,
+            "td_range_pct": 10
+          }
+        }
+      }
+    ],
+    "aptitude_range": {
+      "max_hp": 8,
+      "atk": 2,
+      "def": 1,
+      "speed": 1,
+      "max_sp": 3
     }
   },
   "resources": {

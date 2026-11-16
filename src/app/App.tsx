@@ -195,7 +195,7 @@ export function App() {
               </dd>
             </div>
             <div>
-              <dt>Goddess's miracle</dt>
+              <dt>Sakuya's miracle</dt>
               <dd className={state.miracleCharges > 0 ? 'good' : ''}>
                 {prologue ? 'Holding the hour' : state.miracleCharges > 0 ? 'Charged' : `Spent · ${state.stableCycles}/${needed} stable cycles`}
               </dd>
@@ -229,7 +229,7 @@ export function App() {
                   <p className="eyebrow">The sanctuary holds</p>
                   <h2>Now the hours run again</h2>
                   <p>
-                    The goddess lets the hour go. Her protection fades from the walls, and what is left of it sits in your stores: a starter
+                    Sakuya lets the hour go. Her protection fades from the walls, and what is left of it sits in your stores: a starter
                     stockpile, and {cfg.roster.bonus_early_summon_credits} more summons she can still pay for.
                   </p>
                   <p>
@@ -283,7 +283,7 @@ export function App() {
               <div className="panel alert">
                 <h2>The last sanctuary has fallen</h2>
                 <p className="small">
-                  She does not break what she collects. {state.playerName} is set in the seal she kept, a statue that goes on calling champions
+                  Iwanaga does not break what she collects. {state.playerName} is set in the seal she kept, a statue that goes on calling champions
                   across the worlds, one after another, for a collection that will never be finished.
                 </p>
                 <p className="small muted">Load your quicksave, or return to the title and begin again.</p>

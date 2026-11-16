@@ -35,8 +35,10 @@ export interface GameConfig {
     summon_cost: Partial<Resources>;
     emergency_summon_cost: Partial<Resources>;
     classes: string[];
-    /** Names given to summoned adventurers, by class, so a name always means the same character. Her art is matched to her name. */
-    names_by_class: Record<string, string[]>;
+    /** The known champions. Each belongs to one class and has one trait of her own. Her art is matched to her name. */
+    champions: ChampionData[];
+    /** Each attribute is rolled within plus or minus this much when she is summoned. */
+    aptitude_range: Record<string, number>;
     class_stats: Record<string, { max_hp: number }>;
     rest_hp_per_day: number;
     rest_gauge_per_day: number;
@@ -185,6 +187,13 @@ export interface DungeonEnemyData {
   pattern: string[];
   xp: number;
   loot: Partial<Resources>;
+}
+
+export interface ChampionData {
+  name: string;
+  class: string;
+  epithet: string;
+  trait: { name: string; text: string; stats: Record<string, number> };
 }
 
 export interface WeaponStats {

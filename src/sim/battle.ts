@@ -2,7 +2,8 @@ import { concludeBattle } from './campaign';
 import type { ClassCombat, GameConfig, WeaponStats } from './config';
 import { flatGroups, getDefenseMap, laneLength, lanePoint, wavesFor } from './defenseMap';
 import type { Point } from './defenseMap';
-import { statsOf } from './growth';
+import { getStratumMap } from './dungeonMap';
+import { addGauge, easeGauge, statsOf } from './growth';
 import { getAdventurer } from './selectors';
 import { clearAssignment, solidify } from './statues';
 import type { Adventurer, BattleEnemy, CampaignState, DefenseBattle, DefenseStructure, ShotKind } from './types';
@@ -161,7 +162,7 @@ function defendersAct(s: CampaignState, cfg: GameConfig, b: DefenseBattle, locat
       const wounded = allies.filter((p) => p.adv.hp < p.adv.maxHp).sort((a, c) => a.adv.hp / a.adv.maxHp - c.adv.hp / c.adv.maxHp)[0];
       const patient = stricken ?? wounded;
       if (patient) {
-        if (stricken) patient.adv.gauge = Math.max(0, patient.adv.gauge - Math.round(weapon.support.gauge * weapon.supportMult));
+        if (stricken) easeGauge(patient.adv, Math.round(weapon.support.gauge * weapon.supportMult));
         else patient.adv.hp = Math.min(patient.adv.maxHp, patient.adv.hp + Math.round(weapon.support.heal * weapon.supportMult));
         shot(b, 'support', pos, patient.pos);
         b.cooldowns[adv.id] = toTicks(weapon.cooldown_seconds, cfg);
@@ -292,12 +293,14 @@ function enemiesAct(s: CampaignState, cfg: GameConfig, b: DefenseBattle): void {
       }
       if (victim) {
         const exposure = cfg.defense.structure_stats[victim.structure.type]?.exposure ?? 1;
-        victim.adv.gauge = Math.min(100, victim.adv.gauge + Math.round(petrify.gauge * exposure * (1 - statsOf(cfg, victim.adv).gaugeResist)));
+        // The attackers come up from the frontier stratum and carry its medium with them.
+        const medium = (s.frontierStratumId ? getStratumMap(s.frontierStratumId)?.medium : undefined) ?? 'stone';
+        addGauge(victim.adv, Math.round(petrify.gauge * exposure * (1 - statsOf(cfg, victim.adv).gaugeResist)), medium);
         victim.adv.hp = Math.max(0, victim.adv.hp - Math.round(petrify.damage * exposure));
         shot(b, 'petrify', [x, y], victim.pos);
         enemy.cooldown = toTicks(petrify.cooldown_seconds, cfg);
         if (victim.adv.gauge >= 100 || victim.adv.hp <= 0) {
-          solidify(s, cfg, victim.adv.id, b.map, victim.structure.id);
+          solidify(s, cfg, victim.adv.id, b.map, victim.structure.id, medium);
           b.fallen.push(victim.adv.id);
         }
       }

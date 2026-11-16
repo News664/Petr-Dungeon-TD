@@ -23,8 +23,8 @@ describe('playing the slice through', () => {
   });
 
   it('punishes a reckless attempt on the boss, but leaves a paid way back', () => {
-    // This player walks into the boss a level too early. On this seed the party is wiped at its door.
-    const run = playSlice(1, 90, 4);
+    // This player walks into the boss two levels too early. On this seed the party is wiped at its door.
+    const run = playSlice(1, 90, 3);
     expect(run.journal.some((line) => /statues 5/.test(line))).toBe(true);
     const s = run.state;
     expect(s.phase).toBe('STABLE_FRONTIER');

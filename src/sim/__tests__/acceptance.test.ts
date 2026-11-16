@@ -69,7 +69,7 @@ describe('handoff acceptance scenarios', () => {
 
     s = must(s, { type: 'resolve_battle', result: 'loss', solidified: fallen });
     expect(s.pendingMiracle).toEqual({ eligibleIds: fallen, count: 3 });
-    expect(rejected(s, { type: 'advance_time', hours: 1 })).toMatch(/goddess/);
+    expect(rejected(s, { type: 'advance_time', hours: 1 })).toMatch(/Sakuya restores/);
     expect(rejected(s, { type: 'choose_miracle_targets', adventurerIds: fallen.slice(0, 2) })).toMatch(/exactly 3/);
 
     const chosen = [fallen[1]!, fallen[3]!, fallen[5]!];

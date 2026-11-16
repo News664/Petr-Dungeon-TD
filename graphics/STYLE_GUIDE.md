@@ -19,7 +19,7 @@ The interface already uses these; art should sit comfortably next to them.
 | Night ground | `#0d0f12`, `#15181d` | Backgrounds, deep shadow |
 | Ward light | `#74c7b6` | Protective magic, safe places, the sanctuary |
 | Lantern amber | `#d8a64a` | Fire, gathered resources, warnings |
-| Divine violet | `#c9b7f2` | The goddess and her miracle only |
+| Blossom pink | `#f2b7cf` | Sakuya and her miracle only |
 | Danger red | `#cf5f55` | Threats; use small |
 | Pale stone | `#a3a8b0`, `#6d727a` | Solidified matter |
 | Parchment | `#dcd8cf` | Text, pale cloth, highlights |
@@ -35,7 +35,7 @@ Class accents: Guardian `#6f9bd8` (steel blue), Gunner `#d8a64a` (amber), Alchem
 
 ## Characters
 
-- Every character is an **adult woman**. Vary age (twenties to fifties), build, height, skin tone and hair. They come from many different worlds, so cultures and clothing traditions should differ.
+- Every character is an **adult woman**. Vary age (twenties to fifties), build, height, skin tone and hair. They come from many different worlds, so cultures and clothing traditions should differ: no single culture's fantasy should dominate the cast, and each design should be inspired by a tradition without being a costume of it.
 - Practical clothing for dangerous work: layers, boots, belts, tools. Personality through detail, not through exposure. No sexualised poses, no nudity.
 - Neutral standing pose facing three-quarters toward the viewer, arms away from the body enough that the silhouette is clear. The pose must hold up when frozen as a statue.
 - Expression in the `normal` picture: composed, alert. Later stages change expression (see below).
@@ -63,11 +63,15 @@ This is the visual heart of the game, so it must be consistent.
 
 ## Other materials
 
-Stone is the material of the first stratum and of every picture requested so far. The lore proposes that deeper strata solidify in other media (ice, metal, glass); see `lore/06_strata_outline.md`. That is not decided. Nothing made for stone would be wasted: other media would be extra late-stage and statue pictures, and the rules above (direction, edge, pose, never damaged) would apply to them unchanged.
+Stone is the material of the first stratum and of every picture requested so far. Deeper strata may solidify in other media (ice, metal, glass are suggested in `lore/06_strata_outline.md`), but not early. One person is always one medium, never a mixture. Nothing made for stone would be wasted: other media would be extra late-stage and statue pictures, and the rules above (direction, edge, pose, never damaged) would apply to them unchanged.
 
-## The Collector
+## Sakuya and Iwanaga
 
-The rival goddess behind it all. She should not look like a monster. She looks like someone who runs a great museum and has never once raised her voice: immaculate, formal, appraising. Her colour is the cold white-violet that marks every solidifying creature; the warmer violet of the sanctuary's goddess must stay distinct from it.
+The two goddesses are original characters who carry names from Japanese myth: the blossom princess and the rock princess, sisters. Their dress may draw on old Japanese court and shrine clothing (many layers, long sleeves, bound hair), designed fresh and not copied from any existing depiction.
+
+- **Sakuya** keeps the sanctuary. Blossom pink is hers alone: petals, a flowering branch, soft light. She is fading, and it shows as her outline thinning into petals.
+- **Iwanaga**, the Collector, should not look like a monster. She looks like someone who runs a great museum and has never once raised her voice: immaculate, austere, appraising. Her signs are rock, evergreen pine and a ring of keys; her colour is the cold white-violet that marks every solidifying creature.
+- They are sisters and should look it: the same bearing, opposite warmth.
 
 ## Monsters
 
@@ -94,5 +98,6 @@ The rival goddess behind it all. She should not look like a monster. She looks l
 Use these so prompts stay consistent. `asset_list.json` already includes them.
 
 - **Style:** `anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood`
+- **Variety:** `original design; dress and features drawn from a named real-world tradition as inspiration, not a costume of it`
 - **Character framing:** `adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text`
 - **Negative:** `nudity, sexualised pose, child, gore, blood, wounds, text, watermark, logo, signature, busy background, extra limbs, likeness of existing characters`

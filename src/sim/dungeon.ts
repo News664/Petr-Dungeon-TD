@@ -3,7 +3,7 @@ import type { GameConfig } from './config';
 import { DIRS, DIR_LETTERS, elitePath, findTile, floorKey, getStratumMap, parseTileKey, tileAt, tileKey } from './dungeonMap';
 import type { FloorData, GridPoint } from './dungeonMap';
 import { finishExpedition, wipeExpedition } from './expeditionCore';
-import { addMilestone, applyRemedy, loadPack, rankScale, skillRank, statsOf } from './growth';
+import { addGauge, addMilestone, applyRemedy, loadPack, rankScale, skillRank, statsOf } from './growth';
 import { randomInt } from './rng';
 import { frontierHeld, getAdventurer } from './selectors';
 import { solidify } from './statues';
@@ -142,8 +142,9 @@ function afterStep(s: CampaignState, cfg: GameConfig): void {
     exp.report = ['Pale mist clings to the party. The solidification creeps a little further.'];
     for (const id of [...exp.partyIds]) {
       const adv = getAdventurer(s, id);
-      adv.gauge = Math.min(100, adv.gauge + Math.round(cfg.dungeon.mist_gauge * (1 - statsOf(cfg, adv).gaugeResist)));
-      if (adv.gauge >= 100) solidify(s, cfg, id, 'dungeon', partyTile(exp));
+      const medium = getStratumMap(exp.stratumId)?.medium ?? 'stone';
+      addGauge(adv, Math.round(cfg.dungeon.mist_gauge * (1 - statsOf(cfg, adv).gaugeResist)), medium);
+      if (adv.gauge >= 100) solidify(s, cfg, id, 'dungeon', partyTile(exp), medium);
     }
     if (exp.partyIds.length === 0) {
       wipeExpedition(s, partyTile(exp));

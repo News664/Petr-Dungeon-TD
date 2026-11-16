@@ -32,7 +32,7 @@ function run(s: CampaignState, cfg: GameConfig, cmd: Command): void {
   if (cmd.type.startsWith('debug_') && !cfg.ui.allow_debug_state_loader) fail('Debug commands are disabled.');
   // While the goddess waits for an answer, nothing else may happen.
   if (s.pendingMiracle && cmd.type !== 'choose_miracle_targets' && !cmd.type.startsWith('debug_')) {
-    fail('Choose who the goddess restores first.');
+    fail('Choose who Sakuya restores first.');
   }
 
   switch (cmd.type) {
@@ -41,7 +41,7 @@ function run(s: CampaignState, cfg: GameConfig, cmd: Command): void {
       if (cmd.minutes) advanceMinutes(s, cfg, cmd.minutes);
       return;
     case 'summon':
-      summon(s, cfg, cmd.classId, cmd.emergency ?? false);
+      summon(s, cfg, cmd.classId, cmd.emergency ?? false, cmd.champion);
       return;
     case 'assign_defender':
       assignDefender(s, cfg, cmd.adventurerId, cmd.structureId);
@@ -133,6 +133,7 @@ function run(s: CampaignState, cfg: GameConfig, cmd: Command): void {
         adv.hp = adv.maxHp;
         adv.sp = adv.maxSp;
         adv.gauge = 0;
+        adv.medium = null;
       }
       log(s, 'debug', `Debug: everyone trained to level ${level}.`);
       return;

@@ -37,7 +37,10 @@ export function AdventurerSheet({ state, adv, dispatch, onClose }: { state: Camp
         <span className="who">
           <Portrait adv={adv} size={44} />
           <span>
-            <h2>{adv.name}</h2>
+            <h2>
+              {adv.name}
+              {adv.epithet && <span className="muted">, {adv.epithet}</span>}
+            </h2>
             <span className="muted small">
               {adv.classId} · level {adv.level} · {adv.xp}/{adv.level * D.xp_per_level} experience
               {adv.fadesAtHour !== null && ' · emergency summon'}
@@ -52,6 +55,21 @@ export function AdventurerSheet({ state, adv, dispatch, onClose }: { state: Camp
         {stats.tdDamage > 1 && ` · +${Math.round((stats.tdDamage - 1) * 100)}% damage on a post`}
         {stats.tdRange > 1 && ` · +${Math.round((stats.tdRange - 1) * 100)}% reach on a post`}
       </p>
+
+      {adv.trait && (
+        <p className="small">
+          <strong>{adv.trait.name}.</strong> {adv.trait.text}
+        </p>
+      )}
+      {Object.keys(adv.aptitude).length > 0 && (
+        <p className="small muted">
+          Her own measure:{' '}
+          {Object.entries(adv.aptitude)
+            .map(([key, value]) => `${value > 0 ? '+' : ''}${value} ${STAT_LABEL[key] ?? key}`)
+            .join(', ')}
+          .
+        </p>
+      )}
 
       <div className="subpanel">
         <h3>

@@ -46,6 +46,14 @@ export interface Adventurer {
   maxSp: number;
   /** Where she stands in a labyrinth fight. */
   row: Row;
+  /** Her standing name among the champions, e.g. "the Longshot". Null for a passing stranger. */
+  epithet: string | null;
+  /** The one thing that is hers alone. */
+  trait: { name: string; text: string; stats: Record<string, number> } | null;
+  /** Small differences in her attributes, rolled when she is summoned. */
+  aptitude: Record<string, number>;
+  /** What she is turning into while her gauge is above zero. Never a mixture. */
+  medium: string | null;
   /** Rank in each skill she has learned (0 or absent = not learned). */
   skills: Record<string, number>;
   /** Unspent points for her skill tree. */
@@ -80,6 +88,8 @@ export interface Statue {
   /** Set when she reaches a safe facility. Abandonment exposure stops here. */
   retrievedAtHour: number | null;
   permanent: boolean;
+  /** What she is made of now. */
+  medium: string;
   treatment: 'none' | 'queued' | 'in_progress';
 }
 
@@ -291,7 +301,9 @@ export interface LogEntry {
 }
 
 export interface CampaignState {
-  version: 4;
+  version: 5;
+  /** Ready-made debug and test campaigns use a standard cast: no traits, no attribute differences. */
+  standardCast: boolean;
   /** What the champions call the guild master. */
   playerName: string;
   seed: number;
@@ -332,7 +344,7 @@ export interface CampaignState {
 
 export type Command =
   | { type: 'advance_time'; hours?: number; minutes?: number }
-  | { type: 'summon'; classId: ClassId; emergency?: boolean }
+  | { type: 'summon'; classId?: ClassId; champion?: string; emergency?: boolean }
   | { type: 'assign_defender'; adventurerId: string; structureId: string }
   | { type: 'unassign_defender'; adventurerId: string }
   | { type: 'start_expedition'; partyIds: string[]; floor?: number; stratumId?: string }

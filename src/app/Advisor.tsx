@@ -25,7 +25,7 @@ function notes(s: CampaignState): Note[] {
   if (s.phase === 'COUNTEROFFENSIVE_PREPARATION' && !s.rebuild) {
     out.push({ tone: 'warn', text: `Rebuild the frontier outpost before the monsters return${untilAttack !== null ? ` in ${duration(untilAttack)}` : ''}, or the next attack falls on the sanctuary again.` });
   }
-  if (s.phase === 'DIVINE_EMERGENCY') out.push({ tone: 'warn', text: 'The goddess is spent and production is crippled. Win the coming rematch to restore it; lose it and the frontier is gone.' });
+  if (s.phase === 'DIVINE_EMERGENCY') out.push({ tone: 'warn', text: 'Sakuya is spent and production is crippled. Win the coming rematch to restore it; lose it and the frontier is gone.' });
   if (s.phase === 'FRONTIER_BREAKTHROUGH') out.push({ tone: 'warn', text: 'The outpost stands again. Win the next battle there to reopen the way to the secured sites.' });
   if (s.phase === 'SANCTUARY_SIEGE') out.push({ tone: 'danger', text: 'The frontier is lost. Hold the sanctuary gate; if it falls, everything ends.' });
 

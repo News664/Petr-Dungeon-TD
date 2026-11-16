@@ -33,6 +33,7 @@ export function createCampaign(cfg: GameConfig = defaultConfig, seed = 1, option
   return {
     ...state,
     phase: 'PROLOGUE',
+    standardCast: false,
     nextInvasionHour: null,
     resources: { ward_energy: 0, construction_materials: 0, restoration_reagent: 0 },
     // The frontier outpost is bare ground: its defenses are the player's to place.
@@ -43,7 +44,8 @@ export function createCampaign(cfg: GameConfig = defaultConfig, seed = 1, option
 
 function createStableCampaign(cfg: GameConfig, seed: number): CampaignState {
   return {
-    version: 4,
+    version: 5,
+    standardCast: true,
     playerName: 'Master',
     seed,
     rngState: seed | 0,

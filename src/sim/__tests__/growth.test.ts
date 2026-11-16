@@ -195,7 +195,7 @@ describe('what the lore decisions changed', () => {
 
   it('gives temporary champions made-up names, never one of the known characters', () => {
     let s = rich(guild());
-    const known = Object.values(cfg.roster.names_by_class).flat();
+    const known = cfg.roster.champions.map((c) => c.name);
     for (let i = 0; i < cfg.roster.emergency.max_active; i++) s = must(s, { type: 'summon', classId: 'Gunner', emergency: true });
     const temps = s.adventurers.filter((a) => a.fadesAtHour !== null);
     expect(new Set(temps.map((a) => a.name)).size).toBe(temps.length);
@@ -232,5 +232,57 @@ describe('what the lore decisions changed', () => {
     expect(statue).toMatchObject({ permanent: true, locationType: 'memorial', retrievedAtHour: null });
     expect(adv(s, 'adv_1').condition).toBe('lost');
     expect(rejected(s, { type: 'queue_treatment', adventurerId: 'adv_1' })).toMatch(/permanently solidified/);
+  });
+});
+
+describe('the cast', () => {
+  const real = () => must(createCampaign(cfg, 3, { prologue: true }), { type: 'debug_skip_prologue' });
+
+  it('has twenty-four champions, six to a class, each with her own epithet and trait', () => {
+    const cast = cfg.roster.champions;
+    expect(cast).toHaveLength(24);
+    for (const classId of cfg.roster.classes) expect(cast.filter((c) => c.class === classId), classId).toHaveLength(6);
+    expect(new Set(cast.map((c) => c.name)).size).toBe(24);
+    expect(new Set(cast.map((c) => c.trait.name)).size).toBe(24);
+    for (const c of cast) expect(Object.keys(c.trait.stats).length, c.name).toBeGreaterThan(0);
+  });
+
+  it('summons a chosen champion once, with her trait and small differences of her own', () => {
+    let s = real();
+    s = must(s, { type: 'summon', champion: 'Haruka' });
+    const haruka = s.adventurers.find((a) => a.name === 'Haruka')!;
+    expect(haruka).toMatchObject({ classId: 'Gunner', epithet: 'the Longshot', trait: { name: 'Far sight' } });
+    expect(statsOf(cfg, haruka).tdRange).toBeCloseTo(1.15);
+    for (const [stat, value] of Object.entries(haruka.aptitude)) expect(Math.abs(value), stat).toBeLessThanOrEqual(cfg.roster.aptitude_range[stat]!);
+    expect(haruka.hp).toBe(statsOf(cfg, haruka).maxHp);
+    expect(rejected(s, { type: 'summon', champion: 'Haruka' })).toMatch(/already answered/);
+    expect(rejected(s, { type: 'summon', champion: 'Nobody' })).toMatch(/answers the seal/);
+    expect(rejected(s, { type: 'summon', champion: 'Rin', emergency: true })).toMatch(/cannot choose/);
+  });
+
+  it('makes two champions of one class differ, and keeps the standard cast identical', () => {
+    const s = real();
+    const guardians = s.adventurers.filter((a) => a.classId === 'Guardian');
+    const sheet = (a: (typeof guardians)[number]) => JSON.stringify([a.trait?.name, statsOf(cfg, a)]);
+    expect(new Set(s.adventurers.map((a) => a.trait?.name)).size).toBe(s.adventurers.length);
+    expect(guardians.length === 1 || sheet(guardians[0]!) !== sheet(guardians[1]!)).toBe(true);
+
+    const standard = guild().adventurers.filter((a) => a.classId === 'Guardian');
+    expect(standard.every((a) => a.trait === null && Object.keys(a.aptitude).length === 0)).toBe(true);
+    expect(JSON.stringify(statsOf(cfg, standard[0]!))).toBe(JSON.stringify(statsOf(cfg, standard[1]!)));
+  });
+
+  it('keeps one medium per champion from the first touch until she is clear of it', () => {
+    let s = must(guild(), { type: 'start_expedition', partyIds: ['adv_1'] });
+    s = must(s, { type: 'debug_teleport', floor: 0, x: 5, y: 7 });
+    while (s.expedition!.facing !== 1) s = must(s, { type: 'dungeon_move', move: 'turn_right' });
+    s = must(s, { type: 'dungeon_move', move: 'forward' }); // into the mist
+    expect(adv(s, 'adv_1')).toMatchObject({ gauge: cfg.dungeon.mist_gauge, medium: 'stone' });
+    const tainted = structuredClone(s);
+    tainted.adventurers[0]!.medium = 'ice'; // as if a deeper stratum had touched her first
+    const fallen = must(tainted, { type: 'report_casualty', adventurerId: 'adv_1' });
+    expect(fallen.statues[0]).toMatchObject({ medium: 'ice' });
+    s = applyAll(s, [{ type: 'debug_teleport', floor: 0, x: 1, y: 1 }, { type: 'end_expedition' }, { type: 'advance_time', hours: 24 }]);
+    expect(adv(s, 'adv_1')).toMatchObject({ gauge: 0, medium: null });
   });
 });

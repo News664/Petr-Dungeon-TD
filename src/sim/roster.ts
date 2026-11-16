@@ -1,22 +1,21 @@
 import type { GameConfig } from './config';
 import { randomInt } from './rng';
 import { frontierHeld, getAdventurer, getStructure, rosterCount } from './selectors';
+import { refreshDerived } from './growth';
 import { clearAssignment } from './statues';
 import type { Adventurer, CampaignState } from './types';
 import { fail, log, pay } from './util';
 
-function pickName(s: CampaignState, cfg: GameConfig, classId: string): string {
-  const used = new Set(s.adventurers.map((a) => a.name));
-  // Each name belongs to one class, so a given name is always the same character.
-  const free = (cfg.roster.names_by_class[classId] ?? []).filter((n) => !used.has(n));
-  if (free.length === 0) return `${classId} ${s.seal.summonCount + 1}`;
-  return free[randomInt(s, free.length)] as string;
+/** Champions of a class who have not been called yet. Each can only ever be summoned once. */
+export function availableChampions(s: CampaignState, cfg: GameConfig, classId?: string): GameConfig['roster']['champions'] {
+  const called = new Set(s.adventurers.map((a) => a.name));
+  return cfg.roster.champions.filter((c) => !called.has(c.name) && (classId === undefined || c.class === classId));
 }
 
 /** A temporary champion is nobody the guild knows: her name is put together on the spot. */
 function passingName(s: CampaignState, cfg: GameConfig): string {
   const parts = cfg.roster.emergency.name_parts;
-  const known = new Set([...s.adventurers.map((a) => a.name), ...Object.values(cfg.roster.names_by_class).flat()]);
+  const known = new Set([...s.adventurers.map((a) => a.name), ...cfg.roster.champions.map((c) => c.name)]);
   for (let attempt = 0; attempt < 20; attempt++) {
     const name = `${parts.first[randomInt(s, parts.first.length)]}${parts.last[randomInt(s, parts.last.length)]}`;
     if (!known.has(name)) return name;
@@ -24,12 +23,18 @@ function passingName(s: CampaignState, cfg: GameConfig): string {
   return `Stranger ${s.seal.summonCount + 1}`;
 }
 
-export function summon(s: CampaignState, cfg: GameConfig, classId: string, emergency: boolean): Adventurer {
+export function summon(s: CampaignState, cfg: GameConfig, requestedClass: string | undefined, emergency: boolean, championName?: string): Adventurer {
   if (s.phase === 'GAME_OVER') fail('The sanctuary has fallen.');
+  // A named champion brings her class with her; otherwise the seal finds someone of the class asked for.
+  let champion = championName ? cfg.roster.champions.find((c) => c.name === championName) : undefined;
+  if (championName && !champion) fail(`Nobody called ${championName} answers the seal.`);
+  if (champion && emergency) fail('An emergency summoning cannot choose who answers.');
+  if (champion && s.adventurers.some((a) => a.name === champion?.name)) fail(`${champion.name} has already answered the seal once.`);
+  const classId = champion?.class ?? requestedClass ?? fail('Choose a class or a champion to summon.');
   const stats = cfg.roster.class_stats[classId];
   if (!cfg.roster.classes.includes(classId) || !stats) fail(`Unknown class "${classId}".`);
   if (s.phase === 'PROLOGUE' && (emergency || s.seal.freeCredits <= 0)) {
-    fail('The goddess has strength for no more than these few champions until the sanctuary is safe.');
+    fail('Sakuya has strength for no more than these few champions until the sanctuary is safe.');
   }
 
   if (emergency) {
@@ -48,7 +53,19 @@ export function summon(s: CampaignState, cfg: GameConfig, classId: string, emerg
     }
   }
 
-  const name = emergency ? passingName(s, cfg) : pickName(s, cfg, classId);
+  if (!emergency && !champion) {
+    const free = availableChampions(s, cfg, classId);
+    champion = free[randomInt(s, Math.max(1, free.length))];
+  }
+  const name = champion?.name ?? (emergency ? passingName(s, cfg) : `${classId} ${s.seal.summonCount + 1}`);
+  // A real campaign's champions differ a little from one another; the standard cast does not.
+  const aptitude: Record<string, number> = {};
+  if (!s.standardCast) {
+    for (const [stat, range] of Object.entries(cfg.roster.aptitude_range)) {
+      const roll = randomInt(s, range * 2 + 1) - range;
+      if (roll !== 0) aptitude[stat] = roll;
+    }
+  }
   const combat = cfg.dungeon.class_stats[classId];
   s.seal.summonCount += 1;
   const adv: Adventurer = {
@@ -65,6 +82,10 @@ export function summon(s: CampaignState, cfg: GameConfig, classId: string, emerg
     sp: combat?.max_sp ?? 0,
     maxSp: combat?.max_sp ?? 0,
     row: combat?.row ?? 'back',
+    epithet: champion?.epithet ?? null,
+    trait: champion && !s.standardCast ? structuredClone(champion.trait) : null,
+    aptitude,
+    medium: null,
     skills: Object.fromEntries((combat?.skills ?? []).map((id) => [id, 1])),
     skillPoints: cfg.dungeon.starting_skill_points,
     equipment: { weapon: null, armor: null, charm: null },
@@ -73,6 +94,9 @@ export function summon(s: CampaignState, cfg: GameConfig, classId: string, emerg
     targetPriority: 'first',
     summonedAtHour: s.simHour,
   };
+  refreshDerived(cfg, adv);
+  adv.hp = adv.maxHp;
+  adv.sp = adv.maxSp;
   s.adventurers.push(adv);
   log(s, 'summoned', emergency ? `${name} the ${classId} answered an emergency summoning. She will fade in ${cfg.roster.emergency.lifetime_hours / cfg.clock.hours_per_day} days.` : `${name} the ${classId} answered the seal.`);
   return adv;

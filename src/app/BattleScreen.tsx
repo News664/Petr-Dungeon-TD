@@ -344,7 +344,7 @@ export function BattleScreen({ state, stateRef, dispatch }: Props) {
 
         {tip && (
           <p className="notice info" role="note">
-            <strong>The goddess:</strong> {tip}
+            <strong>Sakuya:</strong> {tip}
           </p>
         )}
 

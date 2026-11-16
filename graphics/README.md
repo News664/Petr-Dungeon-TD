@@ -39,8 +39,8 @@ The prompts are starting points. Change wording freely; keep the constraints.
 
 ## Priorities
 
-1. **Priority 1** makes the prototype look like a game: the four class designs with all stages, the monsters, the goddess, the class and resource icons.
-2. **Priority 2** gives it places: labyrinth textures, battle map pieces, title art, the Collector, and the first statue props for the labyrinth.
+1. **Priority 1** makes the prototype look like a game: the four class designs with all stages, the monsters, Sakuya, the class and resource icons.
+2. **Priority 2** gives it places: labyrinth textures, battle map pieces, title art, Iwanaga, and the first statue props for the labyrinth.
 3. **Priority 3** is the long tail: the 24 named characters, residents, story illustrations.
 
 A named character without her own pictures uses her class's pictures, so priority 3 can arrive one character at a time.

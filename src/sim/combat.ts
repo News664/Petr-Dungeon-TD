@@ -1,8 +1,8 @@
 import type { EnemyAttack, GameConfig } from './config';
-import { tileKey } from './dungeonMap';
+import { getStratumMap, tileKey } from './dungeonMap';
 import { defeatBoss } from './economy';
 import { wipeExpedition } from './expeditionCore';
-import { addMilestone, applyRemedy, rankScale, refreshDerived, skillRank, statsOf } from './growth';
+import { addGauge, addMilestone, applyRemedy, rankScale, refreshDerived, skillRank, statsOf } from './growth';
 import { nextRandom, randomInt } from './rng';
 import { getAdventurer } from './selectors';
 import { solidify } from './statues';
@@ -166,6 +166,7 @@ function enemyActs(s: CampaignState, cfg: GameConfig, exp: Expedition, c: Dungeo
   }
 
   const where = tileKey(exp.stratumId, exp.floor, exp.x, exp.y);
+  const medium = getStratumMap(exp.stratumId)?.medium ?? 'stone';
   for (const target of targets) {
     const guard = guarding.has(target.id) ? D.guard_multiplier : 1;
     const wall = c.shieldWall > 0 ? D.shield_wall_multiplier : 1;
@@ -174,10 +175,10 @@ function enemyActs(s: CampaignState, cfg: GameConfig, exp: Expedition, c: Dungeo
     const dealt = Math.max(1, Math.round(data.atk * (attack.power ?? 1) * guard * wall) - def);
     const stone = Math.round((attack.gauge ?? 0) * guard * (c.wardMist > 0 ? D.ward_mist_multiplier : 1) * (1 - their.gaugeResist));
     target.hp = Math.max(0, target.hp - dealt);
-    target.gauge = Math.min(100, target.gauge + stone);
+    addGauge(target, stone, medium);
     say(c, `${data.name} uses ${attack.name} on ${target.name}: ${dealt} damage${stone > 0 ? `, +${stone}% solidified` : ''}.`);
     if (target.hp <= 0 || target.gauge >= 100) {
-      solidify(s, cfg, target.id, 'dungeon', where);
+      solidify(s, cfg, target.id, 'dungeon', where, medium);
       say(c, `${target.name} is solidified.`);
       if (c.taunt?.adventurerId === target.id) c.taunt = null;
     }

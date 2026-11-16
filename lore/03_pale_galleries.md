@@ -46,7 +46,7 @@ A party can time its passage and never fight it. Killing it is a choice, and it 
 
 **Fixed.** The keeper can be found. She is a hidden boss, reached only through hidden quests or hidden shortcuts, and she is harder and trickier than the Colossus.
 
-**Proposed.** The Warden is her route without her. She is elsewhere, behind a wall the ring does not show, still keeping the one room the Collector never entered. She is not stone and has not been for a long time; what she is instead is the question of the fight.
+**Proposed.** The Warden is her route without her. She is elsewhere, behind a wall the ring does not show, still keeping the one room Iwanaga never entered. She is not stone and has not been for a long time; what she is instead is the question of the fight.
 
 **Open.** How she is reached, and what she guards.
 
