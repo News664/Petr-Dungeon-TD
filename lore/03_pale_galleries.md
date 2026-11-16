@@ -8,11 +8,23 @@ The name is what the residents call it. Its old name is lost. **Open.**
 
 ## The floors
 
-| Floor | Name | What the party finds |
-|---|---|---|
-| 1 | Outer Galleries | Wide halls, blank frames, a barred service gate that opens only from the inside. A storeroom the guild can work for timber and dressed stone. A drift of pale mist in a side passage. |
-| 2 | Gallery of Echoes | A ring of cloisters around a sealed teaching hall. Something walks the ring. In the hall, a herb garden under a cracked skylight has gone on growing in the dark. |
-| 3 | The Pale Court | The festival court. Mist lies in two places. At the far end, in the sculptors' yard, stands the largest work ever made here. |
+**Fixed.** What each floor is for:
+
+| Floor | Purpose |
+|---|---|
+| 1 | The basics, in several distinct areas |
+| 2 | The roaming elite, and the first traps |
+| 3 | The first permanent statues, used as decoration and as parts of the floor's mechanisms, to show what the master of the stratum can do |
+
+Much more is wanted on every floor than the prototype has.
+
+**Proposed.** What the party finds, as the floors stand now and as they could grow:
+
+| Floor | Name | Now | Could add |
+|---|---|---|---|
+| 1 | Outer Galleries | Wide halls, blank frames, a barred service gate that opens only from the inside, a storeroom to work for timber and stone, a drift of pale mist | Three areas with their own look and creatures: the entrance halls, the storerooms, the restorers' workshops. A locked door whose key is elsewhere on the floor. |
+| 2 | Gallery of Echoes | A ring of cloisters around a teaching hall; the Warden walks the ring; a herb garden has gone on growing in the dark | Pressure plates that loose a gust of pale dust; a corridor that closes behind the party; a second way round the ring that is shorter and trapped. |
+| 3 | The Pale Court | The festival court, mist in two places, the sculptors' yard at the far end | The court is set out like an exhibition, and the exhibits are people: visitors and earlier delvers, posed. Some hold doors open and cannot be moved without closing them. One points the wrong way. One stands alone in a side room, too easy to reach. |
 
 ## What lives there
 
@@ -32,7 +44,11 @@ The name is what the residents call it. Its old name is lost. **Open.**
 
 A party can time its passage and never fight it. Killing it is a choice, and it comes back within a week: the dust gathers again.
 
-**Open.** Whether the keeper herself is somewhere in the stratum as a statue, and what finding her would mean.
+**Fixed.** The keeper can be found. She is a hidden boss, reached only through hidden quests or hidden shortcuts, and she is harder and trickier than the Colossus.
+
+**Proposed.** The Warden is her route without her. She is elsewhere, behind a wall the ring does not show, still keeping the one room the Collector never entered. She is not stone and has not been for a long time; what she is instead is the question of the fight.
+
+**Open.** How she is reached, and what she guards.
 
 ## The Hollow Colossus
 
@@ -54,8 +70,8 @@ When it falls, the wind stops. The monsters of the stratum lose whatever was hol
 
 **Fixed.** Workers move in behind wards. The stratum produces ward energy, materials and reagent every day while its upkeep is paid and the frontier in front of it holds.
 
-**Proposed.** The residents do not strip it. They set the wards, then they start, carefully, bringing the statues of the gallery visitors up to the sanctuary, though every one of them is decades past saving. Nobody ordered this.
+**Proposed.** The residents do not strip it. They set the wards, then they start, carefully, bringing the statues of the gallery visitors up to the sanctuary's memorial, though every one of them is decades past saving. Nobody ordered this.
 
 ## Next
 
-**Proposed.** The second stratum is named **the Drowned Cloister** in the game. Nothing else about it is decided. **Open.**
+**Proposed.** The second stratum is named **the Drowned Cloister** in the game. An outline for it and the strata below is in `06_strata_outline.md`.

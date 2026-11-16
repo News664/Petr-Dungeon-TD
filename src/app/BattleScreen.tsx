@@ -282,7 +282,7 @@ export function BattleScreen({ state, stateRef, dispatch }: Props) {
         ? 'Runners only run for the gate. Anything that reaches it wears the gate down.'
         : started === 2
           ? 'The armored brute stops beside a manned post and batters it. Bring it down while it stands still.'
-          : 'The petrifier turns the most exposed defender in its reach to stone. Set a Gunner to "Petrifiers first", or pull the threatened champion back to reserve.';
+          : 'The petrifier solidifies the most exposed defender in its reach. Set a Gunner to "Petrifiers first", or pull the threatened champion back to reserve.';
 
   return (
     <div className="battle">
@@ -534,7 +534,7 @@ export function BattleScreen({ state, stateRef, dispatch }: Props) {
                         <i style={{ width: `${occupant.gauge}%` }} />
                       </span>
                       <span className="small muted">
-                        {moving ? 'moving into position' : `HP ${occupant.hp} · stone ${occupant.gauge}%`}
+                        {moving ? 'moving into position' : `HP ${occupant.hp} · solidified ${occupant.gauge}%`}
                       </span>
                     </div>
                   )}

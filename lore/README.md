@@ -19,7 +19,8 @@ Every section is marked with one of three labels.
 | `01_world.md` | The catastrophe, the sanctuary, the goddess, the seal, the labyrinth, monsters |
 | `02_people.md` | The player's role, the goddess, residents, the four callings, the 24 champions |
 | `03_pale_galleries.md` | The first stratum: its floors, creatures, the Warden, the Colossus, what is found there |
-| `04_open_questions.md` | What still has to be decided, most consequential first |
+| `04_open_questions.md` | What has been decided, what the decisions raised, and what is still open |
+| `06_strata_outline.md` | A proposed shape for the whole labyrinth: five wings, their curators and media |
 | `05_glossary.md` | Terms as the game uses them, with the in-world word for each |
 
 ## For anyone writing more
@@ -28,11 +29,11 @@ Every section is marked with one of three labels.
 
 **Voice.** Plain, concrete sentences. Name the thing in the room. Avoid prophecy-speak and invented words where an ordinary one will do.
 
-**Hard limits.** Everyone affected is an adult woman. Solidification is never desirable, never a resource, never deserved: it is loss. A statue is a person. Nothing here copies the names, places or characters of any existing work.
+**Hard limits.** Everyone affected is an adult woman. Solidification is never desirable, never a resource, never deserved: it is loss. A statue is a person, and is never damaged or destroyed. Nothing here copies the names, places or characters of any existing work.
 
 **What is most needed next**, in order:
 
-1. Answers to the first five open questions.
+1. Decisions on the points under "Two answers that need a second look" and "Raised by the answers" in `04_open_questions.md`.
 2. Short spoken lines for the goddess at the campaign's turning points (list in `02_people.md`).
 3. A paragraph of background and a voice sample for each champion.
 4. Discoveries for the Pale Galleries: what the party learns on each floor.

@@ -43,7 +43,8 @@ export function createCampaign(cfg: GameConfig = defaultConfig, seed = 1, option
 
 function createStableCampaign(cfg: GameConfig, seed: number): CampaignState {
   return {
-    version: 3,
+    version: 4,
+    playerName: 'Master',
     seed,
     rngState: seed | 0,
     phase: 'STABLE_FRONTIER',

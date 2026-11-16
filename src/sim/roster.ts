@@ -13,6 +13,17 @@ function pickName(s: CampaignState, cfg: GameConfig, classId: string): string {
   return free[randomInt(s, free.length)] as string;
 }
 
+/** A temporary champion is nobody the guild knows: her name is put together on the spot. */
+function passingName(s: CampaignState, cfg: GameConfig): string {
+  const parts = cfg.roster.emergency.name_parts;
+  const known = new Set([...s.adventurers.map((a) => a.name), ...Object.values(cfg.roster.names_by_class).flat()]);
+  for (let attempt = 0; attempt < 20; attempt++) {
+    const name = `${parts.first[randomInt(s, parts.first.length)]}${parts.last[randomInt(s, parts.last.length)]}`;
+    if (!known.has(name)) return name;
+  }
+  return `Stranger ${s.seal.summonCount + 1}`;
+}
+
 export function summon(s: CampaignState, cfg: GameConfig, classId: string, emergency: boolean): Adventurer {
   if (s.phase === 'GAME_OVER') fail('The sanctuary has fallen.');
   const stats = cfg.roster.class_stats[classId];
@@ -37,7 +48,7 @@ export function summon(s: CampaignState, cfg: GameConfig, classId: string, emerg
     }
   }
 
-  const name = pickName(s, cfg, classId);
+  const name = emergency ? passingName(s, cfg) : pickName(s, cfg, classId);
   const combat = cfg.dungeon.class_stats[classId];
   s.seal.summonCount += 1;
   const adv: Adventurer = {

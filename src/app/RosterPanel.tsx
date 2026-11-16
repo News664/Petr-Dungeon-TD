@@ -14,13 +14,16 @@ function StatusCell({ state, adv, dispatch }: { state: CampaignState; adv: Adven
         {hurt && (
           <span className={adv.gauge >= 70 ? 'danger-text' : 'muted'}>
             {' '}
-            · HP {adv.hp}/{adv.maxHp} · stone {adv.gauge}%
+            · HP {adv.hp}/{adv.maxHp} · solidified {adv.gauge}%
           </span>
         )}
       </span>
     );
   }
-  if (adv.condition === 'lost') return <span className="stone">Permanently solidified</span>;
+  if (adv.condition === 'lost') {
+    const where = findStatue(state, adv.id)?.locationType;
+    return <span className="stone">{where === 'memorial' ? 'Lost · she stands in the memorial' : `Lost for good · her statue is still ${where === 'dungeon' ? 'in the labyrinth' : 'out there'}`}</span>;
+  }
   const statue = findStatue(state, adv.id);
   if (!statue) return null;
   if (statue.retrievedAtHour === null) {

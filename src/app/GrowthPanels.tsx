@@ -176,7 +176,7 @@ export function FieldMenu({ state, dispatch }: { state: CampaignState; dispatch:
       .filter((id) => skillRank(m, id) > 0 && ['heal', 'purge'].includes(D.skills[id]?.effect.kind ?? ''))
       .map((id) => ({ m, id, skill: D.skills[id]! })),
   );
-  const needs = (a: Adventurer) => `${a.name} (HP ${a.hp}/${a.maxHp}, stone ${a.gauge}%, SP ${a.sp})`;
+  const needs = (a: Adventurer) => `${a.name} (HP ${a.hp}/${a.maxHp}, solidified ${a.gauge}%, SP ${a.sp})`;
   return (
     <div className="panel">
       <h2>Field menu</h2>

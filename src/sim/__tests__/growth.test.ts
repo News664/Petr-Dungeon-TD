@@ -182,3 +182,55 @@ describe('choosing where the defenses stand', () => {
     expect(rejected(s, { type: 'build_structure', map: 'frontier', site: 's8', structureType: 'bunker' })).toMatch(/overrun/);
   });
 });
+
+describe('what the lore decisions changed', () => {
+  it('lets the guild master be named, within sixteen characters', () => {
+    let s = createCampaign(cfg, 1, { prologue: true });
+    expect(s.playerName).toBe('Master');
+    s = must(s, { type: 'set_player_name', name: '  Aveline  ' });
+    expect(s.playerName).toBe('Aveline');
+    expect(rejected(s, { type: 'set_player_name', name: '   ' })).toMatch(/one to sixteen/);
+    expect(rejected(s, { type: 'set_player_name', name: 'x'.repeat(17) })).toMatch(/one to sixteen/);
+  });
+
+  it('gives temporary champions made-up names, never one of the known characters', () => {
+    let s = rich(guild());
+    const known = Object.values(cfg.roster.names_by_class).flat();
+    for (let i = 0; i < cfg.roster.emergency.max_active; i++) s = must(s, { type: 'summon', classId: 'Gunner', emergency: true });
+    const temps = s.adventurers.filter((a) => a.fadesAtHour !== null);
+    expect(new Set(temps.map((a) => a.name)).size).toBe(temps.length);
+    for (const a of temps) expect(known).not.toContain(a.name);
+  });
+
+  it('keeps her gear on a fallen champion: home with her if she is rescued, perished if she is abandoned', () => {
+    let s = rich(guild());
+    s = applyAll(s, [
+      { type: 'craft_item', itemId: 'iron_arms' },
+      { type: 'craft_item', itemId: 'iron_arms' },
+      { type: 'equip_item', adventurerId: 'adv_1', itemId: 'iron_arms' },
+      { type: 'equip_item', adventurerId: 'adv_2', itemId: 'iron_arms' },
+      { type: 'debug_solidify', adventurerId: 'adv_1', locationType: 'dungeon' },
+      { type: 'debug_solidify', adventurerId: 'adv_2', locationType: 'dungeon' },
+    ]);
+    expect(s.armory.iron_arms).toBe(0); // it is out there with them
+    s = must(s, { type: 'debug_retrieve', adventurerId: 'adv_1' });
+    s = must(s, { type: 'advance_time', hours: cfg.clock.solidification_permanence_hours });
+    expect(adv(s, 'adv_1').equipment.weapon).toBe('iron_arms');
+    expect(adv(s, 'adv_2')).toMatchObject({ condition: 'lost', equipment: { weapon: null } });
+    expect(s.armory.iron_arms).toBe(0);
+  });
+
+  it('lets a permanently lost champion be carried home to the memorial, still lost', () => {
+    let s = must(guild(), { type: 'start_expedition', partyIds: ['adv_1'] });
+    s = must(s, { type: 'report_casualty', adventurerId: 'adv_1' });
+    s = must(s, { type: 'advance_time', hours: cfg.clock.solidification_permanence_hours });
+    expect(adv(s, 'adv_1').condition).toBe('lost');
+    s = must(s, { type: 'start_expedition', partyIds: ['adv_2'] });
+    s = must(s, { type: 'expedition_pickup_statue', adventurerId: 'adv_1' });
+    s = must(s, { type: 'end_expedition' });
+    const statue = s.statues.find((st) => st.adventurerId === 'adv_1')!;
+    expect(statue).toMatchObject({ permanent: true, locationType: 'memorial', retrievedAtHour: null });
+    expect(adv(s, 'adv_1').condition).toBe('lost');
+    expect(rejected(s, { type: 'queue_treatment', adventurerId: 'adv_1' })).toMatch(/permanently solidified/);
+  });
+});

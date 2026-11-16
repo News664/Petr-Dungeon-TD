@@ -7,6 +7,15 @@ The first-person view builds its corridors from three repeating textures per str
 - Stratum 1, the Pale Galleries: old dressed stone, pale and dry, with chalky mineral growth creeping over it. It should feel like a gallery whose pictures have all turned to blank stone.
 - 512 × 512 px each, no perspective, no baked shadows.
 
+## The stilled, as the labyrinth keeps them
+
+From the third floor on, the party finds people who were lost long ago, arranged by the stratum's master: as exhibits, holding doors, pointing down corridors. These are props in the first-person view, seen at human height.
+
+- Anonymous adult women, each a whole and undamaged statue in the stratum's material (pale stone for the first stratum). Their clothing has worn soft; they have not.
+- Four are requested to begin with: a visitor looking at a picture, a figure holding something heavy open, a figure pointing, a figure seated.
+- The mood is sorrow and stillness. They are not frightening, not posed in distress, and not ornamental in a way that invites the viewer to enjoy it. The player should want to carry them home.
+- Same canvas as characters (1024 × 1536), transparent background, lit from the upper left.
+
 ## Battle map pieces
 
 Defense battles are drawn from above. The game lays out lanes and building sites itself, so it needs pieces, not finished maps:
@@ -25,7 +34,7 @@ Pieces are seen from above at a three-quarter angle, on a transparent background
 
 ## Must be true
 
-- No people in any of these. Stone figures in the title and prologue pictures are scenery: distant, small, never the subject, never in distress.
+- No living people in the textures, map pieces or backgrounds. Stone figures in the title and prologue pictures are scenery: distant, small, never in distress.
 - No text.
 - The sanctuary is the only place with living colour.
 

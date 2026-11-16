@@ -6,15 +6,15 @@
  "stage_descriptions": {
   "normal": "nothing has turned to stone; composed, alert expression",
   "early": "same pose and outfit; fingertips, hair ends, hem and boots have turned to matte pale grey-blue stone, a dusting of stone on one shoulder; controlled concern",
-  "mid": "same pose and outfit; forearms, lower legs, most of the clothing and half the hair are matte pale stone, soft pale boundary with hairline cracks where stone meets skin; strained expression, breath held",
+  "mid": "same pose and outfit; forearms, lower legs, most of the clothing and half the hair are matte pale stone, soft pale boundary with fine veins of cold light where stone meets skin; strained expression, breath held",
   "late": "same pose and outfit; everything is matte pale stone except the face, throat and the chest over the heart; eyes still living, fear held down",
   "statue": "same pose and outfit; entirely a matte pale grey-blue stone statue, weathered limestone texture, clothing folds preserved in stone, expression frozen",
-  "permanent": "same statue long abandoned: dust settled on shoulders, one fine crack, a trace of lichen"
+  "permanent": "same statue long abandoned, the figure itself whole and undamaged: dust settled on shoulders, clothing and gear details worn soft and partly crumbled away, a trace of lichen"
  },
  "counts": {
-  "total": 209,
+  "total": 214,
   "priority_1": 38,
-  "priority_2": 14,
+  "priority_2": 19,
   "priority_3": 157
  },
  "assets": [
@@ -70,7 +70,7 @@
    "deliver_to": "public/art/characters/guardian/mid.webp",
    "manifest_id": "guardian",
    "stage": "mid",
-   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. broad-shouldered woman in her thirties, short practical hair, layered padded armour with dull steel plates, large shield slung on her back, steel-blue sash. steel blue accent colour. same pose and outfit; forearms, lower legs, most of the clothing and half the hair are matte pale stone, soft pale boundary with hairline cracks where stone meets skin; strained expression, breath held."
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. broad-shouldered woman in her thirties, short practical hair, layered padded armour with dull steel plates, large shield slung on her back, steel-blue sash. steel blue accent colour. same pose and outfit; forearms, lower legs, most of the clothing and half the hair are matte pale stone, soft pale boundary with fine veins of cold light where stone meets skin; strained expression, breath held."
   },
   {
    "transparent": true,
@@ -160,7 +160,7 @@
    "deliver_to": "public/art/characters/gunner/mid.webp",
    "manifest_id": "gunner",
    "stage": "mid",
-   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. lean woman in her late twenties, hair tied back, long weatherproof coat, long-barrelled crystal-lock rifle held at rest, amber lens over one eye. amber accent colour. same pose and outfit; forearms, lower legs, most of the clothing and half the hair are matte pale stone, soft pale boundary with hairline cracks where stone meets skin; strained expression, breath held."
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. lean woman in her late twenties, hair tied back, long weatherproof coat, long-barrelled crystal-lock rifle held at rest, amber lens over one eye. amber accent colour. same pose and outfit; forearms, lower legs, most of the clothing and half the hair are matte pale stone, soft pale boundary with fine veins of cold light where stone meets skin; strained expression, breath held."
   },
   {
    "transparent": true,
@@ -250,7 +250,7 @@
    "deliver_to": "public/art/characters/alchemist/mid.webp",
    "manifest_id": "alchemist",
    "stage": "mid",
-   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. woman in her forties, ink-stained gloves, apron-coat hung with stoppered flasks and tools, satchel, violet lining to her coat. violet accent colour. same pose and outfit; forearms, lower legs, most of the clothing and half the hair are matte pale stone, soft pale boundary with hairline cracks where stone meets skin; strained expression, breath held."
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. woman in her forties, ink-stained gloves, apron-coat hung with stoppered flasks and tools, satchel, violet lining to her coat. violet accent colour. same pose and outfit; forearms, lower legs, most of the clothing and half the hair are matte pale stone, soft pale boundary with fine veins of cold light where stone meets skin; strained expression, breath held."
   },
   {
    "transparent": true,
@@ -340,7 +340,7 @@
    "deliver_to": "public/art/characters/medic/mid.webp",
    "manifest_id": "medic",
    "stage": "mid",
-   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. woman in her thirties, calm face, pale layered robes cut for travel, satchel of salves, a small ward-crystal lantern at her belt glowing teal. teal accent colour. same pose and outfit; forearms, lower legs, most of the clothing and half the hair are matte pale stone, soft pale boundary with hairline cracks where stone meets skin; strained expression, breath held."
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. woman in her thirties, calm face, pale layered robes cut for travel, satchel of salves, a small ward-crystal lantern at her belt glowing teal. teal accent colour. same pose and outfit; forearms, lower legs, most of the clothing and half the hair are matte pale stone, soft pale boundary with fine veins of cold light where stone meets skin; strained expression, breath held."
   },
   {
    "transparent": true,
@@ -766,6 +766,70 @@
    "transparent": true,
    "format": "webp",
    "negative": "nudity, sexualised pose, child, gore, blood, wounds, text, watermark, logo, signature, busy background, extra limbs, likeness of existing characters",
+   "id": "prop_statue_visitor",
+   "group": "places",
+   "brief": "briefs/03_places.md",
+   "priority": 2,
+   "used_in": "Labyrinth from floor 3: the permanently stilled, placed as exhibits and as parts of mechanisms",
+   "size": [
+    1024,
+    1536
+   ],
+   "deliver_to": "public/art/places/props/prop_statue_visitor.webp",
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. anonymous adult woman as a matte pale grey-blue stone statue, whole and undamaged, weathered limestone texture, clothing folds worn soft, standing on bare floor, transparent background, no text, sorrowful not frightening. a gallery visitor in a long coat, standing with her head tilted as if looking at a picture."
+  },
+  {
+   "transparent": true,
+   "format": "webp",
+   "negative": "nudity, sexualised pose, child, gore, blood, wounds, text, watermark, logo, signature, busy background, extra limbs, likeness of existing characters",
+   "id": "prop_statue_bearer",
+   "group": "places",
+   "brief": "briefs/03_places.md",
+   "priority": 2,
+   "used_in": "Labyrinth from floor 3: the permanently stilled, placed as exhibits and as parts of mechanisms",
+   "size": [
+    1024,
+    1536
+   ],
+   "deliver_to": "public/art/places/props/prop_statue_bearer.webp",
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. anonymous adult woman as a matte pale grey-blue stone statue, whole and undamaged, weathered limestone texture, clothing folds worn soft, standing on bare floor, transparent background, no text, sorrowful not frightening. a traveller with both arms raised as if holding a heavy door open."
+  },
+  {
+   "transparent": true,
+   "format": "webp",
+   "negative": "nudity, sexualised pose, child, gore, blood, wounds, text, watermark, logo, signature, busy background, extra limbs, likeness of existing characters",
+   "id": "prop_statue_pointing",
+   "group": "places",
+   "brief": "briefs/03_places.md",
+   "priority": 2,
+   "used_in": "Labyrinth from floor 3: the permanently stilled, placed as exhibits and as parts of mechanisms",
+   "size": [
+    1024,
+    1536
+   ],
+   "deliver_to": "public/art/places/props/prop_statue_pointing.webp",
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. anonymous adult woman as a matte pale grey-blue stone statue, whole and undamaged, weathered limestone texture, clothing folds worn soft, standing on bare floor, transparent background, no text, sorrowful not frightening. a delver in worn travelling gear, one arm extended, pointing down a corridor."
+  },
+  {
+   "transparent": true,
+   "format": "webp",
+   "negative": "nudity, sexualised pose, child, gore, blood, wounds, text, watermark, logo, signature, busy background, extra limbs, likeness of existing characters",
+   "id": "prop_statue_seated",
+   "group": "places",
+   "brief": "briefs/03_places.md",
+   "priority": 2,
+   "used_in": "Labyrinth from floor 3: the permanently stilled, placed as exhibits and as parts of mechanisms",
+   "size": [
+    1024,
+    1536
+   ],
+   "deliver_to": "public/art/places/props/prop_statue_seated.webp",
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. anonymous adult woman as a matte pale grey-blue stone statue, whole and undamaged, weathered limestone texture, clothing folds worn soft, standing on bare floor, transparent background, no text, sorrowful not frightening. a woman seated on a bench, hands folded in her lap."
+  },
+  {
+   "transparent": true,
+   "format": "webp",
+   "negative": "nudity, sexualised pose, child, gore, blood, wounds, text, watermark, logo, signature, busy background, extra limbs, likeness of existing characters",
    "id": "piece_watchtower",
    "group": "places",
    "brief": "briefs/03_places.md",
@@ -894,6 +958,22 @@
    "transparent": true,
    "format": "webp",
    "negative": "nudity, sexualised pose, child, gore, blood, wounds, text, watermark, logo, signature, busy background, extra limbs, likeness of existing characters",
+   "id": "person_collector",
+   "group": "people",
+   "brief": "briefs/05_people_and_key_art.md",
+   "priority": 2,
+   "used_in": "Game over, later story scenes",
+   "size": [
+    1024,
+    1536
+   ],
+   "deliver_to": "public/art/people/collector.webp",
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. the Collector, a rival goddess: a tall, immaculate adult woman with the bearing of a museum director, dark formal robes with a high collar, pale gloves, a ring of small keys at her waist, cold white-violet light in her eyes; courteous, patient, appraising; no weapons, no horns, no menace in the pose."
+  },
+  {
+   "transparent": true,
+   "format": "webp",
+   "negative": "nudity, sexualised pose, child, gore, blood, wounds, text, watermark, logo, signature, busy background, extra limbs, likeness of existing characters",
    "id": "class_guardian_permanent",
    "group": "characters",
    "brief": "briefs/01_characters.md",
@@ -906,7 +986,7 @@
    "deliver_to": "public/art/characters/guardian/permanent.webp",
    "manifest_id": "guardian",
    "stage": "permanent",
-   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. broad-shouldered woman in her thirties, short practical hair, layered padded armour with dull steel plates, large shield slung on her back, steel-blue sash. steel blue accent colour. same statue long abandoned: dust settled on shoulders, one fine crack, a trace of lichen."
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. broad-shouldered woman in her thirties, short practical hair, layered padded armour with dull steel plates, large shield slung on her back, steel-blue sash. steel blue accent colour. same statue long abandoned, the figure itself whole and undamaged: dust settled on shoulders, clothing and gear details worn soft and partly crumbled away, a trace of lichen."
   },
   {
    "transparent": true,
@@ -924,7 +1004,7 @@
    "deliver_to": "public/art/characters/gunner/permanent.webp",
    "manifest_id": "gunner",
    "stage": "permanent",
-   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. lean woman in her late twenties, hair tied back, long weatherproof coat, long-barrelled crystal-lock rifle held at rest, amber lens over one eye. amber accent colour. same statue long abandoned: dust settled on shoulders, one fine crack, a trace of lichen."
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. lean woman in her late twenties, hair tied back, long weatherproof coat, long-barrelled crystal-lock rifle held at rest, amber lens over one eye. amber accent colour. same statue long abandoned, the figure itself whole and undamaged: dust settled on shoulders, clothing and gear details worn soft and partly crumbled away, a trace of lichen."
   },
   {
    "transparent": true,
@@ -942,7 +1022,7 @@
    "deliver_to": "public/art/characters/alchemist/permanent.webp",
    "manifest_id": "alchemist",
    "stage": "permanent",
-   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. woman in her forties, ink-stained gloves, apron-coat hung with stoppered flasks and tools, satchel, violet lining to her coat. violet accent colour. same statue long abandoned: dust settled on shoulders, one fine crack, a trace of lichen."
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. woman in her forties, ink-stained gloves, apron-coat hung with stoppered flasks and tools, satchel, violet lining to her coat. violet accent colour. same statue long abandoned, the figure itself whole and undamaged: dust settled on shoulders, clothing and gear details worn soft and partly crumbled away, a trace of lichen."
   },
   {
    "transparent": true,
@@ -960,7 +1040,7 @@
    "deliver_to": "public/art/characters/medic/permanent.webp",
    "manifest_id": "medic",
    "stage": "permanent",
-   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. woman in her thirties, calm face, pale layered robes cut for travel, satchel of salves, a small ward-crystal lantern at her belt glowing teal. teal accent colour. same statue long abandoned: dust settled on shoulders, one fine crack, a trace of lichen."
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. woman in her thirties, calm face, pale layered robes cut for travel, satchel of salves, a small ward-crystal lantern at her belt glowing teal. teal accent colour. same statue long abandoned, the figure itself whole and undamaged: dust settled on shoulders, clothing and gear details worn soft and partly crumbled away, a trace of lichen."
   },
   {
    "transparent": true,
@@ -1014,7 +1094,7 @@
    "deliver_to": "public/art/characters/rhosyn/mid.webp",
    "manifest_id": "rhosyn",
    "stage": "mid",
-   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Guardian: veteran shield-bearer, greying braid, old scar on her jaw, dented tower shield. steel blue accent colour. same pose and outfit; forearms, lower legs, most of the clothing and half the hair are matte pale stone, soft pale boundary with hairline cracks where stone meets skin; strained expression, breath held."
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Guardian: veteran shield-bearer, greying braid, old scar on her jaw, dented tower shield. steel blue accent colour. same pose and outfit; forearms, lower legs, most of the clothing and half the hair are matte pale stone, soft pale boundary with fine veins of cold light where stone meets skin; strained expression, breath held."
   },
   {
    "transparent": true,
@@ -1068,7 +1148,7 @@
    "deliver_to": "public/art/characters/rhosyn/permanent.webp",
    "manifest_id": "rhosyn",
    "stage": "permanent",
-   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Guardian: veteran shield-bearer, greying braid, old scar on her jaw, dented tower shield. steel blue accent colour. same statue long abandoned: dust settled on shoulders, one fine crack, a trace of lichen."
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Guardian: veteran shield-bearer, greying braid, old scar on her jaw, dented tower shield. steel blue accent colour. same statue long abandoned, the figure itself whole and undamaged: dust settled on shoulders, clothing and gear details worn soft and partly crumbled away, a trace of lichen."
   },
   {
    "transparent": true,
@@ -1122,7 +1202,7 @@
    "deliver_to": "public/art/characters/havela/mid.webp",
    "manifest_id": "havela",
    "stage": "mid",
-   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Guardian: tall and young, cropped fair hair, mismatched salvaged plates, eager. steel blue accent colour. same pose and outfit; forearms, lower legs, most of the clothing and half the hair are matte pale stone, soft pale boundary with hairline cracks where stone meets skin; strained expression, breath held."
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Guardian: tall and young, cropped fair hair, mismatched salvaged plates, eager. steel blue accent colour. same pose and outfit; forearms, lower legs, most of the clothing and half the hair are matte pale stone, soft pale boundary with fine veins of cold light where stone meets skin; strained expression, breath held."
   },
   {
    "transparent": true,
@@ -1176,7 +1256,7 @@
    "deliver_to": "public/art/characters/havela/permanent.webp",
    "manifest_id": "havela",
    "stage": "permanent",
-   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Guardian: tall and young, cropped fair hair, mismatched salvaged plates, eager. steel blue accent colour. same statue long abandoned: dust settled on shoulders, one fine crack, a trace of lichen."
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Guardian: tall and young, cropped fair hair, mismatched salvaged plates, eager. steel blue accent colour. same statue long abandoned, the figure itself whole and undamaged: dust settled on shoulders, clothing and gear details worn soft and partly crumbled away, a trace of lichen."
   },
   {
    "transparent": true,
@@ -1230,7 +1310,7 @@
    "deliver_to": "public/art/characters/tamsin/mid.webp",
    "manifest_id": "tamsin",
    "stage": "mid",
-   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Guardian: stocky, dark skin, shaved sides, hammer at her belt, former mason. steel blue accent colour. same pose and outfit; forearms, lower legs, most of the clothing and half the hair are matte pale stone, soft pale boundary with hairline cracks where stone meets skin; strained expression, breath held."
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Guardian: stocky, dark skin, shaved sides, hammer at her belt, former mason. steel blue accent colour. same pose and outfit; forearms, lower legs, most of the clothing and half the hair are matte pale stone, soft pale boundary with fine veins of cold light where stone meets skin; strained expression, breath held."
   },
   {
    "transparent": true,
@@ -1284,7 +1364,7 @@
    "deliver_to": "public/art/characters/tamsin/permanent.webp",
    "manifest_id": "tamsin",
    "stage": "permanent",
-   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Guardian: stocky, dark skin, shaved sides, hammer at her belt, former mason. steel blue accent colour. same statue long abandoned: dust settled on shoulders, one fine crack, a trace of lichen."
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Guardian: stocky, dark skin, shaved sides, hammer at her belt, former mason. steel blue accent colour. same statue long abandoned, the figure itself whole and undamaged: dust settled on shoulders, clothing and gear details worn soft and partly crumbled away, a trace of lichen."
   },
   {
    "transparent": true,
@@ -1338,7 +1418,7 @@
    "deliver_to": "public/art/characters/brisa/mid.webp",
    "manifest_id": "brisa",
    "stage": "mid",
-   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Guardian: wiry, wind-burned, fur-collared coat over mail, mountain patrol. steel blue accent colour. same pose and outfit; forearms, lower legs, most of the clothing and half the hair are matte pale stone, soft pale boundary with hairline cracks where stone meets skin; strained expression, breath held."
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Guardian: wiry, wind-burned, fur-collared coat over mail, mountain patrol. steel blue accent colour. same pose and outfit; forearms, lower legs, most of the clothing and half the hair are matte pale stone, soft pale boundary with fine veins of cold light where stone meets skin; strained expression, breath held."
   },
   {
    "transparent": true,
@@ -1392,7 +1472,7 @@
    "deliver_to": "public/art/characters/brisa/permanent.webp",
    "manifest_id": "brisa",
    "stage": "permanent",
-   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Guardian: wiry, wind-burned, fur-collared coat over mail, mountain patrol. steel blue accent colour. same statue long abandoned: dust settled on shoulders, one fine crack, a trace of lichen."
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Guardian: wiry, wind-burned, fur-collared coat over mail, mountain patrol. steel blue accent colour. same statue long abandoned, the figure itself whole and undamaged: dust settled on shoulders, clothing and gear details worn soft and partly crumbled away, a trace of lichen."
   },
   {
    "transparent": true,
@@ -1446,7 +1526,7 @@
    "deliver_to": "public/art/characters/edda/mid.webp",
    "manifest_id": "edda",
    "stage": "mid",
-   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Guardian: broad, in her fifties, heavy cloak, round shield painted with a faded sun. steel blue accent colour. same pose and outfit; forearms, lower legs, most of the clothing and half the hair are matte pale stone, soft pale boundary with hairline cracks where stone meets skin; strained expression, breath held."
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Guardian: broad, in her fifties, heavy cloak, round shield painted with a faded sun. steel blue accent colour. same pose and outfit; forearms, lower legs, most of the clothing and half the hair are matte pale stone, soft pale boundary with fine veins of cold light where stone meets skin; strained expression, breath held."
   },
   {
    "transparent": true,
@@ -1500,7 +1580,7 @@
    "deliver_to": "public/art/characters/edda/permanent.webp",
    "manifest_id": "edda",
    "stage": "permanent",
-   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Guardian: broad, in her fifties, heavy cloak, round shield painted with a faded sun. steel blue accent colour. same statue long abandoned: dust settled on shoulders, one fine crack, a trace of lichen."
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Guardian: broad, in her fifties, heavy cloak, round shield painted with a faded sun. steel blue accent colour. same statue long abandoned, the figure itself whole and undamaged: dust settled on shoulders, clothing and gear details worn soft and partly crumbled away, a trace of lichen."
   },
   {
    "transparent": true,
@@ -1554,7 +1634,7 @@
    "deliver_to": "public/art/characters/petra/mid.webp",
    "manifest_id": "petra",
    "stage": "mid",
-   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Guardian: quiet, long black hair bound in cord, lacquered lamellar armour. steel blue accent colour. same pose and outfit; forearms, lower legs, most of the clothing and half the hair are matte pale stone, soft pale boundary with hairline cracks where stone meets skin; strained expression, breath held."
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Guardian: quiet, long black hair bound in cord, lacquered lamellar armour. steel blue accent colour. same pose and outfit; forearms, lower legs, most of the clothing and half the hair are matte pale stone, soft pale boundary with fine veins of cold light where stone meets skin; strained expression, breath held."
   },
   {
    "transparent": true,
@@ -1608,7 +1688,7 @@
    "deliver_to": "public/art/characters/petra/permanent.webp",
    "manifest_id": "petra",
    "stage": "permanent",
-   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Guardian: quiet, long black hair bound in cord, lacquered lamellar armour. steel blue accent colour. same statue long abandoned: dust settled on shoulders, one fine crack, a trace of lichen."
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Guardian: quiet, long black hair bound in cord, lacquered lamellar armour. steel blue accent colour. same statue long abandoned, the figure itself whole and undamaged: dust settled on shoulders, clothing and gear details worn soft and partly crumbled away, a trace of lichen."
   },
   {
    "transparent": true,
@@ -1662,7 +1742,7 @@
    "deliver_to": "public/art/characters/ysolde/mid.webp",
    "manifest_id": "ysolde",
    "stage": "mid",
-   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Gunner: sharp-eyed, auburn hair in a tail, long grey coat, brass-bound rifle. amber accent colour. same pose and outfit; forearms, lower legs, most of the clothing and half the hair are matte pale stone, soft pale boundary with hairline cracks where stone meets skin; strained expression, breath held."
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Gunner: sharp-eyed, auburn hair in a tail, long grey coat, brass-bound rifle. amber accent colour. same pose and outfit; forearms, lower legs, most of the clothing and half the hair are matte pale stone, soft pale boundary with fine veins of cold light where stone meets skin; strained expression, breath held."
   },
   {
    "transparent": true,
@@ -1716,7 +1796,7 @@
    "deliver_to": "public/art/characters/ysolde/permanent.webp",
    "manifest_id": "ysolde",
    "stage": "permanent",
-   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Gunner: sharp-eyed, auburn hair in a tail, long grey coat, brass-bound rifle. amber accent colour. same statue long abandoned: dust settled on shoulders, one fine crack, a trace of lichen."
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Gunner: sharp-eyed, auburn hair in a tail, long grey coat, brass-bound rifle. amber accent colour. same statue long abandoned, the figure itself whole and undamaged: dust settled on shoulders, clothing and gear details worn soft and partly crumbled away, a trace of lichen."
   },
   {
    "transparent": true,
@@ -1770,7 +1850,7 @@
    "deliver_to": "public/art/characters/okka/mid.webp",
    "manifest_id": "okka",
    "stage": "mid",
-   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Gunner: short, cheerful, goggles pushed up, patched jacket, short carbine. amber accent colour. same pose and outfit; forearms, lower legs, most of the clothing and half the hair are matte pale stone, soft pale boundary with hairline cracks where stone meets skin; strained expression, breath held."
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Gunner: short, cheerful, goggles pushed up, patched jacket, short carbine. amber accent colour. same pose and outfit; forearms, lower legs, most of the clothing and half the hair are matte pale stone, soft pale boundary with fine veins of cold light where stone meets skin; strained expression, breath held."
   },
   {
    "transparent": true,
@@ -1824,7 +1904,7 @@
    "deliver_to": "public/art/characters/okka/permanent.webp",
    "manifest_id": "okka",
    "stage": "permanent",
-   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Gunner: short, cheerful, goggles pushed up, patched jacket, short carbine. amber accent colour. same statue long abandoned: dust settled on shoulders, one fine crack, a trace of lichen."
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Gunner: short, cheerful, goggles pushed up, patched jacket, short carbine. amber accent colour. same statue long abandoned, the figure itself whole and undamaged: dust settled on shoulders, clothing and gear details worn soft and partly crumbled away, a trace of lichen."
   },
   {
    "transparent": true,
@@ -1878,7 +1958,7 @@
    "deliver_to": "public/art/characters/quenby/mid.webp",
    "manifest_id": "quenby",
    "stage": "mid",
-   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Gunner: tall, dark skin, close-cropped hair, hunter's leathers, long rifle wrapped in cloth. amber accent colour. same pose and outfit; forearms, lower legs, most of the clothing and half the hair are matte pale stone, soft pale boundary with hairline cracks where stone meets skin; strained expression, breath held."
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Gunner: tall, dark skin, close-cropped hair, hunter's leathers, long rifle wrapped in cloth. amber accent colour. same pose and outfit; forearms, lower legs, most of the clothing and half the hair are matte pale stone, soft pale boundary with fine veins of cold light where stone meets skin; strained expression, breath held."
   },
   {
    "transparent": true,
@@ -1932,7 +2012,7 @@
    "deliver_to": "public/art/characters/quenby/permanent.webp",
    "manifest_id": "quenby",
    "stage": "permanent",
-   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Gunner: tall, dark skin, close-cropped hair, hunter's leathers, long rifle wrapped in cloth. amber accent colour. same statue long abandoned: dust settled on shoulders, one fine crack, a trace of lichen."
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Gunner: tall, dark skin, close-cropped hair, hunter's leathers, long rifle wrapped in cloth. amber accent colour. same statue long abandoned, the figure itself whole and undamaged: dust settled on shoulders, clothing and gear details worn soft and partly crumbled away, a trace of lichen."
   },
   {
    "transparent": true,
@@ -1986,7 +2066,7 @@
    "deliver_to": "public/art/characters/wren/mid.webp",
    "manifest_id": "wren",
    "stage": "mid",
-   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Gunner: slight, freckled, scarf over nose and mouth, scout's cloak. amber accent colour. same pose and outfit; forearms, lower legs, most of the clothing and half the hair are matte pale stone, soft pale boundary with hairline cracks where stone meets skin; strained expression, breath held."
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Gunner: slight, freckled, scarf over nose and mouth, scout's cloak. amber accent colour. same pose and outfit; forearms, lower legs, most of the clothing and half the hair are matte pale stone, soft pale boundary with fine veins of cold light where stone meets skin; strained expression, breath held."
   },
   {
    "transparent": true,
@@ -2040,7 +2120,7 @@
    "deliver_to": "public/art/characters/wren/permanent.webp",
    "manifest_id": "wren",
    "stage": "permanent",
-   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Gunner: slight, freckled, scarf over nose and mouth, scout's cloak. amber accent colour. same statue long abandoned: dust settled on shoulders, one fine crack, a trace of lichen."
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Gunner: slight, freckled, scarf over nose and mouth, scout's cloak. amber accent colour. same statue long abandoned, the figure itself whole and undamaged: dust settled on shoulders, clothing and gear details worn soft and partly crumbled away, a trace of lichen."
   },
   {
    "transparent": true,
@@ -2094,7 +2174,7 @@
    "deliver_to": "public/art/characters/calla/mid.webp",
    "manifest_id": "calla",
    "stage": "mid",
-   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Gunner: elegant, silver-streaked hair, duelling coat, paired pistols. amber accent colour. same pose and outfit; forearms, lower legs, most of the clothing and half the hair are matte pale stone, soft pale boundary with hairline cracks where stone meets skin; strained expression, breath held."
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Gunner: elegant, silver-streaked hair, duelling coat, paired pistols. amber accent colour. same pose and outfit; forearms, lower legs, most of the clothing and half the hair are matte pale stone, soft pale boundary with fine veins of cold light where stone meets skin; strained expression, breath held."
   },
   {
    "transparent": true,
@@ -2148,7 +2228,7 @@
    "deliver_to": "public/art/characters/calla/permanent.webp",
    "manifest_id": "calla",
    "stage": "permanent",
-   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Gunner: elegant, silver-streaked hair, duelling coat, paired pistols. amber accent colour. same statue long abandoned: dust settled on shoulders, one fine crack, a trace of lichen."
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Gunner: elegant, silver-streaked hair, duelling coat, paired pistols. amber accent colour. same statue long abandoned, the figure itself whole and undamaged: dust settled on shoulders, clothing and gear details worn soft and partly crumbled away, a trace of lichen."
   },
   {
    "transparent": true,
@@ -2202,7 +2282,7 @@
    "deliver_to": "public/art/characters/zofia/mid.webp",
    "manifest_id": "zofia",
    "stage": "mid",
-   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Gunner: heavy-set, braided crown, bandolier, wide-brimmed hat. amber accent colour. same pose and outfit; forearms, lower legs, most of the clothing and half the hair are matte pale stone, soft pale boundary with hairline cracks where stone meets skin; strained expression, breath held."
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Gunner: heavy-set, braided crown, bandolier, wide-brimmed hat. amber accent colour. same pose and outfit; forearms, lower legs, most of the clothing and half the hair are matte pale stone, soft pale boundary with fine veins of cold light where stone meets skin; strained expression, breath held."
   },
   {
    "transparent": true,
@@ -2256,7 +2336,7 @@
    "deliver_to": "public/art/characters/zofia/permanent.webp",
    "manifest_id": "zofia",
    "stage": "permanent",
-   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Gunner: heavy-set, braided crown, bandolier, wide-brimmed hat. amber accent colour. same statue long abandoned: dust settled on shoulders, one fine crack, a trace of lichen."
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Gunner: heavy-set, braided crown, bandolier, wide-brimmed hat. amber accent colour. same statue long abandoned, the figure itself whole and undamaged: dust settled on shoulders, clothing and gear details worn soft and partly crumbled away, a trace of lichen."
   },
   {
    "transparent": true,
@@ -2310,7 +2390,7 @@
    "deliver_to": "public/art/characters/aurel/mid.webp",
    "manifest_id": "aurel",
    "stage": "mid",
-   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Alchemist: scholarly, round spectacles, ink-stained cuffs, book chained at her hip. violet accent colour. same pose and outfit; forearms, lower legs, most of the clothing and half the hair are matte pale stone, soft pale boundary with hairline cracks where stone meets skin; strained expression, breath held."
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Alchemist: scholarly, round spectacles, ink-stained cuffs, book chained at her hip. violet accent colour. same pose and outfit; forearms, lower legs, most of the clothing and half the hair are matte pale stone, soft pale boundary with fine veins of cold light where stone meets skin; strained expression, breath held."
   },
   {
    "transparent": true,
@@ -2364,7 +2444,7 @@
    "deliver_to": "public/art/characters/aurel/permanent.webp",
    "manifest_id": "aurel",
    "stage": "permanent",
-   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Alchemist: scholarly, round spectacles, ink-stained cuffs, book chained at her hip. violet accent colour. same statue long abandoned: dust settled on shoulders, one fine crack, a trace of lichen."
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Alchemist: scholarly, round spectacles, ink-stained cuffs, book chained at her hip. violet accent colour. same statue long abandoned, the figure itself whole and undamaged: dust settled on shoulders, clothing and gear details worn soft and partly crumbled away, a trace of lichen."
   },
   {
    "transparent": true,
@@ -2418,7 +2498,7 @@
    "deliver_to": "public/art/characters/idris/mid.webp",
    "manifest_id": "idris",
    "stage": "mid",
-   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Alchemist: lean, brown skin, headscarf, glass vials sewn into a sash. violet accent colour. same pose and outfit; forearms, lower legs, most of the clothing and half the hair are matte pale stone, soft pale boundary with hairline cracks where stone meets skin; strained expression, breath held."
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Alchemist: lean, brown skin, headscarf, glass vials sewn into a sash. violet accent colour. same pose and outfit; forearms, lower legs, most of the clothing and half the hair are matte pale stone, soft pale boundary with fine veins of cold light where stone meets skin; strained expression, breath held."
   },
   {
    "transparent": true,
@@ -2472,7 +2552,7 @@
    "deliver_to": "public/art/characters/idris/permanent.webp",
    "manifest_id": "idris",
    "stage": "permanent",
-   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Alchemist: lean, brown skin, headscarf, glass vials sewn into a sash. violet accent colour. same statue long abandoned: dust settled on shoulders, one fine crack, a trace of lichen."
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Alchemist: lean, brown skin, headscarf, glass vials sewn into a sash. violet accent colour. same statue long abandoned, the figure itself whole and undamaged: dust settled on shoulders, clothing and gear details worn soft and partly crumbled away, a trace of lichen."
   },
   {
    "transparent": true,
@@ -2526,7 +2606,7 @@
    "deliver_to": "public/art/characters/velka/mid.webp",
    "manifest_id": "velka",
    "stage": "mid",
-   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Alchemist: pale, white-blonde, burn-scarred hands, heavy leather apron. violet accent colour. same pose and outfit; forearms, lower legs, most of the clothing and half the hair are matte pale stone, soft pale boundary with hairline cracks where stone meets skin; strained expression, breath held."
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Alchemist: pale, white-blonde, burn-scarred hands, heavy leather apron. violet accent colour. same pose and outfit; forearms, lower legs, most of the clothing and half the hair are matte pale stone, soft pale boundary with fine veins of cold light where stone meets skin; strained expression, breath held."
   },
   {
    "transparent": true,
@@ -2580,7 +2660,7 @@
    "deliver_to": "public/art/characters/velka/permanent.webp",
    "manifest_id": "velka",
    "stage": "permanent",
-   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Alchemist: pale, white-blonde, burn-scarred hands, heavy leather apron. violet accent colour. same statue long abandoned: dust settled on shoulders, one fine crack, a trace of lichen."
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Alchemist: pale, white-blonde, burn-scarred hands, heavy leather apron. violet accent colour. same statue long abandoned, the figure itself whole and undamaged: dust settled on shoulders, clothing and gear details worn soft and partly crumbled away, a trace of lichen."
   },
   {
    "transparent": true,
@@ -2634,7 +2714,7 @@
    "deliver_to": "public/art/characters/nimue/mid.webp",
    "manifest_id": "nimue",
    "stage": "mid",
-   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Alchemist: dreamy, long dark hair with dried flowers, herb bundles and a copper still on her back. violet accent colour. same pose and outfit; forearms, lower legs, most of the clothing and half the hair are matte pale stone, soft pale boundary with hairline cracks where stone meets skin; strained expression, breath held."
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Alchemist: dreamy, long dark hair with dried flowers, herb bundles and a copper still on her back. violet accent colour. same pose and outfit; forearms, lower legs, most of the clothing and half the hair are matte pale stone, soft pale boundary with fine veins of cold light where stone meets skin; strained expression, breath held."
   },
   {
    "transparent": true,
@@ -2688,7 +2768,7 @@
    "deliver_to": "public/art/characters/nimue/permanent.webp",
    "manifest_id": "nimue",
    "stage": "permanent",
-   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Alchemist: dreamy, long dark hair with dried flowers, herb bundles and a copper still on her back. violet accent colour. same statue long abandoned: dust settled on shoulders, one fine crack, a trace of lichen."
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Alchemist: dreamy, long dark hair with dried flowers, herb bundles and a copper still on her back. violet accent colour. same statue long abandoned, the figure itself whole and undamaged: dust settled on shoulders, clothing and gear details worn soft and partly crumbled away, a trace of lichen."
   },
   {
    "transparent": true,
@@ -2742,7 +2822,7 @@
    "deliver_to": "public/art/characters/sorrel/mid.webp",
    "manifest_id": "sorrel",
    "stage": "mid",
-   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Alchemist: red-haired, soot-smudged, tinker's harness of tools. violet accent colour. same pose and outfit; forearms, lower legs, most of the clothing and half the hair are matte pale stone, soft pale boundary with hairline cracks where stone meets skin; strained expression, breath held."
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Alchemist: red-haired, soot-smudged, tinker's harness of tools. violet accent colour. same pose and outfit; forearms, lower legs, most of the clothing and half the hair are matte pale stone, soft pale boundary with fine veins of cold light where stone meets skin; strained expression, breath held."
   },
   {
    "transparent": true,
@@ -2796,7 +2876,7 @@
    "deliver_to": "public/art/characters/sorrel/permanent.webp",
    "manifest_id": "sorrel",
    "stage": "permanent",
-   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Alchemist: red-haired, soot-smudged, tinker's harness of tools. violet accent colour. same statue long abandoned: dust settled on shoulders, one fine crack, a trace of lichen."
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Alchemist: red-haired, soot-smudged, tinker's harness of tools. violet accent colour. same statue long abandoned, the figure itself whole and undamaged: dust settled on shoulders, clothing and gear details worn soft and partly crumbled away, a trace of lichen."
   },
   {
    "transparent": true,
@@ -2850,7 +2930,7 @@
    "deliver_to": "public/art/characters/castane/mid.webp",
    "manifest_id": "castane",
    "stage": "mid",
-   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Alchemist: stern, in her fifties, high collar, precise glass instruments. violet accent colour. same pose and outfit; forearms, lower legs, most of the clothing and half the hair are matte pale stone, soft pale boundary with hairline cracks where stone meets skin; strained expression, breath held."
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Alchemist: stern, in her fifties, high collar, precise glass instruments. violet accent colour. same pose and outfit; forearms, lower legs, most of the clothing and half the hair are matte pale stone, soft pale boundary with fine veins of cold light where stone meets skin; strained expression, breath held."
   },
   {
    "transparent": true,
@@ -2904,7 +2984,7 @@
    "deliver_to": "public/art/characters/castane/permanent.webp",
    "manifest_id": "castane",
    "stage": "permanent",
-   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Alchemist: stern, in her fifties, high collar, precise glass instruments. violet accent colour. same statue long abandoned: dust settled on shoulders, one fine crack, a trace of lichen."
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Alchemist: stern, in her fifties, high collar, precise glass instruments. violet accent colour. same statue long abandoned, the figure itself whole and undamaged: dust settled on shoulders, clothing and gear details worn soft and partly crumbled away, a trace of lichen."
   },
   {
    "transparent": true,
@@ -2958,7 +3038,7 @@
    "deliver_to": "public/art/characters/oriel/mid.webp",
    "manifest_id": "oriel",
    "stage": "mid",
-   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Medic: gentle, golden-brown skin, hair wrapped in pale cloth, lantern staff. teal accent colour. same pose and outfit; forearms, lower legs, most of the clothing and half the hair are matte pale stone, soft pale boundary with hairline cracks where stone meets skin; strained expression, breath held."
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Medic: gentle, golden-brown skin, hair wrapped in pale cloth, lantern staff. teal accent colour. same pose and outfit; forearms, lower legs, most of the clothing and half the hair are matte pale stone, soft pale boundary with fine veins of cold light where stone meets skin; strained expression, breath held."
   },
   {
    "transparent": true,
@@ -3012,7 +3092,7 @@
    "deliver_to": "public/art/characters/oriel/permanent.webp",
    "manifest_id": "oriel",
    "stage": "permanent",
-   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Medic: gentle, golden-brown skin, hair wrapped in pale cloth, lantern staff. teal accent colour. same statue long abandoned: dust settled on shoulders, one fine crack, a trace of lichen."
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Medic: gentle, golden-brown skin, hair wrapped in pale cloth, lantern staff. teal accent colour. same statue long abandoned, the figure itself whole and undamaged: dust settled on shoulders, clothing and gear details worn soft and partly crumbled away, a trace of lichen."
   },
   {
    "transparent": true,
@@ -3066,7 +3146,7 @@
    "deliver_to": "public/art/characters/maren/mid.webp",
    "manifest_id": "maren",
    "stage": "mid",
-   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Medic: weathered sailor-surgeon, rolled sleeves, tattooed forearms. teal accent colour. same pose and outfit; forearms, lower legs, most of the clothing and half the hair are matte pale stone, soft pale boundary with hairline cracks where stone meets skin; strained expression, breath held."
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Medic: weathered sailor-surgeon, rolled sleeves, tattooed forearms. teal accent colour. same pose and outfit; forearms, lower legs, most of the clothing and half the hair are matte pale stone, soft pale boundary with fine veins of cold light where stone meets skin; strained expression, breath held."
   },
   {
    "transparent": true,
@@ -3120,7 +3200,7 @@
    "deliver_to": "public/art/characters/maren/permanent.webp",
    "manifest_id": "maren",
    "stage": "permanent",
-   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Medic: weathered sailor-surgeon, rolled sleeves, tattooed forearms. teal accent colour. same statue long abandoned: dust settled on shoulders, one fine crack, a trace of lichen."
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Medic: weathered sailor-surgeon, rolled sleeves, tattooed forearms. teal accent colour. same statue long abandoned, the figure itself whole and undamaged: dust settled on shoulders, clothing and gear details worn soft and partly crumbled away, a trace of lichen."
   },
   {
    "transparent": true,
@@ -3174,7 +3254,7 @@
    "deliver_to": "public/art/characters/linnet/mid.webp",
    "manifest_id": "linnet",
    "stage": "mid",
-   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Medic: young, small, cropped hair, oversized satchel. teal accent colour. same pose and outfit; forearms, lower legs, most of the clothing and half the hair are matte pale stone, soft pale boundary with hairline cracks where stone meets skin; strained expression, breath held."
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Medic: young, small, cropped hair, oversized satchel. teal accent colour. same pose and outfit; forearms, lower legs, most of the clothing and half the hair are matte pale stone, soft pale boundary with fine veins of cold light where stone meets skin; strained expression, breath held."
   },
   {
    "transparent": true,
@@ -3228,7 +3308,7 @@
    "deliver_to": "public/art/characters/linnet/permanent.webp",
    "manifest_id": "linnet",
    "stage": "permanent",
-   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Medic: young, small, cropped hair, oversized satchel. teal accent colour. same statue long abandoned: dust settled on shoulders, one fine crack, a trace of lichen."
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Medic: young, small, cropped hair, oversized satchel. teal accent colour. same statue long abandoned, the figure itself whole and undamaged: dust settled on shoulders, clothing and gear details worn soft and partly crumbled away, a trace of lichen."
   },
   {
    "transparent": true,
@@ -3282,7 +3362,7 @@
    "deliver_to": "public/art/characters/thessaly/mid.webp",
    "manifest_id": "thessaly",
    "stage": "mid",
-   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Medic: tall, grave, long grey robes, silver circlet. teal accent colour. same pose and outfit; forearms, lower legs, most of the clothing and half the hair are matte pale stone, soft pale boundary with hairline cracks where stone meets skin; strained expression, breath held."
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Medic: tall, grave, long grey robes, silver circlet. teal accent colour. same pose and outfit; forearms, lower legs, most of the clothing and half the hair are matte pale stone, soft pale boundary with fine veins of cold light where stone meets skin; strained expression, breath held."
   },
   {
    "transparent": true,
@@ -3336,7 +3416,7 @@
    "deliver_to": "public/art/characters/thessaly/permanent.webp",
    "manifest_id": "thessaly",
    "stage": "permanent",
-   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Medic: tall, grave, long grey robes, silver circlet. teal accent colour. same statue long abandoned: dust settled on shoulders, one fine crack, a trace of lichen."
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Medic: tall, grave, long grey robes, silver circlet. teal accent colour. same statue long abandoned, the figure itself whole and undamaged: dust settled on shoulders, clothing and gear details worn soft and partly crumbled away, a trace of lichen."
   },
   {
    "transparent": true,
@@ -3390,7 +3470,7 @@
    "deliver_to": "public/art/characters/mirelle/mid.webp",
    "manifest_id": "mirelle",
    "stage": "mid",
-   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Medic: warm, plump, apron over travelling dress, flask of cordial. teal accent colour. same pose and outfit; forearms, lower legs, most of the clothing and half the hair are matte pale stone, soft pale boundary with hairline cracks where stone meets skin; strained expression, breath held."
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Medic: warm, plump, apron over travelling dress, flask of cordial. teal accent colour. same pose and outfit; forearms, lower legs, most of the clothing and half the hair are matte pale stone, soft pale boundary with fine veins of cold light where stone meets skin; strained expression, breath held."
   },
   {
    "transparent": true,
@@ -3444,7 +3524,7 @@
    "deliver_to": "public/art/characters/mirelle/permanent.webp",
    "manifest_id": "mirelle",
    "stage": "permanent",
-   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Medic: warm, plump, apron over travelling dress, flask of cordial. teal accent colour. same statue long abandoned: dust settled on shoulders, one fine crack, a trace of lichen."
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Medic: warm, plump, apron over travelling dress, flask of cordial. teal accent colour. same statue long abandoned, the figure itself whole and undamaged: dust settled on shoulders, clothing and gear details worn soft and partly crumbled away, a trace of lichen."
   },
   {
    "transparent": true,
@@ -3498,7 +3578,7 @@
    "deliver_to": "public/art/characters/ember/mid.webp",
    "manifest_id": "ember",
    "stage": "mid",
-   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Medic: copper-haired, burn-scarred cheek, practical field kit, steady gaze. teal accent colour. same pose and outfit; forearms, lower legs, most of the clothing and half the hair are matte pale stone, soft pale boundary with hairline cracks where stone meets skin; strained expression, breath held."
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Medic: copper-haired, burn-scarred cheek, practical field kit, steady gaze. teal accent colour. same pose and outfit; forearms, lower legs, most of the clothing and half the hair are matte pale stone, soft pale boundary with fine veins of cold light where stone meets skin; strained expression, breath held."
   },
   {
    "transparent": true,
@@ -3552,7 +3632,7 @@
    "deliver_to": "public/art/characters/ember/permanent.webp",
    "manifest_id": "ember",
    "stage": "permanent",
-   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Medic: copper-haired, burn-scarred cheek, practical field kit, steady gaze. teal accent colour. same statue long abandoned: dust settled on shoulders, one fine crack, a trace of lichen."
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Medic: copper-haired, burn-scarred cheek, practical field kit, steady gaze. teal accent colour. same statue long abandoned, the figure itself whole and undamaged: dust settled on shoulders, clothing and gear details worn soft and partly crumbled away, a trace of lichen."
   },
   {
    "transparent": false,

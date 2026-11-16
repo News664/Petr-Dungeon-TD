@@ -155,6 +155,12 @@ function run(s: CampaignState, cfg: GameConfig, cmd: Command): void {
     case 'choose_miracle_targets':
       chooseMiracleTargets(s, cmd.adventurerIds);
       return;
+    case 'set_player_name': {
+      const name = cmd.name.replace(/\s+/g, ' ').trim();
+      if (name.length < 1 || name.length > 16) fail('A name needs one to sixteen characters.');
+      s.playerName = name;
+      return;
+    }
     case 'prologue_begin_defense':
       beginPrologueDefense(s, cfg);
       return;

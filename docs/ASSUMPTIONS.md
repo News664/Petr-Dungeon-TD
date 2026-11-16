@@ -106,6 +106,20 @@ The design spec leaves some rules open and asks that each choice be logged. Thes
 | Bare frontier | A new game starts with no frontier structures. The first deployment there is where they are placed; a "recommended layout" button builds the standard one. Ready-made debug states start with the standard layout. | `create.ts` |
 | Sanctuary structures | Its four posts are fixed and cannot be removed. The player may add one watchtower and one bunker on the remaining sites. | `fortify.ts`, `balance.json` |
 
+## Decisions made from the lore answers (16 November 2026)
+
+The answers themselves are recorded in `lore/04_open_questions.md`. These are the rule changes that followed.
+
+| Topic | Choice | Where |
+|---|---|---|
+| The player's name | Entered in the prologue, up to 16 characters, "Master" by default. Shown in the header and the game-over text. | `commands.ts`, `PrologueScreen.tsx` |
+| Temporary champions | Emergency summons get a name put together from syllables, never one of the known characters. They use class art. | `roster.ts`, `balance.json` |
+| Gear on a statue | Stays with her. Home with her if she is rescued; perished if she becomes permanent while abandoned. (Before, it returned to the armory.) | `statues.ts` |
+| Memorial | A permanently lost champion can still be carried out of the labyrinth, or is brought in when the frontier she fell at is held. She stands in the memorial and stays lost. It has no effect on play: a buff would contradict the specification's first rule. | `statues.ts`, `dungeon.ts` |
+| Wording | The game says "solidified", not "stone", so that other materials remain possible. | interface text |
+| Existing characters | Not used. The roster, lore and art prompts contain only original characters. | — |
+| Saves | Saves from the previous build load; the missing field is filled in. | `save.ts` |
+
 ## Balance, first pass
 
 Checked by simulated battles with no player input during the fight:

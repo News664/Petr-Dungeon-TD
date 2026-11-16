@@ -63,7 +63,45 @@
     "rest_sp_per_day": 20,
     "emergency": {
       "lifetime_hours": 336,
-      "max_active": 3
+      "max_active": 3,
+      "name_parts": {
+        "first": [
+          "Sa",
+          "Te",
+          "Mi",
+          "Ka",
+          "Lo",
+          "Ve",
+          "An",
+          "Ri",
+          "Do",
+          "Hel",
+          "Is",
+          "Yu",
+          "Ne",
+          "Bri",
+          "Cor",
+          "Fen"
+        ],
+        "last": [
+          "ris",
+          "la",
+          "ren",
+          "dra",
+          "wyn",
+          "ko",
+          "sha",
+          "lin",
+          "na",
+          "the",
+          "rei",
+          "vi",
+          "mar",
+          "sel",
+          "na",
+          "ru"
+        ]
+      }
     },
     "names_by_class": {
       "Guardian": [

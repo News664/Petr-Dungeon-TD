@@ -152,7 +152,7 @@ export function applyRemedy(effect: RemedyEffect, target: Adventurer, strength: 
   if (effect.kind === 'purge') {
     const before = target.gauge;
     target.gauge = Math.max(0, target.gauge - Math.round(effect.gauge * strength));
-    return `${before - target.gauge}% of the stone leaves ${target.name}`;
+    return `${target.name}'s solidification eases by ${before - target.gauge}%`;
   }
   const before = target.sp;
   target.sp = Math.min(target.maxSp, target.sp + Math.round(effect.amount * strength));

@@ -7,7 +7,7 @@ const CLASS_TEXT: Record<string, { labyrinth: string; defense: string }> = {
   Guardian: { labyrinth: 'Holds the front row, draws attacks and shields the party.', defense: 'Slows what she strikes. At her best in a bunker.' },
   Gunner: { labyrinth: 'Strikes hard from the back row and ignores armor.', defense: 'Long reach from a watchtower; the answer to petrifiers and brutes.' },
   Alchemist: { labyrinth: 'Burns whole groups and strips armor.', defense: 'Splash damage that corrodes armor.' },
-  Medic: { labyrinth: 'Mends wounds and pushes back the stone.', defense: 'Heals and eases the stone for allies in reach; best in a support station.' },
+  Medic: { labyrinth: 'Mends wounds and pushes back the solidification.', defense: 'Heals and eases the solidification of allies in reach; best in a support station.' },
 };
 
 /** The opening: the goddess, the seal, and the five champions she can still afford. */
@@ -28,6 +28,15 @@ export function PrologueScreen({ state, dispatch }: { state: CampaignState; disp
           One sanctuary is left, one goddess keeping it, and one summoner who can still wake the old seal: you. She has strength for {total}{' '}
           champions from other worlds, and the monsters are already on the road to the gate.
         </p>
+        <label className="field name-field">
+          What the champions will call you (up to 16 characters)
+          <input
+            type="text"
+            maxLength={16}
+            value={state.playerName}
+            onChange={(e) => e.target.value.trim() && dispatch({ type: 'set_player_name', name: e.target.value })}
+          />
+        </label>
         <p className="muted">
           {left > 0
             ? `Choose who answers. ${left} of ${total} summons remain. A balanced company can both hold a wall and walk the labyrinth.`

@@ -55,9 +55,14 @@ One line each to start from. These are proposals: change anything, including the
 
 Deliver to `public/art/characters/<name>/<stage>.webp` with the name in lower case, and use the lower-case name as the manifest id.
 
+## Who is not on the list
+
+Emergency summons are random and temporary and never get pictures of their own; they use the class designs. No character from an existing game, series or other work is requested, here or anywhere in this folder.
+
 ## Must be true of every character picture
 
 - An adult woman, clothed for dangerous work. See the style guide's section on characters.
+- As a statue she is whole: nothing chipped, cracked or missing, at any stage.
 - Transparent background with clean edges: check hair, straps and anything translucent against a dark backdrop.
 - Head and shoulders inside the top square of the canvas, face centred.
 - Nothing cropped at the sides: weapons and shields stay inside the canvas.

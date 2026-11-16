@@ -43,7 +43,7 @@ function notes(s: CampaignState): Note[] {
 
   if (frontierHeld(s.phase)) {
     const hurt = ready.filter((a) => a.assignment.type !== 'expedition' && (a.hp < a.maxHp * 0.6 || a.gauge >= 50 || a.sp < a.maxSp * 0.4));
-    if (hurt.length > 0) out.push({ tone: 'info', text: `${hurt.map((a) => a.name).join(', ')} ${hurt.length === 1 ? 'needs' : 'need'} rest. A day at the sanctuary restores health, skill points and eases the stone.` });
+    if (hurt.length > 0) out.push({ tone: 'info', text: `${hurt.map((a) => a.name).join(', ')} ${hurt.length === 1 ? 'needs' : 'need'} rest. A day at the sanctuary restores health and skill points and eases the solidification.` });
   }
 
   const broken = s.structures.filter((d) => d.hp < d.maxHp && (d.map === 'sanctuary' || frontierHeld(s.phase)));

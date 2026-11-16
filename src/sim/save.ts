@@ -16,6 +16,13 @@ export function deserialize(text: string): CampaignState {
   }
   const wrapper = parsed as { format?: string; state?: CampaignState };
   if (wrapper?.format !== SAVE_FORMAT || !wrapper.state) throw new Error('This is not a Last Sanctuary save.');
-  if (wrapper.state.version !== 3) throw new Error('This save is from an older build of the prototype and cannot be loaded.');
-  return wrapper.state;
+  const state = wrapper.state;
+  const saved = state as unknown as { version: number; playerName?: string };
+  if (saved.version === 3) {
+    // The previous build's saves differ only by a field that has a safe default.
+    saved.playerName = 'Master';
+    saved.version = 4;
+  }
+  if (saved.version !== 4) throw new Error('This save is from an older build of the prototype and cannot be loaded.');
+  return state;
 }

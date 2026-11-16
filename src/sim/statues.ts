@@ -50,14 +50,10 @@ export function processPermanence(s: CampaignState): void {
       st.permanent = true;
       const adv = getAdventurer(s, st.adventurerId);
       adv.condition = 'lost';
-      // Her gear was recovered long ago, or never left; either way the armory keeps it.
-      for (const slot of ['weapon', 'armor', 'charm'] as const) {
-        const itemId = adv.equipment[slot];
-        if (itemId) s.armory[itemId] = (s.armory[itemId] ?? 0) + 1;
-        adv.equipment[slot] = null;
-      }
-      if (s.expedition) s.expedition.carriedStatueIds = s.expedition.carriedStatueIds.filter((id) => id !== adv.id);
-      log(s, 'permanent', `${adv.name} was abandoned for too long. Her solidification is now permanent.`);
+      // She herself will never be harmed, but what she wore and carried does not last out there.
+      const perished = (['weapon', 'armor', 'charm'] as const).filter((slot) => adv.equipment[slot]);
+      for (const slot of perished) adv.equipment[slot] = null;
+      log(s, 'permanent', `${adv.name} was abandoned for too long. Her solidification is now permanent${perished.length > 0 ? ', and her gear is past saving' : ''}.`);
     }
   }
 }
@@ -74,10 +70,20 @@ export function retrieve(s: CampaignState, statue: Statue, how: string): void {
   log(s, 'retrieved', `${getAdventurer(s, statue.adventurerId).name}'s statue was brought to safety (${how}).`);
 }
 
+/** A permanently lost champion is brought home to stand in the memorial. She is not restored. */
+export function enshrine(s: CampaignState, statue: Statue): void {
+  if (!statue.permanent || statue.locationType === 'memorial') return;
+  statue.locationType = 'memorial';
+  statue.locationId = 'memorial';
+  log(s, 'enshrined', `${getAdventurer(s, statue.adventurerId).name} was carried home. She stands in the memorial now.`);
+}
+
 export function retrieveAllAt(s: CampaignState, locationType: StatueLocationType, how: string): number {
   let n = 0;
   for (const st of s.statues) {
-    if (st.locationType === locationType && st.retrievedAtHour === null && !st.permanent) {
+    if (st.locationType !== locationType) continue;
+    if (st.permanent) enshrine(s, st); // too late for her, but she is not left out there
+    else if (st.retrievedAtHour === null) {
       retrieve(s, st, how);
       n += 1;
     }

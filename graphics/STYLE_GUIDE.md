@@ -46,7 +46,8 @@ This is the visual heart of the game, so it must be consistent.
 
 - **Material.** Matte, pale grey-blue stone, like weathered limestone. Fine grain, no gloss. Clothing and gear turn with the body and keep their shape and folds.
 - **Direction.** It starts at the extremities and edges (fingertips, hair ends, hems, boots) and closes toward the heart and face. The face is the last thing to turn.
-- **Edge.** Where stone meets living matter there is a soft, slightly lighter boundary with hairline cracks of faint ward-teal or cold white. No blood, no wounds: this is a change of substance, not an injury.
+- **Edge.** Where stone meets living matter there is a soft, slightly lighter boundary with fine veins of cold white light. No blood, no wounds, no cracks: this is a change of substance, not an injury.
+- **Never damaged.** A statue of a person is always whole. No chips, breaks, missing parts or cracks, at any stage and however long she has stood. Only what she wore and carried decays.
 - **Pose.** The body does not move between stages. Only what is still living can change: the eyes, the mouth, the tension in the face.
 
 | Stage | Gauge | What has turned | Expression |
@@ -56,9 +57,17 @@ This is the visual heart of the game, so it must be consistent.
 | `mid` | 50–74 | Forearms, lower legs, most of the clothing, half the hair | Strain; breath held |
 | `late` | 75–99 | Everything but the face, throat and the chest over the heart | Eyes still living; fear held down, or defiance |
 | `statue` | 100 | Everything | Whatever the face showed at the last moment, in stone |
-| `permanent` | lost | A statue long abandoned: dust, a first crack, a little lichen | Unchanged; time has passed |
+| `permanent` | lost | The same statue long abandoned. The figure is whole; dust lies on her, and her clothing and gear have worn soft and begun to crumble | Unchanged; time has passed |
 
 `permanent` is optional. Without it the game shows `statue`.
+
+## Other materials
+
+Stone is the material of the first stratum and of every picture requested so far. The lore proposes that deeper strata solidify in other media (ice, metal, glass); see `lore/06_strata_outline.md`. That is not decided. Nothing made for stone would be wasted: other media would be extra late-stage and statue pictures, and the rules above (direction, edge, pose, never damaged) would apply to them unchanged.
+
+## The Collector
+
+The rival goddess behind it all. She should not look like a monster. She looks like someone who runs a great museum and has never once raised her voice: immaculate, formal, appraising. Her colour is the cold white-violet that marks every solidifying creature; the warmer violet of the sanctuary's goddess must stay distinct from it.
 
 ## Monsters
 

@@ -11,7 +11,7 @@ export function TitleScreen({ hasAutosave, onNew, onContinue, onSkip }: Props) {
       <p className="eyebrow">Prototype</p>
       <h1>The Last Sanctuary</h1>
       <p className="muted">
-        Lead the last guild. Walk the labyrinth, hold the frontier, and bring your champions home before the stone keeps them.
+        Lead the last guild. Walk the labyrinth, hold the frontier, and bring your champions home before the Stilling keeps them.
       </p>
       <div className="title-actions">
         {hasAutosave && (

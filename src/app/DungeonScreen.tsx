@@ -60,6 +60,7 @@ export function DungeonScreen({ state, dispatch, onLeaveView }: Props) {
   const here = partyTile(exp);
   const members = exp.partyIds.map((id) => state.adventurers.find((a) => a.id === id)!);
 
+  // Permanent statues are shown too: they cannot be restored, but they can be carried home.
   const statues = state.statues.filter((st) => st.locationType === 'dungeon' && st.retrievedAtHour === null && !exp.carriedStatueIds.includes(st.adventurerId));
   const markers: ViewMarker[] = [
     ...elitesHere(state, exp).map((e) => ({ kind: 'elite' as const, x: e.pos[0], y: e.pos[1] })),
@@ -158,7 +159,7 @@ export function DungeonScreen({ state, dispatch, onLeaveView }: Props) {
                 )}
                 {statuesHere.map((st) => (
                   <button key={st.adventurerId} className="primary" onClick={() => dispatch({ type: 'expedition_pickup_statue', adventurerId: st.adventurerId })}>
-                    Secure {name(st.adventurerId)}'s statue
+                    {st.permanent ? 'Carry home' : 'Secure'} {name(st.adventurerId)}'s statue
                   </button>
                 ))}
                 {canLeave && (
@@ -221,7 +222,7 @@ export function DungeonScreen({ state, dispatch, onLeaveView }: Props) {
                     <i style={{ width: `${m.gauge}%` }} />
                   </span>
                   <span className="small muted">
-                    HP {m.hp}/{m.maxHp} · SP {m.sp}/{m.maxSp} · stone {m.gauge}%
+                    HP {m.hp}/{m.maxHp} · SP {m.sp}/{m.maxSp} · solidified {m.gauge}%
                   </span>
                 </div>
               </li>

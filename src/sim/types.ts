@@ -67,7 +67,8 @@ export type Equipment = Record<EquipSlot, string | null>;
 
 export type TargetPriority = 'first' | 'strongest' | 'petrifier';
 
-export type StatueLocationType = 'dungeon' | 'frontier' | 'sanctuary';
+/** `memorial`: a permanently lost champion who was carried home anyway. */
+export type StatueLocationType = 'dungeon' | 'frontier' | 'sanctuary' | 'memorial';
 
 export interface Statue {
   adventurerId: string;
@@ -290,7 +291,9 @@ export interface LogEntry {
 }
 
 export interface CampaignState {
-  version: 3;
+  version: 4;
+  /** What the champions call the guild master. */
+  playerName: string;
   seed: number;
   rngState: number;
   phase: Phase;
@@ -364,6 +367,7 @@ export type Command =
   | { type: 'resolve_battle'; result: 'win' | 'loss'; solidified?: string[]; ammoSpent?: number; miracleChoices?: string[] }
   | { type: 'choose_miracle_targets'; adventurerIds: string[] }
   | { type: 'prologue_begin_defense' }
+  | { type: 'set_player_name'; name: string }
   | { type: 'debug_skip_prologue' }
   | { type: 'battle_start' }
   | { type: 'battle_repost' }

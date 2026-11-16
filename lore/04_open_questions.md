@@ -1,48 +1,51 @@
-# Open questions
+# Decisions and open questions
 
-Ordered by how much depends on the answer. The first five shape nearly everything else.
+The first twelve questions were answered on 16 November 2026. The answers are recorded here as given, with what each one changes. The rest of the lore folder has been updated to match.
 
-## Decide first
+## Decided
 
-1. **What is the source of the Stilling?** A place, a thing, a being, a mistake someone made? The campaign ends by confronting it, so its nature decides what the last stratum is and what "stopping it" means.
-The source comes from the demon queen (or an opposing evil goddess), who aims to turn this world into her private collection, and she chose this world because it connects to other worlds (through summoning) so that she can have the variety by simply "collecting" this world. Stopping her would mean the Stilling stops. On defeat, she would turn the player into a "summoning statue" which continuously summon new adventurers once in a while, only for her to solidify and collect. Also we need to decide whether petrification (stone) is the only type of solidification here, as the guage wording now is lending towards the whole story is about petrification.
-2. **Why women only?** The setting has only women, so it may be that the Stilling takes people and all the people are women. Or it may be specific. Either is workable; the story reads very differently.
-We can se this as the nature of this world, or the goddess on our side created the world this way, while the opposing boss has no intent to change it.
-3. **Can it be undone, or only stopped?** If the source is ended, do the statues of the world wake, or only stop accumulating? This decides whether the ending is restoration or survival.
-Only stop accumulating. So permanent statues remain permanent, but non-permanent ones are surely to be reverted as they now have unlimited time and resources to recover.
-4. **Who is the goddess, and what is her name?** And were there others? A goddess of thresholds is proposed in `01_world.md`.
-This has been partly answered in the first question, and I don't have a concrete answer for her name yet. I suppose we can look for mythological origins to make her (or the rivaling goddess as well) to have a reasonable name.
-5. **How dark is the ceiling?** Champions can be lost for good. Is that ever shown, mourned on screen, marked in the sanctuary? Where is the line between weight and misery?
-The ceiling is that statues (or their bodies, to be precise) would never be damaged or destroyed, as neither side would like to see that. Clothing and equipments will deteriorate if the statue is left in the labyrinth. If player recover a permanent statue, it can be displayed in the sanctuary (which provides minor passive buffs, or simply lore-wise secured); while on the other side, the rivaling goddess might use permanently solidified adventurers as dungeon decorations, parts of the traps or the dungeon gimmicks, misleading signs or baits, or even weapons for giant monsters. She would make use of the nature of the statues being invincible, using them as objects, but for those of high values, she might prefer to keep them hidden and protected.
+| # | Question | Answer | What it changes |
+|---|---|---|---|
+| 1 | Source of the Stilling | A demon queen, or opposing goddess, who is turning this world into her private collection. She chose it because the summoning seal connects it to other worlds, so collecting this one world collects from all of them. Stopping her stops the Stilling. If the player is defeated she is made into a "summoning statue" that goes on calling champions for the queen to collect. | The final stratum and its master; the game-over text (now in the game); the tone of every master below her. |
+| 2 | Why women only | It is the nature of this world, or how the sanctuary's goddess made it. The rival has no wish to change it. | Nothing needs explaining in play. |
+| 3 | Undone or only stopped | Only stopped. Permanent statues stay permanent. Everyone not yet permanent can be restored, since time and resources are no longer short. | The ending is survival and recovery, not a reset. |
+| 4 | The goddess | Partly answered by 1: she has a rival. Names are not chosen; mythology is the place to look. | Proposals in `01_world.md`. |
+| 5 | How dark | Statues are never damaged or destroyed; neither side wants that. Clothing and equipment decay on a statue left in the labyrinth. A recovered permanent statue can stand in the sanctuary. The rival uses permanent statues as decoration, trap parts, gimmicks, false signs, bait, even weapons for giants; the ones she values most she hides and protects. | Now in the game: gear perishes on an abandoned statue; a permanent statue can be carried home to a memorial. Labyrinth design from floor 3 onward. |
+| 6 | Going home | Not until the campaign is won; the rival prevents it. Temporary champions are randomly generated. | Now in the game: emergency summons have made-up names and no personal art. |
+| 7 | Names | Depend on the goddesses' names; keep the current ones for now. | "The Stilling", "the surge" and the rest stay Proposed. |
+| 8 | What champions call the player | "Master", or a name the player enters at the start. | Now in the game: a name of up to 16 characters, "Master" by default. |
+| 9 | The keeper of the Pale Galleries | Can be found, through hidden quests or hidden shortcuts, as a hidden boss: very difficult and trickier than the stratum's master. | A design task for the stratum-one expansion. |
+| 10 | What the first stratum shows | Floor 1: basics, divided into areas. Floor 2: the elite and some traps. Floor 3: the first permanent statues, used as decoration or gimmicks, to show how powerful the master is. Much more than this is expected. | The floors need to grow; see `03_pale_galleries.md`. |
+| 11 | Later strata | To be decided. | A proposal is in `06_strata_outline.md`. |
+| 12 | Do masters speak | Some do, especially humanoid ones. A later master can alter minds to some extent, and certainly speaks. | Needs a way to show speech in fights, and a "mind" status effect later. |
 
-## Decide soon
+## Two answers that need a second look
 
-6. Can champions go home? Do any want to?
-Usually not, and the rivaling goddess will not allow. After winning the whole story they can, of course. Note that one thing needs to be changed: I'd expect the temporary champions being mostly randomly generated characters, but those normally summoned ones, I would expect them to be existing famous female characters from Japanese animes or games, so that players can simply know what they can do on first sight. This game is not intended to be commercialized.
-7. Names for the three residents, the phenomenon (the Stilling is proposed), the weekly surge, and the sanctuary itself.
-I suppose these would partly depend on what we chose for the names of the goddesses, but it's okay to keep them as-is for now.
-8. What the champions call the player.
-I think "master" would be okay, another option is that player can create her name (with a limited length) at the beginning of the game.
-9. Whether the keeper of the Pale Galleries can be found.
-Yes, but probably only through hidden quests and/or finding hidden shortcuts, and treat this as a hidden boss (who might be very difficult, and trickier).
-10. What the first stratum reveals, floor by floor (suggestions in `03_pale_galleries.md`).
-TBD - I'd expect the first floor is mostly basics (but can be divided into different areas), the second floor containing elite and some traps, the third floor for first discovery of permanent statue (as decoration or dungeon gimmicks) to show the boss is powerful, but I'd expect a lot more than these.
-11. The theme and master of the second stratum, and a one-line idea for each stratum after it. How many strata are there?
-TBD
-12. Do the masters of the strata speak?
-Some of them do, especially humanoid ones. I'd expect someone in later stratum that could alter mind at some extent, and that one could surely speak.
+**Named champions as existing anime and game characters (from answer 6).** This has not been done, and I have not written any existing characters into the roster, the lore or the art prompts. The game is published on a public page, the characters belong to other people whether or not money is involved, and the original design brief for this project rules it out. The premise adds a second problem: many well-known characters are canonically minors, and everyone in this game is an adult. The goal behind the request, that a player can tell at a glance what a champion does, can be met with original characters: see "Readable champions" in `02_people.md`.
 
-## Decide when it matters
+**A buff from displayed permanent statues (from answer 5).** The design specification's first rule is that solidification is never useful and never produces power or buffs. A buff from the memorial would mean that losing a champion for good pays something back. The game implements the memorial with no effect on play, which was the alternative offered in the answer. This is easy to change if the buff is wanted after all.
+
+## Raised by the answers
+
+1. **Is stone the only material?** A collector who wants variety suggests each stratum's master works in her own medium (stone, ice, metal, glass). The rules would not change: one gauge, one thirty-day limit. The wording in the game is now neutral ("solidified"). The cost is in the art: every extra medium is another set of late-stage and statue pictures per character. A proposal is in `06_strata_outline.md`; it needs a yes or no before more art is made.
+2. **Names for the two goddesses.** Two pairs are proposed in `01_world.md`.
+3. **A name or title for the rival** to use until she is named. "The Collector" is used in these files.
+4. **What the memorial is.** A place in the sanctuary, a screen in the game, a line in the chronicle?
+5. **How statues are used against the party** in play: which of decoration, trap parts, false signs, bait and giants' weapons become actual mechanics, and from which floor.
+6. **How the hidden keeper is reached** and what makes her fight different.
+
+## Still open from before
 
 13. Relationships between champions: do pairs have history, friction, loyalty? Does it affect play?
-14. What a permanently lost champion leaves behind: a memorial, an heirloom, a line in the chronicle.
-15. Whether emergency summons are the same kind of person as the others, or something thinner: an echo, a volunteer on borrowed time.
+14. What a permanently lost champion leaves behind besides her statue: an heirloom, a line in the chronicle.
+15. Emergency summons are now random and temporary. Are they the same kind of person as the others, or something thinner: an echo, a volunteer on borrowed time?
 16. The world's cultures before the fall, as far as the residents remember them.
 17. Whether anything outside the sanctuary still lives, anywhere.
 
 ## Constraints an answer must respect
 
 - Solidification is always loss. It is never useful, never chosen, never a punishment that was earned.
+- A statue is never damaged or destroyed, by anyone.
 - The thirty-day limit is the same everywhere and for everyone.
 - The goddess can be relied on once, rarely. She is not a safety net.
 - Waiting never wins. The answer is down.

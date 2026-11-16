@@ -1,5 +1,5 @@
 import { getAdventurer } from './selectors';
-import { retrieve } from './statues';
+import { enshrine, retrieve } from './statues';
 import type { CampaignState } from './types';
 import { RESOURCE_IDS } from './types';
 import { formatCost, log } from './util';
@@ -10,7 +10,8 @@ export function finishExpedition(s: CampaignState, how: string): void {
   if (!exp) return;
   for (const id of exp.partyIds) getAdventurer(s, id).assignment = { type: 'idle' };
   for (const st of s.statues.filter((x) => exp.carriedStatueIds.includes(x.adventurerId))) {
-    retrieve(s, st, 'carried out by the expedition');
+    if (st.permanent) enshrine(s, st);
+    else retrieve(s, st, 'carried out by the expedition');
   }
   for (const id of RESOURCE_IDS) s.resources[id] += exp.loot[id];
   for (const [id, n] of Object.entries(exp.pack)) s.supplies[id] = (s.supplies[id] ?? 0) + n;

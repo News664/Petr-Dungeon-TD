@@ -175,7 +175,7 @@ function enemyActs(s: CampaignState, cfg: GameConfig, exp: Expedition, c: Dungeo
     const stone = Math.round((attack.gauge ?? 0) * guard * (c.wardMist > 0 ? D.ward_mist_multiplier : 1) * (1 - their.gaugeResist));
     target.hp = Math.max(0, target.hp - dealt);
     target.gauge = Math.min(100, target.gauge + stone);
-    say(c, `${data.name} uses ${attack.name} on ${target.name}: ${dealt} damage${stone > 0 ? `, +${stone}% stone` : ''}.`);
+    say(c, `${data.name} uses ${attack.name} on ${target.name}: ${dealt} damage${stone > 0 ? `, +${stone}% solidified` : ''}.`);
     if (target.hp <= 0 || target.gauge >= 100) {
       solidify(s, cfg, target.id, 'dungeon', where);
       say(c, `${target.name} is solidified.`);

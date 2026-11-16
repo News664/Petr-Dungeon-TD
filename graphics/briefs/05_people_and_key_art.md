@@ -9,6 +9,15 @@ She protects the last sanctuary and is nearly spent. She speaks to the player in
 - Same canvas and framing rules as the adventurers, so she can be shown in the same portrait frames.
 - A second picture, `goddess_spent`, shows her after the miracle is used: dim, eyes closed, leaning on a staff.
 
+## The Collector
+
+The demon queen, or rival goddess, who is turning the world into her private collection. She appears at the end of a lost campaign and, later, in story scenes.
+
+- A tall, immaculate adult woman with the bearing of a museum director: dark formal robes, pale gloves, a ring of small keys. Courteous, patient, appraising.
+- No horns, no weapons, no threatening pose. What is frightening about her is that she is looking at the viewer as an acquisition.
+- Her light is the cold white-violet of the solidifying creatures. Keep it clearly cooler and whiter than the goddess's violet.
+- Same canvas and framing rules as the adventurers.
+
 ## Sanctuary residents
 
 The few who are left: artisans, ward-keepers, a physician. They are not fighters and are never summoned. Three are requested, one for each place the player does business: the workshop, the wards, the recovery ward. All adult women, older on average than the adventurers, in worn working clothes.

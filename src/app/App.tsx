@@ -179,7 +179,7 @@ export function App() {
       <div className="shell">
         <header className="masthead">
           <div>
-            <p className="eyebrow">The Last Sanctuary</p>
+            <p className="eyebrow">The Last Sanctuary · {state.playerName}</p>
             <h1>{PHASE_LABEL[state.phase]}</h1>
             <p className="muted">{PHASE_NOTE[state.phase]}</p>
           </div>
@@ -282,6 +282,10 @@ export function App() {
             {state.phase === 'GAME_OVER' && (
               <div className="panel alert">
                 <h2>The last sanctuary has fallen</h2>
+                <p className="small">
+                  She does not break what she collects. {state.playerName} is set in the seal she kept, a statue that goes on calling champions
+                  across the worlds, one after another, for a collection that will never be finished.
+                </p>
                 <p className="small muted">Load your quicksave, or return to the title and begin again.</p>
               </div>
             )}

@@ -29,7 +29,7 @@ export interface GameConfig {
     bonus_early_summon_credits: number;
     max_roster: number;
     /** Emergency summons are temporary and hold no place in the hall. */
-    emergency: { lifetime_hours: number; max_active: number };
+    emergency: { lifetime_hours: number; max_active: number; name_parts: { first: string[]; last: string[] } };
     max_dungeon_party: number;
     default_summon_cooldown_hours: number;
     summon_cost: Partial<Resources>;

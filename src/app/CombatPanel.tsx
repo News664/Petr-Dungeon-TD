@@ -133,13 +133,13 @@ export function CombatPanel({ state, dispatch }: { state: CampaignState; dispatc
                 <select aria-label={`Target for ${m.name}`} value={o.target} onChange={(e) => set(m.id, { target: e.target.value })}>
                   {members.map((a) => (
                     <option key={a.id} value={a.id}>
-                      {a.name} (HP {a.hp}, stone {a.gauge}%)
+                      {a.name} (HP {a.hp}, solidified {a.gauge}%)
                     </option>
                   ))}
                 </select>
               )}
               {o.targetKind !== 'enemy' && o.targetKind !== 'ally' && (
-                <span className="small muted">{o.what === 'guard' ? 'takes half damage and stone' : D.skills[o.what]?.text}</span>
+                <span className="small muted">{o.what === 'guard' ? 'takes half damage and half the solidification' : D.skills[o.what]?.text}</span>
               )}
             </div>
           );

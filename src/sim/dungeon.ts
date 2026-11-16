@@ -139,7 +139,7 @@ function afterStep(s: CampaignState, cfg: GameConfig): void {
   const tile = tileAt(floor, exp.x, exp.y);
 
   if (tile === '~') {
-    exp.report = ['Pale mist clings to the party. The stone creeps a little further.'];
+    exp.report = ['Pale mist clings to the party. The solidification creeps a little further.'];
     for (const id of [...exp.partyIds]) {
       const adv = getAdventurer(s, id);
       adv.gauge = Math.min(100, adv.gauge + Math.round(cfg.dungeon.mist_gauge * (1 - statsOf(cfg, adv).gaugeResist)));
@@ -261,14 +261,14 @@ export function pickUpStatue(s: CampaignState, adventurerId: string): void {
   const exp = s.expedition ?? fail('A statue in the labyrinth can only be recovered by an expedition.');
   const adv = getAdventurer(s, adventurerId);
   const statue = s.statues.find((st) => st.adventurerId === adventurerId) ?? fail(`${adv.name} is not solidified.`);
-  if (statue.permanent) fail(`${adv.name} is permanently solidified.`);
+  // A permanent statue cannot be restored, but she can still be brought home.
   if (statue.locationType !== 'dungeon' || statue.retrievedAtHour !== null) fail(`${adv.name}'s statue is not in the labyrinth.`);
   if (exp.carriedStatueIds.includes(adventurerId)) fail(`${adv.name}'s statue is already being carried.`);
   const where = parseTileKey(statue.locationId);
   if (where && statue.locationId !== partyTile(exp)) fail(`${adv.name}'s statue is not here.`);
   if (exp.carriedStatueIds.length >= exp.partyIds.length) fail('Everyone in the party is already carrying a statue.');
   exp.carriedStatueIds.push(adventurerId);
-  log(s, 'statue_secured', `The expedition secured ${adv.name}'s statue. She is safe once they return.`);
+  log(s, 'statue_secured', statue.permanent ? `The expedition took up ${adv.name}'s statue to carry her home.` : `The expedition secured ${adv.name}'s statue. She is safe once they return.`);
 }
 
 /** Debug: a party member falls on the spot. */

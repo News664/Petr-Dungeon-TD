@@ -6,13 +6,36 @@
 
 **Fixed.** The world had many civilizations, all of women, and from time to time champions arrived from other worlds. Nearly all of them are stone now. Monsters are largely untouched by the phenomenon and have taken what was left.
 
-**Fixed.** Nobody knows where it comes from. Finding out, and stopping it, is the purpose of the whole campaign.
+**Fixed.** At the start, nobody in the sanctuary knows where it comes from. Finding out, and stopping it, is the purpose of the whole campaign.
 
 **Proposed.** The survivors call it **the Stilling**. It was not sudden. It came over years, from the deep places outward: first the miners and delvers, then the low towns, then everyone. People had time to understand what was happening to them and no way to stop it. The roads are lined with those who were walking toward somewhere they thought was safe.
 
 **Proposed.** The Stilling is strongest underground and near anything that came from underground. It is carried on a pale dust and on the gaze or breath of certain creatures, but it is also simply present in the air of the fallen world, slow and patient. This is why ordinary people cannot leave warded ground, and why workers in a secured stratum need wards every day.
 
-**Open.** Why women only, what the source is, and whether it is a thing, a place or a will.
+## What it is
+
+**Fixed.** The Stilling is one being's doing. A demon queen, or a goddess opposed to the sanctuary's own, is turning this world into her private collection. She chose this world because its summoning seals connect it to others: by collecting one world she collects from all of them, and the variety comes to her.
+
+**Fixed.** Ending her ends the Stilling. It does not undo it. Those already permanent stay so. Everyone not yet permanent can be restored, because there is finally time.
+
+**Fixed.** That the people of this world are all women is simply how the world is, or how its goddess made it. The rival did not cause that and has no wish to change it.
+
+**Fixed.** She does not harm what she collects. A statue is never broken, by her or by anyone: neither side could bear it. Clothing and gear are another matter and decay on a statue left in the labyrinth. What she does with the permanently stilled depends on what she thinks they are worth. Most become furnishings of her labyrinth: ornament, parts of its traps and mechanisms, false signposts, bait, even weapons in the hands of her giants. The ones she prizes she hides away and guards.
+
+**Fixed.** If the sanctuary falls, she does not waste its summoner. She sets her into the seal as a statue that goes on calling champions across the worlds, for her to collect as they arrive.
+
+**Proposed.** Until she is named, these files call her **the Collector**. She is not cruel in her own eyes. She believes she is saving beautiful things from time, and that the sanctuary's goddess, who lets them age and die, is the wasteful one. This makes her patient, courteous, and impossible to bargain with.
+
+**Proposed.** Each master of a stratum is one of her curators, and each works in a medium of her own. See `06_strata_outline.md`.
+
+## Names for the two goddesses
+
+**Proposed.** Two pairs from mythology, either of which fits. Both need a decision.
+
+| | The sanctuary's goddess | The Collector | Why it fits |
+|---|---|---|---|
+| Japanese | Sakuya, after Konohanasakuya-hime, the blossom princess | Iwanaga, after Iwanaga-hime, the rock princess | In the old story the two are sisters. The blossom stands for life that is beautiful because it ends; the rock stands for what lasts forever. Because the rock was refused, mortal lives became brief. A rival who wants to make the living permanent is that refusal answered. |
+| Greco-Roman | Cardea, goddess of the hinge and the threshold | Euryale, one of Medusa's two immortal sisters | A keeper of doors against a gorgon. Plainer, and less tied to one culture's living religion. |
 
 ## The sanctuary
 
@@ -30,7 +53,7 @@
 
 **Proposed.** She was a goddess of thresholds and safe return: doors, hearths, the lamp left in the window. It is why the seal answers to her and why she can hold a wall but cannot march. Being this weak has made her plain-spoken. She does not command the player; she asks, and she says thank you.
 
-**Open.** Her name. Whether other gods existed and what became of them.
+**Open.** Her name (proposals above). Whether any other gods are left.
 
 ## The seal and the champions
 
@@ -42,7 +65,9 @@
 
 **Proposed.** Champions are not immune. They are from elsewhere, so the Stilling takes them more slowly than it took the people of this world, slowly enough to fight in. That is the whole of their advantage.
 
-**Open.** Whether champions can ever return home, and whether they would choose to.
+**Fixed.** None of them can go home while the Collector holds the world; she does not let anything leave. If she is ended, they can.
+
+**Fixed.** The champions the seal calls in an emergency are different: nobody the guild knows, with made-up names, here for two weeks and gone.
 
 ## The labyrinth
 
@@ -50,7 +75,7 @@
 
 **Fixed.** On a regular rhythm, about every seven days, something stirs the monsters and they attack the guild's forward line. The attacks can be foreseen. The guild's frontier is always at the edge of the deepest stratum it has secured.
 
-**Proposed.** The labyrinth was not built as one thing. It is the buried past of this world, layer under layer: each stratum is a place people once lived, sunk and sealed by the Stilling when it rose through it. Going down is going back in time, toward wherever it began.
+**Proposed.** The labyrinth was not built as one thing. It is the buried past of this world, layer under layer: each stratum is a place people once lived, sunk and sealed by the Stilling when it rose through it. The Collector has had each one rearranged to her taste, and keeps what she values most at the bottom.
 
 **Proposed.** The weekly stirring is called the **surge**. It rises from below like a tide, and the monsters move ahead of it. The residents can feel it coming a day or two before: bells hum, ward-crystals dim.
 
@@ -60,4 +85,6 @@
 
 **Proposed.** They are not invaders. They are what lives in stone and dust and always did, deep down, and the Stilling has made the whole world into their kind of place. They do not hate. The ones that solidify are not casting a curse; it is how they feed, or see, or breathe.
 
-**Proposed.** The masters of the strata are different. Each was something else once: a guardian, a monument, a ruler. What they are now is the Stilling wearing that shape.
+**Fixed.** The masters of the strata are different. Some of them speak, the humanoid ones especially, and at least one deeper down can reach into a champion's mind.
+
+**Proposed.** Each master was something else once: a guardian, a monument, a ruler. Now each is one of the Collector's curators, keeping a wing of her collection.
