@@ -154,7 +154,8 @@ The answers themselves are recorded in `lore/04_open_questions.md`. These are th
 | The Keeper's charge | A prized statue stands behind the Keeper. It can be taken only after she is beaten, uses a carrying place, and on reaching home unlocks a story from Sakuya. It gives nothing else. The quest line it points to does not exist yet. | `dungeon.ts`, `expeditionCore.ts`, `stories.ts` |
 | Stories | Unlocked stories are kept in the campaign and can be reread from the Still Grove panel. Their text lives in the interface, not the rules. | `stories.ts` |
 | Art manifest | Generated from the files under `public/art/` before every `dev` and `build`; not committed and never edited by hand. PNG is accepted in place of WebP. | `scripts/art-manifest.mjs` |
-| Art check | `npm run art:check` compares delivered pictures with `graphics/asset_list.json` and fails on a wrong size, an unknown file, a non-picture file, or a character set without both `normal` and `statue`. It runs in CI. | `scripts/art-check.mjs` |
+| Art check | `npm run art:check` compares delivered pictures with `graphics/asset_list.json` and fails on an unknown file, a non-picture file, or a character set without both `normal` and `statue`. Size is not checked strictly: a different shape, a very small or very large file, or stages of one character at different sizes are reported as advice. It runs in CI. | `scripts/art-check.mjs` |
+| Art sizes | The build scales any delivered picture larger than its target down to fit (keeping its shape; never enlarged or cropped). The displayed size is set by the interface, so any size works. | `scripts/art-optimize.mjs` |
 
 ## Decisions made for the second stratum
 

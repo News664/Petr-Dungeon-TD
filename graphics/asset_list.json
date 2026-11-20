@@ -1,5 +1,5 @@
 {
- "_notice": "Every picture the game asks for. Generated together with the briefs; see graphics/README.md. Sizes are [width, height] in pixels.",
+ "_notice": "Every picture the game asks for. See graphics/README.md. `size` is [width, height] in pixels and is a target: keep the shape, and the game scales the picture to fit. This file is the source of truth; edit it directly.",
  "style_prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood",
  "character_framing_prompt": "adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text",
  "default_negative_prompt": "nudity, sexualised pose, child, gore, blood, wounds, text, watermark, logo, signature, busy background, extra limbs, likeness of existing characters",
@@ -12,10 +12,10 @@
   "permanent": "same statue long abandoned, the figure itself whole and undamaged: dust settled on shoulders, clothing and gear details worn soft and partly crumbled away, a trace of lichen"
  },
  "counts": {
-  "total": 214,
+  "total": 237,
   "priority_1": 38,
-  "priority_2": 19,
-  "priority_3": 157
+  "priority_2": 36,
+  "priority_3": 163
  },
  "assets": [
   {
@@ -418,7 +418,7 @@
    "group": "monsters",
    "brief": "briefs/02_enemies.md",
    "priority": 1,
-   "used_in": "Stone Hound: labyrinth floors 1–3",
+   "used_in": "Stone Hound: labyrinth floors 1\u20133",
    "size": [
     1024,
     1024
@@ -434,7 +434,7 @@
    "group": "monsters",
    "brief": "briefs/02_enemies.md",
    "priority": 1,
-   "used_in": "Basalt Sentinel: labyrinth floors 2–3",
+   "used_in": "Basalt Sentinel: labyrinth floors 2\u20133",
    "size": [
     1024,
     1024
@@ -450,7 +450,7 @@
    "group": "monsters",
    "brief": "briefs/02_enemies.md",
    "priority": 1,
-   "used_in": "Gazer: labyrinth floors 2–3",
+   "used_in": "Gazer: labyrinth floors 2\u20133",
    "size": [
     1024,
     1024
@@ -969,6 +969,278 @@
    ],
    "deliver_to": "public/art/people/iwanaga.webp",
    "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. Iwanaga, the rival goddess called the Collector, an original character inspired by the rock princess of Japanese myth, elder sister of Sakuya: a tall, immaculate adult woman in austere dark many-layered court robes patterned like weathered stone and evergreen pine, hair bound up severely with plain stone pins, a ring of small keys at her sash, cold white-violet light in her eyes; courteous, patient, appraising; no weapons, no horns, no menace in the pose."
+  },
+  {
+   "id": "monster_keeper_of_the_galleries",
+   "group": "monsters",
+   "brief": "briefs/02_enemies.md",
+   "priority": 2,
+   "used_in": "The Keeper of the Galleries: hidden boss, stratum 1",
+   "size": [
+    1024,
+    1024
+   ],
+   "deliver_to": "public/art/monsters/keeper_of_the_galleries.webp",
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. an adult woman's form, robed, original design, full figure, centred, transparent background, no text. the last keeper of a great gallery, long past living: a tall figure in a dust-grey ceremonial coat and gloves, face hidden by a plain porcelain half-mask, a heavy ring of keys in one hand, pale dust falling from her sleeves; grave, dutiful, not monstrous.",
+   "transparent": true,
+   "format": "webp",
+   "negative": "nudity, sexualised pose, child, gore, blood, wounds, text, watermark, logo, signature, busy background, extra limbs, likeness of existing characters"
+  },
+  {
+   "id": "monster_drowned_novice",
+   "group": "monsters",
+   "brief": "briefs/02_enemies.md",
+   "priority": 2,
+   "used_in": "Drowned Novice: Drowned Cloister, floor 1",
+   "size": [
+    1024,
+    1024
+   ],
+   "deliver_to": "public/art/monsters/drowned_novice.webp",
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. creature design, full body, centred, transparent background, pale and dusty with one accent colour, not humanoid, no text. waterlogged cowled shape of silt and reeds with no face, long dripping arms, dull green accent.",
+   "transparent": true,
+   "format": "webp",
+   "negative": "nudity, sexualised pose, child, gore, blood, wounds, text, watermark, logo, signature, busy background, extra limbs, likeness of existing characters"
+  },
+  {
+   "id": "monster_cloister_eel",
+   "group": "monsters",
+   "brief": "briefs/02_enemies.md",
+   "priority": 2,
+   "used_in": "Cloister Eel: Drowned Cloister, floors 1\u20133",
+   "size": [
+    1024,
+    1024
+   ],
+   "deliver_to": "public/art/monsters/cloister_eel.webp",
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. creature design, full body, centred, transparent background, pale and dusty with one accent colour, not humanoid, no text. pale blind eel as long as a person with a ring of small teeth, slick grey-white skin, faint blue accent.",
+   "transparent": true,
+   "format": "webp",
+   "negative": "nudity, sexualised pose, child, gore, blood, wounds, text, watermark, logo, signature, busy background, extra limbs, likeness of existing characters"
+  },
+  {
+   "id": "monster_bell_warden",
+   "group": "monsters",
+   "brief": "briefs/02_enemies.md",
+   "priority": 2,
+   "used_in": "Bell Warden: Drowned Cloister, floors 2\u20133",
+   "size": [
+    1024,
+    1024
+   ],
+   "deliver_to": "public/art/monsters/bell_warden.webp",
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. creature design, full body, centred, transparent background, pale and dusty with one accent colour, not humanoid, no text. hulking shape of barnacled bronze with a great cracked bell for a torso and thick short legs, verdigris green accent.",
+   "transparent": true,
+   "format": "webp",
+   "negative": "nudity, sexualised pose, child, gore, blood, wounds, text, watermark, logo, signature, busy background, extra limbs, likeness of existing characters"
+  },
+  {
+   "id": "monster_weeping_icon",
+   "group": "monsters",
+   "brief": "briefs/02_enemies.md",
+   "priority": 2,
+   "used_in": "Weeping Icon: Drowned Cloister, floors 1\u20133",
+   "size": [
+    1024,
+    1024
+   ],
+   "deliver_to": "public/art/monsters/weeping_icon.webp",
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. creature design, full body, centred, transparent background, pale and dusty with one accent colour, not humanoid, no text. floating carved votive panel of pale stone with a single weeping eye of cold white-violet light, trailing water.",
+   "transparent": true,
+   "format": "webp",
+   "negative": "nudity, sexualised pose, child, gore, blood, wounds, text, watermark, logo, signature, busy background, extra limbs, likeness of existing characters"
+  },
+  {
+   "id": "monster_silt_choir",
+   "group": "monsters",
+   "brief": "briefs/02_enemies.md",
+   "priority": 2,
+   "used_in": "Silt Choir: Drowned Cloister, floors 1\u20133",
+   "size": [
+    1024,
+    1024
+   ],
+   "deliver_to": "public/art/monsters/silt_choir.webp",
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. creature design, full body, centred, transparent background, pale and dusty with one accent colour, not humanoid, no text. cluster of five small hooded shapes of grey silt joined at the base, open round mouths, faint cold white-violet glow inside.",
+   "transparent": true,
+   "format": "webp",
+   "negative": "nudity, sexualised pose, child, gore, blood, wounds, text, watermark, logo, signature, busy background, extra limbs, likeness of existing characters"
+  },
+  {
+   "id": "monster_the_bellringer",
+   "group": "monsters",
+   "brief": "briefs/02_enemies.md",
+   "priority": 2,
+   "used_in": "The Bellringer: roaming elite, Drowned Cloister floor 2",
+   "size": [
+    1024,
+    1024
+   ],
+   "deliver_to": "public/art/monsters/the_bellringer.webp",
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. creature design, full body, centred, transparent background, pale and dusty with one accent colour, not humanoid, no text. towering stooped figure of wet rope, bronze and weed dragging a great bell on a chain, empty hood with cold white-violet light.",
+   "transparent": true,
+   "format": "webp",
+   "negative": "nudity, sexualised pose, child, gore, blood, wounds, text, watermark, logo, signature, busy background, extra limbs, likeness of existing characters"
+  },
+  {
+   "id": "monster_abbess_of_still_water",
+   "group": "monsters",
+   "brief": "briefs/02_enemies.md",
+   "priority": 2,
+   "used_in": "The Abbess of Still Water: master of the Drowned Cloister",
+   "size": [
+    1024,
+    1024
+   ],
+   "deliver_to": "public/art/monsters/abbess_of_still_water.webp",
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. an adult woman's form, robed, original design, full figure, centred, transparent background, no text. the Abbess of Still Water, a curator of the Collector: serene and severe, in heavy wet dark habit and tall plain headdress, hands folded, standing on perfectly still water that reflects her, cold white-violet light in her eyes; courteous, certain, appraising.",
+   "transparent": true,
+   "format": "webp",
+   "negative": "nudity, sexualised pose, child, gore, blood, wounds, text, watermark, logo, signature, busy background, extra limbs, likeness of existing characters"
+  },
+  {
+   "id": "monster_td_swarmling",
+   "group": "monsters",
+   "brief": "briefs/02_enemies.md",
+   "priority": 2,
+   "used_in": "Swarmling: defense battles from the second stratum on",
+   "size": [
+    512,
+    512
+   ],
+   "deliver_to": "public/art/monsters/td_swarmling.webp",
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. creature design, full body, centred, transparent background, pale and dusty with one accent colour, not humanoid, no text. tiny scuttling pale mite, many-legged, amber accent. Seen from above at a three-quarter angle, readable at 32 px.",
+   "transparent": true,
+   "format": "webp",
+   "negative": "nudity, sexualised pose, child, gore, blood, wounds, text, watermark, logo, signature, busy background, extra limbs, likeness of existing characters"
+  },
+  {
+   "id": "monster_td_wisp",
+   "group": "monsters",
+   "brief": "briefs/02_enemies.md",
+   "priority": 2,
+   "used_in": "Wisp: defense battles from the second stratum on",
+   "size": [
+    512,
+    512
+   ],
+   "deliver_to": "public/art/monsters/td_wisp.webp",
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. creature design, full body, centred, transparent background, pale and dusty with one accent colour, not humanoid, no text. drifting mote of pale dust and cold light with ragged trailing wings, flying, blue-white accent. Seen from above at a three-quarter angle, readable at 32 px.",
+   "transparent": true,
+   "format": "webp",
+   "negative": "nudity, sexualised pose, child, gore, blood, wounds, text, watermark, logo, signature, busy background, extra limbs, likeness of existing characters"
+  },
+  {
+   "id": "monster_td_mender",
+   "group": "monsters",
+   "brief": "briefs/02_enemies.md",
+   "priority": 2,
+   "used_in": "Mender: defense battles from the second stratum on",
+   "size": [
+    512,
+    512
+   ],
+   "deliver_to": "public/art/monsters/td_mender.webp",
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. creature design, full body, centred, transparent background, pale and dusty with one accent colour, not humanoid, no text. hunched pale creature carrying a glowing green sac on its back that pulses, green accent. Seen from above at a three-quarter angle, readable at 32 px.",
+   "transparent": true,
+   "format": "webp",
+   "negative": "nudity, sexualised pose, child, gore, blood, wounds, text, watermark, logo, signature, busy background, extra limbs, likeness of existing characters"
+  },
+  {
+   "id": "monster_td_binder",
+   "group": "monsters",
+   "brief": "briefs/02_enemies.md",
+   "priority": 2,
+   "used_in": "Binder: defense battles from the second stratum on",
+   "size": [
+    512,
+    512
+   ],
+   "deliver_to": "public/art/monsters/td_binder.webp",
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. creature design, full body, centred, transparent background, pale and dusty with one accent colour, not humanoid, no text. spindly creature that throws coils of pale rope-like silt from long arms, teal-grey accent. Seen from above at a three-quarter angle, readable at 32 px.",
+   "transparent": true,
+   "format": "webp",
+   "negative": "nudity, sexualised pose, child, gore, blood, wounds, text, watermark, logo, signature, busy background, extra limbs, likeness of existing characters"
+  },
+  {
+   "id": "monster_td_husk",
+   "group": "monsters",
+   "brief": "briefs/02_enemies.md",
+   "priority": 2,
+   "used_in": "Husk: defense battles from the second stratum on",
+   "size": [
+    512,
+    512
+   ],
+   "deliver_to": "public/art/monsters/td_husk.webp",
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. creature design, full body, centred, transparent background, pale and dusty with one accent colour, not humanoid, no text. bloated pale shell on short legs, visibly full of small moving shapes, sickly yellow accent. Seen from above at a three-quarter angle, readable at 32 px.",
+   "transparent": true,
+   "format": "webp",
+   "negative": "nudity, sexualised pose, child, gore, blood, wounds, text, watermark, logo, signature, busy background, extra limbs, likeness of existing characters"
+  },
+  {
+   "id": "monster_td_bulwark",
+   "group": "monsters",
+   "brief": "briefs/02_enemies.md",
+   "priority": 2,
+   "used_in": "Bulwark: defense battles from the second stratum on",
+   "size": [
+    512,
+    512
+   ],
+   "deliver_to": "public/art/monsters/td_bulwark.webp",
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. creature design, full body, centred, transparent background, pale and dusty with one accent colour, not humanoid, no text. slow beast carrying a curved slab of stone before it like a shield, slate accent. Seen from above at a three-quarter angle, readable at 32 px.",
+   "transparent": true,
+   "format": "webp",
+   "negative": "nudity, sexualised pose, child, gore, blood, wounds, text, watermark, logo, signature, busy background, extra limbs, likeness of existing characters"
+  },
+  {
+   "id": "piece_mortar_pit",
+   "group": "places",
+   "brief": "briefs/03_places.md",
+   "priority": 2,
+   "used_in": "Defense battle maps",
+   "size": [
+    512,
+    512
+   ],
+   "deliver_to": "public/art/places/pieces/mortar_pit.webp",
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. game map piece seen from above at a three-quarter angle, centred, transparent background, readable at 64 px, no text. sunken round pit ringed with sandbags holding a short wide-mouthed launcher.",
+   "transparent": true,
+   "format": "webp",
+   "negative": "nudity, sexualised pose, child, gore, blood, wounds, text, watermark, logo, signature, busy background, extra limbs, likeness of existing characters"
+  },
+  {
+   "id": "piece_signal_post",
+   "group": "places",
+   "brief": "briefs/03_places.md",
+   "priority": 2,
+   "used_in": "Defense battle maps",
+   "size": [
+    512,
+    512
+   ],
+   "deliver_to": "public/art/places/pieces/signal_post.webp",
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. game map piece seen from above at a three-quarter angle, centred, transparent background, readable at 64 px, no text. slender mast with coloured signal flags and a small ward-lantern, a little roofed platform at its foot.",
+   "transparent": true,
+   "format": "webp",
+   "negative": "nudity, sexualised pose, child, gore, blood, wounds, text, watermark, logo, signature, busy background, extra limbs, likeness of existing characters"
+  },
+  {
+   "id": "prop_statue_the_first",
+   "group": "places",
+   "brief": "briefs/03_places.md",
+   "priority": 2,
+   "used_in": "The statue the Keeper guards; later the Still Grove",
+   "size": [
+    1024,
+    1536
+   ],
+   "deliver_to": "public/art/places/props/prop_statue_the_first.webp",
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. an adult woman as a matte pale grey-blue stone statue, whole and undamaged, the first champion ever summoned: plain travelling clothes of no particular world, one hand half raised as if answering a call, calm and willing expression; standing on bare floor, transparent background, no text, sorrowful not frightening.",
+   "transparent": true,
+   "format": "webp",
+   "negative": "nudity, sexualised pose, child, gore, blood, wounds, text, watermark, logo, signature, busy background, extra limbs, likeness of existing characters"
   },
   {
    "transparent": true,
@@ -3777,6 +4049,102 @@
    ],
    "deliver_to": "public/art/people/resident_physician.webp",
    "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. adult woman, standing three-quarter view, figure from head to mid-thigh, head and shoulders in the upper part of the frame, arms slightly away from the body, clear silhouette, transparent background, no text. sanctuary resident, an elderly woman physician with steady hands, pale smock, tray of reagent vials."
+  },
+  {
+   "id": "piece_mortar_pit_ruined",
+   "group": "places",
+   "brief": "briefs/03_places.md",
+   "priority": 3,
+   "used_in": "Defense battle maps, destroyed structure",
+   "size": [
+    512,
+    512
+   ],
+   "deliver_to": "public/art/places/pieces/mortar_pit_ruined.webp",
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. game map piece seen from above at a three-quarter angle, centred, transparent background, readable at 64 px, no text. The same sunken round pit ringed with sandbags holding a short wide-mouthed launcher, collapsed and broken.",
+   "transparent": true,
+   "format": "webp",
+   "negative": "nudity, sexualised pose, child, gore, blood, wounds, text, watermark, logo, signature, busy background, extra limbs, likeness of existing characters"
+  },
+  {
+   "id": "piece_signal_post_ruined",
+   "group": "places",
+   "brief": "briefs/03_places.md",
+   "priority": 3,
+   "used_in": "Defense battle maps, destroyed structure",
+   "size": [
+    512,
+    512
+   ],
+   "deliver_to": "public/art/places/pieces/signal_post_ruined.webp",
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. game map piece seen from above at a three-quarter angle, centred, transparent background, readable at 64 px, no text. The same slender mast with coloured signal flags and a small ward-lantern, a little roofed platform at its foot, collapsed and broken.",
+   "transparent": true,
+   "format": "webp",
+   "negative": "nudity, sexualised pose, child, gore, blood, wounds, text, watermark, logo, signature, busy background, extra limbs, likeness of existing characters"
+  },
+  {
+   "id": "tex_cloister_wall",
+   "group": "places",
+   "brief": "briefs/03_places.md",
+   "priority": 3,
+   "used_in": "Labyrinth, stratum 2",
+   "size": [
+    512,
+    512
+   ],
+   "transparent": false,
+   "deliver_to": "public/art/places/cloister_wall.webp",
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. seamless tileable texture, wet dark dressed stone with pale waterline stains and patches of grey-green weed, flat even lighting, no perspective. No people, no text.",
+   "negative": "people, text, watermark, logo, signature",
+   "format": "webp"
+  },
+  {
+   "id": "tex_cloister_floor",
+   "group": "places",
+   "brief": "briefs/03_places.md",
+   "priority": 3,
+   "used_in": "Labyrinth, stratum 2",
+   "size": [
+    512,
+    512
+   ],
+   "transparent": false,
+   "deliver_to": "public/art/places/cloister_floor.webp",
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. seamless tileable texture, worn flagstones under a thin film of still water, faint reflections, top-down, flat even lighting. No people, no text.",
+   "negative": "people, text, watermark, logo, signature",
+   "format": "webp"
+  },
+  {
+   "id": "tex_cloister_ceiling",
+   "group": "places",
+   "brief": "briefs/03_places.md",
+   "priority": 3,
+   "used_in": "Labyrinth, stratum 2",
+   "size": [
+    512,
+    512
+   ],
+   "transparent": false,
+   "deliver_to": "public/art/places/cloister_ceiling.webp",
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. seamless tileable texture, dark vaulted stone beaded with water, flat even lighting. No people, no text.",
+   "negative": "people, text, watermark, logo, signature",
+   "format": "webp"
+  },
+  {
+   "id": "tex_cloister_ice",
+   "group": "places",
+   "brief": "briefs/03_places.md",
+   "priority": 3,
+   "used_in": "Labyrinth, stratum 2",
+   "size": [
+    512,
+    512
+   ],
+   "transparent": false,
+   "deliver_to": "public/art/places/cloister_ice.webp",
+   "prompt": "anime-influenced fantasy illustration, painterly cel shading, soft gradients, thin line work, muted desaturated palette with a single accent colour, key light from upper left, cool rim light, somber and quiet mood. seamless tileable texture, smooth pale blue-grey ice over dark stone, a few fine frozen-in bubbles, top-down, flat even lighting. No people, no text.",
+   "negative": "people, text, watermark, logo, signature",
+   "format": "webp"
   }
  ]
 }

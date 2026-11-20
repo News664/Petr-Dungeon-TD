@@ -33,14 +33,14 @@ The prompts are starting points. Change wording freely; keep the constraints.
 
 | Rule | Value |
 |---|---|
-| Character canvas | 1024 × 1536 px, portrait, figure from head to mid-thigh |
+| Character canvas | About 1024 × 1536 px, portrait 2:3, figure from head to mid-thigh. Larger is fine; the build scales it. |
 | Face position | Head and shoulders inside the top 1024 × 1024 square, face centred horizontally. The game crops this square for small portraits. |
 | Background | Transparent for characters, monsters, structures and icons. Painted for places and key art. |
 | Master format | PNG with alpha channel. Keep masters outside git. |
-| Game format | WebP (keeps transparency), same pixel size as the master. PNG is accepted at the same path with `.png`. |
+| Game format | WebP (keeps transparency) or PNG at the same path. Any size of the right shape: the build scales pictures down to the target size. |
 | Tileable textures | 512 × 512 px, seamless on all four edges |
 | Naming | Lower case, no spaces, exactly the `deliver_to` path |
-| Stages | Every stage of one character has the same canvas, pose and framing. Produce later stages by editing the `normal` picture. |
+| Stages | Every stage of one character has the same canvas size, pose and framing. Produce later stages by editing the `normal` picture. |
 
 ## Priorities
 

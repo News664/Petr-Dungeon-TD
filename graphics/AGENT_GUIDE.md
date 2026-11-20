@@ -21,7 +21,7 @@ If a requirement seems wrong or impossible, do not work around it. Say so to the
 | `id` | A name for the picture |
 | `priority` | 1 first, then 2, then 3 |
 | `used_in` | Where the game shows it |
-| `size` | `[width, height]` in pixels. Exact. |
+| `size` | `[width, height]` in pixels. A target: keep the shape; larger is fine. |
 | `transparent` | `true` means the background must be fully transparent |
 | `deliver_to` | The exact path and file name to save it under |
 | `prompt` | A starting prompt. It already includes the shared style. |
@@ -36,7 +36,7 @@ Before making anything, read `STYLE_GUIDE.md`. For the group you are working on,
 
 Every change is checked by a script. A picture that breaks one of these fails the check:
 
-1. **Exact size.** The pixel size must equal `size`. Resize or pad before delivering; do not deliver "close enough".
+1. **Size is a target, not a rule.** Aim for `size`, and above all keep its shape (portrait 2:3 for characters, square for monsters and icons). A larger picture is fine: the game scales it down when it is built. A different shape is reported as worth a look, because the game will crop or letterbox it.
 2. **Exact path.** Lower case, no spaces, exactly `deliver_to`. A file with any other name or in any other folder is reported as unknown.
 3. **Format.** WebP is preferred. PNG is accepted at the same path with `.png` in place of `.webp`. Nothing else.
 4. **Complete enough to show.** A character folder must contain at least `normal` and `statue`. Until both are there the game shows none of her pictures.
@@ -84,7 +84,7 @@ Someone with the repository checked out can run:
 npm run art:check
 ```
 
-It prints how many pictures of each priority are delivered, the next ones to make, and any problems. Add `-- --next 30` to see more of the queue.
+It prints how many pictures of each priority are delivered, the next ones to make, anything worth a look (shape, very small or very large files, stages of one character at different sizes), and any problems. Add `-- --next 30` to see more of the queue.
 
 ## When in doubt
 

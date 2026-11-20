@@ -55,7 +55,7 @@ docs/ART_PIPELINE.md       How character art is organised and how to add it
 graphics/                  Art requirements: style guide, briefs, and a list of every picture needed
 lore/                      World and character draft, with open questions
 public/art/                Delivered pictures (the game scans this folder when built)
-scripts/                   Art tooling: manifest generation and the delivery check
+scripts/                   Art tooling: manifest generation, the delivery check, build-time resizing
 src/sim/                   Campaign simulator and its tests
 src/art/                   Art manifest: which picture shows at which solidification stage
 src/app/                   Campaign console (debug-grade interface)
@@ -68,7 +68,8 @@ The pictures are made outside this codebase, by an image tool or an artist worki
 - **What to make:** `graphics/asset_list.json` lists every picture with its size, delivery path and a prompt. `graphics/AGENT_GUIDE.md` is the instruction sheet for an agent; `graphics/STYLE_GUIDE.md` and `graphics/briefs/` give the direction.
 - **Where it goes:** `public/art/`, at the exact path in the list. An agent with write access opens a pull request that adds only picture files there. Without write access, upload the files through GitHub's "Add file → Upload files".
 - **No data to edit:** the game builds its picture list from the files present each time it is built (`npm run art:manifest`, run automatically before `dev` and `build`).
-- **Checking:** `npm run art:check` reports progress and any picture with the wrong size, name or an incomplete character set. It runs in CI.
+- **Sizes:** targets, not rules. `npm run build` scales delivered pictures down to their target size in the built game (`scripts/art-optimize.mjs`); the originals are untouched.
+- **Checking:** `npm run art:check` reports progress, fails on a wrong name or folder or an incomplete character set, and lists shape or size issues as advice. It runs in CI.
 - **What shows up today:** character portraits everywhere an adventurer appears (her own set, else her class's set), monsters in labyrinth fights, Sakuya in the prologue, Iwanaga on the game-over screen, and the title background. Labyrinth textures, battle-map pieces and icons have delivery paths but are not drawn yet.
 
 ```bash
