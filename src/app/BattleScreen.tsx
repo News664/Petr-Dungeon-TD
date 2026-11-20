@@ -1,18 +1,56 @@
 import { useEffect, useRef, useState } from 'react';
 import type { MutableRefObject } from 'react';
 import { Application, Graphics, Text } from 'pixi.js';
-import { buildsLeft, defaultConfig as cfg, defenderWeapon, getDefenseMap, laneLength, lanePoint, waveForecast } from '../sim';
+import { buildsLeft, defaultConfig as cfg, defenderWeapon, enemyPoint, getDefenseMap, signalBoost, structureUnlocked, waveForecast } from '../sim';
 import type { BattleShot, CampaignState, DefenseMapId, TargetPriority } from '../sim';
 import type { Dispatch } from './App';
 import { BATTLE_LABEL, enemyCount, title } from './format';
 import { Portrait } from './Portrait';
 
 const CLASS_COLOR: Record<string, number> = { Guardian: 0x6f9bd8, Gunner: 0xd8a64a, Alchemist: 0xb07fd8, Medic: 0x74c7b6 };
-const ENEMY_LOOK: Record<string, { color: number; size: number }> = {
-  runner: { color: 0xd8a64a, size: 7 },
-  armored: { color: 0x9aa3ad, size: 12 },
-  petrifier: { color: 0xb48cf2, size: 9 },
+type Shape = 'circle' | 'square' | 'triangle' | 'diamond' | 'cross' | 'hex' | 'star';
+const ENEMY_LOOK: Record<string, { color: number; size: number; shape: Shape }> = {
+  runner: { color: 0xd8a64a, size: 7, shape: 'circle' },
+  armored: { color: 0x9aa3ad, size: 12, shape: 'square' },
+  petrifier: { color: 0xb48cf2, size: 9, shape: 'triangle' },
+  swarmling: { color: 0xd8a64a, size: 4, shape: 'circle' },
+  wisp: { color: 0xc9e6ff, size: 7, shape: 'diamond' },
+  mender: { color: 0x7fcf7f, size: 9, shape: 'cross' },
+  binder: { color: 0x6fb3b0, size: 9, shape: 'star' },
+  husk: { color: 0xd8c86a, size: 12, shape: 'hex' },
+  bulwark: { color: 0x6d7682, size: 15, shape: 'square' },
 };
+/** Short names written under each kind of structure on the map. */
+const ENEMY_HELP: Record<string, string> = {
+  runner: 'runs for the gate',
+  armored: 'stops to batter a manned post in reach',
+  petrifier: 'solidifies the most exposed defender in reach',
+  swarmling: 'small and fast, in numbers',
+  wisp: 'flies straight at the gate; bunkers and mortars cannot hit it',
+  mender: 'heals the attackers around it',
+  binder: 'pins the most exposed defender in reach so she cannot act',
+  husk: 'bursts into swarmlings when it dies',
+  bulwark: 'heavily armored; hardens the armor of those beside it',
+};
+const STRUCTURE_HELP: Record<string, string> = {
+  watchtower: 'Long reach and hard hitting; the occupant is fully exposed.',
+  bunker: 'Shelters its occupant; short reach; cannot hit flyers.',
+  support_station: 'Suits a Medic: heals and eases the solidification of posts in reach.',
+  mortar_pit: 'Bursts over a group far off. Cannot hit what is close or what flies. Well sheltered.',
+  signal_post: 'Its occupant does not fight; manned posts near it hit harder and reach further.',
+};
+const STRUCTURE_LABEL: Record<string, string> = { watchtower: 'tower', bunker: 'bunker', support_station: 'support', mortar_pit: 'mortar', signal_post: 'signal' };
+
+function enemyShape(g: Graphics, shape: Shape, x: number, y: number, r: number, color: number) {
+  if (shape === 'square') g.rect(x - r, y - r, r * 2, r * 2).fill({ color });
+  else if (shape === 'triangle') g.poly([x, y - r - 2, x + r, y + r, x - r, y + r]).fill({ color });
+  else if (shape === 'diamond') g.poly([x, y - r - 2, x + r, y, x, y + r + 2, x - r, y]).fill({ color, alpha: 0.85 });
+  else if (shape === 'cross') g.rect(x - r, y - r / 3, r * 2, (r * 2) / 3).rect(x - r / 3, y - r, (r * 2) / 3, r * 2).fill({ color });
+  else if (shape === 'hex') g.poly([0, 1, 2, 3, 4, 5].flatMap((i) => [x + r * Math.cos((Math.PI / 3) * i), y + r * Math.sin((Math.PI / 3) * i)])).fill({ color });
+  else if (shape === 'star') g.star(x, y, 4, r + 2, r / 2).fill({ color });
+  else g.circle(x, y, r).fill({ color });
+}
+
 const SHOT_COLOR: Record<BattleShot['kind'], number> = {
   attack: 0xf2e3b3,
   splash: 0xc79cf0,
@@ -20,6 +58,8 @@ const SHOT_COLOR: Record<BattleShot['kind'], number> = {
   petrify: 0xb48cf2,
   turret: 0x8fd9ff,
   structure: 0xcf5f55,
+  mend: 0x7fcf7f,
+  bind: 0x6fb3b0,
 };
 const COLORS = { ground: 0x0d0f12, laneEdge: 0x1a1e24, lane: 0x242a32, ward: 0x74c7b6, stone: 0xa3a8b0, danger: 0xcf5f55, line: 0x39404b, text: 0xdcd8cf };
 const SHOT_LIFE_MS = 160;
@@ -54,7 +94,7 @@ function drawBattle(g: Graphics, labels: Map<string, Text>, kinds: Map<string, T
   if (selectedStructure) {
     const { x, y } = selectedStructure;
     const occupant = s.adventurers.find((a) => a.id === selectedStructure.occupantId);
-    const weapon = occupant ? defenderWeapon(cfg, occupant, selectedStructure) : null;
+    const weapon = occupant ? defenderWeapon(cfg, occupant, selectedStructure, signalBoost(cfg, s.structures, selectedStructure)) : null;
     if (weapon) g.circle(x, y, weapon.range).fill({ color: COLORS.ward, alpha: 0.06 }).stroke({ width: 1, color: COLORS.ward, alpha: 0.5 });
     g.circle(x, y, 26).stroke({ width: 2, color: COLORS.text, alpha: 0.9 });
   }
@@ -86,7 +126,12 @@ function drawBattle(g: Graphics, labels: Map<string, Text>, kinds: Map<string, T
     const outline = { width: 2, color: wrecked ? COLORS.danger : COLORS.line, alpha: wrecked ? 0.7 : 1 };
     if (d.type === 'watchtower') g.circle(x, y, 18).fill({ color: 0x15181d }).stroke(outline);
     else if (d.type === 'bunker') g.roundRect(x - 18, y - 18, 36, 36, 5).fill({ color: 0x15181d }).stroke({ ...outline, width: 4 });
-    else g.poly([x, y - 20, x + 20, y, x, y + 20, x - 20, y]).fill({ color: 0x15181d }).stroke(outline);
+    else if (d.type === 'mortar_pit') g.circle(x, y, 19).fill({ color: 0x15181d }).stroke({ ...outline, width: 5 }).circle(x, y, 9).stroke(outline);
+    else if (d.type === 'signal_post') {
+      g.poly([x, y - 22, x + 16, y + 14, x - 16, y + 14]).fill({ color: 0x15181d }).stroke(outline);
+      const aura = cfg.defense.structure_stats.signal_post?.aura;
+      if (aura && d.occupantId && d.hp > 0) g.circle(x, y, aura.radius).stroke({ width: 1, color: COLORS.ward, alpha: 0.25 });
+    } else g.poly([x, y - 20, x + 20, y, x, y + 20, x - 20, y]).fill({ color: 0x15181d }).stroke(outline);
     if (wrecked) g.moveTo(x - 12, y - 12).lineTo(x + 12, y + 12).moveTo(x + 12, y - 12).lineTo(x - 12, y + 12).stroke({ width: 2, color: COLORS.danger });
     else bar(g, x, y + 24, 30, d.hp / d.maxHp, 0x7d8794);
 
@@ -94,7 +139,7 @@ function drawBattle(g: Graphics, labels: Map<string, Text>, kinds: Map<string, T
     const label = labels.get(d.site);
     if (label) label.text = occupant ? occupant.name.charAt(0) : '';
     const kind = kinds.get(d.site);
-    if (kind) kind.text = d.type === 'watchtower' ? 'tower' : d.type === 'bunker' ? 'bunker' : 'support';
+    if (kind) kind.text = STRUCTURE_LABEL[d.type] ?? d.type;
     if (occupant) {
       const moving = b.tick < (b.busyUntil[occupant.id] ?? 0);
       g.circle(x, y, 11).fill({ color: CLASS_COLOR[occupant.classId] ?? COLORS.text, alpha: moving ? 0.35 : 1 });
@@ -110,13 +155,14 @@ function drawBattle(g: Graphics, labels: Map<string, Text>, kinds: Map<string, T
 
   // Enemies.
   for (const e of b.enemies) {
-    const look = ENEMY_LOOK[e.type] ?? { color: COLORS.text, size: 8 };
-    const d = Math.min(e.progress / 1000, laneLength(b.map, e.lane));
-    const [x, y] = lanePoint(b.map, e.lane, d);
+    const look = ENEMY_LOOK[e.type] ?? { color: COLORS.text, size: 8, shape: 'circle' as const };
+    const [x, y] = enemyPoint(cfg, b, e);
     const r = look.size;
-    if (e.type === 'armored') g.rect(x - r, y - r, r * 2, r * 2).fill({ color: look.color });
-    else if (e.type === 'petrifier') g.poly([x, y - r - 2, x + r, y + r, x - r, y + r]).fill({ color: look.color });
-    else g.circle(x, y, r).fill({ color: look.color });
+    // Flyers cast a small shadow below them, so they read as off the ground.
+    if (cfg.defense.enemy_stats[e.type]?.flying) g.ellipse(x, y + r + 6, r, r / 3).fill({ color: 0x000000, alpha: 0.4 });
+    enemyShape(g, look.shape, x, y, r, look.color);
+    const auraRadius = cfg.defense.enemy_stats[e.type]?.armor_aura?.radius;
+    if (auraRadius) g.circle(x, y, auraRadius).stroke({ width: 1, color: look.color, alpha: 0.3 });
     if (e.slowTicks > 0) g.circle(x, y, r + 4).stroke({ width: 1, color: 0x6f9bd8 });
     // A brute that has stopped to batter a structure: show what it is hitting.
     const battered = e.siegeTarget ? s.structures.find((d) => d.id === e.siegeTarget) : undefined;
@@ -238,7 +284,7 @@ export function BattleScreen({ state, stateRef, dispatch }: Props) {
   const map = getDefenseMap(battle.map);
   const tps = cfg.defense.ticks_per_second;
   const seconds = battle.tick / tps;
-  const forecast = waveForecast(battle.map, battle.kind);
+  const forecast = waveForecast(battle.map, battle.kind, battle.depth);
   const started = forecast.filter((w) => w.startSeconds <= seconds).length;
   const next = forecast[started];
   const structures = state.structures.filter((d) => d.map === battle.map);
@@ -282,7 +328,7 @@ export function BattleScreen({ state, stateRef, dispatch }: Props) {
         ? 'Runners only run for the gate. Anything that reaches it wears the gate down.'
         : started === 2
           ? 'The armored brute stops beside a manned post and batters it. Bring it down while it stands still.'
-          : 'The petrifier solidifies the most exposed defender in its reach. Set a Gunner to "Petrifiers first", or pull the threatened champion back to reserve.';
+          : 'The petrifier solidifies the most exposed defender in its reach. Set a Gunner to "Casters first", or pull the threatened champion back to reserve.';
 
   return (
     <div className="battle">
@@ -408,10 +454,21 @@ export function BattleScreen({ state, stateRef, dispatch }: Props) {
             </h3>
             <div className="row">
               {Object.keys(cfg.defense.structure_stats).map((type) => {
+                const cap = cfg.defense.build_caps[battle.map]?.[type] ?? 0;
+                if (cap <= 0) return null;
                 const left = buildsLeft(state, cfg, battle.map, type);
+                const known = structureUnlocked(state, cfg, type);
+                const why = cfg.defense.structure_unlock_text[cfg.defense.structure_unlock[type] ?? ''];
                 return (
-                  <button key={type} className={tool === type ? 'primary' : ''} aria-pressed={tool === type} disabled={left <= 0} onClick={() => setTool(tool === type ? null : type)}>
-                    {title(type)} · {Math.max(0, left)} left
+                  <button
+                    key={type}
+                    className={tool === type ? 'primary' : ''}
+                    aria-pressed={tool === type}
+                    disabled={left <= 0 || !known}
+                    title={known ? STRUCTURE_HELP[type] : `Earned ${why}.`}
+                    onClick={() => setTool(tool === type ? null : type)}
+                  >
+                    {title(type)} · {known ? `${Math.max(0, left)} left` : 'not yet earned'}
                   </button>
                 );
               })}
@@ -469,9 +526,12 @@ export function BattleScreen({ state, stateRef, dispatch }: Props) {
           </div>
         )}
         <p className="small muted legend">
-          <span className="dot" style={{ background: '#d8a64a' }} /> runner
-          <span className="sq" style={{ background: '#9aa3ad' }} /> armored brute: stops to batter a manned post in reach
-          <span className="tri" /> petrifier: solidifies the most exposed defender in reach
+          {[...new Set(forecast.flatMap((w) => w.groups.map((g) => g.enemy)))].map((type) => (
+            <span key={type} className="legend-item" title={ENEMY_HELP[type]}>
+              <i style={{ background: `#${(ENEMY_LOOK[type]?.color ?? 0xdcd8cf).toString(16).padStart(6, '0')}` }} /> {enemyCount(type, 2).replace(/^2 /, '')}
+              {ENEMY_HELP[type] ? `: ${ENEMY_HELP[type]}` : ''}
+            </span>
+          ))}
         </p>
       </div>
 
@@ -521,7 +581,7 @@ export function BattleScreen({ state, stateRef, dispatch }: Props) {
                       >
                         <option value="first">Nearest the gate</option>
                         <option value="strongest">Strongest</option>
-                        <option value="petrifier">Petrifiers first</option>
+                        <option value="petrifier">Casters first (petrifiers, binders, menders)</option>
                       </select>
                     )}
                   </div>

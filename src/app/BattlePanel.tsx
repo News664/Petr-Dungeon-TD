@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { waveForecast } from '../sim';
+import { battleDepth, waveForecast } from '../sim';
 import type { CampaignState } from '../sim';
 import type { Dispatch } from './App';
 import { BATTLE_LABEL, enemyCount } from './format';
@@ -30,7 +30,7 @@ export function BattlePanel({ state, dispatch }: { state: CampaignState; dispatc
         {defenders.length > 0 ? `; ${defenders.length} already hold a post there` : ''}.
       </p>
       <ol className="plain small">
-        {waveForecast(battle.map, battle.kind).map((w) => (
+        {waveForecast(battle.map, battle.kind, battle.kind === 'tutorial_defense' ? null : battleDepth(state, battle.map)).map((w) => (
           <li key={w.wave}>
             <strong>Wave {w.wave}:</strong> {w.groups.map((g) => enemyCount(g.enemy, g.count)).join(', ')}
           </li>

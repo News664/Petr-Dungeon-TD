@@ -45,6 +45,12 @@ const ENEMY_NAMES: Record<string, [string, string]> = {
   runner: ['runner', 'runners'],
   armored: ['armored brute', 'armored brutes'],
   petrifier: ['petrifier', 'petrifiers'],
+  swarmling: ['swarmling', 'swarmlings'],
+  wisp: ['wisp', 'wisps'],
+  mender: ['mender', 'menders'],
+  binder: ['binder', 'binders'],
+  husk: ['husk', 'husks'],
+  bulwark: ['bulwark', 'bulwarks'],
 };
 
 export function enemyCount(enemy: string, count: number): string {

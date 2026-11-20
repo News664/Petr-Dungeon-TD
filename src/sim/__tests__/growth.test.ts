@@ -157,7 +157,7 @@ describe('choosing where the defenses stand', () => {
 
     // The recommended layout fills in whatever the caps still allow.
     s = must(s, { type: 'build_recommended', map: 'frontier' });
-    for (const type of Object.keys(caps)) expect(buildsLeft(s, cfg, 'frontier', type), type).toBe(0);
+    for (const type of ['watchtower', 'bunker', 'support_station']) expect(buildsLeft(s, cfg, 'frontier', type), type).toBe(0);
     expect(rejected(s, { type: 'build_recommended', map: 'frontier' })).toMatch(/nothing more to build/);
   });
 

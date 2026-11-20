@@ -32,7 +32,8 @@ function post(state: CampaignState, map: 'frontier' | 'sanctuary', posts: Record
 }
 
 function frontierBattle(posts: Record<string, string>, priority: TargetPriority = 'first') {
-  const s = post(buildFixture('stable_secured'), 'frontier', posts, priority);
+  // The first stratum is still the frontier, so these are its attackers.
+  const s = post(must(buildFixture('full_roster'), { type: 'debug_set_next_invasion', hour: 1e6 }), 'frontier', posts, priority);
   return applyAll(s, [{ type: 'debug_force_invasion' }, { type: 'battle_start' }, { type: 'battle_begin' }]);
 }
 

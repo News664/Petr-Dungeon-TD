@@ -34,6 +34,8 @@ export interface DefenseMapData {
   waves: Wave[];
   /** The gentler script used for the prologue's first defense. */
   tutorial_waves: Wave[];
+  /** Replaces `waves` while the guild's frontier is in the named stratum. */
+  waves_by_frontier?: Record<string, Wave[]>;
 }
 
 const maps = raw as unknown as Record<DefenseMapId, DefenseMapData>;
@@ -87,14 +89,31 @@ export function lanePoint(map: DefenseMapId, lane: number, distance: number): Po
   return [ax + (bx - ax) * t, ay + (by - ay) * t];
 }
 
-export function wavesFor(map: DefenseMapId, kind?: BattleKind): Wave[] {
+/** Which wave script applies: the named depth's if the map has one, otherwise the map's own. */
+export function wavesFor(map: DefenseMapId, kind?: BattleKind, depth?: string | null): Wave[] {
   const data = getDefenseMap(map);
-  return kind === 'tutorial_defense' ? data.tutorial_waves : data.waves;
+  if (kind === 'tutorial_defense') return data.tutorial_waves;
+  return (depth ? data.waves_by_frontier?.[depth] : undefined) ?? data.waves;
 }
 
 /** Every wave group in map order, with the wave it belongs to. */
-export function flatGroups(map: DefenseMapId, kind?: BattleKind): { wave: number; start: number; group: WaveGroup }[] {
-  return wavesFor(map, kind).flatMap((w, wave) =>
+export function flatGroups(map: DefenseMapId, kind?: BattleKind, depth?: string | null): { wave: number; start: number; group: WaveGroup }[] {
+  return wavesFor(map, kind, depth).flatMap((w, wave) =>
     w.groups.map((group) => ({ wave, start: w.start_seconds + (group.delay_seconds ?? 0), group })),
   );
+}
+
+/** A flyer's path: straight from its lane's mouth to the gate. */
+export function airLength(map: DefenseMapId, lane: number): number {
+  const data = getDefenseMap(map);
+  const [sx, sy] = data.lanes[lane]?.[0] ?? data.gate;
+  return Math.hypot(data.gate[0] - sx, data.gate[1] - sy);
+}
+
+export function airPoint(map: DefenseMapId, lane: number, distance: number): Point {
+  const data = getDefenseMap(map);
+  const [sx, sy] = data.lanes[lane]?.[0] ?? data.gate;
+  const length = airLength(map, lane);
+  const t = length === 0 ? 1 : Math.max(0, Math.min(1, distance / length));
+  return [sx + (data.gate[0] - sx) * t, sy + (data.gate[1] - sy) * t];
 }

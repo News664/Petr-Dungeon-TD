@@ -950,3 +950,15 @@ ul.tree button {
   background-size: cover;
   background-position: center;
 }
+.legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-right: 10px;
+}
+.legend-item i {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+}

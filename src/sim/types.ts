@@ -169,7 +169,7 @@ export interface BattleEnemy {
   battered: string[];
 }
 
-export type ShotKind = 'attack' | 'splash' | 'support' | 'petrify' | 'turret' | 'structure';
+export type ShotKind = 'attack' | 'splash' | 'support' | 'petrify' | 'turret' | 'structure' | 'mend' | 'bind';
 
 /** Visual record of something that happened in the last tick command. No effect on rules. */
 export interface BattleShot {
@@ -201,6 +201,8 @@ export interface DefenseBattle {
   leaked: number;
   ammoSpent: number;
   outcome: 'ongoing' | 'win' | 'loss';
+  /** Whose wave script this battle follows: the frontier stratum at the time, or null for the map's own. */
+  depth: string | null;
   /** Before the first wave: posts can be changed freely and no time passes. */
   deploying: boolean;
   shots: BattleShot[];
@@ -308,7 +310,7 @@ export interface LogEntry {
 }
 
 export interface CampaignState {
-  version: 7;
+  version: 8;
   /** Ready-made debug and test campaigns use a standard cast: no traits, no attribute differences. */
   standardCast: boolean;
   /** What the champions call the guild master. */

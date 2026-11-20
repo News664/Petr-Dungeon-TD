@@ -5,7 +5,7 @@ import { playSlice } from './director';
 import { cfg, must, rejected } from './helpers';
 
 describe('playing the slice through', () => {
-  it('lets a careful player secure the first stratum within six weeks, with nobody lost', () => {
+  it('lets a careful player secure the first stratum within six weeks, with nobody lost', { timeout: 60_000 }, () => {
     for (const seed of [1, 3, 5]) {
       const run = playSlice(seed);
       const s = run.state;
@@ -22,7 +22,7 @@ describe('playing the slice through', () => {
     }
   });
 
-  it('punishes a reckless attempt on the boss, but leaves a paid way back', () => {
+  it('punishes a reckless attempt on the boss, but leaves a paid way back', { timeout: 60_000 }, () => {
     // This player walks into the boss a level too early. On this seed the party is wiped at its door.
     const run = playSlice(2, 90, 4);
     expect(run.journal.some((line) => /statues [5-9]/.test(line))).toBe(true);

@@ -76,6 +76,9 @@ export interface GameConfig {
     level_damage_bonus: number;
     /** How many structures of each type the player may build on each map, beyond the fixed ones. */
     build_caps: Record<string, Record<string, number>>;
+    /** Structure types that must be earned, and the discovery that earns each. */
+    structure_unlock: Record<string, string>;
+    structure_unlock_text: Record<string, string>;
   };
   equipment: { slots: string[]; unlock_text: Record<string, string>; items: Record<string, EquipmentItem> };
   supplies: { pack_limit_per_item: number; items: Record<string, SupplyItem> };
@@ -222,9 +225,21 @@ export interface ClassCombat extends WeaponStats {
 export interface StructureStats {
   range_mult: number;
   damage_mult: number;
-  /** Share of a petrifying attack that reaches the occupant (1 = fully exposed). */
+  /** Share of a petrifying or binding attack that reaches the occupant (1 = fully exposed). */
   exposure: number;
   support_mult: number;
+  /** Targets closer than this cannot be hit from here. */
+  min_range?: number;
+  /** Every shot from here bursts over this radius, whoever fires it. */
+  splash_radius?: number;
+  /** Time between shots is multiplied by this. */
+  cooldown_mult?: number;
+  /** False: flying attackers cannot be hit from here. */
+  hits_air?: boolean;
+  /** False: the occupant does not fight; the structure works through its aura. */
+  attacks?: boolean;
+  /** While manned, other manned posts within the radius hit harder and reach further. */
+  aura?: { radius: number; damage_pct: number; range_pct: number };
 }
 
 export interface EnemyStats {
@@ -236,6 +251,16 @@ export interface EnemyStats {
   /** Halts beside a manned structure and batters it: this many blows, on this many structures. */
   structure_attack?: { range: number; damage: number; cooldown_seconds: number; blows: number; max_structures: number };
   petrify_attack?: { range: number; gauge: number; damage: number; cooldown_seconds: number };
+  /** Flies straight from its lane's mouth to the gate. */
+  flying?: boolean;
+  /** Mends other attackers around it. */
+  heal_aura?: { radius: number; amount: number; cooldown_seconds: number };
+  /** Pins the most exposed defender in reach: she cannot act for a while. */
+  bind_attack?: { range: number; seconds: number; cooldown_seconds: number };
+  /** Bursts into smaller attackers when it dies. */
+  on_death?: { spawn: string; count: number };
+  /** Hardens the armor of other attackers close to it. */
+  armor_aura?: { radius: number; armor: number };
 }
 
 export const defaultConfig: GameConfig = raw as unknown as GameConfig;

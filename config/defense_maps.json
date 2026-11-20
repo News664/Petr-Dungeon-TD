@@ -1,5 +1,5 @@
 {
- "_notice": "Defense map layouts and wave scripts. Coordinates are abstract map units. `sites` are the places a structure may stand. `default_layout` is what a ready-made campaign (and the 'recommended layout' button) builds; `fixed_layout` structures always exist and cannot be removed.",
+ "_notice": "Defense map layouts and wave scripts. Coordinates are abstract map units. `sites` are the places a structure may stand. `default_layout` is what a ready-made campaign (and the 'recommended layout' button) builds; `fixed_layout` structures always exist and cannot be removed. `waves_by_frontier` replaces a map's `waves` while the guild's frontier is in that stratum: the deeper the frontier, the stranger the attackers.",
  "frontier": {
   "name": "Frontier outpost",
   "width": 1000,
@@ -244,7 +244,307 @@
     "type": "support_station"
    }
   ],
-  "fixed_layout": []
+  "fixed_layout": [],
+  "waves_by_frontier": {
+   "stratum_2": [
+    {
+     "start_seconds": 3,
+     "groups": [
+      {
+       "lane": 0,
+       "enemy": "swarmling",
+       "count": 14,
+       "interval_seconds": 0.45
+      },
+      {
+       "lane": 1,
+       "enemy": "runner",
+       "count": 6,
+       "interval_seconds": 0.9,
+       "delay_seconds": 2
+      }
+     ]
+    },
+    {
+     "start_seconds": 24,
+     "groups": [
+      {
+       "lane": 1,
+       "enemy": "armored",
+       "count": 3,
+       "interval_seconds": 2.6
+      },
+      {
+       "lane": 1,
+       "enemy": "mender",
+       "count": 1,
+       "interval_seconds": 1,
+       "delay_seconds": 3
+      },
+      {
+       "lane": 0,
+       "enemy": "wisp",
+       "count": 4,
+       "interval_seconds": 1.6,
+       "delay_seconds": 4
+      }
+     ]
+    },
+    {
+     "start_seconds": 48,
+     "groups": [
+      {
+       "lane": 0,
+       "enemy": "petrifier",
+       "count": 3,
+       "interval_seconds": 2.5
+      },
+      {
+       "lane": 0,
+       "enemy": "binder",
+       "count": 2,
+       "interval_seconds": 3,
+       "delay_seconds": 2
+      },
+      {
+       "lane": 1,
+       "enemy": "swarmling",
+       "count": 16,
+       "interval_seconds": 0.4,
+       "delay_seconds": 1
+      }
+     ]
+    },
+    {
+     "start_seconds": 74,
+     "groups": [
+      {
+       "lane": 1,
+       "enemy": "armored",
+       "count": 4,
+       "interval_seconds": 2.4
+      },
+      {
+       "lane": 1,
+       "enemy": "mender",
+       "count": 2,
+       "interval_seconds": 4,
+       "delay_seconds": 2
+      },
+      {
+       "lane": 0,
+       "enemy": "wisp",
+       "count": 6,
+       "interval_seconds": 1.2,
+       "delay_seconds": 3
+      },
+      {
+       "lane": 0,
+       "enemy": "runner",
+       "count": 8,
+       "interval_seconds": 0.8
+      }
+     ]
+    },
+    {
+     "start_seconds": 102,
+     "groups": [
+      {
+       "lane": 0,
+       "enemy": "armored",
+       "count": 4,
+       "interval_seconds": 2.5
+      },
+      {
+       "lane": 0,
+       "enemy": "mender",
+       "count": 1,
+       "interval_seconds": 1,
+       "delay_seconds": 4
+      },
+      {
+       "lane": 1,
+       "enemy": "binder",
+       "count": 2,
+       "interval_seconds": 3
+      },
+      {
+       "lane": 1,
+       "enemy": "petrifier",
+       "count": 3,
+       "interval_seconds": 2.5,
+       "delay_seconds": 5
+      },
+      {
+       "lane": 0,
+       "enemy": "swarmling",
+       "count": 18,
+       "interval_seconds": 0.35,
+       "delay_seconds": 8
+      },
+      {
+       "lane": 1,
+       "enemy": "wisp",
+       "count": 5,
+       "interval_seconds": 1.4,
+       "delay_seconds": 10
+      }
+     ]
+    }
+   ],
+   "stratum_3": [
+    {
+     "start_seconds": 3,
+     "groups": [
+      {
+       "lane": 0,
+       "enemy": "swarmling",
+       "count": 12,
+       "interval_seconds": 0.4
+      },
+      {
+       "lane": 1,
+       "enemy": "husk",
+       "count": 2,
+       "interval_seconds": 4,
+       "delay_seconds": 2
+      }
+     ]
+    },
+    {
+     "start_seconds": 26,
+     "groups": [
+      {
+       "lane": 1,
+       "enemy": "bulwark",
+       "count": 1,
+       "interval_seconds": 1
+      },
+      {
+       "lane": 1,
+       "enemy": "armored",
+       "count": 3,
+       "interval_seconds": 1.6,
+       "delay_seconds": 2
+      },
+      {
+       "lane": 0,
+       "enemy": "wisp",
+       "count": 4,
+       "interval_seconds": 1.2,
+       "delay_seconds": 3
+      }
+     ]
+    },
+    {
+     "start_seconds": 52,
+     "groups": [
+      {
+       "lane": 0,
+       "enemy": "bulwark",
+       "count": 1,
+       "interval_seconds": 1
+      },
+      {
+       "lane": 0,
+       "enemy": "mender",
+       "count": 2,
+       "interval_seconds": 2.5,
+       "delay_seconds": 2
+      },
+      {
+       "lane": 0,
+       "enemy": "petrifier",
+       "count": 2,
+       "interval_seconds": 2.5,
+       "delay_seconds": 4
+      },
+      {
+       "lane": 1,
+       "enemy": "binder",
+       "count": 2,
+       "interval_seconds": 2.5
+      }
+     ]
+    },
+    {
+     "start_seconds": 80,
+     "groups": [
+      {
+       "lane": 1,
+       "enemy": "husk",
+       "count": 3,
+       "interval_seconds": 3
+      },
+      {
+       "lane": 1,
+       "enemy": "mender",
+       "count": 1,
+       "interval_seconds": 1,
+       "delay_seconds": 6
+      },
+      {
+       "lane": 0,
+       "enemy": "wisp",
+       "count": 5,
+       "interval_seconds": 1
+      },
+      {
+       "lane": 0,
+       "enemy": "swarmling",
+       "count": 14,
+       "interval_seconds": 0.3,
+       "delay_seconds": 4
+      }
+     ]
+    },
+    {
+     "start_seconds": 110,
+     "groups": [
+      {
+       "lane": 0,
+       "enemy": "bulwark",
+       "count": 2,
+       "interval_seconds": 5
+      },
+      {
+       "lane": 0,
+       "enemy": "armored",
+       "count": 4,
+       "interval_seconds": 2
+      },
+      {
+       "lane": 1,
+       "enemy": "binder",
+       "count": 2,
+       "interval_seconds": 2.5,
+       "delay_seconds": 3
+      },
+      {
+       "lane": 1,
+       "enemy": "petrifier",
+       "count": 3,
+       "interval_seconds": 2.2,
+       "delay_seconds": 6
+      },
+      {
+       "lane": 0,
+       "enemy": "husk",
+       "count": 2,
+       "interval_seconds": 3,
+       "delay_seconds": 8
+      },
+      {
+       "lane": 1,
+       "enemy": "wisp",
+       "count": 5,
+       "interval_seconds": 1,
+       "delay_seconds": 10
+      }
+     ]
+    }
+   ]
+  }
  },
  "sanctuary": {
   "name": "Sanctuary approach",
@@ -480,6 +780,109 @@
     "type": "support_station"
    }
   ],
-  "default_layout": []
+  "default_layout": [],
+  "waves_by_frontier": {
+   "stratum_2": [
+    {
+     "start_seconds": 3,
+     "groups": [
+      {
+       "lane": 0,
+       "enemy": "swarmling",
+       "count": 18,
+       "interval_seconds": 0.4
+      },
+      {
+       "lane": 0,
+       "enemy": "runner",
+       "count": 8,
+       "interval_seconds": 0.6,
+       "delay_seconds": 3
+      }
+     ]
+    },
+    {
+     "start_seconds": 28,
+     "groups": [
+      {
+       "lane": 0,
+       "enemy": "armored",
+       "count": 5,
+       "interval_seconds": 2.2
+      },
+      {
+       "lane": 0,
+       "enemy": "mender",
+       "count": 2,
+       "interval_seconds": 4,
+       "delay_seconds": 2
+      },
+      {
+       "lane": 0,
+       "enemy": "wisp",
+       "count": 5,
+       "interval_seconds": 1.5,
+       "delay_seconds": 4
+      }
+     ]
+    },
+    {
+     "start_seconds": 58,
+     "groups": [
+      {
+       "lane": 0,
+       "enemy": "runner",
+       "count": 14,
+       "interval_seconds": 0.5
+      },
+      {
+       "lane": 0,
+       "enemy": "binder",
+       "count": 2,
+       "interval_seconds": 3,
+       "delay_seconds": 2
+      },
+      {
+       "lane": 0,
+       "enemy": "armored",
+       "count": 4,
+       "interval_seconds": 2.5,
+       "delay_seconds": 4
+      }
+     ]
+    },
+    {
+     "start_seconds": 92,
+     "groups": [
+      {
+       "lane": 0,
+       "enemy": "armored",
+       "count": 6,
+       "interval_seconds": 2
+      },
+      {
+       "lane": 0,
+       "enemy": "petrifier",
+       "count": 4,
+       "interval_seconds": 2.5
+      },
+      {
+       "lane": 0,
+       "enemy": "wisp",
+       "count": 8,
+       "interval_seconds": 1,
+       "delay_seconds": 4
+      },
+      {
+       "lane": 0,
+       "enemy": "swarmling",
+       "count": 20,
+       "interval_seconds": 0.35,
+       "delay_seconds": 6
+      }
+     ]
+    }
+   ]
+  }
  }
 }

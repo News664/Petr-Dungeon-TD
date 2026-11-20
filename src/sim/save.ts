@@ -39,6 +39,10 @@ export function deserialize(text: string): CampaignState {
     state.stories = [];
     saved.version = 7;
   }
-  if (saved.version !== 7) throw new Error('This save is from an older build of the prototype and cannot be loaded.');
+  if (saved.version === 7) {
+    if (state.battle) state.battle.depth = null;
+    saved.version = 8;
+  }
+  if (saved.version !== 8) throw new Error('This save is from an older build of the prototype and cannot be loaded.');
   return state;
 }

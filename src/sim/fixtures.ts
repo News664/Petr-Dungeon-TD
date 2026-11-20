@@ -78,6 +78,8 @@ const PREFERRED_CLASS: Record<string, string[]> = {
   watchtower: ['Gunner', 'Alchemist'],
   bunker: ['Guardian'],
   support_station: ['Medic'],
+  mortar_pit: ['Alchemist', 'Gunner'],
+  signal_post: ['Guardian', 'Medic'],
 };
 
 /** Fill a map's slots with idle adventurers, matching class to structure where possible. */
@@ -142,7 +144,22 @@ function recharging(cfg: GameConfig): CampaignState {
 }
 
 function frontierBattle(cfg: GameConfig): CampaignState {
-  return applyAll(postSensibly(stableSecured(cfg), 'frontier', cfg), [{ type: 'debug_force_invasion' }], cfg);
+  return applyAll(postSensibly(fullRoster(cfg), 'frontier', cfg), [{ type: 'debug_force_invasion' }], cfg);
+}
+
+/** The first stratum is secured and the attackers now come up from the Cloister; a seasoned garrison with the earned structures. */
+function deepBattle(cfg: GameConfig): CampaignState {
+  let s = applyAll(stableSecured(cfg), [{ type: 'debug_set_level', level: 6 }], cfg);
+  s = structuredClone(s);
+  // The shortcut that secured the stratum grants no discoveries; mark the ones a real campaign would have.
+  s.milestones.push('boss', 'elite');
+  s = applyAll(s, [
+    { type: 'debug_force_invasion' },
+    { type: 'battle_start' },
+    { type: 'build_structure', map: 'frontier', site: 's11', structureType: 'mortar_pit' },
+    { type: 'build_structure', map: 'frontier', site: 's12', structureType: 'signal_post' },
+  ], cfg);
+  return postSensibly(s, 'frontier', cfg);
 }
 
 /** A balanced party of five standing at the labyrinth entrance. */
@@ -166,7 +183,8 @@ export const fixtures: Fixture[] = [
   { id: 'expedition', label: 'In the labyrinth (level 1)', description: 'A fresh party of five at the entrance of the first stratum.', build: wrap((cfg) => inLabyrinth(cfg, 1)) },
   { id: 'expedition_veteran', label: 'In the labyrinth (level 5)', description: 'A seasoned party of five at the entrance: strong enough for the elite and the boss.', build: wrap((cfg) => inLabyrinth(cfg, 5)) },
   { id: 'stable_secured', label: 'Stable, stratum secured', description: 'First boss defeated; protected extraction running.', build: wrap(stableSecured) },
-  { id: 'frontier_battle', label: 'Frontier attack (battle)', description: 'A scheduled attack has arrived with seven defenders posted.', build: wrap(frontierBattle) },
+  { id: 'frontier_battle', label: 'Frontier attack (battle)', description: 'A scheduled attack on the first stratum\'s frontier has arrived with seven defenders posted.', build: wrap(frontierBattle) },
+  { id: 'deep_battle', label: 'Deeper attack (battle)', description: 'The frontier is in the Drowned Cloister: its attackers, against a level-6 garrison with a mortar pit and a signal post.', build: wrap(deepBattle) },
   { id: 'divine_emergency', label: 'Divine emergency', description: 'Frontier lost with the miracle charged: three of six fallen restored, three still lying at the frontier.', build: wrap(divineEmergency) },
   { id: 'sanctuary_siege', label: 'Sanctuary siege (preparing)', description: 'Frontier lost with no miracle. The siege arrives in a day.', build: wrap(sanctuarySiege) },
   { id: 'siege_battle', label: 'Sanctuary siege (battle)', description: 'The siege has arrived and must be resolved.', build: wrap(siegeBattle) },

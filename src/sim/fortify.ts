@@ -27,6 +27,12 @@ export function initialStructures(cfg: GameConfig, map: DefenseMapId, withDefaul
   return holder.structures;
 }
 
+/** Whether the guild knows how to build this kind of structure yet. */
+export function structureUnlocked(s: CampaignState, cfg: GameConfig, type: string): boolean {
+  const needed = cfg.defense.structure_unlock[type];
+  return !needed || s.milestones.includes(needed);
+}
+
 /** How many more of a type the player may still build on a map. */
 export function buildsLeft(s: CampaignState, cfg: GameConfig, map: DefenseMapId, type: string): number {
   const cap = cfg.defense.build_caps[map]?.[type] ?? 0;
@@ -44,6 +50,7 @@ export function buildStructure(s: CampaignState, cfg: GameConfig, map: DefenseMa
   if (!(type in cfg.defense.structure_stats)) fail('There is no such kind of structure.');
   if (!getDefenseMap(map).sites[site]) fail('There is no such building site.');
   if (s.structures.some((d) => d.map === map && d.site === site)) fail('Something already stands there.');
+  if (!structureUnlocked(s, cfg, type)) fail(`The guild does not know how to build a ${type.replace(/_/g, ' ')} yet: ${cfg.defense.structure_unlock_text[cfg.defense.structure_unlock[type] ?? ''] ?? 'it must be earned'}.`);
   if (buildsLeft(s, cfg, map, type) <= 0) fail(`No more ${type.replace(/_/g, ' ')}s can be built here.`);
   s.structures.push(newStructure(cfg, s, map, site, type, false));
 }

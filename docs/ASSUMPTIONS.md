@@ -170,6 +170,22 @@ The answers themselves are recorded in `lore/04_open_questions.md`. These are th
 | Third stratum | Exists by name only (the Gilded Exchange), so the frontier can move on after the Abbess. | `create.ts` |
 | Not done | The second stratum's numbers are a first guess and have not been tuned. Attacks on the frontier do not yet change when the frontier moves down. Saves made before this build have no third stratum. | — |
 
+## Decisions made for deeper attacks and earned structures
+
+| Topic | Choice | Where |
+|---|---|---|
+| Attackers follow the frontier | A map may have a wave script per frontier stratum. A battle uses the script for the stratum the frontier is in when it starts, or the map's own if there is none. The first stratum uses the original script; the second and third have their own on the frontier, the second also at the sanctuary. The prologue's first defense keeps its own. | `defense_maps.json`, `battle.ts` |
+| Swarmling | Small, fast, weak, in large groups. | `balance.json` |
+| Wisp | Flies straight from its lane's mouth to the gate. Bunkers and mortar pits cannot hit it, splash from them does not reach it, and it cannot be slowed. It does not batter structures. | `battle.ts` |
+| Mender | Heals every wounded attacker within 80 for 12, then waits 2 seconds. | `battle.ts` |
+| Binder | Pins the most exposed unpinned defender within 200: she cannot act for 4 seconds times her structure's exposure (a bunker occupant is pinned for 0.6 seconds). Uses the same "cannot act" timer as moving under fire. | `battle.ts` |
+| Husk | Bursts into four swarmlings where it dies. | `battle.ts` |
+| Bulwark | Armor 14, and other attackers within 70 of it gain 6 armor (the strongest aura counts; they do not stack). | `battle.ts` |
+| "Casters first" | The targeting option that used to favour petrifiers now favours anything that solidifies, pins or heals. | `battle.ts` |
+| Mortar pit | Range ×1.5, damage ×1.3, every shot bursts over 55, shots take 1.8 times as long, nothing closer than 100, no flyers. Exposure 10%. Earned by defeating the master of the first stratum. One per map. | `balance.json`, `fortify.ts` |
+| Signal post | Its occupant does not fight. While manned and standing, every other manned post within 200 deals 20% more damage and reaches 10% further (several posts would add up; only one may be built). Exposure 40%. Earned by beating the Warden of Dust. One on the frontier, none at the sanctuary. | `balance.json`, `battle.ts` |
+| Balance | Measured with fixed garrisons and no hand play. Second-stratum attackers: a level-5 garrison on the original seven posts barely holds (gate at 9 of 100); with a mortar pit and a signal post it holds comfortably; ignoring the casters loses. Third-stratum attackers: level 6 on the original posts barely holds; level 8 with both earned structures holds easily. The sanctuary at second-stratum depth is still easy with its four fixed posts. | — |
+
 ## Balance, first pass
 
 Checked by simulated battles with no player input during the fight:

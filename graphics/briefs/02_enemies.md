@@ -20,6 +20,10 @@
 | Armored Brute | defense battles | Hulking slab-armoured beast with a battering head of grey stone, steel-grey accent | `public/art/monsters/td_armored.webp` |
 | Petrifier | defense battles | Stalking long-necked creature with a hooded head and a cold white-violet glowing eye | `public/art/monsters/td_petrifier.webp` |
 
+## Added later
+
+The Drowned Cloister's creatures, its elite and its master, the Keeper of the Galleries, and six new attackers for the defense maps (swarmling, wisp, mender, binder, husk, bulwark) are in `../asset_list.json` with the rest. The Keeper and the Abbess are figures in robes rather than beasts: give them a human bearing, an original design and no face that reads as monstrous. Defense-map attackers must stay readable at about 30 px: the game tells them apart by silhouette (the wisp flies, the mender carries a glowing sac, the husk is bloated, the bulwark carries a slab).
+
 ## Must be true
 
 - Not people, and not shaped like people. They are of the stone world, which is why the stone does not take them.
