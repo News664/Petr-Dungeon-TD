@@ -56,6 +56,7 @@ export function AdventurerSheet({ state, adv, dispatch, onClose }: { state: Camp
         {stats.tdRange > 1 && ` · +${Math.round((stats.tdRange - 1) * 100)}% reach on a post`}
       </p>
 
+      {cfg.roster.champions.find((c) => c.name === adv.name)?.story && <p className="small muted">{cfg.roster.champions.find((c) => c.name === adv.name)?.story}</p>}
       {adv.trait && (
         <p className="small">
           <strong>{adv.trait.name}.</strong> {adv.trait.text}

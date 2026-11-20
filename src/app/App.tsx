@@ -10,7 +10,7 @@ import { AdventurerSheet, WorkshopPanel } from './GrowthPanels';
 import { ArtContext } from './Portrait';
 import { PrologueScreen } from './PrologueScreen';
 import { RosterPanel } from './RosterPanel';
-import { DebugPanel, LogPanel, MemorialPanel, SealPanel, TerritoryPanel, WardPanel } from './SidePanels';
+import { DebugPanel, LogPanel, MemorialPanel, SealPanel, StoriesPanel, TerritoryPanel, WardPanel } from './SidePanels';
 import { STORIES } from './stories';
 import { TitleScreen } from './TitleScreen';
 
@@ -51,7 +51,7 @@ function loadSave(key: string): CampaignState | null {
   }
 }
 
-type Modal = 'prologue_done' | 'stratum_secured' | null;
+type Modal = 'prologue_done' | null;
 
 export function App() {
   const [state, setState] = useState<CampaignState>(() => createCampaign(cfg, 1, { prologue: true }));
@@ -86,8 +86,6 @@ export function App() {
       if (cmd.type !== 'battle_tick') setNotice(null);
       // Moments worth stopping for.
       if (before.phase === 'PROLOGUE' && result.state.phase === 'STABLE_FRONTIER') setModal('prologue_done');
-      const securedBefore = before.strata.filter((st) => st.secured).length;
-      if (result.state.strata.filter((st) => st.secured).length > securedBefore) setModal('stratum_secured');
       const told = result.state.stories.find((id) => !before.stories.includes(id));
       if (told) setStoryId(told);
     } else {
@@ -227,7 +225,7 @@ export function App() {
         )}
 
         {modal && (
-          <div className="modal" role="dialog" aria-modal="true" aria-label={modal === 'prologue_done' ? 'The sanctuary holds' : 'Stratum secured'}>
+          <div className="modal" role="dialog" aria-modal="true" aria-label="The sanctuary holds">
             <div className="panel story">
               {modal === 'prologue_done' ? (
                 <>
@@ -238,27 +236,14 @@ export function App() {
                     stockpile, and {cfg.roster.bonus_early_summon_credits} more summons she can still pay for.
                   </p>
                   <p>
-                    The monsters will come for the frontier every {duration(cfg.clock.invasion_interval_hours)}. Between attacks, send a party
+                    The Still Tide will come for the frontier every {duration(cfg.clock.invasion_interval_hours)}. Between attacks, send a party
                     into the labyrinth: it is the only source of strength, materials and answers. Anyone who falls becomes a statue where she
                     stands, and is lost for good if she is not brought home within{' '}
                     {duration(cfg.clock.solidification_permanence_hours)}.
                   </p>
                   <p className="muted">Time only moves when you spend it. The panel "What needs you" keeps track of what is urgent.</p>
                 </>
-              ) : (
-                <>
-                  <p className="eyebrow">Stratum secured</p>
-                  <h2>The master of the stratum is dead</h2>
-                  <p>
-                    Without it the monsters here scatter. Workers can move in behind warded lines: the stratum now yields resources every day,
-                    for as long as you can pay its ward upkeep and hold the frontier in front of it.
-                  </p>
-                  <p className="muted">
-                    This is as far as the prototype's labyrinth goes. The campaign keeps running: attacks, production, rescue and recovery all
-                    continue.
-                  </p>
-                </>
-              )}
+              ) : null}
               <button className="primary large" onClick={() => setModal(null)}>
                 Continue
               </button>
@@ -269,7 +254,7 @@ export function App() {
         {storyId && STORIES[storyId] && !modal && (
           <div className="modal" role="dialog" aria-modal="true" aria-label={STORIES[storyId].title}>
             <div className="panel story">
-              <p className="eyebrow">{STORIES[storyId].speaker}</p>
+              <p className="eyebrow">{STORIES[storyId].speaker} · {STORIES[storyId].when}</p>
               <h2>{STORIES[storyId].title}</h2>
               {STORIES[storyId].paragraphs.map((text, i) => (
                 <p key={i}>{text}</p>
@@ -368,7 +353,8 @@ export function App() {
           <section className="column">
             <TerritoryPanel state={state} dispatch={dispatch} />
             <WardPanel state={state} />
-            <MemorialPanel state={state} onReadStory={setStoryId} />
+            <MemorialPanel state={state} />
+            <StoriesPanel state={state} onReadStory={setStoryId} />
             <WorkshopPanel state={state} dispatch={dispatch} />
           </section>
         </main>

@@ -1,3 +1,4 @@
+import { tell } from './story';
 import { startCombat } from './combat';
 import type { GameConfig } from './config';
 import { DIRS, DIR_LETTERS, elitePath, findTile, floorKey, getStratumMap, parseTileKey, tileAt, tileKey } from './dungeonMap';
@@ -115,6 +116,7 @@ function place(s: CampaignState, exp: Expedition, floorIndex: number, tile: stri
   s.dungeon.reachedFloor[exp.stratumId] = Math.max(s.dungeon.reachedFloor[exp.stratumId] ?? 0, floorIndex);
   // Discoveries in the first stratum keep their short names; deeper ones carry the stratum's.
   const prefix = exp.stratumId === 'stratum_1' ? '' : `${exp.stratumId}:`;
+  if (exp.stratumId !== 'stratum_1') tell(s, `${exp.stratumId}_entered`);
   if (floorIndex >= 1) addMilestone(s, `${prefix}floor_${floorIndex + 1}`);
   if (floorIndex >= 2) addMilestone(s, `${prefix}floor_2`);
   discover(s, exp);

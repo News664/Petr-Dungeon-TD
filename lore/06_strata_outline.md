@@ -65,3 +65,17 @@ Its creatures: Drowned Novices, Cloister Eels, Bell Wardens that toll before the
 **The Abbess of Still Water** speaks. She is courteous and certain, calls Iwanaga "my lady" and Sakuya "my lady's little sister", and treats the party as acquisitions she would like to keep unspoiled. Her lines are in `config/balance.json`.
 
 **Proposed:** the cold and the ice are the first sign of the second medium. Statues here are still stone, but a deeper part of the Cloister, or the next stratum, could be where ice begins to take people. **Not built:** cold that slows the party, attackers that freeze a structure on the frontier, statues kept in the cloister walls, and what the party learns here (that the stilled are sorted and valued: someone is choosing).
+
+## Next: the Gilded Exchange
+
+**Proposed.** The third stratum. In the game it exists by name only: the frontier moves to it once the Abbess falls, and its attackers (husks and bulwarks among them) already come up against the line.
+
+A trading city's great market, sunk whole. Its curator is **the Assayer**, a broker who weighs every champion she meets and names a price for her, out loud. Sakuya's last words in the Cloister warn of it: "everything has a price."
+
+What it could add:
+
+- **Prices instead of locks.** Doors that open for a payment: resources, a carried statue, or a champion's time spent standing in a booth. Every shortcut is a trade.
+- **A thief.** A creature that takes one supply from the pack when it touches the party and runs; catch it before the next floor and get it back.
+- **Offers.** The Assayer speaks before each fight with an offer: leave one champion with her and the rest may pass. Accepting is always possible and always wrong; refusing makes the fight harder.
+- **What it teaches.** The seal is why this world was chosen. The Exchange keeps ledgers of every champion ever summoned, across every world, priced. The guild master's own name is on the newest page.
+- **Medium.** Metal is proposed for the Exchange: gilt and bronze. This would be the first stratum where a champion who falls is not stone.

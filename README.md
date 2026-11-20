@@ -11,6 +11,7 @@ Prototype of a hardcore first-person grid dungeon RPG combined with adventurer-s
 | M2 | First-person dungeon, turn-based party combat, statue rescue | Playable, placeholder art |
 | M3 | Tutorial, integration, balance | Prologue, tutorial defense, guild advisor and autosave done; balance by hand play and real art still open |
 | M4 | Growth and fortification | Skill trees, equipment, supplies and field menu, buildable defenses, temporary emergency summons; art briefs and lore draft |
+| M7 | Ice, deeper attacks, story | Ice in the Cloister; six new attackers and two earned structures; attacks follow the frontier; Sakuya speaks at turning points; champion backgrounds; art sizes relaxed |
 | M6 | Second stratum, first version | The Drowned Cloister: three floors, a tide that floods corridors by the clock, new creatures, an elite and a master who speaks; untuned |
 | M5 | Cast and first-stratum expansion | Twenty-four original champions with traits; larger floors with keys, traps, exhibits, a baited room and a hidden boss; rebalanced |
 
@@ -54,6 +55,7 @@ docs/ASSUMPTIONS.md        Prototype decisions and open design questions
 docs/ART_PIPELINE.md       How character art is organised and how to add it
 graphics/                  Art requirements: style guide, briefs, and a list of every picture needed
 lore/                      World and character draft, with open questions
+content/stories.json       Words spoken at the campaign's turning points (editable text)
 public/art/                Delivered pictures (the game scans this folder when built)
 scripts/                   Art tooling: manifest generation, the delivery check, build-time resizing
 src/sim/                   Campaign simulator and its tests

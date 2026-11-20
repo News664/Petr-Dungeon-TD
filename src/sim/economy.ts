@@ -1,3 +1,4 @@
+import { tell } from './story';
 import type { GameConfig } from './config';
 import { productionMultiplier } from './selectors';
 import type { CampaignState } from './types';
@@ -53,6 +54,7 @@ export function defeatBoss(s: CampaignState, stratumId: string): void {
   if (s.frontierStratumId !== stratumId) fail(`${stratum.name} is not the active frontier stratum.`);
   stratum.bossDefeated = true;
   stratum.secured = true;
+  tell(s, `${stratumId}_secured`);
   for (const dep of stratum.deposits) {
     dep.active = true;
     dep.lastStatus = 'producing';

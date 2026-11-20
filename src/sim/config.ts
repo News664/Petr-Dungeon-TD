@@ -203,6 +203,8 @@ export interface ChampionData {
   class: string;
   epithet: string;
   trait: { name: string; text: string; stats: Record<string, number> };
+  /** A few lines about who she is. Shown on her sheet and at the seal. */
+  story?: string;
 }
 
 export interface WeaponStats {

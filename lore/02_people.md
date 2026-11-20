@@ -12,22 +12,28 @@
 
 ## Sakuya
 
-See `01_world.md`. She speaks at a handful of moments. Lines are needed for each:
+See `01_world.md`. She speaks at the campaign's turning points.
 
-| Moment | What she has to convey |
-|---|---|
-| Opening | Who she is, what is left, what she is asking |
-| Each of the five first summons | A word of welcome that is different each time |
-| Before the first defense | How the walls work; that she will feed the weapons this once |
-| If the first defense is lost | She turns the hour back; no blame |
-| After the first defense | Her protection is ending; the labyrinth is the only way forward |
-| The frontier falls and she intervenes | She chooses to spend herself; she can only bring back half |
-| The frontier falls and she cannot | She has nothing left to give; get behind the walls |
-| The miracle returns | Quiet relief; a warning not to count on it |
-| A champion is lost for good | Grief without reproach |
-| A lost champion is carried home to the memorial | That being brought back matters even now |
-| The sanctuary falls | Nothing. Iwanaga speaks here, courteously, to the summoner she is about to keep. |
-| The master of a stratum dies | What she feels lift, and what she now senses deeper |
+**In the game now.** Her words, and Iwanaga's one message, are in `content/stories.json`. Each is told once, when its moment first happens, and can be reread from "Words spoken" in the guild view.
+
+| Moment | Story id | Written |
+|---|---|---|
+| Opening | (the prologue screen) | Yes |
+| Before the first defense, and during it | (hints on the battle screen) | Yes |
+| The first Still Tide is held | `first_tide_held` | Yes |
+| The frontier falls and she spends the Flowering | `flowering` | Yes |
+| The frontier falls and she cannot | `no_flowering` | Yes |
+| The garden is held through a siege | `siege_held` | Yes |
+| The Flowering is ready again | `flowering_returns` | Yes |
+| A champion is lost for good for the first time | `first_lost` | Yes |
+| The Pale Galleries are secured | `stratum_1_secured` | Yes |
+| The Keeper is laid to rest | `keeper_beaten` | Yes |
+| The Keeper's charge is brought home | `the_first` | Yes |
+| The party first enters the Cloister (Iwanaga speaks) | `stratum_2_entered` | Yes |
+| The Drowned Cloister is secured | `stratum_2_secured` | Yes |
+| The sanctuary falls | (the game-over screen) | Yes; Iwanaga's own words are not written |
+| Each of the five first summons | — | No |
+| A lost champion is carried home to the Still Grove | — | No |
 
 ## The residents
 
@@ -62,33 +68,33 @@ Champions come from many worlds, but the work of the guild sorts them into four 
 
 **Fixed.** Emergency summons are not on this list. They are strangers with made-up names and no trait, here for two weeks and gone.
 
-**Proposed.** The individuals. Names, epithets and traits are in `config/balance.json` under `roster.champions` and can be changed there; the sketches are starting points for writing.
+**Proposed.** The individuals. Names, epithets, traits and the few lines about each are in `config/balance.json` under `roster.champions`, and the game shows them on her sheet and at the seal. Change them there; this table is a copy.
 
-| Name | Calling | Epithet | Trait | Sketch |
+| Name | Calling | Epithet | Trait | Who she is |
 |---|---|---|---|---|
-| Kaede | Guardian | the Unmoved | Rooted: +2 armor and 10% less solidification. | Held a mountain pass alone for three days. Does not say what happened on the fourth. |
-| Ingrid | Guardian | Shieldwall | Wallborn: +15% damage on a defensive post and +10 health. | Last of a ship's crew. Laughs loudly and stands where the line is thinnest. |
-| Adaeze | Guardian | the Bulwark | Hardy: +25 health. | A city wall's captain who outlived the city. Counts everyone twice. |
-| Meilin | Guardian | Iron Lotus | Poised: +1 speed and +1 armor. | A temple guard who left when the temple stopped needing guarding. |
-| Zarina | Guardian | the Gatekeeper | Watchful: 20% less solidification. | Kept a caravanserai gate for twenty years. Has seen every kind of trouble arrive politely. |
-| Itzel | Guardian | Stonebreaker | Heavy hand: +12% attack. | A quarry foreman's daughter. Knows where things crack. |
-| Haruka | Gunner | the Longshot | Far sight: +15% reach on a defensive post. | A festival archer who took up the long gun when festivals ended. |
-| Yevgenia | Gunner | Winter's Eye | Cold patience: +10% attack. | Waited two days in snow for one shot. Still thinks it was worth it. |
-| Sooah | Gunner | Quickdraw | Fast hands: +2 speed. | A courier who learned to shoot from the saddle. Hates standing still. |
-| Leilani | Gunner | the Wayfinder | Light pack: +6 skill points and +1 speed. | A navigator. Reads corridors like currents. |
-| Amira | Gunner | Falcon | Marksman: +3 attack and +8% damage on a defensive post. | A falconer's apprentice turned sharpshooter. Whistles when she aims. |
-| Catalina | Gunner | Last Round | Grit: +15 health and 8% less solidification. | A duellist who grew older than she expected. Elegant, tired, kind. |
-| Rin | Alchemist | Emberhand | Hot mix: +12% attack. | A fireworks maker. Misses the crowds more than the fireworks. |
-| Priya | Alchemist | the Distiller | Deep stores: +8 skill points. | A perfumer who turned field chemist. Still wears scent. |
-| Noor | Alchemist | Lamp of Glass | Clear head: 15% less solidification. | A glassblower's scholar daughter. Wants to understand it more than she fears it. |
-| Xiulan | Alchemist | Jade Smoke | Quick mixer: +2 speed. | An apothecary's runaway apprentice. Faster than she is careful. |
-| Brigid | Alchemist | the Tinker | Siegecraft: +15% damage on a defensive post. | Always mid-repair. Soot on her face, tools everywhere. |
-| Thandiwe | Alchemist | Rainmaker | Wide burn: +6% attack and +4 skill points. | Called rain for a living. Calls other things now. |
-| Aiko | Medic | Gentle Hand | Healer's gift: Healing and purging are 20% stronger. | A village healer. Talks to her patients, including the stone ones. |
-| Sigrun | Medic | Battle Surgeon | Tough: +20 health and +1 armor. | Stitched people up on a moving deck. Steady hands, salt in her speech. |
-| Ngozi | Medic | the Blessing | Ward-singer: Healing is 10% stronger and she takes 10% less solidification. | Sang at births and burials. Sings in the labyrinth, quietly. |
-| Haeun | Medic | Still Water | Calm: +8 skill points. | The youngest. A field orderly promoted by attrition. |
-| Paloma | Medic | the Dove | Swift aid: +2 speed. | An innkeeper's cook who learned medicine because someone had to. |
-| Anahera | Medic | Dawn Watch | Lamp-keeper: Healing is 10% stronger and +10% reach on a defensive post. | Kept a signal fire on a headland. Came because someone had to answer. |
+| Kaede | Guardian | the Unmoved | Rooted | From a world of mountain clans. She held a pass alone for three days so a village could get away, and answered the seal on the fourth, when there was nothing left to hold. Speaks seldom, and never twice. |
+| Ingrid | Guardian | Shieldwall | Wallborn | The last of a longship's crew, called from a cold sea in the hour the ship went down. Loud, warm, and quick to laugh at herself. Stands wherever the line is thinnest because someone has to. |
+| Adaeze | Guardian | the Bulwark | Hardy | Captain of a city wall that outlasted its city by a winter. Counts everyone twice, at dawn and at dusk, and does not sleep until both counts match. |
+| Meilin | Guardian | Iron Lotus | Poised | A temple guard from a world of river kingdoms who left when the temple stopped needing guarding. Precise, courteous, faintly amused by everything. Calls the guild master 'abbess' by mistake and does not correct it. |
+| Zarina | Guardian | the Gatekeeper | Watchful | Kept the gate of a desert caravanserai for twenty years. Has seen every kind of trouble arrive politely and every kind of friend arrive late. Offers tea to people who are about to fight her. |
+| Itzel | Guardian | Stonebreaker | Heavy hand | A quarry foreman's daughter from a world of terraced cities. Knows where stone cracks and where it does not, which makes her uneasy about the Stilling in ways she will not explain. |
+| Haruka | Gunner | the Longshot | Far sight | A festival archer who took up the long gun when her world stopped having festivals. Patient, gentle, and the best shot in the guild. Keeps a ribbon from the last festival tied to her rifle. |
+| Yevgenia | Gunner | Winter's Eye | Cold patience | From a world of long winters. Once waited two days in snow for one shot, and still thinks it was worth it. Dry, precise, and kinder than she sounds. |
+| Sooah | Gunner | Quickdraw | Fast hands | A courier who learned to shoot from the saddle and never learned to stand still. Talks fast, eats fast, and is always the first to volunteer for anything that involves running. |
+| Leilani | Gunner | the Wayfinder | Light pack | A navigator from an island world who reads corridors the way she read currents. Hums when she is lost, which is rarely, and when she is not lost, which is often. |
+| Amira | Gunner | Falcon | Marksman | A falconer's apprentice turned sharpshooter in a city of towers. Whistles when she aims, a habit from calling birds. Misses her falcon more than anything else she left behind. |
+| Catalina | Gunner | Last Round | Grit | A duellist from a world of salt ports, older than she ever expected to be. Elegant, tired, and kind. Has outlived every rival she had and does not count it as winning. |
+| Rin | Alchemist | Emberhand | Hot mix | A fireworks maker from a world of lantern towns. Misses the crowds more than the fireworks. Treats every fight as a show with a terrible audience. |
+| Priya | Alchemist | the Distiller | Deep stores | A perfumer turned field chemist from a world of spice roads. Still wears scent, on principle. Believes most problems can be solved by distilling them carefully enough. |
+| Noor | Alchemist | Lamp of Glass | Clear head | The scholar daughter of a family of glassblowers. Wants to understand the Stilling more than she fears it, which frightens everyone else more than the Stilling does. |
+| Xiulan | Alchemist | Jade Smoke | Quick mixer | An apothecary's runaway apprentice. Faster than she is careful and cleverer than she is patient. Has an opinion about every reagent in the ward and shares all of them. |
+| Brigid | Alchemist | the Tinker | Siegecraft | A tinker from a world of iron hills, always in the middle of fixing something. Has rebuilt the guild's kettle twice and the frontier's gate hinge once, without being asked. |
+| Thandiwe | Alchemist | Rainmaker | Wide burn | Called rain for her village for thirty years. Calls other things down now. Grave, generous, and the only person in the guild Iwanaga's letters seem to make angry. |
+| Aiko | Medic | Gentle Hand | Healer's gift | A village healer who talks to her patients, including the ones who cannot answer. Sits with the statues in the ward at night and tells them what happened that day. |
+| Sigrun | Medic | Battle Surgeon | Tough | A ship's surgeon who stitched people up on a moving deck. Steady hands, salt in her speech, and no patience at all for anyone who will not drink their water. |
+| Ngozi | Medic | the Blessing | Ward-singer | Sang at births and burials in a world of wide plains. Sings in the labyrinth, very quietly, and claims it keeps the stone off. Nobody has proved her wrong. |
+| Haeun | Medic | Still Water | Calm | The youngest in the guild: a field orderly promoted by attrition in a war she does not talk about. Organised to the point of terror. Keeps a list of everyone she has brought home. |
+| Paloma | Medic | the Dove | Swift aid | An innkeeper's cook from a world of crossroads who learned medicine because someone had to. Feeds people first and treats them second, and is right about the order more often than not. |
+| Anahera | Medic | Dawn Watch | Lamp-keeper | Kept a signal fire on a headland so the boats could find their way home. Answered the seal because it felt like a light she had been asked to keep. Calm, tall, and very hard to frighten. |
 
-**Needed for each:** the world she came from in two sentences, what she was at the end of when she answered, how she speaks, and what she says when another champion is brought back as a statue.
+**Still needed for each:** a voice sample, and what she says when another champion is brought back as a statue.

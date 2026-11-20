@@ -1,3 +1,4 @@
+import { tell } from './story';
 import type { EnemyAttack, GameConfig } from './config';
 import { getStratumMap, tileKey } from './dungeonMap';
 import { defeatBoss } from './economy';
@@ -226,6 +227,7 @@ function victory(s: CampaignState, cfg: GameConfig, exp: Expedition, c: DungeonC
   if (c.kind === 'hidden' && c.eliteId) {
     if (!s.dungeon.flags.includes(c.eliteId)) s.dungeon.flags.push(c.eliteId);
     addMilestone(s, 'keeper');
+    tell(s, 'keeper_beaten');
     log(s, 'hidden_boss', 'The Keeper of the Galleries is at rest. What she kept is the guild\'s to use.');
   }
   if (c.kind === 'boss') {

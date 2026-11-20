@@ -36,8 +36,10 @@ The first twelve questions were answered on 16 November 2026. The answers are re
 
 2. **What the memorial is.** A place in the sanctuary, a screen in the game, a line in the chronicle?
 3. **How statues are used against the party** in play. Built so far, on floor 3: exhibits as scenery, one holding a door, one as bait. Not built: false signs, and statues as weapons of giants. Which of those are wanted, and where?
-4. **The longer road.** Bringing home the statue the Keeper guarded is meant to open a harder quest line. What is it, and where does it lead?
-5. **When the second medium appears,** and which it is.
+4. **The longer road.** A proposal is in `07_the_longer_road.md`: the first champion's steps, one stratum at a time. Is that the right shape?
+5. **When the second medium appears,** and which it is. The Cloister now has ice underfoot but still solidifies in stone; the Gilded Exchange is proposed as the first stratum in metal.
+6. **The Assayer's offers.** Should the game ever let the player accept a bad trade (leave a champion behind to pass)? It is proposed as always possible and always wrong.
+7. **Iwanaga's voice.** She speaks once now (a message on the water). How often should she, and does she ever speak to a champion directly?
 
 ## Still open from before
 

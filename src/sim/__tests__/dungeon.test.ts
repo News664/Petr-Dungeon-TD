@@ -540,7 +540,7 @@ describe('the expanded first stratum', () => {
     // What she kept from Iwanaga can now be taken home, and Sakuya has a story for it.
     s = must(s, { type: 'dungeon_take_statue' });
     s = must(at(s, 1, 1, 1), { type: 'end_expedition' });
-    expect(s.stories).toEqual(['the_first']);
+    expect(s.stories).toEqual(['keeper_beaten', 'the_first']);
     expect(s.memorialUnnamed).toBe(0);
   });
 

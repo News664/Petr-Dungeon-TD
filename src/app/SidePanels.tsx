@@ -39,7 +39,7 @@ export function SealPanel({ state, dispatch }: PanelProps) {
         {answering.map((c) => (
           <li key={c.name}>
             <span>
-              <strong>{c.name}</strong> <span className="muted small">{c.epithet}</span>
+              <strong title={c.story}>{c.name}</strong> <span className="muted small">{c.epithet}</span>
               <br />
               <span className="small muted">
                 {c.trait.name}: {c.trait.text}
@@ -141,20 +141,37 @@ export function WardPanel({ state }: { state: CampaignState }) {
 }
 
 /** Those who could not be restored, but were not left out there. */
-export function MemorialPanel({ state, onReadStory }: { state: CampaignState; onReadStory: (id: string) => void }) {
+export function MemorialPanel({ state }: { state: CampaignState }) {
   const named = state.statues.filter((st) => st.locationType === 'memorial').map((st) => state.adventurers.find((a) => a.id === st.adventurerId)?.name ?? '');
-  if (named.length === 0 && state.memorialUnnamed === 0 && state.stories.length === 0) return null;
+  const first = state.stories.includes('the_first');
+  if (named.length === 0 && state.memorialUnnamed === 0 && !first) return null;
   return (
     <div className="panel">
       <h2>The Still Grove</h2>
-      {state.stories.includes('the_first') && <p className="small">The first to answer, whom the Keeper hid from Iwanaga.</p>}
+      {first && <p className="small">The first to answer, whom the Keeper hid from Iwanaga.</p>}
       {named.length > 0 && <p className="small">{named.join(', ')}.</p>}
       {state.memorialUnnamed > 0 && <p className="small muted">{state.memorialUnnamed} of the long lost, carried up from the labyrinth. Nobody knows their names.</p>}
-      {state.stories.map((id) => (
-        <button key={id} onClick={() => onReadStory(id)}>
-          Hear again: {STORIES[id]?.title ?? id}
-        </button>
-      ))}
+    </div>
+  );
+}
+
+/** Everything that has been said to the guild master so far, to read again. */
+export function StoriesPanel({ state, onReadStory }: { state: CampaignState; onReadStory: (id: string) => void }) {
+  const told = state.stories.filter((id) => STORIES[id]);
+  if (told.length === 0) return null;
+  return (
+    <div className="panel">
+      <h2>Words spoken</h2>
+      <ul className="plain small">
+        {told.map((id) => (
+          <li key={id}>
+            <button className="inline" onClick={() => onReadStory(id)}>
+              {STORIES[id]!.title}
+            </button>{' '}
+            <span className="muted">· {STORIES[id]!.speaker}</span>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }

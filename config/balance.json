@@ -115,7 +115,8 @@
             "def": 2,
             "gauge_resist_pct": 10
           }
-        }
+        },
+        "story": "From a world of mountain clans. She held a pass alone for three days so a village could get away, and answered the seal on the fourth, when there was nothing left to hold. Speaks seldom, and never twice."
       },
       {
         "name": "Ingrid",
@@ -128,7 +129,8 @@
             "td_damage_pct": 15,
             "max_hp": 10
           }
-        }
+        },
+        "story": "The last of a longship's crew, called from a cold sea in the hour the ship went down. Loud, warm, and quick to laugh at herself. Stands wherever the line is thinnest because someone has to."
       },
       {
         "name": "Adaeze",
@@ -140,7 +142,8 @@
           "stats": {
             "max_hp": 25
           }
-        }
+        },
+        "story": "Captain of a city wall that outlasted its city by a winter. Counts everyone twice, at dawn and at dusk, and does not sleep until both counts match."
       },
       {
         "name": "Meilin",
@@ -153,7 +156,8 @@
             "speed": 1,
             "def": 1
           }
-        }
+        },
+        "story": "A temple guard from a world of river kingdoms who left when the temple stopped needing guarding. Precise, courteous, faintly amused by everything. Calls the guild master 'abbess' by mistake and does not correct it."
       },
       {
         "name": "Zarina",
@@ -165,7 +169,8 @@
           "stats": {
             "gauge_resist_pct": 20
           }
-        }
+        },
+        "story": "Kept the gate of a desert caravanserai for twenty years. Has seen every kind of trouble arrive politely and every kind of friend arrive late. Offers tea to people who are about to fight her."
       },
       {
         "name": "Itzel",
@@ -177,7 +182,8 @@
           "stats": {
             "atk_pct": 12
           }
-        }
+        },
+        "story": "A quarry foreman's daughter from a world of terraced cities. Knows where stone cracks and where it does not, which makes her uneasy about the Stilling in ways she will not explain."
       },
       {
         "name": "Haruka",
@@ -189,7 +195,8 @@
           "stats": {
             "td_range_pct": 15
           }
-        }
+        },
+        "story": "A festival archer who took up the long gun when her world stopped having festivals. Patient, gentle, and the best shot in the guild. Keeps a ribbon from the last festival tied to her rifle."
       },
       {
         "name": "Yevgenia",
@@ -201,7 +208,8 @@
           "stats": {
             "atk_pct": 10
           }
-        }
+        },
+        "story": "From a world of long winters. Once waited two days in snow for one shot, and still thinks it was worth it. Dry, precise, and kinder than she sounds."
       },
       {
         "name": "Sooah",
@@ -213,7 +221,8 @@
           "stats": {
             "speed": 2
           }
-        }
+        },
+        "story": "A courier who learned to shoot from the saddle and never learned to stand still. Talks fast, eats fast, and is always the first to volunteer for anything that involves running."
       },
       {
         "name": "Leilani",
@@ -226,7 +235,8 @@
             "max_sp": 6,
             "speed": 1
           }
-        }
+        },
+        "story": "A navigator from an island world who reads corridors the way she read currents. Hums when she is lost, which is rarely, and when she is not lost, which is often."
       },
       {
         "name": "Amira",
@@ -239,7 +249,8 @@
             "atk": 3,
             "td_damage_pct": 8
           }
-        }
+        },
+        "story": "A falconer's apprentice turned sharpshooter in a city of towers. Whistles when she aims, a habit from calling birds. Misses her falcon more than anything else she left behind."
       },
       {
         "name": "Catalina",
@@ -252,7 +263,8 @@
             "max_hp": 15,
             "gauge_resist_pct": 8
           }
-        }
+        },
+        "story": "A duellist from a world of salt ports, older than she ever expected to be. Elegant, tired, and kind. Has outlived every rival she had and does not count it as winning."
       },
       {
         "name": "Rin",
@@ -264,7 +276,8 @@
           "stats": {
             "atk_pct": 12
           }
-        }
+        },
+        "story": "A fireworks maker from a world of lantern towns. Misses the crowds more than the fireworks. Treats every fight as a show with a terrible audience."
       },
       {
         "name": "Priya",
@@ -276,7 +289,8 @@
           "stats": {
             "max_sp": 8
           }
-        }
+        },
+        "story": "A perfumer turned field chemist from a world of spice roads. Still wears scent, on principle. Believes most problems can be solved by distilling them carefully enough."
       },
       {
         "name": "Noor",
@@ -288,7 +302,8 @@
           "stats": {
             "gauge_resist_pct": 15
           }
-        }
+        },
+        "story": "The scholar daughter of a family of glassblowers. Wants to understand the Stilling more than she fears it, which frightens everyone else more than the Stilling does."
       },
       {
         "name": "Xiulan",
@@ -300,7 +315,8 @@
           "stats": {
             "speed": 2
           }
-        }
+        },
+        "story": "An apothecary's runaway apprentice. Faster than she is careful and cleverer than she is patient. Has an opinion about every reagent in the ward and shares all of them."
       },
       {
         "name": "Brigid",
@@ -312,7 +328,8 @@
           "stats": {
             "td_damage_pct": 15
           }
-        }
+        },
+        "story": "A tinker from a world of iron hills, always in the middle of fixing something. Has rebuilt the guild's kettle twice and the frontier's gate hinge once, without being asked."
       },
       {
         "name": "Thandiwe",
@@ -325,7 +342,8 @@
             "atk_pct": 6,
             "max_sp": 4
           }
-        }
+        },
+        "story": "Called rain for her village for thirty years. Calls other things down now. Grave, generous, and the only person in the guild Iwanaga's letters seem to make angry."
       },
       {
         "name": "Aiko",
@@ -337,7 +355,8 @@
           "stats": {
             "support_pct": 20
           }
-        }
+        },
+        "story": "A village healer who talks to her patients, including the ones who cannot answer. Sits with the statues in the ward at night and tells them what happened that day."
       },
       {
         "name": "Sigrun",
@@ -350,7 +369,8 @@
             "max_hp": 20,
             "def": 1
           }
-        }
+        },
+        "story": "A ship's surgeon who stitched people up on a moving deck. Steady hands, salt in her speech, and no patience at all for anyone who will not drink their water."
       },
       {
         "name": "Ngozi",
@@ -363,7 +383,8 @@
             "support_pct": 10,
             "gauge_resist_pct": 10
           }
-        }
+        },
+        "story": "Sang at births and burials in a world of wide plains. Sings in the labyrinth, very quietly, and claims it keeps the stone off. Nobody has proved her wrong."
       },
       {
         "name": "Haeun",
@@ -375,7 +396,8 @@
           "stats": {
             "max_sp": 8
           }
-        }
+        },
+        "story": "The youngest in the guild: a field orderly promoted by attrition in a war she does not talk about. Organised to the point of terror. Keeps a list of everyone she has brought home."
       },
       {
         "name": "Paloma",
@@ -387,7 +409,8 @@
           "stats": {
             "speed": 2
           }
-        }
+        },
+        "story": "An innkeeper's cook from a world of crossroads who learned medicine because someone had to. Feeds people first and treats them second, and is right about the order more often than not."
       },
       {
         "name": "Anahera",
@@ -400,7 +423,8 @@
             "support_pct": 10,
             "td_range_pct": 10
           }
-        }
+        },
+        "story": "Kept a signal fire on a headland so the boats could find their way home. Answered the seal because it felt like a light she had been asked to keep. Calm, tall, and very hard to frighten."
       }
     ],
     "aptitude_range": {

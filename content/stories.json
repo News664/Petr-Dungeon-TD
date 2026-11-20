@@ -1,0 +1,114 @@
+{
+ "_notice": "Story text shown in the game. Each entry is told once, when its moment first happens, and can be reread from the guild view. Edit freely; keep the ids. See lore/README.md for tone.",
+ "first_tide_held": {
+  "title": "The line held",
+  "speaker": "Sakuya",
+  "when": "The first Still Tide is held at the frontier.",
+  "paragraphs": [
+   "You held it. I felt the tide come in against the outpost and go out again, and nothing it wanted came with it.",
+   "I used to hold that line myself. I could not have told you how tired I was until someone else took it from me.",
+   "It will come again in seven days, and every seven days after. That is how my sister works: not with anger, with patience. Ours has to be longer than hers."
+  ]
+ },
+ "flowering": {
+  "title": "The Flowering",
+  "speaker": "Sakuya",
+  "when": "The frontier falls and Sakuya spends her one great act.",
+  "paragraphs": [
+   "Not yet. Not these ones.",
+   "I have turned the tide back and brought home as many as I could carry. It is fewer than I wanted. It is always fewer than I want.",
+   "There is very little of me left now. The light over the secured ground will be thin until I mend. Win the next battle at the frontier and I will have something to mend with. Lose it, and I will have nothing to give you at all."
+  ]
+ },
+ "no_flowering": {
+  "title": "Behind the walls",
+  "speaker": "Sakuya",
+  "when": "The frontier falls and there is no Flowering to spend.",
+  "paragraphs": [
+   "I am sorry. I have nothing to turn it back with.",
+   "Bring everyone inside. The walls of the garden are old and I made them well, and the people who live here have been waiting their whole lives to defend something.",
+   "If the gate holds, they will draw back to regroup, and we will have time. If it does not, then my sister has won, and she will keep you forever. I would rather you heard that from me."
+  ]
+ },
+ "siege_held": {
+  "title": "The garden holds",
+  "speaker": "Sakuya",
+  "when": "A siege of the sanctuary is beaten off.",
+  "paragraphs": [
+   "Listen. That is the tide going out.",
+   "It will be gone a long while: two weeks, perhaps. Long enough to rebuild the outpost, if you can find the stone for it. Long enough to fetch home whoever fell at the line, if they are still waiting.",
+   "Nothing outside the walls is ours again until you take it back. The stores are what we have. Spend them as if they were the last, because they may be."
+  ]
+ },
+ "flowering_returns": {
+  "title": "In bloom again",
+  "speaker": "Sakuya",
+  "when": "Two Still Tides are held after a crisis, and the Flowering is ready again.",
+  "paragraphs": [
+   "I can feel it again. Not much. Enough for once.",
+   "Please do not plan around me. I would rather you never needed it. Every time I spend it, I come back a little less than I was."
+  ]
+ },
+ "first_lost": {
+  "title": "Kept",
+  "speaker": "Sakuya",
+  "when": "A champion is lost for good for the first time.",
+  "paragraphs": [
+   "Thirty days. I know you counted them too.",
+   "She is not in pain. She is not anything, now, that she can feel. My sister will tell you that is a kindness. Do not let her.",
+   "I am not angry with you. You were holding a line with a handful of people against a tide that has taken a world. If you can bring her home, the grove will keep her, and so will I."
+  ]
+ },
+ "stratum_1_secured": {
+  "title": "The Galleries are quiet",
+  "speaker": "Sakuya",
+  "when": "The master of the Pale Galleries falls.",
+  "paragraphs": [
+   "Something has stopped breathing down there. Can you feel how still the air is?",
+   "The Galleries are ours to work now, as long as there is light over them. The people are already asking to go down. They want to bring the visitors home, even the ones too long gone to wake. I have told them yes.",
+   "Below the Galleries there is water, and below the water it is cold. I do not know what she keeps down there. I know it is something she values more."
+  ]
+ },
+ "keeper_beaten": {
+  "title": "The Keeper",
+  "speaker": "Sakuya",
+  "when": "The Keeper of the Galleries is laid to rest.",
+  "paragraphs": [
+   "She kept the Galleries for a hundred years before the Stilling, and for longer than that after it. She never once let my sister into the room she was guarding.",
+   "She was not stone when you met her. She had been holding the door so long she had become something like a door herself.",
+   "Thank you for letting her rest. Whatever she was keeping is yours to carry now."
+  ]
+ },
+ "stratum_2_secured": {
+  "title": "The Abbess",
+  "speaker": "Sakuya",
+  "when": "The Abbess of Still Water falls.",
+  "paragraphs": [
+   "She called my sister her lady. She meant it.",
+   "That is what I did not want you to learn: that they are not all monsters down there. Some of them chose this. Some of them believe Iwanaga is the only one who ever loved what they loved enough to keep it.",
+   "The Cloister is ours now, and the water will go on rising and falling without anyone listening to it. Below it there is a market, and in the market everything has a price. Be careful what she offers you."
+  ]
+ },
+ "stratum_2_entered": {
+  "title": "A message on the water",
+  "speaker": "Iwanaga",
+  "when": "The party first enters the Drowned Cloister.",
+  "paragraphs": [
+   "Welcome to my Cloister. The water will tell me where you walk; please do not mind it.",
+   "You have been working very hard to keep my little sister's garden. It is a charming garden. It is also dying, as everything she loves is dying, and I do not understand why you would choose to die with it.",
+   "Come down whenever you like. Bring whomever you like. I will keep every one of them better than she ever could."
+  ]
+ },
+ "the_first": {
+  "title": "The first to answer",
+  "speaker": "Sakuya",
+  "when": "The statue the Keeper guarded is carried home.",
+  "paragraphs": [
+   "You have brought her home. I did not think anyone would.",
+   "She was the first I ever called. Before there was a guild, before there was a seal worth the name, I asked across the dark for anyone at all, and she said yes without knowing what she was agreeing to. That is how all of this began: with her kindness.",
+   "She was also the first my sister took. Not in anger. Iwanaga looked at her and saw the one thing in all the worlds that had been freely given, and could not bear that it would end. So she made it not end.",
+   "The Keeper of the Galleries hid her for longer than I can count, and paid for it. My sister has never stopped looking. Now she is here, in the grove, and Iwanaga will know it.",
+   "She cannot be restored. I want you to understand that I have tried. But there are things below that were hers, and people who remember her, and if you are willing there is a longer road that begins where she fell."
+  ]
+ }
+}

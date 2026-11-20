@@ -56,7 +56,9 @@ A party can time its passage and never fight it. Killing it is a choice, and it 
 
 **Proposed.** The statue is the first champion Sakuya ever called, and the first Iwanaga took: the one freely given thing she could not bear to see end. The Keeper hid her. In the game, carrying her to the Still Grove unlocks Sakuya's story "The first to answer". The quest line it points to is not written.
 
-**Open.** What the Keeper says, and where the longer road leads.
+**In the game now.** Sakuya tells who the Keeper was when she is laid to rest (`keeper_beaten`), and who the statue is when it is brought home (`the_first`).
+
+**Open.** What the Keeper herself says. Where the longer road leads is proposed in `07_the_longer_road.md`.
 
 ## The Hollow Colossus
 

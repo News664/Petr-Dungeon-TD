@@ -1,3 +1,4 @@
+import { tell } from './story';
 import { getStratumMap, parseTileKey, tileAt } from './dungeonMap';
 import { getAdventurer } from './selectors';
 import { enshrine, retrieve } from './statues';
@@ -26,7 +27,7 @@ export function finishExpedition(s: CampaignState, how: string): void {
     log(s, 'enshrined', `${nameless} of the long lost ${nameless === 1 ? 'was' : 'were'} carried home to the Still Grove. Nobody knows their names.`);
   }
   if (prized.length > 0 && !s.stories.includes('the_first')) {
-    s.stories.push('the_first');
+    tell(s, 'the_first');
     log(s, 'story', 'The statue the Keeper guarded stands in the Still Grove. Sakuya has something to tell you.');
   }
   for (const id of RESOURCE_IDS) s.resources[id] += exp.loot[id];

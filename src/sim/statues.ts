@@ -1,3 +1,4 @@
+import { tell } from './story';
 import type { GameConfig } from './config';
 import { findStatue, getAdventurer, treatmentCost } from './selectors';
 import type { Adventurer, CampaignState, Statue, StatueLocationType } from './types';
@@ -58,6 +59,7 @@ export function processPermanence(s: CampaignState): void {
       // She herself will never be harmed, but what she wore and carried does not last out there.
       const perished = (['weapon', 'armor', 'charm'] as const).filter((slot) => adv.equipment[slot]);
       for (const slot of perished) adv.equipment[slot] = null;
+      tell(s, 'first_lost');
       log(s, 'permanent', `${adv.name} was abandoned for too long. Her solidification is now permanent${perished.length > 0 ? ', and her gear is past saving' : ''}.`);
     }
   }

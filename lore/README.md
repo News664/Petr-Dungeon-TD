@@ -21,6 +21,18 @@ Every section is marked with one of three labels.
 | `03_pale_galleries.md` | The first stratum: its floors, creatures, the Warden, the Colossus, what is found there |
 | `04_open_questions.md` | What has been decided, what the decisions raised, and what is still open |
 | `06_strata_outline.md` | A proposed shape for the whole labyrinth: five wings, their curators and media |
+| `07_the_longer_road.md` | A proposed quest line that follows the first champion's steps down |
+
+## Where the words in the game live
+
+| What | File |
+|---|---|
+| Sakuya's and Iwanaga's words at turning points | `content/stories.json` |
+| Each champion's epithet, trait and background | `config/balance.json`, `roster.champions` |
+| What masters of strata say in a fight | `config/balance.json`, `dungeon.enemies.<id>.speech` |
+| Prologue, first-defense hints, game over | `src/app/PrologueScreen.tsx`, `src/app/BattleScreen.tsx`, `src/app/App.tsx` |
+
+The first three can be edited as text without touching code. Keep the ids.
 | `05_glossary.md` | Terms as the game uses them, with the in-world word for each |
 
 ## For anyone writing more
@@ -33,10 +45,10 @@ Every section is marked with one of three labels.
 
 **What is most needed next**, in order:
 
-1. Decisions on the points under "Two answers that need a second look" and "Raised by the answers" in `04_open_questions.md`.
-2. Short spoken lines for the goddess at the campaign's turning points (list in `02_people.md`).
-3. A paragraph of background and a voice sample for each champion.
-4. Discoveries for the Pale Galleries: what the party learns on each floor.
-5. An outline for strata two to five.
+1. Decisions on the open questions in `04_open_questions.md`, especially the longer road and the second medium.
+2. A voice sample for each champion, and a line from each when another is brought home as a statue.
+3. Sakuya's words for the five first summons, and for a lost champion carried home to the Still Grove.
+4. What the Keeper says, and what Iwanaga says when the sanctuary falls.
+5. The Gilded Exchange in more detail.
 
 When you write, keep the labels: mark new material **Proposed**, and move a question out of `04_open_questions.md` only when it has been decided.

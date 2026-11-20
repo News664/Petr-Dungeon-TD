@@ -186,6 +186,15 @@ The answers themselves are recorded in `lore/04_open_questions.md`. These are th
 | Signal post | Its occupant does not fight. While manned and standing, every other manned post within 200 deals 20% more damage and reaches 10% further (several posts would add up; only one may be built). Exposure 40%. Earned by beating the Warden of Dust. One on the frontier, none at the sanctuary. | `balance.json`, `battle.ts` |
 | Balance | Measured with fixed garrisons and no hand play. Second-stratum attackers: a level-5 garrison on the original seven posts barely holds (gate at 9 of 100); with a mortar pit and a signal post it holds comfortably; ignoring the casters loses. Third-stratum attackers: level 6 on the original posts barely holds; level 8 with both earned structures holds easily. The sanctuary at second-stratum depth is still easy with its four fixed posts. | — |
 
+## Decisions made for story in the game
+
+| Topic | Choice | Where |
+|---|---|---|
+| Story moments | The rules record a story id once when its moment first happens (`tell` in `story.ts`). The interface shows the words from `content/stories.json` as soon as the moment happens, and lists every story told so far under "Words spoken" to reread. | `story.ts`, `content/stories.json`, `App.tsx` |
+| Moments | First tide held; the Flowering spent; the frontier lost without it; a siege held; the Flowering ready again; the first champion lost for good; each stratum secured; first entry into each stratum after the first; the Keeper laid to rest; the Keeper's charge brought home. | the rules, at each of those points |
+| "Stratum secured" | The separate notice is gone; Sakuya's story for that stratum replaces it. | `App.tsx` |
+| Champion backgrounds | A few lines per champion in `roster.champions[].story`, shown on her sheet and when hovering her name at the seal. | `balance.json` |
+
 ## Balance, first pass
 
 Checked by simulated battles with no player input during the fight:

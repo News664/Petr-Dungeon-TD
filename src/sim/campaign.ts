@@ -1,3 +1,4 @@
+import { tell } from './story';
 import type { GameConfig } from './config';
 import { finishExpedition } from './expeditionCore';
 import { battleKindForPhase, getAdventurer, getStructure, miracleRestoreCount } from './selectors';
@@ -37,6 +38,7 @@ function recordStableCycle(s: CampaignState, cfg: GameConfig): void {
   if (s.stableCycles >= needed) {
     s.miracleCharges = Math.min(max, s.miracleCharges + 1);
     log(s, 'miracle_charged', "The Flowering is ready again.");
+    tell(s, 'flowering_returns');
   } else {
     log(s, 'stable_cycle', `Stable cycle ${s.stableCycles}/${needed} towards the Flowering.`);
   }
@@ -51,6 +53,7 @@ function fallToSiege(s: CampaignState, cfg: GameConfig): void {
   s.phase = 'SANCTUARY_SIEGE';
   s.stableCycles = 0;
   s.nextInvasionHour = s.simHour + cfg.clock.sanctuary_siege_delay_hours;
+  tell(s, 'no_flowering');
   log(s, 'retreat', 'The frontier has fallen. The guild retreats behind the sanctuary walls; outside production stops.');
 }
 
@@ -158,6 +161,7 @@ export function concludeBattle(
         s.nextInvasionHour = s.simHour + cfg.clock.invasion_interval_hours;
         retrieveAllAt(s, 'frontier', 'frontier held');
         log(s, 'defense_won', 'The frontier held against the invasion.');
+        tell(s, 'first_tide_held');
         recordStableCycle(s, cfg);
       } else if (s.miracleCharges > 0) {
         evacuateMap(s, 'frontier');
@@ -165,6 +169,7 @@ export function concludeBattle(
         s.stableCycles = 0;
         s.phase = 'DIVINE_EMERGENCY';
         s.nextInvasionHour = s.simHour + cfg.clock.invasion_interval_hours;
+        tell(s, 'flowering');
         log(s, 'miracle', 'The frontier fell. Sakuya spends the Flowering to banish the invasion; production under her light is crippled.');
         const count = miracleRestoreCount(cfg, fallen.length);
         if (count > 0) {
@@ -191,6 +196,7 @@ export function concludeBattle(
         s.nextInvasionHour = s.simHour + cfg.clock.post_sanctuary_interval_hours;
         // Statues inside the walls are already in protected ground.
         retrieveAllAt(s, 'sanctuary', 'sanctuary held');
+        tell(s, 'siege_held');
         log(s, 'siege_won', 'The sanctuary held. The monsters withdraw to regroup, but the outside is still cut off.');
       } else {
         s.phase = 'GAME_OVER';

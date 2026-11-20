@@ -72,7 +72,7 @@ export function PrologueScreen({ state, dispatch }: { state: CampaignState; disp
               {availableChampions(state, cfg, classId).map((c) => (
                 <li key={c.name}>
                   <span>
-                    <strong>{c.name}</strong> <span className="muted small">{c.epithet}</span>
+                    <strong title={c.story}>{c.name}</strong> <span className="muted small">{c.epithet}</span>
                     <br />
                     <span className="small muted">{c.trait.text}</span>
                   </span>
