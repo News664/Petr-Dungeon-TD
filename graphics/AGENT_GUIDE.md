@@ -50,7 +50,7 @@ These cannot be checked by a script, and they matter more.
 - **A statue is whole.** A person turned to stone is never cracked, chipped, broken or missing a part, at any stage. Only her clothing and gear may look worn.
 - **No gore.** Solidification is a change of substance, not an injury.
 - **Stages line up.** All stages of one character share the same canvas, pose, outfit and framing. Only the stone and her expression change.
-- **Face position.** Head and shoulders inside the top 1024 × 1024 square of a 1024 × 1536 canvas, face centred. The game crops that square for small portraits.
+- **Face position.** Head and shoulders inside the top square of the 2:3 canvas (the top 1024 × 1024 of a 1024 × 1536 picture), face centred. The game crops that square for small portraits.
 - **Clean transparency.** No halo, no leftover background, no shadow on the ground, no glow baked around the figure.
 - **No text, logos, signatures or watermarks.**
 

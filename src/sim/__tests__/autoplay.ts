@@ -1,5 +1,5 @@
 /** A simple, sensible player for headless dungeon tests and balance probes. */
-import { DIRS, apply, applyAll, canEnter, defaultConfig as cfg, effectiveTile, enemyIntent } from '../index';
+import { DIRS, apply, applyAll, canEnter, defaultConfig as cfg, effectiveTile, enemyIntent, slide } from '../index';
 import type { CampaignState, CombatAction, Command } from '../index';
 
 export function chooseActions(s: CampaignState): Record<string, CombatAction> {
@@ -72,7 +72,45 @@ export function fightOut(state: CampaignState): { state: CampaignState; result: 
   return { state: s, result: s.expedition ? 'won' : 'wiped', rounds };
 }
 
-/** Shortest walkable route on the party's floor, as [x, y] steps (gates count as open only if opened). */
+/**
+ * Where one move in direction `dir` from (x, y) leaves the party, following
+ * the game's own rules for walls, gates, water and ice. Null if the move is
+ * impossible. Bosses, hidden bosses and ambushes are only entered as the
+ * final target.
+ */
+export function landing(s: CampaignState, x: number, y: number, dir: number, target?: [number, number]): [number, number] | null {
+  const exp = s.expedition!;
+  const [dx, dy] = DIRS[dir]!;
+  const nx = x + dx;
+  const ny = y + dy;
+  const tile = effectiveTile(s, exp.stratumId, exp.floor, nx, ny);
+  if (!canEnter(s, exp.stratumId, exp.floor, nx, ny)) return null;
+  if (tile === '=' && !s.dungeon.openGates.includes(`${exp.stratumId}:${exp.floor}:${nx},${ny}`)) return null;
+  if ((tile === 'B' || tile === 'X' || tile === 'A') && !(target && nx === target[0] && ny === target[1])) return null;
+  if (tile === 'B' || tile === 'X') return [nx, ny];
+  const probe = { ...exp, x: nx, y: ny };
+  slide({ ...s, dungeon: { ...s.dungeon, discovered: structuredClone(s.dungeon.discovered) } }, probe, dir);
+  return [probe.x, probe.y];
+}
+
+/** Every tile the party could come to rest on from where it stands. */
+export function reachable(s: CampaignState): Set<string> {
+  const exp = s.expedition!;
+  const seen = new Set([`${exp.x},${exp.y}`]);
+  const queue: [number, number][] = [[exp.x, exp.y]];
+  while (queue.length) {
+    const [x, y] = queue.shift()!;
+    for (let dir = 0; dir < 4; dir++) {
+      const to = landing(s, x, y, dir);
+      if (!to || seen.has(to.join())) continue;
+      seen.add(to.join());
+      queue.push(to);
+    }
+  }
+  return seen;
+}
+
+/** Shortest route on the party's floor, as the [x, y] where each move comes to rest. */
 export function route(s: CampaignState, tx: number, ty: number, avoid: (x: number, y: number) => boolean = () => false): [number, number][] | null {
   const exp = s.expedition!;
   const key = (x: number, y: number) => `${x},${y}`;
@@ -81,16 +119,12 @@ export function route(s: CampaignState, tx: number, ty: number, avoid: (x: numbe
   while (queue.length) {
     const [x, y] = queue.shift()!;
     if (x === tx && y === ty) break;
-    for (const [dx, dy] of DIRS) {
-      const nx = x + dx;
-      const ny = y + dy;
-      const tile = effectiveTile(s, exp.stratumId, exp.floor, nx, ny);
-      if (!canEnter(s, exp.stratumId, exp.floor, nx, ny) || from.has(key(nx, ny)) || avoid(nx, ny)) continue;
-      if (tile === '=' && !s.dungeon.openGates.includes(`${exp.stratumId}:${exp.floor}:${nx},${ny}`)) continue;
-      // Bosses and ambushes are only walked into on purpose.
-      if ((tile === 'B' || tile === 'X' || tile === 'A') && !(nx === tx && ny === ty)) continue;
-      from.set(key(nx, ny), key(x, y));
-      queue.push([nx, ny]);
+    if (effectiveTile(s, exp.stratumId, exp.floor, x, y) === 'B' || effectiveTile(s, exp.stratumId, exp.floor, x, y) === 'X') continue;
+    for (let dir = 0; dir < 4; dir++) {
+      const to = landing(s, x, y, dir, [tx, ty]);
+      if (!to || from.has(key(...to)) || avoid(...to)) continue;
+      from.set(key(...to), key(x, y));
+      queue.push(to);
     }
   }
   if (!from.has(key(tx, ty))) return null;
@@ -102,11 +136,14 @@ export function route(s: CampaignState, tx: number, ty: number, avoid: (x: numbe
   return path;
 }
 
-/** Turn to face a neighbouring tile and step onto it. */
+/** Turn and make the one move that comes to rest on (x, y). */
 export function stepTo(state: CampaignState, x: number, y: number): CampaignState {
   const exp = state.expedition!;
-  const dir = DIRS.findIndex(([dx, dy]) => exp.x + dx === x && exp.y + dy === y);
-  if (dir < 0) throw new Error(`(${x},${y}) is not next to the party.`);
+  const dir = [0, 1, 2, 3].find((d) => {
+    const to = landing(state, exp.x, exp.y, d, [x, y]);
+    return to && to[0] === x && to[1] === y;
+  });
+  if (dir === undefined) throw new Error(`No single move from (${exp.x},${exp.y}) comes to rest on (${x},${y}).`);
   const cmds: Command[] = [];
   for (let f = exp.facing; f !== dir; f = (f + 1) % 4) cmds.push({ type: 'dungeon_move', move: 'turn_right' });
   cmds.push({ type: 'dungeon_move', move: 'forward' });

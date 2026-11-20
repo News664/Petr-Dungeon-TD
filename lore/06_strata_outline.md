@@ -52,16 +52,16 @@ The game's wording is already neutral, so any of these can be chosen later. Art 
 
 ## The Drowned Cloister as built
 
-**In the game now.** A lake monastery, sunk. Its water rises and falls twice a day, and the low corridors can only be walked when it is out.
+**In the game now.** A lake monastery, sunk. Its water rises and falls twice a day, and the low corridors can only be walked when it is out. Lower down the water has frozen: the deeper the party goes, the colder it gets.
 
 | Floor | Name | What is there |
 |---|---|---|
 | 1 | Flooded Narthex | The entrance halls. A flooded passage is the short way to a store worth working; the long way round is always dry. |
-| 2 | The Cloister Walk | The ring the Bellringer walks. The old refectory at its centre, where things still grow, lies behind the water. A pressure plate on the short way down. |
-| 3 | The Still Chapel | The Abbess's chapel. The water guards the short way to her; a long dry way remains. |
+| 2 | The Cloister Walk | The ring the Bellringer walks. The old refectory at its centre, where things still grow, lies behind the water. A pressure plate on the short way down, and the first ice: a frozen stretch of the lower walk. |
+| 3 | The Frozen Chapel | The Abbess's chapel. The water guards the short way to her. The dry way crosses a frozen nave where nobody can stop at will: the party slides until a pillar or a wall stops it, and has to find the stopping places that lead to her door. |
 
 Its creatures: Drowned Novices, Cloister Eels, Bell Wardens that toll before they strike, Weeping Icons whose gaze solidifies, and Silt Choirs whose dirge reaches everyone.
 
 **The Abbess of Still Water** speaks. She is courteous and certain, calls Iwanaga "my lady" and Sakuya "my lady's little sister", and treats the party as acquisitions she would like to keep unspoiled. Her lines are in `config/balance.json`.
 
-**Proposed, not built:** cold that slows the party, attackers that freeze a structure on the frontier, statues kept in the cloister walls, and what the party learns here (that the stilled are sorted and valued: someone is choosing).
+**Proposed:** the cold and the ice are the first sign of the second medium. Statues here are still stone, but a deeper part of the Cloister, or the next stratum, could be where ice begins to take people. **Not built:** cold that slows the party, attackers that freeze a structure on the frontier, statues kept in the cloister walls, and what the party learns here (that the stilled are sorted and valued: someone is choosing).

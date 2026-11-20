@@ -137,6 +137,11 @@ function buildMarkers(floor: FloorData, floorId: string, openGates: string[], ma
       } else if (tile === '~' && !underfoot) {
         const mist = new THREE.Mesh(new THREE.BoxGeometry(CELL, WALL_HEIGHT, CELL), new THREE.MeshBasicMaterial({ color: 0xcfd6e6, transparent: true, opacity: 0.16, depthWrite: false }));
         at(mist, x, y, WALL_HEIGHT / 2);
+      } else if (tile === 'i') {
+        // Frozen floor: a pale, glossy sheet laid over the stone.
+        const ice = new THREE.Mesh(new THREE.PlaneGeometry(CELL, CELL), new THREE.MeshStandardMaterial({ color: 0xa9c7d8, roughness: 0.15, metalness: 0.1, transparent: true, opacity: 0.55 }));
+        ice.rotation.x = -Math.PI / 2;
+        at(ice, x, y, 0.015);
       } else if (tile === 'w') {
         // A corridor under water: it can be seen into, not walked into.
         const water = new THREE.Mesh(new THREE.BoxGeometry(CELL, WALL_HEIGHT * 0.62, CELL), new THREE.MeshBasicMaterial({ color: 0x2c5f8a, transparent: true, opacity: 0.55, depthWrite: false }));

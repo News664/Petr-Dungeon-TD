@@ -1,8 +1,8 @@
 /** The second stratum: the Drowned Cloister. */
 import { describe, expect, it } from 'vitest';
-import { DIRS, applyAll, createCampaign, getStratumMap, tideState, tileAt } from '../index';
+import { DIRS, applyAll, createCampaign, findTile, getStratumMap, tideState } from '../index';
 import type { CampaignState } from '../index';
-import { fightOut, route } from './autoplay';
+import { fightOut, reachable, route } from './autoplay';
 import { adv, cfg, must, rejected } from './helpers';
 
 const MAP = getStratumMap('stratum_2')!;
@@ -35,34 +35,63 @@ describe('the Drowned Cloister', () => {
     expect(s.strata.map((st) => st.id)).toEqual(['stratum_1', 'stratum_2', 'stratum_3']);
   });
 
-  it('has three connected floors whose way onward never depends on the tide', () => {
+  it('has three connected floors whose way onward never depends on the tide, ice included', () => {
     expect(MAP.floors).toHaveLength(3);
     for (const type of [...MAP.floors.flatMap((f) => [...f.encounters.flat(), ...f.elites.flatMap((e) => e.group)]), ...MAP.boss]) {
       expect(D.enemies[type], type).toBeDefined();
       for (const a of D.enemies[type]!.pattern) expect(D.attacks[a], a).toBeDefined();
     }
     MAP.floors.forEach((floor, index) => {
-      const start = [...floor.grid.entries()].flatMap(([y, row]) => [...row].map((t, x) => [t, x, y] as const)).find(([t]) => t === (index === 0 ? 'E' : '<'))!;
-      const reach = (lowTide: boolean) => {
-        const seen = new Set([`${start[1]},${start[2]}`]);
-        const queue: [number, number][] = [[start[1], start[2]]];
-        while (queue.length) {
-          const [x, y] = queue.shift()!;
-          for (const [dx, dy] of DIRS) {
-            const t = tileAt(floor, x + dx, y + dy);
-            if (t === '#' || (t === 'w' && !lowTide) || seen.has(`${x + dx},${y + dy}`)) continue;
-            seen.add(`${x + dx},${y + dy}`);
-            if (t !== 'B') queue.push([x + dx, y + dy]);
-          }
-        }
-        return seen;
+      const start = findTile(floor, index === 0 ? 'E' : '<')!;
+      const onward = findTile(floor, index === 2 ? 'B' : '>')!;
+      const from = (hour: number) => {
+        const s = at(below(hour), index, start[0], start[1]);
+        const cleared = structuredClone(s);
+        cleared.dungeon.eliteRespawnHour[`stratum_2:${index}:bellringer`] = 1e9; // the elite is not a wall
+        return { s: cleared, rest: reachable(cleared) };
       };
-      const dry = reach(false);
-      const low = reach(true);
-      floor.grid.forEach((row, y) => [...row].forEach((t, x) => t !== '#' && expect(low.has(`${x},${y}`), `floor ${index + 1} (${x},${y})`).toBe(true)));
-      const onward = [...floor.grid.entries()].flatMap(([y, row]) => [...row].map((t, x) => [t, x, y] as const)).find(([t]) => t === (index === 2 ? 'B' : '>'))!;
-      expect(dry.has(`${onward[1]},${onward[2]}`), `floor ${index + 1} onward at high tide`).toBe(true);
+      const high = from(0);
+      const low = from(MAP.tide!.low_start);
+      // The way onward is open even at high tide (the boss is entered from a tile beside it).
+      const besideOnward = (rest: Set<string>) =>
+        index === 2 ? DIRS.some(([dx, dy]) => rest.has(`${onward[0] + dx},${onward[1] + dy}`)) : rest.has(onward.join());
+      expect(besideOnward(high.rest), `floor ${index + 1} at high tide`).toBe(true);
+      // At low tide every ordinary tile can be stood on; ice may only be crossed.
+      floor.grid.forEach((row, y) =>
+        [...row].forEach((t, x) => {
+          if ('#iBw'.includes(t)) return;
+          expect(low.rest.has(`${x},${y}`), `floor ${index + 1} (${x},${y}) '${t}'`).toBe(true);
+        }),
+      );
     });
+  });
+
+  it('carries the party across frozen floor until something stops it, in a single step', () => {
+    // From the dry east column into the frozen chapel: west across the ice until the pillar.
+    let s = at(below(0), 2, 15, 7);
+    s = must(face(s, 3), { type: 'dungeon_move', move: 'forward' });
+    if (s.expedition!.combat) s = must(s, { type: 'debug_win_combat' });
+    expect(s.expedition).toMatchObject({ x: 11, y: 7 });
+    expect(s.expedition!.report.join(' ')).toMatch(/slides 4 lengths/);
+    expect(s.minuteCarry % 60).toBe(cfg.clock.dungeon_step_minutes);
+    // The chart shows everything passed on the way.
+    expect(s.dungeon.discovered['stratum_2:2']![7]!.slice(11, 16)).toBe('11111');
+    // Off the ice the party stops on the first dry tile: north to the threshold of the Abbess's chapel.
+    s = must(face(s, 0), { type: 'dungeon_move', move: 'forward' });
+    expect(s.expedition).toMatchObject({ x: 11, y: 6, combat: null });
+    s = must(s, { type: 'dungeon_move', move: 'forward' });
+    expect(s.expedition!.combat?.kind).toBe('boss'); // the dry way to her runs over the ice
+  });
+
+  it('slides onto the first dry tile beyond the ice, and stops short of a wall', () => {
+    let s = at(below(0), 1, 3, 9);
+    s = must(face(s, 1), { type: 'dungeon_move', move: 'forward' });
+    if (s.expedition!.combat) s = must(s, { type: 'debug_win_combat' });
+    expect(s.expedition).toMatchObject({ x: 10, y: 9 });
+    s = at(s, 2, 15, 8);
+    s = must(face(s, 3), { type: 'dungeon_move', move: 'forward' });
+    if (s.expedition!.combat) s = must(s, { type: 'debug_win_combat' });
+    expect(s.expedition).toMatchObject({ x: 12, y: 8 });
   });
 
   it('floods its low corridors by the clock: shut at high tide, open at low', () => {

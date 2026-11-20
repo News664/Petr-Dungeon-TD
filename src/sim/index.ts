@@ -13,7 +13,7 @@ export { flatGroups, getDefenseMap, laneLength, lanePoint, wavesFor } from './de
 export type { DefenseMapData, Point } from './defenseMap';
 export { availableChampions, repairCost } from './roster';
 export { enemyIntent, partyAttack } from './combat';
-export { canEnter, effectiveTile, elitesHere, partyTile, statuesInReach, tideState } from './dungeon';
+export { canEnter, effectiveTile, elitesHere, partyTile, slide, statuesInReach, tideState } from './dungeon';
 export { DIRS, findTile, floorKey, getStratumMap, parseTileKey, tileAt, tileKey } from './dungeonMap';
 export type { FloorData, GridPoint, StratumMap } from './dungeonMap';
 export { buildsLeft } from './fortify';

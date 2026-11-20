@@ -43,7 +43,7 @@ export function AutoMap({ floor, floorId, discovered, x, y, facing, openGates, m
           const glyph = GLYPH[tile];
           return (
             <g key={`${cx},${cy}`}>
-              <rect x={cx * S} y={cy * S} width={S} height={S} fill={wall ? '#2b3038' : tile === '~' ? '#3a3f52' : tile === 'w' ? '#1f3a52' : '#1b1f25'} stroke="#0d0f12" strokeWidth={1} />
+              <rect x={cx * S} y={cy * S} width={S} height={S} fill={wall ? '#2b3038' : tile === '~' ? '#3a3f52' : tile === 'w' ? '#1f3a52' : tile === 'i' ? '#2f4552' : '#1b1f25'} stroke="#0d0f12" strokeWidth={1} />
               {gateShut && <rect x={cx * S + S / 2 - 2} y={cy * S + 2} width={4} height={S - 4} fill="var(--stone)" />}
               {tile === '~' && (
                 <text x={cx * S + S / 2} y={cy * S + S / 2 + 4} textAnchor="middle" fontSize={12} fill="#aab2cc">

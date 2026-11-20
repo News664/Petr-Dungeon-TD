@@ -220,6 +220,7 @@ export function DungeonScreen({ state, dispatch, onLeaveView }: Props) {
             <span style={{ color: 'var(--amber)' }}>k ▣</span> key, cache
             <span style={{ color: 'var(--stone)' }}>▮</span> locked
             <span style={{ color: '#5a8fb8' }}>≋</span> flooded at high tide
+            <span style={{ color: '#a9c7d8' }}>■</span> ice: you slide until stopped
           </p>
         </div>
 

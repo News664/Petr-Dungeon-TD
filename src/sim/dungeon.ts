@@ -329,7 +329,38 @@ export function moveParty(s: CampaignState, cfg: GameConfig, move: MoveKind): vo
   exp.x = nx;
   exp.y = ny;
   exp.report = [];
+  // On frozen floor there is no stopping: the party slides on until something stops it.
+  const slid = slide(s, exp, dir);
+  if (slid > 0) {
+    exp.report = [`The floor is ice. The party slides ${slid + 1} lengths before it can stop.`];
+    discover(s, exp);
+  }
   afterStep(s, cfg);
+}
+
+/**
+ * Carry the party on across frozen floor in the direction it is moving.
+ * It stops on the first tile that is not ice, or on the last ice before
+ * anything it cannot or should not enter: a wall, a statue, closed water or
+ * gate, a boss, or a roaming elite. Returns how many extra tiles it moved.
+ * The whole slide counts as a single step.
+ */
+export function slide(s: CampaignState, exp: Expedition, dir: number): number {
+  const [dx, dy] = DIRS[dir] as GridPoint;
+  const elites = elitesHere(s, exp).map((e) => `${e.pos[0]},${e.pos[1]}`);
+  let moved = 0;
+  while (effectiveTile(s, exp.stratumId, exp.floor, exp.x, exp.y) === 'i' && moved < 64) {
+    const nx = exp.x + dx;
+    const ny = exp.y + dy;
+    const next = effectiveTile(s, exp.stratumId, exp.floor, nx, ny);
+    const gateShut = next === '=' && !s.dungeon.openGates.includes(tileKey(exp.stratumId, exp.floor, nx, ny));
+    if (!canEnter(s, exp.stratumId, exp.floor, nx, ny) || gateShut || next === 'B' || next === 'X' || elites.includes(`${nx},${ny}`)) break;
+    exp.x = nx;
+    exp.y = ny;
+    discover(s, exp);
+    moved += 1;
+  }
+  return moved;
 }
 
 export function useStairs(s: CampaignState, cfg: GameConfig): void {
